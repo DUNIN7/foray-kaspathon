@@ -1,0 +1,67 @@
+{
+  "transaction_id": "RETAIL_2026_CASH_SALE_001",
+  "schema_version": "4.1",
+  "timestamp": "2026-01-25T14:30:00Z",
+  "foray_core": {
+    "entity": "Main Street Coffee Shop",
+    "entity_hash": "sha256:coffee123...",
+    "transaction_type": "cash_sale",
+    "total_value": 47.50,
+    "currency": "USD",
+    "status": "completed",
+    "compliance_flags": ["PCI_DSS", "Sales_Tax"]
+  },
+  "component_hashes": {
+    "arrangements": "sha256:empty...",
+    "accruals": "sha256:empty...",
+    "anticipations": "sha256:empty...",
+    "actions": "sha256:act123..."
+  },
+  "arrangements": [],
+  "accruals": [],
+  "anticipations": [],
+  "actions": [
+    {
+      "id": "ACT_CASH_SALE_001",
+      "foray_core": {
+        "anticipation_refs": [],
+        "accrual_refs": [],
+        "arrangement_refs": [],
+        "type": "cash_receipt",
+        "description": "Walk-in cash sale - coffee, pastry, merchandise",
+        "amount_settled": 47.50,
+        "currency": "USD",
+        "settlement_date": "2026-01-25T14:30:00Z",
+        "settlement_status": "completed",
+        "payment_method": "cash",
+        "counterparty": "Walk-in Customer",
+        "allocations": [],
+        "details": {
+          "register_id": "REG-001",
+          "items_sold": 3,
+          "payment_tendered": 50.00,
+          "change_given": 2.50
+        },
+        "breakdown": {
+          "subtotal": 43.18,
+          "sales_tax_rate": 0.10,
+          "sales_tax": 4.32,
+          "total": 47.50
+        },
+        "dependencies": []
+      }
+    }
+  ],
+  "merkle_root": "sha256:cashsale123...",
+  "blockchain_anchor": {
+    "kaspa_tx_id": "kaspa:qrcash123...",
+    "block_height": 2850000,
+    "confirmation_time_ms": 1100,
+    "anchored_at": "2026-01-25T14:30:02Z"
+  },
+  "privacy_metadata": {
+    "formulas_obfuscated": 0,
+    "instance_pools": 0,
+    "attack_complexity": "N/A"
+  }
+}

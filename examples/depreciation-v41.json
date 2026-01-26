@@ -1,0 +1,111 @@
+{
+  "transaction_id": "ACCT_2026_Q1_DEPRECIATION_JAN",
+  "schema_version": "4.1",
+  "timestamp": "2026-01-31T23:59:00Z",
+  "foray_core": {
+    "entity": "Acme Corporation",
+    "entity_hash": "sha256:acme123...",
+    "transaction_type": "adjusting_entry",
+    "total_value": 12500.00,
+    "currency": "USD",
+    "status": "completed",
+    "compliance_flags": ["GAAP", "SOX_404", "ASC_360"]
+  },
+  "component_hashes": {
+    "arrangements": "sha256:empty...",
+    "accruals": "sha256:depr123...",
+    "anticipations": "sha256:empty...",
+    "actions": "sha256:empty..."
+  },
+  "arrangements": [],
+  "accruals": [
+    {
+      "id": "ACC_DEPRECIATION_EQUIPMENT",
+      "foray_core": {
+        "arrangement_refs": [],
+        "type": "depreciation_expense",
+        "description": "January equipment depreciation - straight line",
+        "computation_method": "Calculated",
+        "formula_id": "sha256:straightline...",
+        "inputs": {
+          "asset_cost": 600000.00,
+          "salvage_value": 0,
+          "useful_life_months": 120
+        },
+        "output": 5000.00,
+        "currency": "USD",
+        "accounting_entry": {
+          "debit": { "account": "6100-Depreciation Expense", "amount": 5000.00 },
+          "credit": { "account": "1510-Accumulated Depreciation", "amount": 5000.00 }
+        },
+        "fiscal_period": { "year": 2026, "quarter": 1, "month": 1 },
+        "dependencies": []
+      }
+    },
+    {
+      "id": "ACC_DEPRECIATION_VEHICLES",
+      "foray_core": {
+        "arrangement_refs": [],
+        "type": "depreciation_expense",
+        "description": "January vehicle fleet depreciation",
+        "computation_method": "Calculated",
+        "formula_id": "sha256:straightline...",
+        "inputs": {
+          "asset_cost": 300000.00,
+          "salvage_value": 30000,
+          "useful_life_months": 60
+        },
+        "output": 4500.00,
+        "currency": "USD",
+        "accounting_entry": {
+          "debit": { "account": "6110-Depreciation Expense - Vehicles", "amount": 4500.00 },
+          "credit": { "account": "1520-Accumulated Depreciation - Vehicles", "amount": 4500.00 }
+        },
+        "fiscal_period": { "year": 2026, "quarter": 1, "month": 1 },
+        "dependencies": []
+      }
+    },
+    {
+      "id": "ACC_DEPRECIATION_BUILDING",
+      "foray_core": {
+        "arrangement_refs": [],
+        "type": "depreciation_expense",
+        "description": "January building depreciation",
+        "computation_method": "Calculated",
+        "formula_id": "sha256:straightline...",
+        "inputs": {
+          "asset_cost": 1440000.00,
+          "salvage_value": 0,
+          "useful_life_months": 480
+        },
+        "output": 3000.00,
+        "currency": "USD",
+        "accounting_entry": {
+          "debit": { "account": "6120-Depreciation Expense - Building", "amount": 3000.00 },
+          "credit": { "account": "1530-Accumulated Depreciation - Building", "amount": 3000.00 }
+        },
+        "fiscal_period": { "year": 2026, "quarter": 1, "month": 1 },
+        "dependencies": []
+      }
+    }
+  ],
+  "anticipations": [],
+  "actions": [],
+  "merkle_root": "sha256:depr789...",
+  "blockchain_anchor": {
+    "kaspa_tx_id": "kaspa:qrdepr123...",
+    "block_height": 2852000,
+    "confirmation_time_ms": 980,
+    "anchored_at": "2026-01-31T23:59:02Z"
+  },
+  "audit_data_anchor": {
+    "audit_data_hash": "sha256:depaudit...",
+    "audit_profile": "standard",
+    "storage_locations": ["s3://foray-audit/2026/Q1/DEPRECIATION_JAN"]
+  },
+  "privacy_metadata": {
+    "formulas_obfuscated": 1,
+    "instance_pools": 3,
+    "attack_complexity": "2^96 operations"
+  }
+}

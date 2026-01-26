@@ -1,0 +1,207 @@
+{
+  "transaction_id": "MFG_WO_2026_Q1_WIDGET_500",
+  "schema_version": "4.1",
+  "timestamp": "2026-01-20T08:00:00Z",
+  "foray_core": {
+    "entity": "Precision Parts Manufacturing",
+    "entity_hash": "sha256:precision...",
+    "transaction_type": "work_order",
+    "total_value": 47500.00,
+    "currency": "USD",
+    "status": "completed",
+    "compliance_flags": ["ISO_9001", "GAAP", "Cost_Accounting_Standards"]
+  },
+  "component_hashes": {
+    "arrangements": "sha256:wo1...",
+    "accruals": "sha256:cost1...",
+    "anticipations": "sha256:prod1...",
+    "actions": "sha256:inv1..."
+  },
+  "arrangements": [
+    {
+      "id": "ARR_WORK_ORDER_500",
+      "foray_core": {
+        "type": "production_work_order",
+        "effective_date": "2026-01-15T00:00:00Z",
+        "parties": [
+          { "role": "manufacturer", "name": "Precision Parts Manufacturing", "jurisdiction": "US-MI" },
+          { "role": "customer", "name": "AutoTech Industries", "jurisdiction": "US-OH" }
+        ],
+        "description": "Work Order #WO-2026-500: Premium Widget Assembly (500 units)",
+        "total_value": 50000.00,
+        "currency": "USD",
+        "terms": {
+          "product_code": "PWA-1000",
+          "quantity_ordered": 500,
+          "unit_price": 100.00,
+          "delivery_date": "2026-01-25",
+          "quality_standard": "ISO 9001"
+        },
+        "dependencies": []
+      }
+    }
+  ],
+  "accruals": [
+    {
+      "id": "ACC_DIRECT_MATERIALS",
+      "foray_core": {
+        "arrangement_refs": ["ARR_WORK_ORDER_500"],
+        "type": "direct_material_cost",
+        "description": "BOM materials consumed - aluminum, electronics, fasteners",
+        "computation_method": "Calculated",
+        "formula_id": "sha256:bom_cost...",
+        "inputs": {
+          "aluminum_kg": 250,
+          "aluminum_cost_per_kg": 45.00,
+          "electronics_units": 500,
+          "electronics_cost": 25.00,
+          "fasteners_sets": 500,
+          "fasteners_cost": 2.50
+        },
+        "output": 25000.00,
+        "currency": "USD",
+        "accounting_entry": {
+          "debit": { "account": "1310-WIP Inventory", "amount": 25000.00 },
+          "credit": { "account": "1200-Raw Materials", "amount": 25000.00 }
+        },
+        "fiscal_period": { "year": 2026, "quarter": 1, "month": 1 },
+        "dependencies": ["ARR_WORK_ORDER_500"]
+      }
+    },
+    {
+      "id": "ACC_DIRECT_LABOR",
+      "foray_core": {
+        "arrangement_refs": ["ARR_WORK_ORDER_500"],
+        "type": "direct_labor_cost",
+        "description": "Production labor - assembly line workers",
+        "computation_method": "Calculated",
+        "formula_id": "sha256:labor_cost...",
+        "inputs": {
+          "labor_hours": 400,
+          "avg_hourly_rate": 35.00,
+          "benefits_rate": 0.30
+        },
+        "output": 18200.00,
+        "currency": "USD",
+        "accounting_entry": {
+          "debit": { "account": "1310-WIP Inventory", "amount": 18200.00 },
+          "credit": { "account": "2300-Wages Payable", "amount": 14000.00 },
+          "credit2": { "account": "2310-Benefits Payable", "amount": 4200.00 }
+        },
+        "fiscal_period": { "year": 2026, "quarter": 1, "month": 1 },
+        "dependencies": ["ARR_WORK_ORDER_500"]
+      }
+    },
+    {
+      "id": "ACC_MANUFACTURING_OVERHEAD",
+      "foray_core": {
+        "arrangement_refs": ["ARR_WORK_ORDER_500"],
+        "type": "manufacturing_overhead",
+        "description": "Applied overhead - machine hours basis",
+        "computation_method": "Calculated",
+        "formula_id": "sha256:overhead_alloc...",
+        "inputs": {
+          "machine_hours": 200,
+          "overhead_rate_per_hour": 21.50
+        },
+        "output": 4300.00,
+        "currency": "USD",
+        "accounting_entry": {
+          "debit": { "account": "1310-WIP Inventory", "amount": 4300.00 },
+          "credit": { "account": "5100-Applied Overhead", "amount": 4300.00 }
+        },
+        "fiscal_period": { "year": 2026, "quarter": 1, "month": 1 },
+        "dependencies": ["ACC_DIRECT_LABOR"]
+      }
+    }
+  ],
+  "anticipations": [
+    {
+      "id": "ANT_PRODUCTION_COMPLETE",
+      "foray_core": {
+        "accrual_refs": ["ACC_DIRECT_MATERIALS", "ACC_DIRECT_LABOR", "ACC_MANUFACTURING_OVERHEAD"],
+        "arrangement_refs": ["ARR_WORK_ORDER_500"],
+        "type": "production_completion",
+        "description": "Expected completion and transfer to finished goods",
+        "expected_amount": 47500.00,
+        "currency": "USD",
+        "expected_date": "2026-01-24",
+        "probability_factor": 0.95,
+        "assumptions": {
+          "yield_rate": 0.98,
+          "expected_good_units": 490,
+          "cost_per_unit": 95.00
+        },
+        "dependencies": ["ACC_DIRECT_MATERIALS", "ACC_DIRECT_LABOR", "ACC_MANUFACTURING_OVERHEAD"]
+      }
+    }
+  ],
+  "actions": [
+    {
+      "id": "ACT_PRODUCTION_COMPLETE",
+      "foray_core": {
+        "anticipation_refs": ["ANT_PRODUCTION_COMPLETE"],
+        "accrual_refs": ["ACC_DIRECT_MATERIALS", "ACC_DIRECT_LABOR", "ACC_MANUFACTURING_OVERHEAD"],
+        "arrangement_refs": ["ARR_WORK_ORDER_500"],
+        "type": "inventory_transfer",
+        "description": "Transfer completed units to finished goods inventory",
+        "amount_settled": 47500.00,
+        "currency": "USD",
+        "settlement_date": "2026-01-24T16:00:00Z",
+        "settlement_status": "completed",
+        "allocations": [
+          { "ref": "ANT_PRODUCTION_COMPLETE", "ref_type": "anticipation", "amount": 47500.00, "currency": "USD", "allocation_type": "full", "remaining_balance": 0.00 }
+        ],
+        "variance": { "expected": 47500.00, "actual": 47500.00, "difference": 0.00 },
+        "details": {
+          "units_completed": 497,
+          "units_scrapped": 3,
+          "scrap_value": 45.00,
+          "unit_cost": 95.52,
+          "lot_number": "LOT-2026-01-500",
+          "quality_inspection": "passed"
+        },
+        "dependencies": ["ANT_PRODUCTION_COMPLETE"]
+      }
+    },
+    {
+      "id": "ACT_CUSTOMER_SHIPMENT",
+      "foray_core": {
+        "anticipation_refs": [],
+        "accrual_refs": [],
+        "arrangement_refs": ["ARR_WORK_ORDER_500"],
+        "type": "shipment",
+        "description": "Ship completed order to customer",
+        "amount_settled": 50000.00,
+        "currency": "USD",
+        "settlement_date": "2026-01-25T09:00:00Z",
+        "settlement_status": "completed",
+        "allocations": [],
+        "details": {
+          "units_shipped": 497,
+          "carrier": "FedEx Freight",
+          "tracking_number": "FX-789456123",
+          "revenue_recognized": 49700.00
+        },
+        "dependencies": ["ACT_PRODUCTION_COMPLETE"]
+      }
+    }
+  ],
+  "merkle_root": "sha256:mfg123...",
+  "blockchain_anchor": {
+    "kaspa_tx_id": "kaspa:qrmfg...",
+    "block_height": 2850800,
+    "confirmation_time_ms": 980,
+    "anchored_at": "2026-01-25T09:00:02Z"
+  },
+  "audit_data_anchor": {
+    "audit_data_hash": "sha256:mfgaudit...",
+    "audit_profile": "manufacturing",
+    "storage_locations": ["s3://foray-audit/2026/Q1/MFG_WO_500"]
+  },
+  "privacy_metadata": {
+    "formulas_obfuscated": 3,
+    "instance_pools": 4,
+    "attack_complexity": "2^96 operations"
+  }
+}

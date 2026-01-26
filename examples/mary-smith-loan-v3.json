@@ -1,0 +1,402 @@
+{
+  "transaction_id": "LOAN_2025_Q4_MARY_SMITH_6M",
+  "timestamp": "2025-11-15T09:00:00Z",
+  "block_height": 458923,
+  "merkle_root": "a7f8d6e9c4b3a2d1e8f7c6b5a4d3e2f1c8b7a6d5e4f3c2b1a9d8e7f6c5b4a3d2",
+  "kaspa_commitment": "b8e9d7f6a5c4b3d2e1f8c7b6a5d4e3f2c1b8a7d6e5f4c3b2a1d9e8f7c6b5a4d3",
+  "schema_version": "3.0",
+  "entity": "ABC National Bank",
+  "transaction_type": "consumer_loan",
+  "total_value": 60000,
+  "currency": "USD",
+  "status": "Active",
+  "compliance_flags": [
+    "Consumer_Credit",
+    "Truth_in_Lending_Act",
+    "Reg_Z"
+  ],
+  
+  "arrangements": [
+    {
+      "id": "ARR_LOAN_AGREEMENT",
+      "type": "term_loan",
+      "effective_date": "2025-11-15T00:00:00Z",
+      "parties": [
+        {
+          "role": "lender",
+          "name": "ABC National Bank",
+          "jurisdiction": "United States"
+        },
+        {
+          "role": "borrower",
+          "name": "Mary Smith",
+          "jurisdiction": "United States"
+        }
+      ],
+      "description": "Six-month consumer term loan with tiered interest structure",
+      "terms": {
+        "principal_amount": 60000,
+        "currency": "USD",
+        "loan_term_months": 6,
+        "start_date": "2025-11-15",
+        "maturity_date": "2026-05-15",
+        "payment_frequency": "monthly",
+        "payment_day": 1,
+        "interest_structure": "tiered",
+        "initial_rate_percent": 8.0,
+        "initial_rate_period_months": 3,
+        "subsequent_rate_percent": 10.0,
+        "subsequent_rate_period_months": 3,
+        "monthly_principal_payment": 10000,
+        "prepayment_penalty": "none",
+        "collateral": "unsecured",
+        "default_provisions": "standard_consumer_loan"
+      },
+      "legal_documentation": [
+        "Promissory Note dated 2025-11-15",
+        "Truth in Lending Disclosure",
+        "Loan Agreement"
+      ],
+      "dependencies": []
+    }
+  ],
+  
+  "accruals": [
+    {
+      "id": "ACC_INTEREST_MONTH_1",
+      "arrangement_ref": "ARR_LOAN_AGREEMENT",
+      "type": "interest_expense",
+      "description": "Interest accrual for Month 1 (December 2025) at 8% APR",
+      "computation_method": "Calculated",
+      "formula_id": "f8a7d6e5c4b3a2d1e9f8c7b6a5d4e3f2",
+      "inputs": {
+        "principal_balance": 60000,
+        "annual_rate": 0.08,
+        "days_in_period": 30
+      },
+      "output": 400.00,
+      "currency": "USD",
+      "accounting_entry": {
+        "debit": {
+          "account": "Interest Expense",
+          "amount": 400.00
+        },
+        "credit": {
+          "account": "Interest Payable",
+          "amount": 400.00
+        }
+      },
+      "fiscal_period": {
+        "start": "2025-11-15",
+        "end": "2025-12-01"
+      },
+      "dependencies": ["ARR_LOAN_AGREEMENT"]
+    },
+    {
+      "id": "ACC_INTEREST_MONTH_2",
+      "arrangement_ref": "ARR_LOAN_AGREEMENT",
+      "type": "interest_expense",
+      "description": "Interest accrual for Month 2 (January 2026) at 8% APR",
+      "computation_method": "Calculated",
+      "formula_id": "f8a7d6e5c4b3a2d1e9f8c7b6a5d4e3f2",
+      "inputs": {
+        "principal_balance": 50000,
+        "annual_rate": 0.08,
+        "days_in_period": 31
+      },
+      "output": 339.73,
+      "currency": "USD",
+      "accounting_entry": {
+        "debit": {
+          "account": "Interest Expense",
+          "amount": 339.73
+        },
+        "credit": {
+          "account": "Interest Payable",
+          "amount": 339.73
+        }
+      },
+      "fiscal_period": {
+        "start": "2025-12-01",
+        "end": "2026-01-01"
+      },
+      "dependencies": ["ARR_LOAN_AGREEMENT", "ACC_INTEREST_MONTH_1"]
+    },
+    {
+      "id": "ACC_INTEREST_MONTH_3",
+      "arrangement_ref": "ARR_LOAN_AGREEMENT",
+      "type": "interest_expense",
+      "description": "Interest accrual for Month 3 (February 2026) at 8% APR - final month at initial rate",
+      "computation_method": "Calculated",
+      "formula_id": "f8a7d6e5c4b3a2d1e9f8c7b6a5d4e3f2",
+      "inputs": {
+        "principal_balance": 40000,
+        "annual_rate": 0.08,
+        "days_in_period": 28
+      },
+      "output": 246.58,
+      "currency": "USD",
+      "accounting_entry": {
+        "debit": {
+          "account": "Interest Expense",
+          "amount": 246.58
+        },
+        "credit": {
+          "account": "Interest Payable",
+          "amount": 246.58
+        }
+      },
+      "fiscal_period": {
+        "start": "2026-01-01",
+        "end": "2026-02-01"
+      },
+      "dependencies": ["ARR_LOAN_AGREEMENT", "ACC_INTEREST_MONTH_2"]
+    },
+    {
+      "id": "ACC_INTEREST_MONTH_4",
+      "arrangement_ref": "ARR_LOAN_AGREEMENT",
+      "type": "interest_expense",
+      "description": "Interest accrual for Month 4 (March 2026) at 10% APR - rate increase",
+      "computation_method": "Calculated",
+      "formula_id": "e9d8c7b6a5f4e3d2c1b9a8e7d6c5b4a3",
+      "inputs": {
+        "principal_balance": 30000,
+        "annual_rate": 0.10,
+        "days_in_period": 31
+      },
+      "output": 254.79,
+      "currency": "USD",
+      "accounting_entry": {
+        "debit": {
+          "account": "Interest Expense",
+          "amount": 254.79
+        },
+        "credit": {
+          "account": "Interest Payable",
+          "amount": 254.79
+        }
+      },
+      "fiscal_period": {
+        "start": "2026-02-01",
+        "end": "2026-03-01"
+      },
+      "dependencies": ["ARR_LOAN_AGREEMENT", "ACC_INTEREST_MONTH_3"]
+    },
+    {
+      "id": "ACC_INTEREST_MONTH_5",
+      "arrangement_ref": "ARR_LOAN_AGREEMENT",
+      "type": "interest_expense",
+      "description": "Interest accrual for Month 5 (April 2026) at 10% APR",
+      "computation_method": "Calculated",
+      "formula_id": "e9d8c7b6a5f4e3d2c1b9a8e7d6c5b4a3",
+      "inputs": {
+        "principal_balance": 20000,
+        "annual_rate": 0.10,
+        "days_in_period": 30
+      },
+      "output": 164.38,
+      "currency": "USD",
+      "accounting_entry": {
+        "debit": {
+          "account": "Interest Expense",
+          "amount": 164.38
+        },
+        "credit": {
+          "account": "Interest Payable",
+          "amount": 164.38
+        }
+      },
+      "fiscal_period": {
+        "start": "2026-03-01",
+        "end": "2026-04-01"
+      },
+      "dependencies": ["ARR_LOAN_AGREEMENT", "ACC_INTEREST_MONTH_4"]
+    },
+    {
+      "id": "ACC_INTEREST_MONTH_6",
+      "arrangement_ref": "ARR_LOAN_AGREEMENT",
+      "type": "interest_expense",
+      "description": "Interest accrual for Month 6 (May 2026) at 10% APR - final payment",
+      "computation_method": "Calculated",
+      "formula_id": "e9d8c7b6a5f4e3d2c1b9a8e7d6c5b4a3",
+      "inputs": {
+        "principal_balance": 10000,
+        "annual_rate": 0.10,
+        "days_in_period": 15
+      },
+      "output": 41.10,
+      "currency": "USD",
+      "accounting_entry": {
+        "debit": {
+          "account": "Interest Expense",
+          "amount": 41.10
+        },
+        "credit": {
+          "account": "Interest Payable",
+          "amount": 41.10
+        }
+      },
+      "fiscal_period": {
+        "start": "2026-04-01",
+        "end": "2026-05-15"
+      },
+      "dependencies": ["ARR_LOAN_AGREEMENT", "ACC_INTEREST_MONTH_5"]
+    }
+  ],
+  
+  "anticipations": [
+    {
+      "id": "ANT_PAYMENT_1_DEC",
+      "type": "scheduled_payment",
+      "description": "Anticipated payment for December 1, 2025: $10,000 principal + $400 interest",
+      "condition": "loan_current_no_default",
+      "probability_factor": 0.95,
+      "expected_impact": "Principal reduction to $50,000",
+      "assumptions": {
+        "borrower_creditworthiness": "good",
+        "payment_method": "ach_debit",
+        "payment_date": "2025-12-01"
+      },
+      "dependencies": ["ACC_INTEREST_MONTH_1"]
+    },
+    {
+      "id": "ANT_PAYMENT_2_JAN",
+      "type": "scheduled_payment",
+      "description": "Anticipated payment for January 1, 2026: $10,000 principal + $339.73 interest",
+      "condition": "loan_current_no_default",
+      "probability_factor": 0.95,
+      "expected_impact": "Principal reduction to $40,000",
+      "assumptions": {
+        "borrower_creditworthiness": "good",
+        "payment_method": "ach_debit",
+        "payment_date": "2026-01-01"
+      },
+      "dependencies": ["ACC_INTEREST_MONTH_2"]
+    },
+    {
+      "id": "ANT_PAYMENT_3_FEB",
+      "type": "scheduled_payment",
+      "description": "Anticipated payment for February 1, 2026: $10,000 principal + $246.58 interest",
+      "condition": "loan_current_no_default",
+      "probability_factor": 0.95,
+      "expected_impact": "Principal reduction to $30,000; rate increase to 10% after this payment",
+      "assumptions": {
+        "borrower_creditworthiness": "good",
+        "payment_method": "ach_debit",
+        "payment_date": "2026-02-01"
+      },
+      "dependencies": ["ACC_INTEREST_MONTH_3"]
+    },
+    {
+      "id": "ANT_PAYMENT_4_MAR",
+      "type": "scheduled_payment",
+      "description": "Anticipated payment for March 1, 2026: $10,000 principal + $254.79 interest (10% rate)",
+      "condition": "loan_current_no_default",
+      "probability_factor": 0.95,
+      "expected_impact": "Principal reduction to $20,000",
+      "assumptions": {
+        "borrower_creditworthiness": "good",
+        "payment_method": "ach_debit",
+        "payment_date": "2026-03-01"
+      },
+      "dependencies": ["ACC_INTEREST_MONTH_4"]
+    },
+    {
+      "id": "ANT_PAYMENT_5_APR",
+      "type": "scheduled_payment",
+      "description": "Anticipated payment for April 1, 2026: $10,000 principal + $164.38 interest",
+      "condition": "loan_current_no_default",
+      "probability_factor": 0.95,
+      "expected_impact": "Principal reduction to $10,000",
+      "assumptions": {
+        "borrower_creditworthiness": "good",
+        "payment_method": "ach_debit",
+        "payment_date": "2026-04-01"
+      },
+      "dependencies": ["ACC_INTEREST_MONTH_5"]
+    },
+    {
+      "id": "ANT_PAYMENT_6_MAY_FINAL",
+      "type": "scheduled_payment",
+      "description": "Anticipated final payment for May 15, 2026: $10,000 principal + $41.10 interest",
+      "condition": "loan_current_no_default",
+      "probability_factor": 0.95,
+      "expected_impact": "Loan fully paid off; principal balance to $0",
+      "assumptions": {
+        "borrower_creditworthiness": "good",
+        "payment_method": "ach_debit",
+        "payment_date": "2026-05-15"
+      },
+      "dependencies": ["ACC_INTEREST_MONTH_6"]
+    }
+  ],
+  
+  "actions": [
+    {
+      "id": "ACT_PAYMENT_1_COMPLETED",
+      "type": "principal_and_interest_payment",
+      "timestamp": "2025-12-01T10:15:23Z",
+      "description": "First payment completed: $10,000 principal + $400 interest",
+      "amount_settled": 10400.00,
+      "quantity_delivered": null,
+      "settlement_status": "Completed",
+      "details": {
+        "principal_paid": 10000.00,
+        "interest_paid": 400.00,
+        "remaining_principal": 50000.00,
+        "transaction_id": "TXN_ABC_20251201_001",
+        "clearing_house": "ACH"
+      },
+      "breakdown": {
+        "principal_component": 10000.00,
+        "interest_component": 400.00,
+        "fees": 0.00
+      },
+      "counterparty": "ABC National Bank",
+      "payment_method": "ach",
+      "dependencies": ["ANT_PAYMENT_1_DEC"]
+    },
+    {
+      "id": "ACT_PAYMENT_2_COMPLETED",
+      "type": "principal_and_interest_payment",
+      "timestamp": "2026-01-01T09:32:11Z",
+      "description": "Second payment completed: $10,000 principal + $339.73 interest",
+      "amount_settled": 10339.73,
+      "quantity_delivered": null,
+      "settlement_status": "Completed",
+      "details": {
+        "principal_paid": 10000.00,
+        "interest_paid": 339.73,
+        "remaining_principal": 40000.00,
+        "transaction_id": "TXN_ABC_20260101_001",
+        "clearing_house": "ACH"
+      },
+      "breakdown": {
+        "principal_component": 10000.00,
+        "interest_component": 339.73,
+        "fees": 0.00
+      },
+      "counterparty": "ABC National Bank",
+      "payment_method": "ach",
+      "dependencies": ["ANT_PAYMENT_2_JAN"]
+    }
+  ],
+  
+  "privacy_metadata": {
+    "formulas_obfuscated": 2,
+    "instance_pools": 5,
+    "attack_complexity": "2^96 operations",
+    "obfuscated_formulas": [
+      {
+        "formula_id": "f8a7d6e5c4b3a2d1e9f8c7b6a5d4e3f2",
+        "purpose": "Interest calculation at 8% APR",
+        "obfuscation_method": "instance_pool"
+      },
+      {
+        "formula_id": "e9d8c7b6a5f4e3d2c1b9a8e7d6c5b4a3",
+        "purpose": "Interest calculation at 10% APR",
+        "obfuscation_method": "instance_pool"
+      }
+    ]
+  }
+}

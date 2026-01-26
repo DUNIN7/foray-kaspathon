@@ -1,0 +1,369 @@
+{
+  "transaction_id": "AUTO_LOAN_2026_Q1_JOHN_DOE",
+  "timestamp": "2026-01-23T15:00:00Z",
+  "block_height": 462950,
+  "merkle_root": "c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5",
+  "kaspa_commitment": "d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6",
+  "schema_version": "3.0",
+  "entity": "Auto Finance Co",
+  "transaction_type": "auto_loan",
+  "total_value": 25000,
+  "currency": "USD",
+  "status": "Active",
+  "compliance_flags": [
+    "Consumer_Credit",
+    "Truth_in_Lending_Act",
+    "Reg_Z"
+  ],
+  
+  "arrangements": [
+    {
+      "id": "ARR_AUTO_LOAN_AGREEMENT",
+      "type": "auto_loan",
+      "effective_date": "2026-01-23T00:00:00Z",
+      "parties": [
+        {
+          "role": "lender",
+          "name": "Auto Finance Co",
+          "jurisdiction": "United States"
+        },
+        {
+          "role": "borrower",
+          "name": "John Doe",
+          "jurisdiction": "United States"
+        }
+      ],
+      "description": "60-month auto loan for $25,000 at 4.5% APR with monthly payments",
+      "terms": {
+        "principal_amount": 25000,
+        "interest_rate": 0.045,
+        "term_months": 60,
+        "payment_frequency": "monthly",
+        "monthly_payment": 466.08,
+        "total_interest": 2964.80,
+        "total_amount": 27964.80,
+        "payment_day": 23,
+        "vehicle_collateral": true
+      },
+      "legal_documentation": [
+        "Auto Loan Agreement",
+        "Truth in Lending Disclosure",
+        "Security Agreement",
+        "Vehicle Title"
+      ],
+      "dependencies": []
+    }
+  ],
+  
+  "accruals": [
+    {
+      "id": "ACC_INTEREST_MONTH_1",
+      "arrangement_ref": "ARR_AUTO_LOAN_AGREEMENT",
+      "type": "interest_expense",
+      "description": "Interest accrual for month 1 at 4.5% APR",
+      "computation_method": "Calculated",
+      "formula_id": "f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6",
+      "inputs": {
+        "principal": 25000.00,
+        "annual_rate": 0.045,
+        "days_in_month": 31
+      },
+      "output": 95.89,
+      "currency": "USD",
+      "accounting_entry": {
+        "debit": {
+          "account": "Interest Expense",
+          "amount": 95.89
+        },
+        "credit": {
+          "account": "Interest Payable",
+          "amount": 95.89
+        }
+      },
+      "fiscal_period": {
+        "start": "2026-01-23",
+        "end": "2026-02-23"
+      },
+      "dependencies": ["ARR_AUTO_LOAN_AGREEMENT"]
+    },
+    {
+      "id": "ACC_INTEREST_MONTH_2",
+      "arrangement_ref": "ARR_AUTO_LOAN_AGREEMENT",
+      "type": "interest_expense",
+      "description": "Interest accrual for month 2 at 4.5% APR",
+      "computation_method": "Calculated",
+      "formula_id": "f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6",
+      "inputs": {
+        "principal": 24629.81,
+        "annual_rate": 0.045,
+        "days_in_month": 28
+      },
+      "output": 84.47,
+      "currency": "USD",
+      "accounting_entry": {
+        "debit": {
+          "account": "Interest Expense",
+          "amount": 84.47
+        },
+        "credit": {
+          "account": "Interest Payable",
+          "amount": 84.47
+        }
+      },
+      "fiscal_period": {
+        "start": "2026-02-23",
+        "end": "2026-03-23"
+      },
+      "dependencies": ["ARR_AUTO_LOAN_AGREEMENT"]
+    },
+    {
+      "id": "ACC_INTEREST_MONTH_3",
+      "arrangement_ref": "ARR_AUTO_LOAN_AGREEMENT",
+      "type": "interest_expense",
+      "description": "Interest accrual for month 3 at 4.5% APR",
+      "computation_method": "Calculated",
+      "formula_id": "f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6",
+      "inputs": {
+        "principal": 24248.20,
+        "annual_rate": 0.045,
+        "days_in_month": 31
+      },
+      "output": 94.49,
+      "currency": "USD",
+      "fiscal_period": {
+        "start": "2026-03-23",
+        "end": "2026-04-23"
+      },
+      "dependencies": ["ARR_AUTO_LOAN_AGREEMENT"]
+    },
+    {
+      "id": "ACC_INTEREST_MONTH_4",
+      "arrangement_ref": "ARR_AUTO_LOAN_AGREEMENT",
+      "type": "interest_expense",
+      "description": "Interest accrual for month 4 at 4.5% APR",
+      "computation_method": "Calculated",
+      "formula_id": "f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6",
+      "inputs": {
+        "principal": 23876.61,
+        "annual_rate": 0.045,
+        "days_in_month": 30
+      },
+      "output": 88.11,
+      "currency": "USD",
+      "fiscal_period": {
+        "start": "2026-04-23",
+        "end": "2026-05-23"
+      },
+      "dependencies": ["ARR_AUTO_LOAN_AGREEMENT"]
+    },
+    {
+      "id": "ACC_INTEREST_MONTH_5",
+      "arrangement_ref": "ARR_AUTO_LOAN_AGREEMENT",
+      "type": "interest_expense",
+      "description": "Interest accrual for month 5 at 4.5% APR",
+      "computation_method": "Calculated",
+      "formula_id": "f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6",
+      "inputs": {
+        "principal": 23498.64,
+        "annual_rate": 0.045,
+        "days_in_month": 31
+      },
+      "output": 91.56,
+      "currency": "USD",
+      "fiscal_period": {
+        "start": "2026-05-23",
+        "end": "2026-06-23"
+      },
+      "dependencies": ["ARR_AUTO_LOAN_AGREEMENT"]
+    },
+    {
+      "id": "ACC_INTEREST_MONTH_6",
+      "arrangement_ref": "ARR_AUTO_LOAN_AGREEMENT",
+      "type": "interest_expense",
+      "description": "Interest accrual for month 6 at 4.5% APR",
+      "computation_method": "Calculated",
+      "formula_id": "f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6",
+      "inputs": {
+        "principal": 23124.12,
+        "annual_rate": 0.045,
+        "days_in_month": 30
+      },
+      "output": 85.32,
+      "currency": "USD",
+      "fiscal_period": {
+        "start": "2026-06-23",
+        "end": "2026-07-23"
+      },
+      "dependencies": ["ARR_AUTO_LOAN_AGREEMENT"]
+    }
+  ],
+  
+  "anticipations": [
+    {
+      "id": "ANT_PAYMENT_1",
+      "type": "scheduled_payment",
+      "description": "Expected payment 1: $466.08 (principal $370.19 + interest $95.89)",
+      "condition": "Payment due on 2026-02-23",
+      "probability_factor": 0.95,
+      "expected_impact": "Principal reduction to $24,629.81",
+      "assumptions": {
+        "payment_date": "2026-02-23",
+        "payment_amount": 466.08,
+        "principal_portion": 370.19,
+        "interest_portion": 95.89,
+        "remaining_balance": 24629.81
+      },
+      "dependencies": ["ACC_INTEREST_MONTH_1"]
+    },
+    {
+      "id": "ANT_PAYMENT_2",
+      "type": "scheduled_payment",
+      "description": "Expected payment 2: $466.08 (principal $381.61 + interest $84.47)",
+      "condition": "Payment due on 2026-03-23",
+      "probability_factor": 0.95,
+      "expected_impact": "Principal reduction to $24,248.20",
+      "assumptions": {
+        "payment_date": "2026-03-23",
+        "payment_amount": 466.08,
+        "principal_portion": 381.61,
+        "interest_portion": 84.47,
+        "remaining_balance": 24248.20
+      },
+      "dependencies": ["ACC_INTEREST_MONTH_2"]
+    },
+    {
+      "id": "ANT_PAYMENT_3",
+      "type": "scheduled_payment",
+      "description": "Expected payment 3: $466.08 (principal $371.59 + interest $94.49)",
+      "condition": "Payment due on 2026-04-23",
+      "probability_factor": 0.95,
+      "expected_impact": "Principal reduction to $23,876.61",
+      "assumptions": {
+        "payment_date": "2026-04-23",
+        "payment_amount": 466.08,
+        "principal_portion": 371.59,
+        "interest_portion": 94.49,
+        "remaining_balance": 23876.61
+      },
+      "dependencies": ["ACC_INTEREST_MONTH_3"]
+    },
+    {
+      "id": "ANT_PAYMENT_4",
+      "type": "scheduled_payment",
+      "description": "Expected payment 4: $466.08 (principal $377.97 + interest $88.11)",
+      "condition": "Payment due on 2026-05-23",
+      "probability_factor": 0.95,
+      "expected_impact": "Principal reduction to $23,498.64",
+      "assumptions": {
+        "payment_date": "2026-05-23",
+        "payment_amount": 466.08,
+        "principal_portion": 377.97,
+        "interest_portion": 88.11,
+        "remaining_balance": 23498.64
+      },
+      "dependencies": ["ACC_INTEREST_MONTH_4"]
+    },
+    {
+      "id": "ANT_PAYMENT_5",
+      "type": "scheduled_payment",
+      "description": "Expected payment 5: $466.08 (principal $374.52 + interest $91.56)",
+      "condition": "Payment due on 2026-06-23",
+      "probability_factor": 0.95,
+      "expected_impact": "Principal reduction to $23,124.12",
+      "assumptions": {
+        "payment_date": "2026-06-23",
+        "payment_amount": 466.08,
+        "principal_portion": 374.52,
+        "interest_portion": 91.56,
+        "remaining_balance": 23124.12
+      },
+      "dependencies": ["ACC_INTEREST_MONTH_5"]
+    },
+    {
+      "id": "ANT_PAYMENT_6",
+      "type": "scheduled_payment",
+      "description": "Expected payment 6: $466.08 (principal $380.76 + interest $85.32)",
+      "condition": "Payment due on 2026-07-23",
+      "probability_factor": 0.95,
+      "expected_impact": "Principal reduction to $22,743.36",
+      "assumptions": {
+        "payment_date": "2026-07-23",
+        "payment_amount": 466.08,
+        "principal_portion": 380.76,
+        "interest_portion": 85.32,
+        "remaining_balance": 22743.36
+      },
+      "dependencies": ["ACC_INTEREST_MONTH_6"]
+    },
+    {
+      "id": "ANT_EARLY_PAYOFF",
+      "type": "early_payoff_scenario",
+      "description": "Potential early payoff scenario",
+      "condition": "Borrower pays off loan early",
+      "probability_factor": 0.15,
+      "expected_impact": "Loan terminated, interest savings realized",
+      "assumptions": {
+        "typical_early_payoff_month": 36,
+        "estimated_interest_savings": 1200.00,
+        "prepayment_penalty": 0.00
+      },
+      "dependencies": ["ARR_AUTO_LOAN_AGREEMENT"]
+    },
+    {
+      "id": "ANT_DEFAULT_RISK",
+      "type": "default_scenario",
+      "description": "Default risk assessment",
+      "condition": "Borrower fails to make payments",
+      "probability_factor": 0.03,
+      "expected_impact": "Vehicle repossession, credit impact",
+      "assumptions": {
+        "typical_default_month": 18,
+        "recovery_rate": 0.75,
+        "loss_given_default": 6250.00
+      },
+      "dependencies": ["ARR_AUTO_LOAN_AGREEMENT"]
+    }
+  ],
+  
+  "actions": [
+    {
+      "id": "ACT_LOAN_ORIGINATION",
+      "type": "loan_disbursement",
+      "timestamp": "2026-01-23T10:00:00Z",
+      "description": "Initial loan disbursement to borrower",
+      "amount_settled": 25000.00,
+      "quantity_delivered": null,
+      "settlement_status": "Completed",
+      "details": {
+        "disbursement_method": "direct_deposit",
+        "vehicle_vin": "1HGBH41JXMN109186",
+        "vehicle_year": 2024,
+        "vehicle_make": "Honda",
+        "vehicle_model": "Accord",
+        "odometer": 15000,
+        "loan_to_value": 0.83
+      },
+      "breakdown": {
+        "vehicle_purchase_price": 30000.00,
+        "down_payment": 5000.00,
+        "financed_amount": 25000.00
+      },
+      "counterparty": "John Doe",
+      "payment_method": "wire",
+      "dependencies": ["ARR_AUTO_LOAN_AGREEMENT"]
+    }
+  ],
+  
+  "privacy_metadata": {
+    "formulas_obfuscated": 1,
+    "instance_pools": 5,
+    "attack_complexity": "2^96 operations",
+    "obfuscated_formulas": [
+      {
+        "formula_id": "f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6",
+        "purpose": "Monthly interest calculation (4.5% APR)",
+        "obfuscation_method": "instance_pool"
+      }
+    ]
+  }
+}

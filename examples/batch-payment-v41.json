@@ -1,0 +1,77 @@
+{
+  "transaction_id": "AP_2026_Q1_BATCH_PAYMENT_001",
+  "schema_version": "4.1",
+  "timestamp": "2026-01-25T10:00:00Z",
+  "foray_core": {
+    "entity": "Acme Corporation",
+    "entity_hash": "sha256:def456abc789...",
+    "transaction_type": "batch_payment",
+    "total_value": 10000.00,
+    "currency": "USD",
+    "status": "completed",
+    "compliance_flags": ["SOX_404", "GAAP"]
+  },
+  "component_hashes": {
+    "arrangements": "sha256:a1b2c3...",
+    "accruals": "sha256:d4e5f6...",
+    "anticipations": "sha256:g7h8i9...",
+    "actions": "sha256:j0k1l2..."
+  },
+  "arrangements": [
+    {
+      "id": "ARR_VENDOR_MSA_001",
+      "foray_core": {
+        "type": "master_service_agreement",
+        "effective_date": "2025-01-01T00:00:00Z",
+        "parties": [
+          { "role": "buyer", "name": "Acme Corporation", "jurisdiction": "US" },
+          { "role": "vendor", "name": "TechSupply Inc", "jurisdiction": "US" }
+        ],
+        "description": "Master agreement for IT supplies",
+        "total_value": 100000.00,
+        "currency": "USD",
+        "terms": { "payment_terms": "Net 30", "auto_renewal": true },
+        "dependencies": []
+      }
+    }
+  ],
+  "accruals": [
+    { "id": "ACC_INVOICE_001", "foray_core": { "arrangement_refs": ["ARR_VENDOR_MSA_001"], "type": "accounts_payable", "description": "Server hardware invoice", "computation_method": "FixedAmount", "output": 3000.00, "currency": "USD", "dependencies": ["ARR_VENDOR_MSA_001"] } },
+    { "id": "ACC_INVOICE_002", "foray_core": { "arrangement_refs": ["ARR_VENDOR_MSA_001"], "type": "accounts_payable", "description": "Software licenses", "computation_method": "FixedAmount", "output": 4000.00, "currency": "USD", "dependencies": ["ARR_VENDOR_MSA_001"] } },
+    { "id": "ACC_INVOICE_003", "foray_core": { "arrangement_refs": ["ARR_VENDOR_MSA_001"], "type": "accounts_payable", "description": "Cloud services", "computation_method": "Calculated", "formula_id": "sha256:usage...", "output": 3500.00, "currency": "USD", "dependencies": ["ARR_VENDOR_MSA_001"] } }
+  ],
+  "anticipations": [
+    { "id": "ANT_PAYMENT_DUE_001", "foray_core": { "accrual_refs": ["ACC_INVOICE_001"], "arrangement_refs": ["ARR_VENDOR_MSA_001"], "type": "scheduled_payment", "description": "Payment due for hardware", "expected_amount": 3000.00, "currency": "USD", "expected_date": "2026-01-31", "probability_factor": 1.0, "dependencies": ["ACC_INVOICE_001"] } },
+    { "id": "ANT_PAYMENT_DUE_002", "foray_core": { "accrual_refs": ["ACC_INVOICE_002"], "arrangement_refs": ["ARR_VENDOR_MSA_001"], "type": "scheduled_payment", "description": "Payment due for software", "expected_amount": 4000.00, "currency": "USD", "expected_date": "2026-01-31", "probability_factor": 1.0, "dependencies": ["ACC_INVOICE_002"] } },
+    { "id": "ANT_PAYMENT_DUE_003", "foray_core": { "accrual_refs": ["ACC_INVOICE_003"], "arrangement_refs": ["ARR_VENDOR_MSA_001"], "type": "scheduled_payment", "description": "Payment due for cloud", "expected_amount": 3500.00, "currency": "USD", "expected_date": "2026-01-31", "probability_factor": 1.0, "dependencies": ["ACC_INVOICE_003"] } }
+  ],
+  "actions": [
+    {
+      "id": "ACT_BATCH_PAYMENT_001",
+      "foray_core": {
+        "anticipation_refs": ["ANT_PAYMENT_DUE_001", "ANT_PAYMENT_DUE_002", "ANT_PAYMENT_DUE_003"],
+        "accrual_refs": ["ACC_INVOICE_001", "ACC_INVOICE_002", "ACC_INVOICE_003"],
+        "arrangement_refs": ["ARR_VENDOR_MSA_001"],
+        "type": "batch_payment",
+        "description": "Consolidated payment clearing 3 invoices",
+        "amount_settled": 10000.00,
+        "currency": "USD",
+        "settlement_date": "2026-01-25T10:00:00Z",
+        "settlement_status": "completed",
+        "payment_method": "wire",
+        "counterparty": "TechSupply Inc",
+        "allocations": [
+          { "ref": "ANT_PAYMENT_DUE_001", "ref_type": "anticipation", "amount": 3000.00, "currency": "USD", "allocation_type": "full", "remaining_balance": 0.00 },
+          { "ref": "ANT_PAYMENT_DUE_002", "ref_type": "anticipation", "amount": 4000.00, "currency": "USD", "allocation_type": "full", "remaining_balance": 0.00 },
+          { "ref": "ANT_PAYMENT_DUE_003", "ref_type": "anticipation", "amount": 3000.00, "currency": "USD", "allocation_type": "partial", "remaining_balance": 500.00 }
+        ],
+        "variance": { "expected": 10500.00, "actual": 10000.00, "difference": -500.00, "explanation": "Partial payment on cloud services" },
+        "dependencies": ["ANT_PAYMENT_DUE_001", "ANT_PAYMENT_DUE_002", "ANT_PAYMENT_DUE_003"]
+      }
+    }
+  ],
+  "merkle_root": "sha256:9f8e7d6c5b4a3210...",
+  "blockchain_anchor": { "kaspa_tx_id": "kaspa:qr7f3a2b9d8e...", "block_height": 2850123, "confirmation_time_ms": 1150, "anchored_at": "2026-01-25T10:00:02Z" },
+  "audit_data_anchor": { "audit_data_hash": "sha256:audit123...", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/AP_2026_Q1_BATCH_PAYMENT_001"] },
+  "privacy_metadata": { "formulas_obfuscated": 1, "instance_pools": 3, "attack_complexity": "2^96 operations" }
+}
