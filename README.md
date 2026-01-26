@@ -83,6 +83,7 @@ This maps to how businesses actually operate—from contract to cash.
 foray-kaspathon/
 ├── README.md
 ├── LICENSE.md
+├── AI_DISCLOSURE.md
 │
 ├── docs/
 │   ├── FORAY_Protocol_v4_1_Specification.md   # Full protocol specification
@@ -220,6 +221,8 @@ This project was developed with AI assistance (Claude, Anthropic). Per Kaspathon
 ## Acknowledgments
 
 Built for **Kaspathon 2026** — Real-Time Data Track
+
+*Current implementation demonstrates batch anchoring. Real-time integration via webhooks is architecturally supported and planned for production.*
 
 FORAY leverages Kaspa's unique properties:
 - BlockDAG architecture for parallel block production
