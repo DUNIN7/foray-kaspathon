@@ -176,6 +176,12 @@ function migrate(v40) {
 
 ## Impact Assessment
 
+### Design Rationale
+
+These changes emerged from analysis of integration patterns across SAP, Oracle, Microsoft Dynamics, QuickBooks, Salesforce, and DCAA compliance requirements. Real-world transaction flows in these systems consistently required:
+- Transactions without formal contracts (flexible entry points)
+- One-to-many payment clearing (many-to-many references)
+
 ### Benefits
 
 | Benefit | Description |

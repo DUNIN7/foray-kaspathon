@@ -156,6 +156,23 @@ FORAY protects sensitive business data while enabling verification:
 
 ---
 
+## Design Validation
+
+The FORAY Protocol specification was refined through analysis of integration patterns across major enterprise systems:
+
+| System | Focus Area |
+|--------|------------|
+| SAP S/4HANA | Financial accounting, materials management |
+| Oracle ERP | Revenue recognition, subledger architecture |
+| Microsoft Dynamics | Multi-entity consolidation |
+| QuickBooks | SMB transaction patterns |
+| Salesforce | CRM-to-cash lifecycle |
+| DCAA | Defense contractor cost accounting compliance |
+
+These investigations informed key design decisions including flexible entry points, many-to-many references, and privacy architecture.
+
+---
+
 ## Roadmap
 
 **Seed Project (Kaspathon 2026)**
