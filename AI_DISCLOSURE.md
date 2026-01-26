@@ -27,6 +27,7 @@ This project was developed collaboratively with AI assistance. Per Kaspathon 202
 
 - **Drafting** protocol specifications (FORAY_Protocol_v4_1_Specification.md)
 - **Writing** integration guides (QuickBooks, Salesforce)
+- **Creating** sector guides (Energy, Financial Services, Auditor/Advisory, Manufacturing, Defense)
 - **Creating** README.md and project documentation
 - **Iterative editing** based on author review and feedback
 

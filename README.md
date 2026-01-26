@@ -89,7 +89,12 @@ foray-kaspathon/
 │   ├── FORAY_Protocol_v4_1_Specification.md   # Full protocol specification
 │   ├── FORAY_Protocol_v4_1_Change_Summary.md  # What's new in v4.1
 │   ├── FORAY_QuickBooks_Integration.md        # Integration patterns & API design
-│   └── FORAY_Salesforce_Integration.md        # Integration patterns & API design
+│   ├── FORAY_Salesforce_Integration.md        # Integration patterns & API design
+│   ├── FORAY_Energy_Sector_Guide.md           # Energy industry applications
+│   ├── FORAY_Financial_Services_Guide.md      # Banking & finance applications
+│   ├── FORAY_Auditor_Advisory_Guide.md        # Big 4 & audit firm applications
+│   ├── FORAY_Manufacturing_Supply_Chain_Guide.md  # Manufacturing applications
+│   └── FORAY_Defense_Contractor_Guide.md      # Defense & DCAA compliance
 │
 ├── demo/
 │   ├── foray-tx-review-v41.html       # Transaction Review Tool (working demo)
