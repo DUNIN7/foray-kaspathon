@@ -85,6 +85,7 @@
 7. [Migration Guide (v4.0 â†’ v4.1)](#7-migration-guide-v40--v41)
 8. [Examples](#8-examples)
 9. [Appendices](#9-appendices)
+10. [Storage Architecture (Future Implementation)](#10-storage-architecture-future-implementation)
 
 ---
 
@@ -1361,6 +1362,199 @@ function downgradeToV40(v41Transaction) {
   }
 }
 ```
+
+---
+
+# 10. Storage Architecture (Future Implementation)
+
+> **Note:** This section describes the planned three-layer storage architecture. This is a design specification for future implementation, not current functionality.
+
+## 10.1 Architecture Overview
+
+FORAY employs a three-layer storage architecture that balances blockchain immutability with operational efficiency and cost optimization.
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    FORAY STORAGE LAYERS                          │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  LAYER 1: ON-CHAIN (Kaspa Blockchain)                           │
+│  Purpose: Verification, tamper-proof timestamps                  │
+│  Content: foray_core hashes, audit_data_hash, merkle roots      │
+│  Size: ~300-500 bytes per transaction                           │
+│  Access: Public, continuous                                      │
+│                                                                  │
+│  LAYER 2: OFF-CHAIN NoSQL (Operational Layer)                   │
+│  Purpose: Operational queries, day-to-day audit                 │
+│  Content: Complementary data NOT stored on-chain                │
+│  Size: ~15-25 KB per transaction                                │
+│  Access: Authorized users, standard authentication              │
+│  Note: May consist of multiple parallel repositories            │
+│                                                                  │
+│  LAYER 3: SEALED ARCHIVE (Break Glass Failsafe)                 │
+│  Purpose: Ultimate failsafe for disaster recovery, litigation   │
+│  Content: COMPLETE record (Layer 1 + Layer 2 combined)          │
+│  Size: ~20-30 KB compressed/encrypted per transaction           │
+│  Access: Multi-party ceremony, rare                             │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Design Principle:** Layer 1 and Layer 2 are complementary — together they form the complete record. Layer 3 holds everything from both layers as the ultimate break-glass failsafe.
+
+## 10.2 Layer 1: On-Chain (Verification Layer)
+
+### Purpose
+- Provide tamper-proof timestamps
+- Enable integrity verification without exposing data
+- Create immutable audit trail
+
+### Content
+Only cryptographic hashes and minimal metadata are stored on-chain:
+
+```json
+{
+  "transaction_id": "TXN_2026_001",
+  "schema_version": "4.1",
+  "timestamp": "2026-01-15T09:00:00Z",
+  "foray_core_hash": "sha256:7a8b9c...",
+  "audit_data_hash": "sha256:3e4f5a...",
+  "combined_merkle_root": "sha256:9b0c1d...",
+  "blockchain_anchor": {
+    "kaspa_tx_id": "kaspa:qr...",
+    "block_height": 2847500
+  }
+}
+```
+
+### What Does NOT Go On-Chain
+
+The following data is intentionally kept off-chain:
+
+| Off-Chain Data | Reason |
+|----------------|--------|
+| Party names and identities | Privacy, competitive sensitivity |
+| Contract terms and pricing | Commercial confidentiality |
+| Detailed line items | Payload size, query performance |
+| Supporting calculations | Proprietary formulas |
+| Audit notes and metadata | Volume, mutability needs |
+| Document references | Size, external dependencies |
+| Approval workflows | Operational detail |
+| Historical amendments | Append-only off-chain |
+
+### Rationale
+- **Cost efficiency:** Kaspa transactions cost fractions of a cent; keeping payloads small (~300-500 bytes) enables high-volume anchoring
+- **Privacy by design:** Sensitive business data never touches the public blockchain
+- **Performance:** Small payloads leverage Kaspa's 1-second blocks optimally
+- **Verification integrity:** Hashes prove off-chain data hasn't been altered
+
+## 10.3 Layer 2: Off-Chain NoSQL (Operational Layer)
+
+### Purpose
+- Support day-to-day audit queries
+- Enable operational reporting
+- Provide fast access for authorized users
+- Complement Layer 1 with detailed data
+
+### Content
+Layer 2 stores the data that is NOT stored on-chain — it complements Layer 1:
+
+| Data Category | Examples |
+|---------------|----------|
+| **Party Details** | Full legal names, addresses, tax IDs, contact information |
+| **Contract Terms** | Payment terms, pricing schedules, SLAs, covenants |
+| **Line Items** | Individual products/services, quantities, unit prices |
+| **Calculations** | Formula inputs, intermediate results, supporting math |
+| **Audit Metadata** | Preparer, reviewer, approval timestamps, comments |
+| **Document References** | Links to contracts, invoices, supporting documents |
+| **Workflow History** | Approval chains, status changes, routing |
+| **Amendments** | Change history, version tracking, correction records |
+
+### Why This Data Stays Off-Chain
+
+1. **Volume:** A single transaction may have hundreds of line items; on-chain storage would be prohibitively expensive
+2. **Privacy:** Party identities and pricing are competitively sensitive
+3. **Queryability:** Complex queries (e.g., "all transactions with Vendor X") require indexed databases
+4. **Mutability:** Audit notes and workflow status need updates; blockchain is append-only
+5. **Performance:** Sub-second query response requires optimized database indexes
+
+### Implementation Considerations
+- **Multiple repositories:** Layer 2 may consist of multiple parallel NoSQL stores for redundancy
+- **Access control:** Role-based authentication
+- **Encryption:** Data encrypted at rest and in transit
+- **Relationship to Layer 1:** Layer 2 data is validated against Layer 1 hashes
+
+### Recovery Capability
+If Layer 2 is corrupted or lost, it can be reconstructed from:
+1. On-chain transaction hashes (Layer 1)
+2. On-chain registry mappings
+3. Sealed archive records (Layer 3)
+
+## 10.4 Layer 3: Sealed Archive (Break Glass Failsafe)
+
+### Purpose
+- Ultimate failsafe for disaster recovery
+- Preserve complete records for litigation
+- Support regulatory dispute resolution
+- Enable forensic investigation
+
+### Content
+Layer 3 contains the **complete record** — everything from both Layer 1 and Layer 2:
+- All on-chain data (transaction IDs, hashes, timestamps, merkle roots)
+- All off-chain data (party details, terms, line items, calculations)
+- Full audit history
+- All supporting metadata
+- Cryptographic proof chain
+
+### Why Layer 3 Holds Everything
+
+Layer 3 is the ultimate failsafe. If either Layer 1 or Layer 2 is compromised:
+- **Layer 2 corrupted:** Restore from Layer 3
+- **Need to verify Layer 1:** Compare against Layer 3 archive
+- **Litigation/regulatory:** Layer 3 provides complete, tamper-evident record
+
+### Access Protocol
+Layer 3 access requires multi-party authorization ("break glass"):
+1. Legal/compliance approval
+2. Executive authorization  
+3. Technical key ceremony
+4. Audit trail of access
+
+### Rationale
+- Rarely accessed (litigation, regulatory inquiry, disaster recovery)
+- Maximum security and integrity
+- Independent of operational systems
+- Supports long-term retention requirements
+- Can reconstruct Layers 1 and 2 if needed
+
+## 10.5 Why Three Layers?
+
+| Concern | Layer 1 | Layer 2 | Layer 3 |
+|---------|---------|---------|---------|
+| **Content** | Hashes only | Complementary detail | Complete record |
+| **Immutability** | ✓ Blockchain | Mutable | Append-only |
+| **Query Speed** | Slow | ✓ Fast | Slow |
+| **Cost** | ✓ Minimal | Moderate | Low |
+| **Capacity** | Limited | ✓ Unlimited | Large |
+| **Privacy** | ✓ Hashes only | Encrypted | ✓ Encrypted |
+| **Access** | Public | Authorized | Restricted |
+
+**Key Insight:** Layer 1 and Layer 2 are complementary — neither contains the full picture alone. Layer 3 holds everything as the ultimate failsafe.
+
+## 10.6 Recovery Capability
+
+### If Layer 2 is Lost
+Restore from Layer 3, which contains the complete record.
+
+### If Layer 1 Verification Needed
+Compare on-chain data against Layer 3 archive for independent verification.
+
+### Disaster Recovery
+Layer 3 can reconstruct the entire system state — it is the ultimate source of truth.
+
+## 10.7 Implementation Status
+
+> **Current State:** This architecture is specified for future implementation. The current seed project demonstrates on-chain anchoring (Layer 1) via the Transaction Review Tool. Layers 2 and 3 are planned for production implementation.
 
 ---
 

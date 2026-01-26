@@ -150,6 +150,42 @@ FORAY protects sensitive business data while enabling verification:
 
 ---
 
+## Storage Architecture (Future Implementation)
+
+FORAY specifies a three-layer storage architecture that separates core verification data (on-chain) from comprehensive business data (off-chain):
+
+| Layer | Purpose | Content |
+|-------|---------|---------|
+| **Layer 1: On-Chain (Kaspa)** | Verification, immutability | Core hashes only (~300-500 bytes) |
+| **Layer 2: Off-Chain NoSQL** | Operational queries | Complementary data not on-chain (~15-25 KB) |
+| **Layer 3: Sealed Archive** | Break-glass failsafe | Complete record (Layer 1 + Layer 2 combined) |
+
+### What Goes Where
+
+| Layer 1 (On-Chain) | Layer 2 (Off-Chain NoSQL) |
+|--------------------|--------------------------|
+| Transaction ID | Full party names and identities |
+| Schema version | Complete contract terms |
+| Timestamp | Detailed line items |
+| Merkle root of components | Supporting calculations |
+| Hash of foray_core | Audit metadata and notes |
+| Hash of audit_data | Document references |
+| Block height | Approval workflows |
+| | Historical amendments |
+
+**Layer 3 (Sealed Archive)** contains the complete record — everything from both Layer 1 and Layer 2 — encrypted and preserved for litigation, regulatory disputes, or disaster recovery.
+
+### Why this separation?
+- **Cost:** On-chain storage is expensive; hashes are small (~300 bytes vs ~25 KB)
+- **Privacy:** Sensitive business data never touches the public blockchain
+- **Performance:** Kaspa optimized for small payloads at high throughput
+- **Compliance:** Full audit detail available off-chain for authorized parties
+- **Resilience:** Layer 3 can reconstruct Layers 1 and 2 if either is compromised
+
+> **Note:** This is a design specification for future implementation. The current seed project demonstrates Layer 1 (on-chain anchoring).
+
+---
+
 ## Use Cases
 
 | Industry | Application | Compliance |
