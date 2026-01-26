@@ -211,6 +211,12 @@ If you use FORAY in research, please cite:
 
 ---
 
+## AI Assistance Disclosure
+
+This project was developed with AI assistance (Claude, Anthropic). Per Kaspathon requirements, see [AI_DISCLOSURE.md](AI_DISCLOSURE.md) for complete details on where and how AI was used, including protocol design, documentation, code generation, and example creation.
+
+---
+
 ## Acknowledgments
 
 Built for **Kaspathon 2026** — Real-Time Data Track
