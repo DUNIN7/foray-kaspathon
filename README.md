@@ -2,17 +2,17 @@
 
 **Privacy-Preserving Blockchain Audit Infrastructure**
 
-[![License: BSL 1.1](https://img.shields.io/badge/License-BSL%201.1-blue.svg)](LICENSE.md)
+[![License: BSL 1.1](https://img.shields.io/badge/License-BSL%201.1-blue.svg)](https://github.com/DUNIN7/foray-kaspathon/blob/main/LICENSE.md)
 [![Kaspa](https://img.shields.io/badge/Blockchain-Kaspa-49EACB.svg)](https://kaspa.org)
 [![Protocol Version](https://img.shields.io/badge/Protocol-v4.1-green.svg)](docs/FORAY_Protocol_v4_1_Specification.md)
 
-> **Built for Kaspathon 2026 — Real-Time Data Track**
+> **Built for Kaspathon 2026 -- Real-Time Data Track**
 
 ---
 
 ## What is FORAY?
 
-FORAY creates **immutable, tamper-proof audit trails** of enterprise transactions that regulators, auditors, and forensic investigators can trust—without exposing your competitive secrets.
+FORAY creates **immutable, tamper-proof audit trails** of enterprise transactions that regulators, auditors, and forensic investigators can trust--without exposing your competitive secrets.
 
 **The Problem:** Internal audit trails can be altered. When fraud happens (Enron, Wirecard, FTX), companies rewrite history. External auditors have no way to prove records weren't tampered with.
 
@@ -27,9 +27,9 @@ FORAY creates **immutable, tamper-proof audit trails** of enterprise transaction
 | Block Time | **1 second** | 10 minutes | 12 seconds |
 | Finality | ~10 seconds | 60 minutes | 12 minutes |
 | TX Cost | ~$0.0001 | $1-50 | $0.50-50 |
-| Throughput | 1 BPS → 100 BPS | 7 TPS | 15 TPS |
+| Throughput | 1 BPS -> 100 BPS | 7 TPS | 15 TPS |
 
-Kaspa's **1-second blocks** enable real-time anchoring as transactions happen—not batch processing hours later. GHOSTDAG consensus provides high throughput without sacrificing decentralization.
+Kaspa's **1-second blocks** enable real-time anchoring as transactions happen--not batch processing hours later. GHOSTDAG consensus provides high throughput without sacrificing decentralization.
 
 ---
 
@@ -44,12 +44,12 @@ FORAY decomposes every business transaction into four components:
 | **Anticipations** | Expected future flows | Payment scheduled |
 | **Actions** | Actual asset transfers | Wire sent |
 
-This maps to how businesses actually operate—from contract to cash.
+This maps to how businesses actually operate--from contract to cash.
 
 ### v4.1 Key Features
 
-- **Flexible Entry Points** — Not every transaction starts with a contract. Cash sales can begin directly with an Action.
-- **Many-to-Many References** — One payment can clear multiple invoices. One invoice can cover multiple contracts.
+- **Flexible Entry Points** -- Not every transaction starts with a contract. Cash sales can begin directly with an Action.
+- **Many-to-Many References** -- One payment can clear multiple invoices. One invoice can cover multiple contracts.
 
 ---
 
@@ -69,7 +69,7 @@ This maps to how businesses actually operate—from contract to cash.
 1. Create invoice for $5,000
 2. Anchor to Kaspa (hash: abc123...)
 3. Later: Someone edits invoice to $50,000
-4. Re-verify → MISMATCH DETECTED
+4. Re-verify -> MISMATCH DETECTED
    - Original hash: abc123...
    - Current hash: def456...
    - Blockchain proves tampering occurred
@@ -81,40 +81,36 @@ This maps to how businesses actually operate—from contract to cash.
 
 ```
 foray-kaspathon/
-├── README.md
-├── LICENSE.md
-├── AI_DISCLOSURE.md
-│
-├── docs/
-│   ├── FORAY_Protocol_v4_1_Specification.md   # Full protocol specification
-│   ├── FORAY_Protocol_v4_1_Change_Summary.md  # What's new in v4.1
-│   ├── FORAY_QuickBooks_Integration.md        # Integration patterns & API design
-│   ├── FORAY_Salesforce_Integration.md        # Integration patterns & API design
-│   ├── FORAY_Energy_Sector_Guide.md           # Energy industry applications
-│   ├── FORAY_Financial_Services_Guide.md      # Banking & finance applications
-│   ├── FORAY_Auditor_Advisory_Guide.md        # Big 4 & audit firm applications
-│   ├── FORAY_Manufacturing_Supply_Chain_Guide.md  # Manufacturing applications
-│   └── FORAY_Defense_Contractor_Guide.md      # Defense & DCAA compliance
-│
-├── demo/
-│   ├── foray-tx-review-v41.html       # Transaction Review Tool (working demo)
-│   └── foray-infographic-v41.html     # Interactive Explainer
-│
-└── examples/
-    ├── batch-payment-v41.json         # AP batch clearing 3 invoices
-    ├── cash-sale-v41.json             # Retail POS (Action-only)
-    ├── depreciation-v41.json          # Month-end adjusting entry (Accrual-only)
-    ├── manufacturing-work-order-v41.json  # Production with BOM/labor/overhead
-    ├── salesforce-opportunity-v41.json    # CRM opportunity to payment
-    ├── fx-spot-usdjpy-v41.json        # $10M FX spot with T+2 settlement
-    ├── overnight-repo-v41.json        # $100M repo with Treasury collateral
-    ├── rmbs-transaction-v3.json       # $300M RMBS securitization
-    ├── auto-loan-john-doe-v3.json     # $25K consumer auto loan
-    ├── mary-smith-loan-v3.json        # $60K commercial loan
-    └── energy-solar-ppa-morocco-spain-v3.json  # €197M cross-border PPA
+|-- README.md
+|-- LICENSE.md
+|
+|-- docs/
+|   |-- FORAY_Protocol_v4_1_Specification.md
+|   |-- FORAY_Protocol_v4_1_Change_Summary.md
+|   |-- FORAY_QuickBooks_Integration.md
+|   +-- FORAY_Salesforce_Integration.md
+|
+|-- demo/
+|   |-- foray-tx-review-v41.html       # Transaction Review Tool
+|   +-- foray-infographic-v41.html     # Interactive Explainer
+|
+|-- examples/
+|   |-- batch-payment-v41.json         # AP batch clearing 3 invoices
+|   |-- cash-sale-v41.json             # Retail POS (Action-only)
+|   |-- depreciation-v41.json          # Month-end adjusting entry (Accrual-only)
+|   |-- manufacturing-work-order-v41.json  # Production with BOM/labor/overhead
+|   |-- salesforce-opportunity-v41.json    # CRM opportunity to payment
+|   |-- fx-spot-usdjpy-v41.json        # $10M FX spot with T+2 settlement
+|   |-- overnight-repo-v41.json        # $100M repo with Treasury collateral
+|   |-- rmbs-transaction-v3.json       # $300M RMBS securitization
+|   |-- auto-loan-john-doe-v3.json     # $25K consumer auto loan
+|   |-- mary-smith-loan-v3.json        # $60K commercial loan
+|   +-- energy-solar-ppa-morocco-spain-v3.json  # EUR 197M cross-border PPA
+|
++-- adapters/
+    |-- quickbooks-adapter.js
+    +-- salesforce-adapter.js
 ```
-
-> **Note:** This is a seed project demonstrating protocol design and feasibility. Production adapters for QuickBooks, Salesforce, SAP, and other enterprise systems are in development. See integration docs for API patterns and implementation guidance.
 
 ### Built-in Sample Transactions (in Transaction Review Tool dropdown)
 
@@ -150,42 +146,6 @@ FORAY protects sensitive business data while enabling verification:
 
 ---
 
-## Storage Architecture (Future Implementation)
-
-FORAY specifies a three-layer storage architecture that separates core verification data (on-chain) from comprehensive business data (off-chain):
-
-| Layer | Purpose | Content |
-|-------|---------|---------|
-| **Layer 1: On-Chain (Kaspa)** | Verification, immutability | Core hashes only (~300-500 bytes) |
-| **Layer 2: Off-Chain NoSQL** | Operational queries | Complementary data not on-chain (~15-25 KB) |
-| **Layer 3: Sealed Archive** | Break-glass failsafe | Complete record (Layer 1 + Layer 2 combined) |
-
-### What Goes Where
-
-| Layer 1 (On-Chain) | Layer 2 (Off-Chain NoSQL) |
-|--------------------|--------------------------|
-| Transaction ID | Full party names and identities |
-| Schema version | Complete contract terms |
-| Timestamp | Detailed line items |
-| Merkle root of components | Supporting calculations |
-| Hash of foray_core | Audit metadata and notes |
-| Hash of audit_data | Document references |
-| Block height | Approval workflows |
-| | Historical amendments |
-
-**Layer 3 (Sealed Archive)** contains the complete record — everything from both Layer 1 and Layer 2 — encrypted and preserved for litigation, regulatory disputes, or disaster recovery.
-
-### Why this separation?
-- **Cost:** On-chain storage is expensive; hashes are small (~300 bytes vs ~25 KB)
-- **Privacy:** Sensitive business data never touches the public blockchain
-- **Performance:** Kaspa optimized for small payloads at high throughput
-- **Compliance:** Full audit detail available off-chain for authorized parties
-- **Resilience:** Layer 3 can reconstruct Layers 1 and 2 if either is compromised
-
-> **Note:** This is a design specification for future implementation. The current seed project demonstrates Layer 1 (on-chain anchoring).
-
----
-
 ## Use Cases
 
 | Industry | Application | Compliance |
@@ -197,52 +157,31 @@ FORAY specifies a three-layer storage architecture that separates core verificat
 
 ---
 
-## Design Validation
-
-The FORAY Protocol specification was refined through analysis of integration patterns across major enterprise systems:
-
-| System | Focus Area |
-|--------|------------|
-| SAP S/4HANA | Financial accounting, materials management |
-| Oracle ERP | Revenue recognition, subledger architecture |
-| Microsoft Dynamics | Multi-entity consolidation |
-| QuickBooks | SMB transaction patterns |
-| Salesforce | CRM-to-cash lifecycle |
-| DCAA | Defense contractor cost accounting compliance |
-
-These investigations informed key design decisions including flexible entry points, many-to-many references, and privacy architecture.
-
----
-
 ## Roadmap
 
-**Seed Project (Kaspathon 2026)**
 - [x] Protocol v4.1 specification
-- [x] Transaction Review Tool with Kaspa Testnet integration
-- [x] 11 realistic transaction examples across industries
-- [x] Integration design patterns (QuickBooks, Salesforce)
-
-**Future Development**
-- [ ] Production adapters (QuickBooks, Salesforce, SAP)
-- [ ] Multi-language SDKs (Rust, Python, JavaScript)
+- [x] Transaction Review Tool with Kaspa Testnet
+- [x] QuickBooks adapter (prototype)
+- [x] Salesforce adapter (prototype)
+- [ ] SAP integration
 - [ ] Mainnet deployment
 - [ ] ZK-proof integration (when Kaspa supports)
-- [ ] Big 4 audit firm partnerships
+- [ ] Multi-language SDKs (Rust, Python, JavaScript)
 
 ---
 
 ## License
 
-**Business Source License 1.1** — Source-available with commercial restrictions.
+**Business Source License 1.1** -- Source-available with commercial restrictions.
 
 | Permission | Allowed |
 |------------|---------|
-| View, copy, modify | ✓ |
-| Non-production use | ✓ |
-| Academic research | ✓ |
+| View, copy, modify | Yes |
+| Non-production use | Yes |
+| Academic research | Yes |
 | Production use | Requires license |
 
-**Change Date:** January 25, 2030 → Converts to Apache License 2.0
+**Change Date:** January 25, 2030 -> Converts to Apache License 2.0
 
 See [LICENSE.md](LICENSE.md) for full terms.
 
@@ -266,21 +205,14 @@ If you use FORAY in research, please cite:
 ## Contact
 
 - **Author:** Marvin Percival
+- **Email:** marvinp@dunin7.com
 - **GitHub:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
-
----
-
-## AI Assistance Disclosure
-
-This project was developed with AI assistance (Claude, Anthropic). Per Kaspathon requirements, see [AI_DISCLOSURE.md](AI_DISCLOSURE.md) for complete details on where and how AI was used, including protocol design, documentation, code generation, and example creation.
 
 ---
 
 ## Acknowledgments
 
-Built for **Kaspathon 2026** — Real-Time Data Track
-
-*Current implementation demonstrates batch anchoring. Real-time integration via webhooks is architecturally supported and planned for production.*
+Built for **Kaspathon 2026** -- Real-Time Data Track
 
 FORAY leverages Kaspa's unique properties:
 - BlockDAG architecture for parallel block production
@@ -289,8 +221,8 @@ FORAY leverages Kaspa's unique properties:
 
 ---
 
-*FORAY Protocol — Transparent audits, protected secrets, powered by Kaspa.*
+*FORAY Protocol -- Transparent audits, protected secrets, powered by Kaspa.*
 
 ---
 
-**Copyright © 2026 Marvin Percival. All rights reserved.**
+**Copyright (c) 2026 Marvin Percival. All rights reserved.**
