@@ -1,92 +1,68 @@
 # FORAY Protocol - QuickBooks Integration
 
-## Version 4.1
+## Version 2.0 (Corrected)
 
-**Last Updated:** January 2026  
-**Protocol Version:** FORAY v4.1  
-**Author:** Marvin Percival
+**Last Updated:** January 2026
 
-> **DISCLAIMER:** This code is provided for demonstration purposes only. Production implementations require additional security hardening, error handling, testing, and validation. All performance metrics and compliance statements are design goals, not guarantees. Consult qualified professionals for specific requirements.
+> **DISCLAIMER:** This code is provided for demonstration purposes only. Production implementations require additional security hardening, error handling, testing, and validation. All performance metrics and compliance statements are design goals, not guarantees. Consult qualified professionals for specific requirements. See [FORAY_Standard_Disclaimer.md](./FORAY_Standard_Disclaimer.md) for complete disclaimer.
 
 ---
 
 ## Overview
 
-Convert QuickBooks Online transactions into immutable, privacy-preserving blockchain anchors using the FORAY 4-component model with v4.1 enhancements.
+Convert QuickBooks Online transactions into immutable, privacy-preserving blockchain anchors using the FORAY 4-component model.
 
 ---
 
-## What's New in v4.1
+## What's New in v2.0
 
-- ✅ **Flexible Entry Points** — Cash sales and adjusting entries no longer require artificial Arrangements
-- ✅ **Many-to-Many References** — `_refs[]` arrays replace singular `_ref` fields
-- ✅ **Batch Payment Allocations** — Single payment can clear multiple invoices with proper allocation tracking
-- ✅ **Accrual-Only Transactions** — Depreciation and adjusting entries supported without Actions
-- ✅ **Action-Only Transactions** — Cash receipts supported without Arrangements
-- ✅ **Enhanced Privacy** — Salted formula IDs, instance pools, obfuscated references
+- ✅ **Input validation** on all adapter methods
+- ✅ **Error handling** with configurable retry logic
+- ✅ **Credit Memos** support (Issue #12)
+- ✅ **Journal Entries** support (Issue #12)
+- ✅ **Standardized privacy levels** (minimal/standard/high/defense)
+- ✅ **Rate limiting** to prevent API abuse
+- ✅ **Comprehensive logging** for troubleshooting
+- ✅ **Disclaimers** added per Issue #1
 
 ---
 
-## About This Document
+## Quick Start
 
-This document describes integration patterns and API design for connecting QuickBooks Online to FORAY Protocol. It serves as a specification for adapter development.
-
-> **Note:** This is a design document. Production adapters are planned for future releases.
+```bash
+npm install
+node examples/invoice-demo.js
+```
 
 ---
 
 ## Supported Transaction Types
 
-| Type | Status | Entry Point | FORAY Components |
-|------|--------|-------------|------------------|
-| Invoice | ✅ Supported | Arrangement | ARR → ACC → ANT → ACT |
-| Bill | ✅ Supported | Arrangement | ARR → ACC → ANT → ACT |
-| Payment | ✅ Supported | Action | ACT (refs to ANT/ACC/ARR) |
-| Batch Payment | ✅ NEW v4.1 | Action | ACT with allocations[] |
-| Credit Memo | ✅ Supported | Arrangement | ARR → ACC → ACT |
-| Journal Entry | ✅ Supported | Accrual | ACC only (v4.1 flexible entry) |
-| Sales Receipt | ✅ Supported | Action | ACT only (v4.1 flexible entry) |
-| Depreciation | ✅ NEW v4.1 | Accrual | ACC only (no cash movement) |
-| Payroll | 🔄 Planned | Arrangement | Future release |
-| Inventory | 🔄 Planned | Arrangement | Future release |
+| Type | Status | FORAY Components |
+|------|--------|------------------|
+| Invoice | ✅ Supported | Arrangement → Accrual → Anticipation → Action |
+| Bill | ✅ Supported | Arrangement → Accrual → Anticipation → Action |
+| Payment | ✅ Supported | Action (linked to Invoice/Bill) |
+| Credit Memo | ✅ NEW v2.0 | Arrangement → Accrual → Action |
+| Journal Entry | ✅ NEW v2.0 | Arrangement → Accrual → Action |
+| Sales Receipt | ✅ Supported | Arrangement → Accrual → Action |
+| Payroll | ðŸ”„ Planned | Future release |
+| Inventory | ðŸ”„ Planned | Future release |
 
 ---
 
-## v4.1 Reference Structure
-
-### Before (v4.0) — Singular References
-```javascript
-{
-  "arrangement_ref": "ARR_001",
-  "accrual_ref": "ACC_001",
-  "anticipation_ref": "ANT_001"
-}
-```
-
-### After (v4.1) — Array References
-```javascript
-{
-  "arrangement_refs": ["ARR_001", "ARR_002"],
-  "accrual_refs": ["ACC_001"],
-  "anticipation_refs": ["ANT_001", "ANT_002", "ANT_003"]
-}
-```
-
----
-
-## Privacy Levels
+## Privacy Levels (Standardized)
 
 | Level | Amount Obfuscation | Identifier Hashing | Use Case |
 |-------|-------------------|-------------------|----------|
 | `minimal` | None | SHA-256 | Development/testing |
 | `standard` | Round to $100 | SHA-256 + entity salt | Commercial enterprises |
 | `high` | Round to $1,000 + noise | Multi-layer hash | Financial services |
-| `defense` | Hash only (irreversible) | Salted formula IDs + instance pools | Defense contractors |
+| `defense` | Hash only (irreversible) | 3-layer privacy architecture (ZK-ready) | Defense contractors |
 
 ```javascript
 const adapter = new QuickBooksForayAdapter({ 
-  privacyLevel: 'standard',
-  schemaVersion: '4.1'
+  privacyLevel: 'standard' // Options: minimal, standard, high, defense
 });
 ```
 
@@ -94,14 +70,13 @@ const adapter = new QuickBooksForayAdapter({
 
 ## Basic Usage
 
-### Anchor a Single Invoice (Full Lifecycle)
+### Anchor a Single Invoice
 
 ```javascript
-const QuickBooksForayAdapter = require('./adapters/quickbooks-adapter');
+const QuickBooksForayAdapter = require('./src/quickbooks-adapter');
 
 const adapter = new QuickBooksForayAdapter({
   privacyLevel: 'standard',
-  schemaVersion: '4.1',
   retryAttempts: 3,
   enableLogging: true
 });
@@ -113,176 +88,112 @@ const invoice = {
   CustomerRef: { name: 'Acme Corp', value: 'CUST-001' },
   DueDate: '2026-02-15',
   TxnDate: '2026-01-15',
-  Balance: 1500.00
+  Balance: 1500.00 // Unpaid
 };
 
 const result = await adapter.anchorInvoice(invoice);
-// Returns v4.1 structure with arrangement_refs[], accrual_refs[], etc.
+console.log(`Transaction ID: ${result.transaction.id}`);
+console.log(`Kaspa Hash: ${result.anchor.kaspaHash}`);
 ```
 
-### Cash Sale (Action-Only — v4.1 Flexible Entry)
+### Batch Processing
 
 ```javascript
-const cashSale = {
-  Id: 'CASH-001',
-  TotalAmt: 47.50,
-  TxnDate: '2026-01-25',
-  PaymentMethod: 'cash'
-};
+const invoices = [invoice1, invoice2, invoice3];
+const results = await adapter.batchProcess(invoices, 'Invoice');
 
-const result = await adapter.anchorCashSale(cashSale);
-// Creates Action-only transaction (no Arrangement required in v4.1)
-// result.arrangements = []
-// result.accruals = []
-// result.anticipations = []
-// result.actions = [{ id: 'ACT_CASH_SALE_001', ... }]
-```
+console.log(`Total: ${results.total}`);
+console.log(`Succeeded: ${results.succeeded}`);
+console.log(`Failed: ${results.failed}`);
 
-### Depreciation Entry (Accrual-Only — v4.1 Flexible Entry)
-
-```javascript
-const depreciation = {
-  Id: 'DEP-001',
-  TotalAmt: 5000.00,
-  TxnDate: '2026-01-31',
-  AccountRef: { name: 'Equipment', value: 'ACC-1510' },
-  DepreciationMethod: 'straight_line'
-};
-
-const result = await adapter.anchorDepreciation(depreciation);
-// Creates Accrual-only transaction (no Arrangement or Action in v4.1)
-// result.arrangements = []
-// result.accruals = [{ id: 'ACC_DEPRECIATION_001', arrangement_refs: [], ... }]
-// result.anticipations = []
-// result.actions = []
-```
-
-### Batch Payment (Many-to-Many — v4.1)
-
-```javascript
-const batchPayment = {
-  Id: 'PAY-001',
-  TotalAmt: 10000.00,
-  TxnDate: '2026-01-25',
-  PaymentMethod: 'wire',
-  LinkedInvoices: [
-    { TxnId: 'INV-001', Amount: 3000.00 },
-    { TxnId: 'INV-002', Amount: 4000.00 },
-    { TxnId: 'INV-003', Amount: 3000.00 }
-  ]
-};
-
-const result = await adapter.anchorBatchPayment(batchPayment);
-// Creates Action with multiple anticipation_refs and allocations[]
-// result.actions[0].foray_core.anticipation_refs = ['ANT_INV_001', 'ANT_INV_002', 'ANT_INV_003']
-// result.actions[0].foray_core.allocations = [
-//   { ref: 'ANT_INV_001', ref_type: 'anticipation', amount: 3000.00, allocation_type: 'full' },
-//   { ref: 'ANT_INV_002', ref_type: 'anticipation', amount: 4000.00, allocation_type: 'full' },
-//   { ref: 'ANT_INV_003', ref_type: 'anticipation', amount: 3000.00, allocation_type: 'full' }
-// ]
+// Handle failures
+results.errors.forEach(error => {
+  console.error(`${error.transaction_id}: ${error.error}`);
+});
 ```
 
 ---
 
-## FORAY v4.1 Component Mapping
+## Error Handling (v2.0)
+
+### ValidationError
+
+```javascript
+const { ValidationError } = require('./src/quickbooks-adapter');
+
+try {
+  await adapter.anchorInvoice(invalidInvoice);
+} catch (error) {
+  if (error instanceof ValidationError) {
+    console.error(`Validation failed: ${error.field} - ${error.message}`);
+  }
+}
+```
+
+### Retry Logic
+
+```javascript
+const adapter = new QuickBooksForayAdapter({
+  retryAttempts: 3,     // Number of retry attempts
+  retryDelayMs: 1000,   // Initial delay (increases with each retry)
+  enableLogging: true   // Log retry attempts
+});
+```
+
+---
+
+## FORAY Component Mapping
 
 ### Invoice → FORAY
 
-| QuickBooks Field | FORAY Component | v4.1 Field |
-|------------------|-----------------|------------|
-| CustomerRef | Arrangement | parties[] |
+| QuickBooks Field | FORAY Component | Field |
+|------------------|-----------------|-------|
+| CustomerRef | Arrangement | parties[].identifier (hashed) |
 | SalesTermRef | Arrangement | terms.payment_terms |
 | DueDate | Arrangement | terms.due_date |
-| TotalAmt | Accrual | output (in foray_core) |
-| Line items | Accrual | inputs |
+| TotalAmt | Accrual | amount (obfuscated) |
+| Line items | Accrual | formula_inputs |
 | DueDate | Anticipation | expected_date |
-| Balance = 0 | Action | settlement_status: 'completed' |
+| Balance = 0 | Action | settlement_type: 'full_payment' |
 
-### v4.1 Output Structure
+### Credit Memo → FORAY (NEW v2.0)
 
 ```javascript
-{
-  "transaction_id": "QB_INV_2026_Q1_001",
-  "schema_version": "4.1",
-  "timestamp": "2026-01-15T10:00:00Z",
-  
-  "foray_core": {
-    "entity": "Your Company",
-    "entity_hash": "sha256:...",
-    "transaction_type": "invoice",
-    "total_value": 1500.00,
-    "currency": "USD",
-    "status": "active",
-    "compliance_flags": ["GAAP"]
-  },
-  
-  "arrangements": [{
-    "id": "ARR_QB_INV_001",
-    "foray_core": {
-      "type": "sales_agreement",
-      "parties": [
-        { "role": "seller", "name_hash": "sha256:..." },
-        { "role": "buyer", "name_hash": "sha256:..." }
-      ],
-      "dependencies": []
-    }
-  }],
-  
-  "accruals": [{
-    "id": "ACC_QB_INV_001",
-    "foray_core": {
-      "arrangement_refs": ["ARR_QB_INV_001"],  // v4.1: array
-      "type": "revenue_recognition",
-      "output": 1500.00,
-      "dependencies": ["ARR_QB_INV_001"]
-    }
-  }],
-  
-  "anticipations": [{
-    "id": "ANT_QB_INV_001",
-    "foray_core": {
-      "accrual_refs": ["ACC_QB_INV_001"],       // v4.1: array
-      "arrangement_refs": ["ARR_QB_INV_001"],   // v4.1: new field
-      "expected_amount": 1500.00,
-      "expected_date": "2026-02-15",
-      "probability_factor": 0.95,
-      "dependencies": ["ACC_QB_INV_001"]
-    }
-  }],
-  
-  "actions": [{
-    "id": "ACT_QB_INV_001",
-    "foray_core": {
-      "anticipation_refs": ["ANT_QB_INV_001"],  // v4.1: array
-      "accrual_refs": ["ACC_QB_INV_001"],       // v4.1: new field
-      "arrangement_refs": ["ARR_QB_INV_001"],   // v4.1: new field
-      "amount_settled": 1500.00,
-      "settlement_status": "completed",
-      "allocations": [{                          // v4.1: new field
-        "ref": "ANT_QB_INV_001",
-        "ref_type": "anticipation",
-        "amount": 1500.00,
-        "allocation_type": "full"
-      }],
-      "dependencies": ["ANT_QB_INV_001"]
-    }
-  }],
-  
-  "merkle_root": "sha256:...",
-  "blockchain_anchor": {
-    "kaspa_tx_id": "kaspa:qr...",
-    "block_height": 2850000,
-    "confirmation_time_ms": 1100,
-    "anchored_at": "2026-01-15T10:00:02Z"
-  }
-}
+const creditMemo = {
+  Id: 'CM-001',
+  DocNumber: 'CM-1001',
+  TotalAmt: 200.00,
+  CustomerRef: { name: 'Acme Corp', value: 'CUST-001' },
+  LinkedTxn: [{ TxnId: 'INV-001', TxnType: 'Invoice' }],
+  TxnDate: '2026-01-20'
+};
+
+const result = await adapter.anchorCreditMemo(creditMemo);
+// Creates negative Accrual (revenue reversal)
+```
+
+### Journal Entry → FORAY (NEW v2.0)
+
+```javascript
+const journalEntry = {
+  Id: 'JE-001',
+  DocNumber: 'JE-1001',
+  Line: [
+    { Amount: 1000, JournalEntryLineDetail: { PostingType: 'Debit' } },
+    { Amount: 1000, JournalEntryLineDetail: { PostingType: 'Credit' } }
+  ],
+  TxnDate: '2026-01-31'
+};
+
+const result = await adapter.anchorJournalEntry(journalEntry);
+// Accrual captures total debits (balanced with credits)
 ```
 
 ---
 
 ## Compliance Support
 
-> **Note:** FORAY provides evidence and audit trail capabilities that may support compliance. It does not constitute compliance by itself.
+> **Note:** FORAY provides evidence and audit trail capabilities that may support compliance. It does not constitute compliance by itself. Organizations must implement appropriate controls and consult qualified professionals.
 
 | Regulation | FORAY Support | Limitation |
 |------------|---------------|------------|
@@ -293,27 +204,56 @@ const result = await adapter.anchorBatchPayment(batchPayment);
 
 ---
 
+## Performance Characteristics
+
+> **Note:** These are design goals based on theoretical analysis. Actual performance depends on implementation, infrastructure, and network conditions.
+
+| Metric | Design Goal | Dependency |
+|--------|-------------|------------|
+| Conversion time | <100ms | Local processing |
+| Blockchain finality | Per Kaspa documentation | Network conditions |
+| Batch throughput | ~1,000/min | API rate limits |
+
+---
+
+## File Structure
+
+```
+foray-quickbooks-demo/
+├── README.md                    # This file
+├── DISCLAIMER.md               # Full legal disclaimer
+├── LICENSE                     # BSL-1.1
+├── package.json
+├── src/
+│   ├── foray-sdk.js           # Core FORAY SDK
+│   └── quickbooks-adapter.js  # QuickBooks adapter (v2.0)
+└── examples/
+    └── invoice-demo.js        # Working demonstration
+```
+
+---
+
 ## Configuration Options
 
 ```javascript
 const adapter = new QuickBooksForayAdapter({
-  // Protocol version
-  schemaVersion: '4.1',           // Use v4.1 structure
-  
   // Privacy
-  privacyLevel: 'standard',       // minimal, standard, high, defense
-  entitySalt: 'custom-salt',      // Optional: provide your own salt
+  privacyLevel: 'standard',      // minimal, standard, high, defense
+  entitySalt: 'custom-salt',     // Optional: provide your own salt
   
   // Error handling
-  retryAttempts: 3,
-  retryDelayMs: 1000,
+  retryAttempts: 3,              // Number of retries on failure
+  retryDelayMs: 1000,            // Base delay between retries
+  
+  // Rate limiting
+  minRequestInterval: 100,       // Minimum ms between requests
   
   // Logging
-  enableLogging: true,
+  enableLogging: true,           // Enable detailed logging
   
   // FORAY SDK config
   foray: {
-    kaspaNetwork: 'testnet-10',   // or 'mainnet'
+    kaspaAddress: 'kaspa:...',
     enableMerkleProofs: true
   }
 });
@@ -321,32 +261,31 @@ const adapter = new QuickBooksForayAdapter({
 
 ---
 
-## Migration from v2.0/v4.0
+## Changelog
 
-### Automatic Migration
+### v2.0.0 (January 2026) - Corrected Release
 
-The adapter auto-converts v4.0 transactions to v4.1:
+**Added:**
+- Input validation with ValidationError class
+- Error handling with configurable retry logic
+- Credit Memo transaction support
+- Journal Entry transaction support
+- Rate limiting
+- Comprehensive timestamped logging
 
-```javascript
-// v4.0 input (singular refs)
-const v40Transaction = {
-  accruals: [{
-    foray_core: { arrangement_ref: "ARR_001" }
-  }]
-};
+**Changed:**
+- Standardized privacy levels (minimal/standard/high/defense)
+- Improved null/undefined handling
 
-// Adapter auto-converts to v4.1 (array refs)
-const result = adapter.migrateToV41(v40Transaction);
-// result.accruals[0].foray_core.arrangement_refs = ["ARR_001"]
-```
+**Fixed:**
+- Missing validation on constructor parameters
+- Inconsistent amount obfuscation
 
-### Breaking Changes
+### v1.0.0 (January 2026) - Initial Release
 
-| Change | v4.0 | v4.1 | Action Required |
-|--------|------|------|-----------------|
-| Reference fields | `*_ref` | `*_refs[]` | Update field names |
-| Arrangements | Required | Optional | Remove artificial arrangements |
-| Allocations | N/A | `allocations[]` | Add for batch payments |
+- Invoice, Bill, Payment, Sales Receipt support
+- Basic privacy obfuscation
+- Blockchain anchoring via Kaspa
 
 ---
 
@@ -354,28 +293,22 @@ const result = adapter.migrateToV41(v40Transaction);
 
 Business Source License 1.1 (BSL-1.1)
 
-**Licensor:** Marvin Percival
-
 **Permitted Use:**
-- ✅ Internal use at single legal entity
-- ✅ Evaluation and testing
-- ✅ Academic research
+- ✅ Internal use at single legal entity (free)
+- ✅ Evaluation and testing (free)
+- ✅ Academic research (free)
 
 **Prohibited Without License:**
 - ❌ Commercial SaaS/multi-tenant hosting
 - ❌ Managed service provider offerings
 
-**Change Date:** January 25, 2030  
+**Change Date:** January 19, 2030  
 **Change License:** Apache License 2.0
 
 ---
 
 ## See Also
 
-- [FORAY_Protocol_v4_1_Specification.md](./FORAY_Protocol_v4_1_Specification.md)
-- [FORAY_Protocol_v4_1_Change_Summary.md](./FORAY_Protocol_v4_1_Change_Summary.md)
+- [FORAY_Standard_Disclaimer.md](./FORAY_Standard_Disclaimer.md)
+- [FORAY_Technical_Assumptions_Weaknesses.md](./FORAY_Technical_Assumptions_Weaknesses.md)
 - [FORAY_Salesforce_Integration.md](./FORAY_Salesforce_Integration.md)
-
----
-
-**Copyright © 2026 Marvin Percival. All rights reserved.**

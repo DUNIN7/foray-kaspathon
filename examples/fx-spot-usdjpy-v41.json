@@ -54,18 +54,20 @@
   ],
   "accruals": [
     {
-      "id": "ACC_FX_USD_RECEIVABLE",
+      "id": "ACC_FX_USD_LEG_RECOGNITION",
       "foray_core": {
         "arrangement_refs": ["ARR_FX_SPOT_USDJPY"],
-        "type": "fx_receivable",
-        "description": "USD leg receivable - awaiting T+2 settlement",
+        "type": "fx_leg_recognition",
+        "description": "USD leg recognition - trade date booking at contracted rate",
         "computation_method": "FixedAmount",
+        "formula_id": "sha256:fx_leg_fixed...",
+        "inputs": {
+          "notional": 10000000.00,
+          "rate": 148.50,
+          "leg": "USD_receive"
+        },
         "output": 10000000.00,
         "currency": "USD",
-        "accounting_entry": {
-          "debit": { "account": "1150-FX Receivables USD", "amount": 10000000.00 },
-          "credit": { "account": "2150-FX Payables JPY", "amount": 10000000.00, "fx_rate": 148.50 }
-        },
         "mark_to_market": {
           "mtm_rate": 148.65,
           "unrealized_pnl_usd": 10084.18,
@@ -75,18 +77,20 @@
       }
     },
     {
-      "id": "ACC_FX_JPY_PAYABLE",
+      "id": "ACC_FX_JPY_LEG_RECOGNITION",
       "foray_core": {
         "arrangement_refs": ["ARR_FX_SPOT_USDJPY"],
-        "type": "fx_payable",
-        "description": "JPY leg payable - awaiting T+2 settlement",
+        "type": "fx_leg_recognition",
+        "description": "JPY leg recognition - trade date booking at contracted rate",
         "computation_method": "FixedAmount",
+        "formula_id": "sha256:fx_leg_fixed...",
+        "inputs": {
+          "notional": 1485000000,
+          "rate": 148.50,
+          "leg": "JPY_deliver"
+        },
         "output": 1485000000,
         "currency": "JPY",
-        "accounting_entry": {
-          "debit": { "account": "5500-FX Trading Expense", "amount": 1485000000, "currency": "JPY" },
-          "credit": { "account": "2155-FX Payables JPY", "amount": 1485000000, "currency": "JPY" }
-        },
         "nostro_account": {
           "bank": "Tokyo Metropolitan Bank",
           "account_number": "JPY-NOSTRO-001",
@@ -100,7 +104,7 @@
     {
       "id": "ANT_FX_SETTLEMENT",
       "foray_core": {
-        "accrual_refs": ["ACC_FX_USD_RECEIVABLE", "ACC_FX_JPY_PAYABLE"],
+        "accrual_refs": ["ACC_FX_USD_LEG_RECOGNITION", "ACC_FX_JPY_LEG_RECOGNITION"],
         "arrangement_refs": ["ARR_FX_SPOT_USDJPY"],
         "type": "fx_settlement",
         "description": "T+2 settlement of USD/JPY spot",
@@ -116,7 +120,7 @@
           "jpy_account": "JPY-NOSTRO-001",
           "jpy_swift": "TMBJPJTT"
         },
-        "dependencies": ["ACC_FX_USD_RECEIVABLE", "ACC_FX_JPY_PAYABLE"]
+        "dependencies": ["ACC_FX_USD_LEG_RECOGNITION", "ACC_FX_JPY_LEG_RECOGNITION"]
       }
     }
   ],
@@ -146,7 +150,7 @@
       "id": "ACT_FX_SETTLEMENT_USD",
       "foray_core": {
         "anticipation_refs": ["ANT_FX_SETTLEMENT"],
-        "accrual_refs": ["ACC_FX_USD_RECEIVABLE"],
+        "accrual_refs": ["ACC_FX_USD_LEG_RECOGNITION"],
         "arrangement_refs": ["ARR_FX_SPOT_USDJPY"],
         "type": "fx_settlement_leg",
         "description": "USD leg settled via CHIPS",
@@ -157,7 +161,7 @@
         "payment_method": "chips",
         "counterparty": "Tokyo Metropolitan Bank",
         "allocations": [
-          { "ref": "ACC_FX_USD_RECEIVABLE", "ref_type": "accrual", "amount": 10000000.00, "currency": "USD", "allocation_type": "full", "remaining_balance": 0.00 }
+          { "ref": "ACC_FX_USD_LEG_RECOGNITION", "ref_type": "accrual", "amount": 10000000.00, "currency": "USD", "allocation_type": "full", "remaining_balance": 0.00 }
         ],
         "settlement_details": {
           "chips_uid": "20260127CHPS1234567",
@@ -171,7 +175,7 @@
       "id": "ACT_FX_SETTLEMENT_JPY",
       "foray_core": {
         "anticipation_refs": ["ANT_FX_SETTLEMENT"],
-        "accrual_refs": ["ACC_FX_JPY_PAYABLE"],
+        "accrual_refs": ["ACC_FX_JPY_LEG_RECOGNITION"],
         "arrangement_refs": ["ARR_FX_SPOT_USDJPY"],
         "type": "fx_settlement_leg",
         "description": "JPY leg settled via BOJ-NET",
@@ -182,7 +186,7 @@
         "payment_method": "boj_net",
         "counterparty": "Tokyo Metropolitan Bank",
         "allocations": [
-          { "ref": "ACC_FX_JPY_PAYABLE", "ref_type": "accrual", "amount": 1485000000, "currency": "JPY", "allocation_type": "full", "remaining_balance": 0 }
+          { "ref": "ACC_FX_JPY_LEG_RECOGNITION", "ref_type": "accrual", "amount": 1485000000, "currency": "JPY", "allocation_type": "full", "remaining_balance": 0 }
         ],
         "settlement_details": {
           "boj_reference": "BOJNET-20260127-JP456789",
