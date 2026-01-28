@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examples — FORAY Protocol</title>
+  <meta name="description" content="Example FORAY Protocol transactions across industries.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-teal: #0D7377;
+      --secondary-navy: #1B365D;
+      --accent-cyan: #14B8B8;
+      --highlight-mint: #7DD3D6;
+      --action-amber: #E6A817;
+      --text-dark: #1A1D21;
+      --text-light: #F7F9FA;
+      --bg-dark: #1A1D21;
+      --gray-600: #636E72;
+      --gray-400: #94A3A8;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'IBM Plex Sans', -apple-system, sans-serif; background: var(--bg-dark); color: var(--text-light); line-height: 1.6; }
+    
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+    .nav-logo-text { font-size: 1.5rem; font-weight: 700; }
+    .nav-logo-foray { color: var(--primary-teal); }
+    .nav-logo-protocol { color: var(--text-light); font-weight: 400; }
+    .nav-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: var(--action-amber); color: var(--text-dark); border-radius: 4px; font-weight: 600; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-link { color: var(--gray-400); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-link:hover, .nav-link.active { color: var(--accent-cyan); }
+    
+    .page-header { padding: 8rem 2rem 3rem; text-align: center; background: linear-gradient(180deg, rgba(13, 115, 119, 0.1) 0%, transparent 100%); }
+    .page-header h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+    .page-header p { color: var(--gray-400); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+    
+    .examples-container { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; }
+    .category-section { margin-bottom: 4rem; }
+    .category-title { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--action-amber); margin-bottom: 1.5rem; }
+    
+    .examples-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem; }
+    
+    .example-card { background: rgba(27, 54, 93, 0.15); border: 1px solid rgba(125, 211, 214, 0.1); border-radius: 12px; padding: 1.5rem; transition: all 0.3s; cursor: pointer; }
+    .example-card:hover { border-color: var(--accent-cyan); transform: translateY(-4px); box-shadow: 0 10px 40px rgba(13, 115, 119, 0.15); }
+    
+    .example-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+    .example-title { font-size: 1.2rem; font-weight: 600; color: var(--text-light); }
+    .example-badge { padding: 0.25rem 0.6rem; background: rgba(20, 184, 184, 0.15); color: var(--accent-cyan); border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+    .example-description { color: var(--gray-400); font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.6; }
+    
+    .example-components { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+    .component-count { display: flex; align-items: center; gap: 0.25rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+    .component-count.arr { background: rgba(13, 115, 119, 0.2); color: #0D7377; }
+    .component-count.acc { background: rgba(230, 168, 23, 0.2); color: #E6A817; }
+    .component-count.ant { background: rgba(139, 92, 246, 0.2); color: #8B5CF6; }
+    .component-count.act { background: rgba(16, 185, 129, 0.2); color: #10B981; }
+    
+    .example-stats { display: flex; gap: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(125, 211, 214, 0.1); margin-top: 1rem; }
+    .example-stat-value { font-size: 1.25rem; font-weight: 600; color: var(--accent-cyan); font-family: 'IBM Plex Mono', monospace; }
+    .example-stat-label { font-size: 0.7rem; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.05em; }
+    
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; text-decoration: none; cursor: pointer; border: none; transition: all 0.2s; }
+    .btn-primary { background: var(--primary-teal); color: var(--text-light); }
+    .btn-primary:hover { background: var(--accent-cyan); }
+    
+    .cta-section { text-align: center; padding: 4rem 2rem; background: rgba(27, 54, 93, 0.1); border-radius: 16px; margin: 2rem 0; }
+    .cta-section h2 { font-size: 1.75rem; margin-bottom: 1rem; }
+    .cta-section p { color: var(--gray-400); margin-bottom: 1.5rem; }
+    
+    .footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid rgba(125, 211, 214, 0.1); color: var(--gray-400); font-size: 0.9rem; }
+    .footer a { color: var(--accent-cyan); text-decoration: none; }
+    
+    @media (max-width: 768px) { .nav-links { display: none; } .examples-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-text"><span class="nav-logo-foray">FORAY</span><span class="nav-logo-protocol">Protocol</span></span>
+      <span class="nav-badge">v4.1</span>
+    </a>
+    <div class="nav-links">
+      <a href="demo.html" class="nav-link">Demo</a>
+      <a href="docs.html" class="nav-link">Documentation</a>
+      <a href="examples.html" class="nav-link active">Examples</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <h1>Example Transactions</h1>
+    <p>Explore real-world FORAY transactions across industries. Click any example to load it in the demo.</p>
+  </header>
+
+  <div class="examples-container">
+    <!-- Commercial / Payments -->
+    <section class="category-section">
+      <h2 class="category-title">Commercial & Payments</h2>
+      <div class="examples-grid">
+        <a href="demo.html?sample=batchPayment" class="example-card">
+          <div class="example-header">
+            <div class="example-title">Batch Payment</div>
+            <span class="example-badge">v4.1</span>
+          </div>
+          <p class="example-description">Company paying multiple vendor invoices in a single batch wire transfer. Demonstrates many-to-many allocations.</p>
+          <div class="example-components">
+            <span class="component-count arr">1 ARR</span>
+            <span class="component-count acc">3 ACC</span>
+            <span class="component-count ant">1 ANT</span>
+            <span class="component-count act">1 ACT</span>
+          </div>
+          <div class="example-stats">
+            <div class="example-stat"><div class="example-stat-value">$10.5K</div><div class="example-stat-label">Total Value</div></div>
+            <div class="example-stat"><div class="example-stat-value">6</div><div class="example-stat-label">Components</div></div>
+          </div>
+        </a>
+        
+        <a href="demo.html?sample=cashSale" class="example-card">
+          <div class="example-header">
+            <div class="example-title">Cash Sale</div>
+            <span class="example-badge">v4.1</span>
+          </div>
+          <p class="example-description">Point-of-sale retail transaction with cash payment and change. Shows flexible entry point (no Arrangement).</p>
+          <div class="example-components">
+            <span class="component-count arr">0 ARR</span>
+            <span class="component-count acc">1 ACC</span>
+            <span class="component-count ant">0 ANT</span>
+            <span class="component-count act">2 ACT</span>
+          </div>
+          <div class="example-stats">
+            <div class="example-stat"><div class="example-stat-value">$47.50</div><div class="example-stat-label">Total Value</div></div>
+            <div class="example-stat"><div class="example-stat-value">3</div><div class="example-stat-label">Components</div></div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Financial Services -->
+    <section class="category-section">
+      <h2 class="category-title">Financial Services</h2>
+      <div class="examples-grid">
+        <div class="example-card">
+          <div class="example-header">
+            <div class="example-title">FX Spot Trade (USD/JPY)</div>
+            <span class="example-badge">v4.1</span>
+          </div>
+          <p class="example-description">Foreign exchange spot trade with T+2 settlement. Demonstrates reciprocal Actions for bilateral transactions.</p>
+          <div class="example-components">
+            <span class="component-count arr">1 ARR</span>
+            <span class="component-count acc">2 ACC</span>
+            <span class="component-count ant">2 ANT</span>
+            <span class="component-count act">2 ACT</span>
+          </div>
+          <div class="example-stats">
+            <div class="example-stat"><div class="example-stat-value">$10M</div><div class="example-stat-label">Notional</div></div>
+            <div class="example-stat"><div class="example-stat-value">7</div><div class="example-stat-label">Components</div></div>
+          </div>
+        </div>
+        
+        <div class="example-card">
+          <div class="example-header">
+            <div class="example-title">Overnight Repo</div>
+            <span class="example-badge">v4.1</span>
+          </div>
+          <p class="example-description">Treasury-backed repurchase agreement for overnight funding. Complex bilateral transaction with collateral.</p>
+          <div class="example-components">
+            <span class="component-count arr">1 ARR</span>
+            <span class="component-count acc">2 ACC</span>
+            <span class="component-count ant">2 ANT</span>
+            <span class="component-count act">4 ACT</span>
+          </div>
+          <div class="example-stats">
+            <div class="example-stat"><div class="example-stat-value">$50M</div><div class="example-stat-label">Principal</div></div>
+            <div class="example-stat"><div class="example-stat-value">9</div><div class="example-stat-label">Components</div></div>
+          </div>
+        </div>
+        
+        <div class="example-card">
+          <div class="example-header">
+            <div class="example-title">Auto Loan Payment</div>
+            <span class="example-badge">v4.1</span>
+          </div>
+          <p class="example-description">Monthly auto loan payment with principal and interest allocation. Consumer lending example.</p>
+          <div class="example-components">
+            <span class="component-count arr">1 ARR</span>
+            <span class="component-count acc">2 ACC</span>
+            <span class="component-count ant">1 ANT</span>
+            <span class="component-count act">1 ACT</span>
+          </div>
+          <div class="example-stats">
+            <div class="example-stat"><div class="example-stat-value">$485</div><div class="example-stat-label">Payment</div></div>
+            <div class="example-stat"><div class="example-stat-value">5</div><div class="example-stat-label">Components</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Manufacturing -->
+    <section class="category-section">
+      <h2 class="category-title">Manufacturing & Supply Chain</h2>
+      <div class="examples-grid">
+        <div class="example-card">
+          <div class="example-header">
+            <div class="example-title">Manufacturing Work Order</div>
+            <span class="example-badge">v4.1</span>
+          </div>
+          <p class="example-description">Production run with material consumption, labor, and finished goods receipt. Demonstrates manufacturing cost flow.</p>
+          <div class="example-components">
+            <span class="component-count arr">1 ARR</span>
+            <span class="component-count acc">4 ACC</span>
+            <span class="component-count ant">1 ANT</span>
+            <span class="component-count act">4 ACT</span>
+          </div>
+          <div class="example-stats">
+            <div class="example-stat"><div class="example-stat-value">$52.5K</div><div class="example-stat-label">Total Cost</div></div>
+            <div class="example-stat"><div class="example-stat-value">10</div><div class="example-stat-label">Components</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Energy -->
+    <section class="category-section">
+      <h2 class="category-title">Energy & Utilities</h2>
+      <div class="examples-grid">
+        <div class="example-card">
+          <div class="example-header">
+            <div class="example-title">Solar PPA (Morocco → Spain)</div>
+            <span class="example-badge">v4.1</span>
+          </div>
+          <p class="example-description">Cross-border power purchase agreement between Morocco solar farm and Spanish utility. Multi-year energy contract.</p>
+          <div class="example-components">
+            <span class="component-count arr">1 ARR</span>
+            <span class="component-count acc">2 ACC</span>
+            <span class="component-count ant">2 ANT</span>
+            <span class="component-count act">2 ACT</span>
+          </div>
+          <div class="example-stats">
+            <div class="example-stat"><div class="example-stat-value">€2.4M</div><div class="example-stat-label">Monthly</div></div>
+            <div class="example-stat"><div class="example-stat-value">7</div><div class="example-stat-label">Components</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <h2>Try These Examples Live</h2>
+      <p>Load any example in the interactive demo and anchor it to Kaspa Testnet.</p>
+      <a href="demo.html" class="btn btn-primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+        Open Demo
+      </a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2026 Marvin Percival. All rights reserved.</p>
+    <p style="margin-top: 0.5rem;"><a href="about.html#license">License</a> · <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a></p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<!--
+============================================================================
+FORAY Protocol - Landing Page
+============================================================================
+Version:       2.0.0
+Created:       2026-01-27T20:00:00Z
+Last Modified: 2026-01-28T22:45:00Z
+
+Author:        Marvin Percival
+Email:         marvinp@dunin7.com
+GitHub:        github.com/DUNIN7/foray-kaspathon
+
+License:       Business Source License 1.1
+Copyright (c) 2026 Marvin Percival. All rights reserved.
+
+Changelog:
+  v2.0.0 (2026-01-28)
+    - Reduced section spacing for better visual flow
+    - Preserved hero -> Problem section gap
+    - Added metadata header
+    - Matching nav bar with other pages
+  
+  v1.0.0 (2026-01-27)
+    - Initial landing page with hero, problem/solution sections
+    - FORAY brand colors and styling
+============================================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORAY Protocol — Immutable Audit Infrastructure for Enterprise</title>
+  <meta name="description" content="Privacy-preserving blockchain audit trails for enterprise transactions. Built for Kaspathon 2026.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* FORAY Brand Colors */
+      --primary-teal: #0D7377;
+      --secondary-navy: #1B365D;
+      --accent-cyan: #14B8B8;
+      --highlight-mint: #7DD3D6;
+      --action-amber: #E6A817;
+      --text-dark: #1A1D21;
+      --text-light: #F7F9FA;
+      --bg-light: #F7F9FA;
+      --bg-dark: #1A1D21;
+      --gray-600: #636E72;
+      --gray-400: #94A3A8;
+      --gray-200: #E5E9EB;
+      
+      /* Component Colors */
+      --arrangement-color: #0D7377;
+      --accrual-color: #E6A817;
+      --anticipation-color: #8B5CF6;
+      --action-color: #10B981;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    .font-mono {
+      font-family: 'IBM Plex Mono', 'Space Mono', monospace;
+    }
+    
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(26, 29, 33, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(125, 211, 214, 0.1);
+    }
+    
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    
+    .nav-logo-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    
+    .nav-logo-foray {
+      color: var(--primary-teal);
+    }
+    
+    .nav-logo-protocol {
+      color: var(--text-light);
+      font-weight: 400;
+    }
+    
+    .nav-badge {
+      font-size: 0.65rem;
+      padding: 0.2rem 0.5rem;
+      background: var(--action-amber);
+      color: var(--text-dark);
+      border-radius: 4px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    
+    .nav-link {
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    
+    .nav-link:hover {
+      color: var(--accent-cyan);
+    }
+    
+    .nav-cta {
+      padding: 0.6rem 1.2rem;
+      background: var(--primary-teal);
+      color: var(--text-light);
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    
+    .nav-cta:hover {
+      background: var(--accent-cyan);
+      transform: translateY(-1px);
+    }
+    
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(ellipse at 30% 20%, rgba(13, 115, 119, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(20, 184, 184, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(230, 168, 23, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    
+    /* Animated grid background */
+    .hero-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(rgba(125, 211, 214, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(125, 211, 214, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridMove 20s linear infinite;
+    }
+    
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(60px, 60px); }
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+    
+    .hero-kaspathon {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(13, 115, 119, 0.2);
+      border: 1px solid rgba(13, 115, 119, 0.4);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: var(--accent-cyan);
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.8s ease-out;
+    }
+    
+    .hero-kaspathon-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--action-amber);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+    
+    .hero-title {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.03em;
+      animation: fadeInUp 0.8s ease-out 0.1s both;
+    }
+    
+    .hero-title-gradient {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--highlight-mint), var(--action-amber));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .hero-subtitle {
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      color: var(--gray-400);
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+    
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease-out 0.3s both;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+    
+    .btn-primary {
+      background: var(--primary-teal);
+      color: var(--text-light);
+    }
+    
+    .btn-primary:hover {
+      background: var(--accent-cyan);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(13, 115, 119, 0.3);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-light);
+      border: 1px solid var(--gray-600);
+    }
+    
+    .btn-secondary:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: fadeInUp 0.8s ease-out 0.5s both;
+    }
+    
+    .scroll-indicator span {
+      font-size: 0.75rem;
+      color: var(--gray-600);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    
+    .scroll-arrow {
+      width: 24px;
+      height: 24px;
+      border-right: 2px solid var(--gray-600);
+      border-bottom: 2px solid var(--gray-600);
+      transform: rotate(45deg);
+      animation: scrollBounce 2s infinite;
+    }
+    
+    @keyframes scrollBounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); opacity: 1; }
+      50% { transform: rotate(45deg) translateY(8px); opacity: 0.5; }
+    }
+    
+    /* Problem Section */
+    .section {
+      padding: 3rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    /* Keep larger gap after hero for problem section */
+    #problem {
+      padding-top: 6rem;
+    }
+    
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--action-amber);
+      margin-bottom: 1rem;
+    }
+    
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: var(--gray-400);
+      max-width: 600px;
+      margin-bottom: 2rem;
+    }
+    
+    /* Problem cards - compact style matching solution cards */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .problem-card {
+      background: rgba(27, 54, 93, 0.2);
+      border: 1px solid rgba(125, 211, 214, 0.1);
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    
+    .problem-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: #EF4444;
+    }
+    
+    .problem-card:hover {
+      border-color: rgba(239, 68, 68, 0.4);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(239, 68, 68, 0.15);
+    }
+    
+    .problem-icon {
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(239, 68, 68, 0.15);
+      border-radius: 16px;
+      margin: 0 auto 1.5rem;
+      color: #EF4444;
+    }
+    
+    .problem-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-light);
+    }
+    
+    .problem-card p {
+      color: var(--gray-400);
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+    
+    /* Solution / 4A Model Section */
+    .solution-section {
+      background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(13, 115, 119, 0.05) 50%, var(--bg-dark) 100%);
+      padding: 3rem 0;
+    }
+    
+    .model-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .model-card {
+      background: rgba(26, 29, 33, 0.8);
+      border: 1px solid rgba(125, 211, 214, 0.1);
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    
+    .model-card:hover {
+      transform: translateY(-8px);
+    }
+    
+    .model-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+    
+    .model-card.arrangement::before { background: var(--arrangement-color); }
+    .model-card.accrual::before { background: var(--accrual-color); }
+    .model-card.anticipation::before { background: var(--anticipation-color); }
+    .model-card.action::before { background: var(--action-color); }
+    
+    .model-card.arrangement:hover { border-color: var(--arrangement-color); box-shadow: 0 20px 60px rgba(13, 115, 119, 0.2); }
+    .model-card.accrual:hover { border-color: var(--accrual-color); box-shadow: 0 20px 60px rgba(230, 168, 23, 0.2); }
+    .model-card.anticipation:hover { border-color: var(--anticipation-color); box-shadow: 0 20px 60px rgba(139, 92, 246, 0.2); }
+    .model-card.action:hover { border-color: var(--action-color); box-shadow: 0 20px 60px rgba(16, 185, 129, 0.2); }
+    
+    .model-number {
+      font-size: 3rem;
+      font-weight: 700;
+      opacity: 0.15;
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+    }
+    
+    .model-icon {
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      margin: 0 auto 1.5rem;
+      font-size: 1.5rem;
+    }
+    
+    .model-card.arrangement .model-icon { background: rgba(13, 115, 119, 0.2); color: var(--arrangement-color); }
+    .model-card.accrual .model-icon { background: rgba(230, 168, 23, 0.2); color: var(--accrual-color); }
+    .model-card.anticipation .model-icon { background: rgba(139, 92, 246, 0.2); color: var(--anticipation-color); }
+    .model-card.action .model-icon { background: rgba(16, 185, 129, 0.2); color: var(--action-color); }
+    
+    .model-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .model-card.arrangement h3 { color: var(--arrangement-color); }
+    .model-card.accrual h3 { color: var(--accrual-color); }
+    .model-card.anticipation h3 { color: var(--anticipation-color); }
+    .model-card.action h3 { color: var(--action-color); }
+    
+    .model-card p {
+      color: var(--gray-400);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    
+    /* Flow arrows */
+    .model-flow {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+      gap: 2rem;
+    }
+    
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--gray-400);
+    }
+    
+    .flow-arrow {
+      color: var(--accent-cyan);
+    }
+    
+    /* Benefits Section */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .benefit-card {
+      background: linear-gradient(135deg, rgba(13, 115, 119, 0.1), rgba(27, 54, 93, 0.2));
+      border: 1px solid rgba(125, 211, 214, 0.15);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+    
+    .benefit-card:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-4px);
+    }
+    
+    .benefit-icon {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(13, 115, 119, 0.2);
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      color: var(--accent-cyan);
+    }
+    
+    .benefit-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .benefit-card p {
+      color: var(--gray-400);
+      font-size: 0.95rem;
+    }
+    
+    /* Kaspa Section */
+    .kaspa-section {
+      background: linear-gradient(135deg, rgba(27, 54, 93, 0.3), rgba(13, 115, 119, 0.1));
+      border-radius: 24px;
+      padding: 3rem;
+      margin: 2rem 2rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    
+    .kaspa-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .kaspa-content p {
+      color: var(--gray-400);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .kaspa-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    
+    .kaspa-stat {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(26, 29, 33, 0.6);
+      border-radius: 12px;
+      border: 1px solid rgba(125, 211, 214, 0.1);
+    }
+    
+    .kaspa-stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    
+    .kaspa-stat-label {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      margin-top: 0.25rem;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+    }
+    
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(13, 115, 119, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    
+    .cta-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .cta-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 1rem;
+    }
+    
+    .cta-subtitle {
+      color: var(--gray-400);
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    
+    /* Footer */
+    .footer {
+      border-top: 1px solid rgba(125, 211, 214, 0.1);
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 3rem;
+    }
+    
+    .footer-brand p {
+      color: var(--gray-400);
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+    
+    .footer-links h4 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 1rem;
+    }
+    
+    .footer-links a {
+      display: block;
+      color: var(--text-light);
+      text-decoration: none;
+      padding: 0.4rem 0;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    
+    .footer-links a:hover {
+      color: var(--accent-cyan);
+    }
+    
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(125, 211, 214, 0.1);
+      font-size: 0.85rem;
+      color: var(--gray-400);
+    }
+    
+    .footer-legal {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .footer-legal a {
+      color: var(--gray-400);
+      text-decoration: none;
+    }
+    
+    .footer-legal a:hover {
+      color: var(--accent-cyan);
+    }
+    
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .problem-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .model-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .kaspa-section {
+        grid-template-columns: 1fr;
+        padding: 3rem 2rem;
+      }
+      
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .problem-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .model-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .kaspa-stats {
+        grid-template-columns: 1fr;
+      }
+      
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-text">
+        <span class="nav-logo-foray">FORAY</span>
+        <span class="nav-logo-protocol">Protocol</span>
+      </span>
+      <span class="nav-badge">v4.1</span>
+    </a>
+    <div class="nav-links">
+      <a href="demo.html" class="nav-link">Demo</a>
+      <a href="docs.html" class="nav-link">Documentation</a>
+      <a href="examples.html" class="nav-link">Examples</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
+      <a href="demo.html" class="nav-cta">Try Demo →</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-kaspathon">
+        <span class="hero-kaspathon-dot"></span>
+        Built for Kaspathon 2026 — Real-Time Data Track
+      </div>
+      <h1 class="hero-title">
+        <span class="hero-title-gradient">Transparent Audits.</span><br>
+        Protected Secrets.
+      </h1>
+      <p class="hero-subtitle">
+        FORAY Protocol creates tamper-proof blockchain audit trails for enterprise transactions 
+        without exposing sensitive business data. Powered by Kaspa's sub-second block times.
+      </p>
+      <div class="hero-ctas">
+        <a href="demo.html" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          Launch Demo
+        </a>
+        <a href="docs.html" class="btn btn-secondary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+          Read Docs
+        </a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll to explore</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- Problem Section -->
+  <section class="section" id="problem">
+    <span class="section-label">The Problem</span>
+    <h2 class="section-title">Enterprise Audit Trails Are Broken</h2>
+    <p class="section-subtitle">
+      Companies spend billions annually on audits, struggling to prove that complex 
+      financial transactions occurred correctly and completely.
+    </p>
+    
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="7.5 4.21 12 6.81 16.5 4.21"/>
+            <polyline points="7.5 19.79 7.5 14.6 3 12"/>
+            <polyline points="21 12 16.5 14.6 16.5 19.79"/>
+          </svg>
+        </div>
+        <h3>Fragmented Records</h3>
+        <p>Contracts in one system, calculations in spreadsheets, payments in another. 
+        Auditors must reconstruct the full picture manually.</p>
+      </div>
+      
+      <div class="problem-card">
+        <div class="problem-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <h3>Delayed Detection</h3>
+        <p>Problems are discovered months or years later during periodic audits. 
+        By then, evidence may be lost or corrupted.</p>
+      </div>
+      
+      <div class="problem-card">
+        <div class="problem-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <h3>Privacy vs. Transparency</h3>
+        <p>Full transparency exposes competitive secrets. Full privacy prevents verification. 
+        There's no middle ground—until now.</p>
+      </div>
+      
+      <div class="problem-card">
+        <div class="problem-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <line x1="9" y1="12" x2="15" y2="12"/>
+          </svg>
+        </div>
+        <h3>Mutable Records</h3>
+        <p>Traditional systems allow backdating and alteration. 
+        Even "audit logs" can be modified by database administrators.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution Section - 4A Model -->
+  <section class="solution-section" id="solution">
+    <div class="section">
+      <span class="section-label">The Solution</span>
+      <h2 class="section-title">The 4-Component Model</h2>
+      <p class="section-subtitle">
+        FORAY decomposes any business transaction into four auditable components, 
+        creating a complete, verifiable trail from agreement to settlement.
+      </p>
+      
+      <div class="model-container">
+        <div class="model-card arrangement">
+          <span class="model-number">1</span>
+          <div class="model-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+          <h3>Arrangements</h3>
+          <p>Contractual foundations defining parties, terms, and obligations. The "what we agreed to."</p>
+        </div>
+        
+        <div class="model-card accrual">
+          <span class="model-number">2</span>
+          <div class="model-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <h3>Accruals</h3>
+          <p>Economic recognition of obligations and revenue. The "what we owe or are owed."</p>
+        </div>
+        
+        <div class="model-card anticipation">
+          <span class="model-number">3</span>
+          <div class="model-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <h3>Anticipations</h3>
+          <p>Expected future cash flows and deliverables. The "what we expect to happen."</p>
+        </div>
+        
+        <div class="model-card action">
+          <span class="model-number">4</span>
+          <div class="model-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 11 12 14 22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+          </div>
+          <h3>Actions</h3>
+          <p>Actual asset transfers and settlements. The "what actually moved."</p>
+        </div>
+      </div>
+      
+      <div class="model-flow">
+        <div class="flow-step">
+          <span style="color: var(--arrangement-color);">Arrangement</span>
+          <span class="flow-arrow">→</span>
+          <span style="color: var(--accrual-color);">Accrual</span>
+          <span class="flow-arrow">→</span>
+          <span style="color: var(--anticipation-color);">Anticipation</span>
+          <span class="flow-arrow">→</span>
+          <span style="color: var(--action-color);">Action</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="section" id="benefits">
+    <span class="section-label">Why FORAY</span>
+    <h2 class="section-title">Built for Enterprise Reality</h2>
+    <p class="section-subtitle">
+      FORAY isn't just another blockchain project—it's designed for the complex, 
+      regulated world of enterprise finance.
+    </p>
+    
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <h3>Privacy-Preserving</h3>
+        <p>Only cryptographic hashes go on-chain. Sensitive business data stays off-chain, 
+        protected by your existing security infrastructure.</p>
+      </div>
+      
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 12 15 15 9"/>
+          </svg>
+        </div>
+        <h3>Immutable Proof</h3>
+        <p>Blockchain anchoring provides tamper-proof timestamps. 
+        No one—not even system administrators—can alter the record.</p>
+      </div>
+      
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <h3>Real-Time Verification</h3>
+        <p>Kaspa's 1-second blocks enable instant anchoring. 
+        Verify transactions as they happen, not months later.</p>
+      </div>
+      
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </div>
+        <h3>ERP Integration Ready</h3>
+        <p>Designed to work alongside SAP, QuickBooks, Salesforce, and other 
+        enterprise systems—not replace them.</p>
+      </div>
+      
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h3>Compliance Ready</h3>
+        <p>Supports SOX 404, DCAA, and Big 4 audit requirements. 
+        Different audit profiles for different regulatory needs.</p>
+      </div>
+      
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <h3>Minimal Cost</h3>
+        <p>Kaspa's low fees (~$0.0001/tx) make continuous anchoring 
+        economically viable for high-volume enterprises.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kaspa Section -->
+  <section class="kaspa-section" id="kaspa">
+    <div class="kaspa-content">
+      <h2>Why Kaspa?</h2>
+      <p>
+        FORAY leverages Kaspa's unique BlockDAG architecture to enable 
+        real-time audit anchoring that was previously impossible.
+      </p>
+      <a href="docs.html#kaspa" class="btn btn-secondary">Learn More →</a>
+    </div>
+    <div class="kaspa-stats">
+      <div class="kaspa-stat">
+        <div class="kaspa-stat-value">~1s</div>
+        <div class="kaspa-stat-label">Block Time</div>
+      </div>
+      <div class="kaspa-stat">
+        <div class="kaspa-stat-value">~$0.0001</div>
+        <div class="kaspa-stat-label">Per Transaction</div>
+      </div>
+      <div class="kaspa-stat">
+        <div class="kaspa-stat-value">32</div>
+        <div class="kaspa-stat-label">Blocks/Second</div>
+      </div>
+      <div class="kaspa-stat">
+        <div class="kaspa-stat-value">10K+</div>
+        <div class="kaspa-stat-label">TPS Capacity</div>
+      </div>
+      <div class="kaspa-stat">
+        <div class="kaspa-stat-value">PoW</div>
+        <div class="kaspa-stat-label">Consensus</div>
+      </div>
+      <div class="kaspa-stat">
+        <div class="kaspa-stat-value">Fair</div>
+        <div class="kaspa-stat-label">Launch</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2 class="cta-title">Ready to See It in Action?</h2>
+      <p class="cta-subtitle">
+        Try the interactive demo and anchor your first transaction to Kaspa Testnet.
+      </p>
+      <div class="hero-ctas">
+        <a href="demo.html" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          Launch Demo
+        </a>
+        <a href="examples.html" class="btn btn-secondary">
+          View Example Transactions
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <span class="nav-logo-text">
+            <span class="nav-logo-foray">FORAY</span>
+            <span class="nav-logo-protocol">Protocol</span>
+          </span>
+        </div>
+        <p>Transparent audits, protected secrets, powered by Kaspa.</p>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Product</h4>
+        <a href="demo.html">Demo</a>
+        <a href="docs.html">Documentation</a>
+        <a href="examples.html">Examples</a>
+        <a href="about.html">About</a>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a>
+        <a href="docs.html#specification">Specification</a>
+        <a href="docs.html#integration">Integration Guide</a>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Connect</h4>
+        <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a>
+        <a href="/cdn-cgi/l/email-protection#a3cec2d1d5cacdd3e3c7d6cdcacd948dc0ccce">Contact</a>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <span>© 2026 Marvin Percival. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="about.html#license">License (BSL 1.1)</a>
+        <a href="about.html#ai-disclosure">AI Disclosure</a>
+      </div

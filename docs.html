@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation — FORAY Protocol</title>
+  <meta name="description" content="Technical documentation for FORAY Protocol v4.1 - specification, integration guides, and API reference.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-teal: #0D7377;
+      --secondary-navy: #1B365D;
+      --accent-cyan: #14B8B8;
+      --highlight-mint: #7DD3D6;
+      --action-amber: #E6A817;
+      --text-dark: #1A1D21;
+      --text-light: #F7F9FA;
+      --bg-dark: #1A1D21;
+      --gray-600: #636E72;
+      --gray-400: #94A3A8;
+      --gray-200: #E5E9EB;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+    
+    .font-mono { font-family: 'IBM Plex Mono', monospace; }
+    
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(26, 29, 33, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(125, 211, 214, 0.1);
+    }
+    
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    
+    .nav-logo-text { font-size: 1.5rem; font-weight: 700; }
+    .nav-logo-foray { color: var(--primary-teal); }
+    .nav-logo-protocol { color: var(--text-light); font-weight: 400; }
+    .nav-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: var(--action-amber); color: var(--text-dark); border-radius: 4px; font-weight: 600; }
+    
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-link { color: var(--gray-400); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-link:hover, .nav-link.active { color: var(--accent-cyan); }
+    
+    /* Layout */
+    .docs-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+      padding-top: 73px;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      position: sticky;
+      top: 73px;
+      height: calc(100vh - 73px);
+      overflow-y: auto;
+      padding: 2rem;
+      border-right: 1px solid rgba(125, 211, 214, 0.1);
+      background: rgba(27, 54, 93, 0.05);
+    }
+    
+    .sidebar-section {
+      margin-bottom: 2rem;
+    }
+    
+    .sidebar-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 0.75rem;
+    }
+    
+    .sidebar-link {
+      display: block;
+      padding: 0.5rem 0;
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+      padding-left: 0.75rem;
+      margin-left: -0.75rem;
+    }
+    
+    .sidebar-link:hover {
+      color: var(--accent-cyan);
+      border-left-color: var(--accent-cyan);
+    }
+    
+    .sidebar-link.active {
+      color: var(--accent-cyan);
+      border-left-color: var(--accent-cyan);
+      background: rgba(20, 184, 184, 0.05);
+    }
+    
+    /* Content */
+    .docs-content {
+      padding: 3rem 4rem;
+      max-width: 900px;
+    }
+    
+    .docs-content h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+    
+    .docs-content h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(125, 211, 214, 0.1);
+      color: var(--accent-cyan);
+    }
+    
+    .docs-content h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-light);
+    }
+    
+    .docs-content p {
+      color: var(--gray-400);
+      margin-bottom: 1rem;
+    }
+    
+    .docs-content a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+    
+    .docs-content a:hover {
+      text-decoration: underline;
+    }
+    
+    .docs-content ul, .docs-content ol {
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+      color: var(--gray-400);
+    }
+    
+    .docs-content li {
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Code blocks */
+    .code-block {
+      background: rgba(26, 29, 33, 0.8);
+      border: 1px solid rgba(125, 211, 214, 0.1);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+    }
+    
+    .code-block code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    
+    code {
+      font-family: 'IBM Plex Mono', monospace;
+      background: rgba(20, 184, 184, 0.1);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85em;
+      color: var(--accent-cyan);
+    }
+    
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+    }
+    
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(125, 211, 214, 0.1);
+    }
+    
+    th {
+      background: rgba(27, 54, 93, 0.2);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--gray-400);
+    }
+    
+    td {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+    
+    /* Info boxes */
+    .info-box {
+      padding: 1.25rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+    
+    .info-box.note {
+      background: rgba(20, 184, 184, 0.1);
+      border-left: 4px solid var(--accent-cyan);
+    }
+    
+    .info-box.warning {
+      background: rgba(230, 168, 23, 0.1);
+      border-left: 4px solid var(--action-amber);
+    }
+    
+    .info-box.important {
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 4px solid #EF4444;
+    }
+    
+    .info-box-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .info-box.note .info-box-title { color: var(--accent-cyan); }
+    .info-box.warning .info-box-title { color: var(--action-amber); }
+    .info-box.important .info-box-title { color: #EF4444; }
+    
+    .info-box p {
+      margin-bottom: 0;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+    
+    /* Component badges */
+    .component-badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    
+    .component-badge.arrangement { background: rgba(13, 115, 119, 0.2); color: #0D7377; }
+    .component-badge.accrual { background: rgba(230, 168, 23, 0.2); color: #E6A817; }
+    .component-badge.anticipation { background: rgba(139, 92, 246, 0.2); color: #8B5CF6; }
+    .component-badge.action { background: rgba(16, 185, 129, 0.2); color: #10B981; }
+    
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .docs-layout {
+        grid-template-columns: 1fr;
+      }
+      
+      .sidebar {
+        display: none;
+      }
+      
+      .docs-content {
+        padding: 2rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-text">
+        <span class="nav-logo-foray">FORAY</span>
+        <span class="nav-logo-protocol">Protocol</span>
+      </span>
+      <span class="nav-badge">v4.1</span>
+    </a>
+    <div class="nav-links">
+      <a href="demo.html" class="nav-link">Demo</a>
+      <a href="docs.html" class="nav-link active">Documentation</a>
+      <a href="examples.html" class="nav-link">Examples</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
+    </div>
+  </nav>
+
+  <div class="docs-layout">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Getting Started</div>
+        <a href="#overview" class="sidebar-link active">Overview</a>
+        <a href="#quick-start" class="sidebar-link">Quick Start</a>
+        <a href="#design-principles" class="sidebar-link">Design Principles</a>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Core Concepts</div>
+        <a href="#4-component-model" class="sidebar-link">4-Component Model</a>
+        <a href="#arrangements" class="sidebar-link">Arrangements</a>
+        <a href="#accruals" class="sidebar-link">Accruals</a>
+        <a href="#anticipations" class="sidebar-link">Anticipations</a>
+        <a href="#actions" class="sidebar-link">Actions</a>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Technical</div>
+        <a href="#schema" class="sidebar-link">JSON Schema</a>
+        <a href="#hashing" class="sidebar-link">Hashing & Merkle Trees</a>
+        <a href="#kaspa" class="sidebar-link">Kaspa Integration</a>
+        <a href="#privacy" class="sidebar-link">Privacy Architecture</a>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Integration</div>
+        <a href="#quickbooks" class="sidebar-link">QuickBooks</a>
+        <a href="#salesforce" class="sidebar-link">Salesforce</a>
+        <a href="#erp" class="sidebar-link">ERP Systems</a>
+      </div>
+    </aside>
+
+    <main class="docs-content">
+      <h1 id="overview">FORAY Protocol Documentation</h1>
+      <p>
+        FORAY Protocol is a privacy-preserving blockchain audit infrastructure designed to create 
+        immutable transaction records for enterprise systems. This documentation covers the v4.1 
+        specification, integration patterns, and best practices.
+      </p>
+      
+      <div class="info-box note">
+        <div class="info-box-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          About the Name
+        </div>
+        <p>FORAY is derived from "4A" — the four components: Arrangements, Accruals, Anticipations, and Actions.</p>
+      </div>
+
+      <h2 id="quick-start">Quick Start</h2>
+      <p>Get started with FORAY in three steps:</p>
+      
+      <ol>
+        <li><strong>Model your transaction</strong> — Decompose it into the 4 components</li>
+        <li><strong>Generate JSON</strong> — Create a valid FORAY Protocol JSON document</li>
+        <li><strong>Anchor to Kaspa</strong> — Submit the merkle root to Kaspa blockchain</li>
+      </ol>
+      
+      <p>Try the <a href="demo.html">interactive demo</a> to see how it works.</p>
+
+      <h2 id="design-principles">Design Principles</h2>
+      <p>FORAY is built on these core principles:</p>
+      
+      <ol>
+        <li><strong>Source System Trust</strong> — FORAY trusts validated ERP data</li>
+        <li><strong>4-Component Model</strong> — Arrangements → Accruals → Anticipations → Actions</li>
+        <li><strong>Immutable Anchoring</strong> — Blockchain provides tamper-proof timestamps</li>
+        <li><strong>Privacy Preservation</strong> — Hash-based verification without data exposure</li>
+        <li><strong>Separation of Concerns</strong> — Core protocol separate from audit metadata</li>
+        <li><strong>Layered Storage</strong> — Right data in right place at right cost</li>
+      </ol>
+
+      <h3>New in v4.1</h3>
+      <ul>
+        <li><strong>Transaction Fidelity</strong> — Model what actually happened, not artificial structures</li>
+        <li><strong>Relationship Accuracy</strong> — Support real-world many-to-many flows</li>
+        <li><strong>Flexible Entry Points</strong> — Any component type can serve as transaction entry point</li>
+      </ul>
+
+      <h2 id="4-component-model">4-Component Model</h2>
+      <p>
+        Every business transaction in FORAY is decomposed into four auditable components. This structure 
+        provides a complete trail from agreement to settlement.
+      </p>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>Purpose</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="component-badge arrangement">Arrangement</span></td>
+            <td>Contractual foundation</td>
+            <td>Master Service Agreement, Purchase Order</td>
+          </tr>
+          <tr>
+            <td><span class="component-badge accrual">Accrual</span></td>
+            <td>Economic recognition</td>
+            <td>Invoice payable, Revenue recognition</td>
+          </tr>
+          <tr>
+            <td><span class="component-badge anticipation">Anticipation</span></td>
+            <td>Expected future flows</td>
+            <td>Scheduled payment, Expected delivery</td>
+          </tr>
+          <tr>
+            <td><span class="component-badge action">Action</span></td>
+            <td>Actual asset transfers</td>
+            <td>Wire transfer, Inventory receipt</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="arrangements">Arrangements</h2>
+      <p>
+        Arrangements represent the contractual foundation of a transaction — the "what we agreed to."
+        They define parties, terms, and obligations.
+      </p>
+      
+      <h3>Structure</h3>
+      <div class="code-block">
+        <code><pre>{
+  "id": "ARR_MSA_VENDOR_2024",
+  "foray_core": {
+    "type": "master_service_agreement",
+    "effective_date": "2024-01-01",
+    "parties": [
+      { "role": "customer", "name": "Acme Corp", "party_id_hash": "sha256:..." },
+      { "role": "vendor", "name": "Supplier Inc", "party_id_hash": "sha256:..." }
+    ],
+    "description": "Master agreement for office supplies",
+    "total_value": 50000.00,
+    "currency": "USD",
+    "terms": {
+      "payment_terms": "Net 30",
+      "contract_duration": "24 months"
+    }
+  }
+}</pre></code>
+      </div>
+
+      <h2 id="accruals">Accruals</h2>
+      <p>
+        Accruals represent economic recognition — the "what we owe or are owed." They link back 
+        to Arrangements and capture the financial obligation or entitlement.
+      </p>
+      
+      <div class="info-box warning">
+        <div class="info-box-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          v4.1 Breaking Change
+        </div>
+        <p><code>arrangement_ref</code> is now <code>arrangement_refs</code> (array) to support many-to-many relationships.</p>
+      </div>
+      
+      <h3>Structure</h3>
+      <div class="code-block">
+        <code><pre>{
+  "id": "ACC_INV_2026_001",
+  "foray_core": {
+    "arrangement_refs": ["ARR_MSA_VENDOR_2024"],
+    "type": "invoice_payable",
+    "description": "January office supplies",
+    "computation_method": "FixedAmount",
+    "output": 3500.00,
+    "currency": "USD",
+    "accounting_entry": {
+      "debit": { "account": "5100", "amount": 3500.00 },
+      "credit": { "account": "2100", "amount": 3500.00 }
+    }
+  }
+}</pre></code>
+      </div>
+
+      <h2 id="anticipations">Anticipations</h2>
+      <p>
+        Anticipations represent expected future cash flows or deliverables — the "what we expect to happen."
+        They can reference both Accruals and Arrangements directly.
+      </p>
+      
+      <h3>Structure</h3>
+      <div class="code-block">
+        <code><pre>{
+  "id": "ANT_PAY_BATCH_001",
+  "foray_core": {
+    "accrual_refs": ["ACC_INV_2026_001", "ACC_INV_2026_002"],
+    "arrangement_refs": ["ARR_MSA_VENDOR_2024"],
+    "type": "scheduled_payment",
+    "description": "Q1 batch payment",
+    "expected_amount": 7700.00,
+    "currency": "USD",
+    "expected_date": "2026-01-15",
+    "probability_factor": 0.95
+  }
+}</pre></code>
+      </div>
+
+      <h2 id="actions">Actions</h2>
+      <p>
+        Actions represent actual asset transfers — the "what actually moved." They record 
+        settlements, payments, deliveries, and other concrete movements.
+      </p>
+      
+      <h3>Structure</h3>
+      <div class="code-block">
+        <code><pre>{
+  "id": "ACT_WIRE_2026_001",
+  "foray_core": {
+    "anticipation_refs": ["ANT_PAY_BATCH_001"],
+    "type": "wire_transfer",
+    "description": "Wire transfer for Q1 batch payment",
+    "amount": 7700.00,
+    "currency": "USD",
+    "executed_at": "2026-01-15T10:30:00Z",
+    "payment_method": "wire",
+    "allocations": [
+      { "ref": "ACC_INV_2026_001", "ref_type": "accrual", "amount": 3500.00, "currency": "USD" },
+      { "ref": "ACC_INV_2026_002", "ref_type": "accrual", "amount": 4200.00, "currency": "USD" }
+    ]
+  }
+}</pre></code>
+      </div>
+
+      <h2 id="schema">JSON Schema</h2>
+      <p>The top-level FORAY transaction schema:</p>
+      
+      <div class="code-block">
+        <code><pre>{
+  "transaction_id": "DOMAIN_YYYY_QN_DESCRIPTOR",
+  "schema_version": "4.1",
+  "timestamp": "ISO-8601",
+  
+  "foray_core": {
+    "entity": "entity_name",
+    "entity_hash": "sha256:...",
+    "transaction_type": "type_code",
+    "total_value": 0.00,
+    "currency": "USD",
+    "status": "active|completed|reversed",
+    "compliance_flags": ["SOX_404", "DCAA"]
+  },
+  
+  "component_hashes": {
+    "arrangements": "sha256:...",
+    "accruals": "sha256:...",
+    "anticipations": "sha256:...",
+    "actions": "sha256:..."
+  },
+  
+  "arrangements": [...],
+  "accruals": [...],
+  "anticipations": [...],
+  "actions": [...],
+  
+  "merkle_root": "sha256:...",
+  
+  "blockchain_anchor": {
+    "kaspa_tx_id": "kaspa:qr...",
+    "block_height": 0,
+    "confirmation_time_ms": 0,
+    "anchored_at": "ISO-8601"
+  }
+}</pre></code>
+      </div>
+
+      <h2 id="kaspa">Kaspa Integration</h2>
+      <p>
+        FORAY uses Kaspa blockchain for anchoring transaction proofs. Kaspa's unique properties 
+        make it ideal for enterprise audit use cases:
+      </p>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Value</th>
+            <th>Benefit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Block Time</td>
+            <td>~1 second</td>
+            <td>Real-time anchoring possible</td>
+          </tr>
+          <tr>
+            <td>Transaction Cost</td>
+            <td>~$0.0001</td>
+            <td>Economical for high-volume enterprises</td>
+          </tr>
+          <tr>
+            <td>Consensus</td>
+            <td>GHOSTDAG (PoW)</td>
+            <td>High throughput, fair distribution</td>
+          </tr>
+          <tr>
+            <td>Throughput</td>
+            <td>32 blocks/second</td>
+            <td>Handles enterprise-scale volume</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div class="info-box important">
+        <div class="info-box-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          Demo Mode
+        </div>
+        <p>The demo connects to <strong>Kaspa Testnet-10 only</strong>. Ensure your KasWare wallet is configured for Testnet before anchoring.</p>
+      </div>
+
+      <h2 id="privacy">Privacy Architecture</h2>
+      <p>
+        FORAY implements an 8-layer privacy defense to protect sensitive business data while 
+        enabling cryptographic verification:
+      </p>
+      
+      <ol>
+        <li><strong>Salted Formula IDs</strong> — Computation methods are hashed with entity-specific salts</li>
+        <li><strong>Multi-Layer Indirection</strong> — References use opaque identifiers</li>
+        <li><strong>Instance Pools</strong> — Similar transactions are batched to prevent pattern analysis</li>
+        <li><strong>Differential Privacy</strong> — Noise injection for aggregate statistics</li>
+        <li><strong>Tiered Oracle Attestation</strong> — Data verification without full disclosure</li>
+        <li><strong>Off-Chain Storage</strong> — Sensitive data never touches the blockchain</li>
+        <li><strong>Hash-Only Anchoring</strong> — Only cryptographic proofs are anchored</li>
+        <li><strong>Access Control</strong> — Role-based visibility for audit data</li>
+      </ol>
+
+      <h2 id="quickbooks">QuickBooks Integration</h2>
+      <p>
+        FORAY provides adapters for QuickBooks Online at three implementation levels:
+      </p>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th>Fields</th>
+            <th>Use Case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Essential</td>
+            <td>Core audit data only</td>
+            <td>Minimal payload, basic compliance</td>
+          </tr>
+          <tr>
+            <td>Standard</td>
+            <td>+ Business context</td>
+            <td>Balanced payload and detail</td>
+          </tr>
+          <tr>
+            <td>Comprehensive</td>
+            <td>+ Full audit trail</td>
+            <td>Big 4 audit requirements</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <p>See the <a href="examples.html">Examples page</a> for QuickBooks integration samples.</p>
+
+      <h2 id="erp">ERP Integration Patterns</h2>
+      <p>
+        FORAY is designed to work alongside existing enterprise systems, not replace them. 
+        The integration pattern follows these steps:
+      </p>
+      
+      <ol>
+        <li><strong>Extract</strong> — Pull transaction data from ERP via API or export</li>
+        <li><strong>Transform</strong> — Map to FORAY 4-component model</li>
+        <li><strong>Hash</strong> — Generate component hashes and merkle root</li>
+        <li><strong>Anchor</strong> — Submit proof to Kaspa blockchain</li>
+        <li><strong>Store</strong> — Archive full transaction with anchor reference</li>
+      </ol>
+      
+      <p>
+        FORAY adapters are available or planned for SAP, Oracle, NetSuite, and Salesforce. 
+        Contact us for enterprise integration support.
+      </p>
+
+      <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(125, 211, 214, 0.1); text-align: center; color: var(--gray-400); font-size: 0.9rem;">
+        <p>© 2026 Marvin Percival. All rights reserved.</p>
+        <p style="margin-top: 0.5rem;">
+          <a href="about.html#license">License</a> · 
+          <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a>
+        </p>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

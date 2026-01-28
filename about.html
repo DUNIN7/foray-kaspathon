@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — FORAY Protocol</title>
+  <meta name="description" content="About FORAY Protocol - project information, license, AI disclosure, and contact details.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-teal: #0D7377;
+      --secondary-navy: #1B365D;
+      --accent-cyan: #14B8B8;
+      --highlight-mint: #7DD3D6;
+      --action-amber: #E6A817;
+      --text-dark: #1A1D21;
+      --text-light: #F7F9FA;
+      --bg-dark: #1A1D21;
+      --gray-600: #636E72;
+      --gray-400: #94A3A8;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'IBM Plex Sans', -apple-system, sans-serif; background: var(--bg-dark); color: var(--text-light); line-height: 1.7; }
+    
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+    .nav-logo-text { font-size: 1.5rem; font-weight: 700; }
+    .nav-logo-foray { color: var(--primary-teal); }
+    .nav-logo-protocol { color: var(--text-light); font-weight: 400; }
+    .nav-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: var(--action-amber); color: var(--text-dark); border-radius: 4px; font-weight: 600; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-link { color: var(--gray-400); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-link:hover, .nav-link.active { color: var(--accent-cyan); }
+    
+    .page-header { padding: 8rem 2rem 3rem; text-align: center; background: linear-gradient(180deg, rgba(13, 115, 119, 0.1) 0%, transparent 100%); }
+    .page-header h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+    .page-header p { color: var(--gray-400); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+    
+    .content { max-width: 800px; margin: 0 auto; padding: 3rem 2rem; }
+    
+    .section { margin-bottom: 4rem; }
+    .section-title { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--action-amber); margin-bottom: 1rem; }
+    
+    h2 { font-size: 1.75rem; margin-bottom: 1rem; color: var(--accent-cyan); }
+    h3 { font-size: 1.25rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+    
+    p { color: var(--gray-400); margin-bottom: 1rem; }
+    
+    a { color: var(--accent-cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    
+    ul, ol { color: var(--gray-400); padding-left: 1.5rem; margin-bottom: 1rem; }
+    li { margin-bottom: 0.5rem; }
+    
+    .info-card { background: rgba(27, 54, 93, 0.2); border: 1px solid rgba(125, 211, 214, 0.15); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+    .info-card h3 { margin-top: 0; color: var(--text-light); }
+    .info-card p:last-child { margin-bottom: 0; }
+    
+    .license-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+    .license-table th, .license-table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid rgba(125, 211, 214, 0.1); }
+    .license-table th { background: rgba(27, 54, 93, 0.2); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-400); }
+    .license-table td { color: var(--text-light); }
+    .license-table .check { color: #10B981; }
+    .license-table .cross { color: #EF4444; }
+    
+    .code-block { background: rgba(26, 29, 33, 0.8); border: 1px solid rgba(125, 211, 214, 0.1); border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+    .code-block code { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--text-light); }
+    
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+    .contact-item { background: rgba(27, 54, 93, 0.15); border: 1px solid rgba(125, 211, 214, 0.1); border-radius: 8px; padding: 1.25rem; }
+    .contact-item-label { font-size: 0.75rem; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+    .contact-item-value { color: var(--text-light); font-weight: 500; }
+    .contact-item-value a { color: var(--accent-cyan); }
+    
+    .kaspathon-badge { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 1.5rem; background: linear-gradient(135deg, rgba(13, 115, 119, 0.2), rgba(27, 54, 93, 0.3)); border: 1px solid rgba(125, 211, 214, 0.2); border-radius: 12px; margin: 1.5rem 0; }
+    .kaspathon-badge-icon { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: var(--action-amber); border-radius: 8px; font-size: 1.5rem; }
+    .kaspathon-badge-text { flex: 1; }
+    .kaspathon-badge-title { font-weight: 600; color: var(--text-light); }
+    .kaspathon-badge-subtitle { font-size: 0.85rem; color: var(--gray-400); }
+    
+    .footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid rgba(125, 211, 214, 0.1); color: var(--gray-400); font-size: 0.9rem; }
+    
+    @media (max-width: 768px) { .nav-links { display: none; } }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-text"><span class="nav-logo-foray">FORAY</span><span class="nav-logo-protocol">Protocol</span></span>
+      <span class="nav-badge">v4.1</span>
+    </a>
+    <div class="nav-links">
+      <a href="demo.html" class="nav-link">Demo</a>
+      <a href="docs.html" class="nav-link">Documentation</a>
+      <a href="examples.html" class="nav-link">Examples</a>
+      <a href="about.html" class="nav-link active">About</a>
+      <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <h1>About FORAY Protocol</h1>
+    <p>Privacy-preserving blockchain audit infrastructure for enterprise transactions.</p>
+  </header>
+
+  <div class="content">
+    <!-- Project Overview -->
+    <section class="section">
+      <span class="section-title">Project</span>
+      <h2>What is FORAY?</h2>
+      <p>
+        FORAY Protocol is a privacy-preserving blockchain audit infrastructure designed to create 
+        immutable transaction records for enterprise systems. The name is derived from "4A" — the 
+        four components that form the core of every transaction: Arrangements, Accruals, 
+        Anticipations, and Actions.
+      </p>
+      <p>
+        FORAY solves a fundamental problem in enterprise auditing: how to prove that financial 
+        transactions occurred correctly without exposing sensitive business data. By separating 
+        cryptographic proofs (anchored on-chain) from business data (stored off-chain), FORAY 
+        enables blockchain's immutability benefits while preserving competitive secrets.
+      </p>
+      
+      <div class="kaspathon-badge">
+        <div class="kaspathon-badge-icon">🏆</div>
+        <div class="kaspathon-badge-text">
+          <div class="kaspathon-badge-title">Kaspathon 2026 Submission</div>
+          <div class="kaspathon-badge-subtitle">Real-Time Data Track</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section class="section">
+      <span class="section-title">Development</span>
+      <h2>Roadmap</h2>
+      
+      <div class="info-card">
+        <h3>✅ Seed Project (Kaspathon 2026)</h3>
+        <ul>
+          <li>Protocol v4.1 specification with flexible entry points</li>
+          <li>Transaction Review Tool with Kaspa Testnet integration</li>
+          <li>11 realistic transaction examples across industries</li>
+          <li>Integration design patterns (QuickBooks, Salesforce)</li>
+          <li>Comprehensive documentation and guides</li>
+        </ul>
+      </div>
+      
+      <div class="info-card">
+        <h3>🔄 Future Development</h3>
+        <ul>
+          <li>Production adapters (QuickBooks, Salesforce, SAP)</li>
+          <li>Multi-language SDKs (Rust, Python, JavaScript)</li>
+          <li>Mainnet deployment</li>
+          <li>ZK-proof integration (when Kaspa supports)</li>
+          <li>Big 4 audit firm partnerships</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- License -->
+    <section class="section" id="license">
+      <span class="section-title">Legal</span>
+      <h2>License</h2>
+      <p>
+        FORAY Protocol is licensed under the <strong>Business Source License 1.1 (BSL 1.1)</strong> — 
+        a source-available license that balances openness with commercial protection.
+      </p>
+      
+      <table class="license-table">
+        <thead>
+          <tr>
+            <th>Permission</th>
+            <th>Allowed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>View, copy, modify source code</td>
+            <td class="check">✓</td>
+          </tr>
+          <tr>
+            <td>Non-production use (development, testing)</td>
+            <td class="check">✓</td>
+          </tr>
+          <tr>
+            <td>Academic research</td>
+            <td class="check">✓</td>
+          </tr>
+          <tr>
+            <td>Production use</td>
+            <td class="cross">Requires license</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <p>
+        <strong>Change Date:</strong> January 25, 2030<br>
+        On this date, the license automatically converts to <strong>Apache License 2.0</strong>, 
+        making FORAY fully open source.
+      </p>
+      
+      <p>
+        For commercial licensing inquiries, please contact the author.
+      </p>
+    </section>
+
+    <!-- AI Disclosure -->
+    <section class="section" id="ai-disclosure">
+      <span class="section-title">Transparency</span>
+      <h2>AI Assistance Disclosure</h2>
+      <p>
+        Per Kaspathon 2026 requirements, this document details where and how AI was used 
+        throughout the development process.
+      </p>
+      <p><strong>AI Tool Used:</strong> Claude (Anthropic)</p>
+      
+      <h3>How AI Was Used</h3>
+      <ul>
+        <li><strong>Protocol Design:</strong> Brainstorming the 4-component model, refining v4.1 features, privacy architecture discussions</li>
+        <li><strong>Documentation:</strong> Drafting specifications, integration guides, sector guides, README</li>
+        <li><strong>Code & Demo Tools:</strong> Generating HTML/JavaScript for Transaction Review Tool, interactive infographic</li>
+        <li><strong>Example Transactions:</strong> Creating realistic JSON examples across industries</li>
+        <li><strong>Project Management:</strong> Version control guidance, file organization</li>
+      </ul>
+      
+      <h3>What AI Did NOT Do</h3>
+      <ul>
+        <li><strong>Domain expertise:</strong> The author provided accounting, audit, and financial services knowledge</li>
+        <li><strong>Strategic decisions:</strong> Protocol positioning, target markets, and business model decisions</li>
+        <li><strong>Kaspa integration choices:</strong> Blockchain selection and technical rationale</li>
+        <li><strong>Final review:</strong> All materials were reviewed and approved by the author</li>
+      </ul>
+      
+      <div class="info-card">
+        <h3>Transparency Statement</h3>
+        <p>
+          The author believes AI assistance is a legitimate and valuable tool for accelerating 
+          development, similar to using IDEs, documentation, or Stack Overflow. The intellectual 
+          foundation, domain expertise, and critical judgment remain human contributions.
+        </p>
+      </div>
+    </section>
+
+    <!-- Citation -->
+    <section class="section">
+      <span class="section-title">Academic</span>
+      <h2>Citation</h2>
+      <p>If you use FORAY in research, please cite:</p>
+      
+      <div class="code-block">
+        <code><pre>@article{foray2026,
+  title={FORAY: A Privacy-Preserving Blockchain Audit Protocol},
+  author={Percival, Marvin},
+  year={2026},
+  note={Kaspathon 2026 Submission}
+}</pre></code>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section">
+      <span class="section-title">Connect</span>
+      <h2>Contact</h2>
+      <p>Questions, feedback, or commercial inquiries? Get in touch.</p>
+      
+      <div class="contact-grid">
+        <div class="contact-item">
+          <div class="contact-item-label">Author</div>
+          <div class="contact-item-value">Marvin Percival</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">GitHub</div>
+          <div class="contact-item-value"><a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">DUNIN7/foray-kaspathon</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-value"><a href="mailto:marvinp@dunin7.com">marvinp@dunin7.com</a></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <p><strong>FORAY Protocol</strong> — Transparent audits, protected secrets, powered by Kaspa.</p>
+    <p style="margin-top: 1rem;">© 2026 Marvin Percival. All rights reserved.</p>
+  </footer>
+</body>
+</html>
