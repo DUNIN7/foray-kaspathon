@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<!--
+  File: docs.html
+  Version: 4.1.2
+  Created: 2026-01-29T08:15:00Z
+  Modified: 2026-01-29T09:05:00Z
+  Author: Marvin Percival
+  Email: marvinp@dunin7.com
+  GitHub: DUNIN7/foray-kaspathon
+  
+  FORAY Protocol Documentation Page
+  Change Log:
+    v4.1.2 (2026-01-29): Updated Privacy Architecture from 8-layer to 3-layer + ZK-Ready
+                         per current FORAY v4.1 specification.
+    v4.1.1 (2026-01-29): Corrected Accruals definition from "economic recognition" 
+                         to "formulas applied against asset flows" per FORAY spec.
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -429,8 +445,8 @@
           </tr>
           <tr>
             <td><span class="component-badge accrual">Accrual</span></td>
-            <td>Economic recognition</td>
-            <td>Invoice payable, Revenue recognition</td>
+            <td>Formulas applied to asset flows</td>
+            <td>Interest calculation, Depreciation expense, Overhead allocation</td>
           </tr>
           <tr>
             <td><span class="component-badge anticipation">Anticipation</span></td>
@@ -475,8 +491,10 @@
 
       <h2 id="accruals">Accruals</h2>
       <p>
-        Accruals represent economic recognition — the "what we owe or are owed." They link back 
-        to Arrangements and capture the financial obligation or entitlement.
+        Accruals represent formulas applied against asset flows — the "how amounts are computed." They 
+        capture calculations such as interest (P × r × t), depreciation, overhead allocation, and 
+        valuations. Accruals link back to Arrangements and define the computational logic that 
+        transforms contractual terms into quantified amounts.
       </p>
       
       <div class="info-box warning">
@@ -650,20 +668,48 @@
 
       <h2 id="privacy">Privacy Architecture</h2>
       <p>
-        FORAY implements an 8-layer privacy defense to protect sensitive business data while 
-        enabling cryptographic verification:
+        FORAY implements a 3-layer privacy architecture (with a 4th layer reserved for future 
+        zero-knowledge capabilities) to protect sensitive business data while enabling 
+        cryptographic verification:
       </p>
       
-      <ol>
-        <li><strong>Salted Formula IDs</strong> — Computation methods are hashed with entity-specific salts</li>
-        <li><strong>Multi-Layer Indirection</strong> — References use opaque identifiers</li>
-        <li><strong>Instance Pools</strong> — Similar transactions are batched to prevent pattern analysis</li>
-        <li><strong>Differential Privacy</strong> — Noise injection for aggregate statistics</li>
-        <li><strong>Tiered Oracle Attestation</strong> — Data verification without full disclosure</li>
-        <li><strong>Off-Chain Storage</strong> — Sensitive data never touches the blockchain</li>
-        <li><strong>Hash-Only Anchoring</strong> — Only cryptographic proofs are anchored</li>
-        <li><strong>Access Control</strong> — Role-based visibility for audit data</li>
-      </ol>
+      <table>
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Mechanism</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1. Identifier Hashing</td>
+            <td>Salted SHA-256</td>
+            <td>Cross-entity unlinkability</td>
+          </tr>
+          <tr>
+            <td>2. Formula Commitments</td>
+            <td>Hash-based registry</td>
+            <td>Prove correctness without revealing logic</td>
+          </tr>
+          <tr>
+            <td>3. Instance Pooling</td>
+            <td>Multiple representations</td>
+            <td>Statistical confusion</td>
+          </tr>
+          <tr>
+            <td>4. Zero-Knowledge <em>(Future)</em></td>
+            <td>ZK-SNARKs/STARKs</td>
+            <td>When Kaspa supports on-chain ZK</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <p>
+        Privacy metadata scales proportionally to data sensitivity. High-sensitivity transactions 
+        may use 7-15 obfuscated formulas and 5-10 instance pools, while low-sensitivity 
+        transactions require minimal protection.
+      </p>
 
       <h2 id="quickbooks">QuickBooks Integration</h2>
       <p>
