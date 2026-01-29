@@ -8,9 +8,9 @@
     ============================================================================
     FORAY Protocol Transaction Generator
     ============================================================================
-    Version:       3.2.0
+    Version:       3.3.0
     Created:       2025-01-28T16:30:00Z
-    Last Modified: 2026-01-28T22:20:00Z
+    Last Modified: 2026-01-29T22:00:00Z
     
     Author:        Marvin Percival
     Email:         marvinp@dunin7.com
@@ -20,6 +20,12 @@
     Copyright (c) 2026 Marvin Percival. All rights reserved.
     
     Changelog:
+      v3.3.0 (2026-01-29)
+        - Added Supply Chain/Provenance reference examples:
+          Olive Oil (Provenance), Luxury Watch (Auth)
+        - Added Supply Chain Provenance template to AI generation dropdown
+        - Now 9 reference examples and 6 AI templates
+      
       v3.2.0 (2026-01-28)
         - Matching nav bar with Transaction Review
         - Fixed generateTransaction button
@@ -666,6 +672,12 @@
                     <button class="reference-btn" onclick="viewReference('salesforce')">
                         Salesforce <small>(Opportunity)</small>
                     </button>
+                    <button class="reference-btn" onclick="viewReference('oliveOil')">
+                        Olive Oil <small>(Provenance)</small>
+                    </button>
+                    <button class="reference-btn" onclick="viewReference('luxuryWatch')">
+                        Luxury Watch <small>(Auth)</small>
+                    </button>
                 </div>
             </div>
         </div>
@@ -713,6 +725,7 @@
                         <option value="fx">FX Spot Trade</option>
                         <option value="subscription">Subscription Revenue</option>
                         <option value="inventory">Inventory Adjustment</option>
+                        <option value="supplyChain">Supply Chain Provenance</option>
                     </select>
                     <div class="hint">Optional: Choose a template to start with, then customize as needed</div>
                 </div>
@@ -755,12 +768,12 @@
         <p>
             <strong>FORAY Protocol</strong> — Privacy-Preserving Blockchain Audit Infrastructure<br>
             <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a> • 
-            <a href="mailto:marvinp@dunin7.com">marvinp@dunin7.com</a> • 
+            <a href="/cdn-cgi/l/email-protection#1a777b686c73746a5a7e6f7473742d34797577"><span class="__cf_email__" data-cfemail="1b767a696d72756b5b7f6e7572752c35787476">[email&#160;protected]</span></a> • 
             Marvin Percival
         </p>
     </div>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Configuration - Update this to point to your API server
         const API_ENDPOINT = 'http://localhost:3001/api/generate-foray';
         // For Cloudflare Tunnel: const API_ENDPOINT = 'https://your-tunnel-url.com/api/generate-foray';
@@ -791,6 +804,10 @@
             inventory: {
                 name: 'Inventory Adjustment',
                 description: 'Physical inventory count conducted on January 26, 2025. Product SKU-5589 shows book quantity 500 units at $45.00 per unit. Physical count reveals 475 units. Shortage of 25 units valued at $1,125 due to warehouse damage during forklift operations. Location: Warehouse Zone C-14.'
+            },
+            supplyChain: {
+                name: 'Supply Chain Provenance',
+                description: 'Product origin and authenticity verification for batch LOT-2026-001. Producer: Tuscan Olive Cooperative (Italy). Product: Extra Virgin Olive Oil, 2,500 liters from Chianti Hills harvest November 2025. Laboratory analysis confirms DOP certification requirements: free acidity 0.28%, peroxide value 8.5 meq/kg, polyphenols 285 mg/kg. Certifier: Consorzio DOP Toscano. Batch valued at EUR 125,000 for wholesale distribution.'
             }
         };
 
@@ -802,7 +819,9 @@
             autoLoan: 'autoLoan',
             energyPPA: 'energyPPA',
             manufacturing: 'manufacturing',
-            salesforce: 'salesforceOpportunity'
+            salesforce: 'salesforceOpportunity',
+            oliveOil: 'oliveOilProvenance',
+            luxuryWatch: 'luxuryWatchAuth'
         };
 
         // Welcome banner
@@ -998,12 +1017,4 @@
             window.location.href = REVIEW_PAGE_URL;
         }
 
-        // Close modal on outside click
-        document.getElementById('resultModal').addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal')) {
-                closeModal();
-            }
-        });
-    </script>
-</body>
-</html>
+        // Close modal 
