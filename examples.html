@@ -1,9 +1,23 @@
 <!DOCTYPE html>
+<!--
+  File: examples.html
+  Version: 1.1.0
+  Created: 2026-01-28T00:00:00Z
+  Modified: 2026-01-29T20:00:00Z
+  Author: Marvin Percival
+  Email: marvinp@dunin7.com
+  GitHub: DUNIN7/foray-kaspathon
+  
+  FORAY Protocol Examples Page
+  Change Log:
+    v1.1.0 (2026-01-29): Added Supply Chain & Provenance category
+    v1.0.1 (2026-01-29): Fixed UTF-8 encoding issues
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Examples — FORAY Protocol</title>
+  <title>Examples - FORAY Protocol</title>
   <meta name="description" content="Example FORAY Protocol transactions across industries.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,7 +61,7 @@
     
     .examples-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem; }
     
-    .example-card { background: rgba(27, 54, 93, 0.15); border: 1px solid rgba(125, 211, 214, 0.1); border-radius: 12px; padding: 1.5rem; transition: all 0.3s; cursor: pointer; }
+    .example-card { background: rgba(27, 54, 93, 0.15); border: 1px solid rgba(125, 211, 214, 0.1); border-radius: 12px; padding: 1.5rem; transition: all 0.3s; cursor: pointer; text-decoration: none; display: block; }
     .example-card:hover { border-color: var(--accent-cyan); transform: translateY(-4px); box-shadow: 0 10px 40px rgba(13, 115, 119, 0.15); }
     
     .example-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
@@ -97,7 +111,7 @@
 
   <header class="page-header">
     <h1>Example Transactions</h1>
-    <p>Explore real-world FORAY transactions across industries. Click any example to load it in the demo.</p>
+    <p>Explore real-world FORAY transactions across industries. Click any example to launch the Transaction Generator and then select the Reference Example you would like to review.</p>
   </header>
 
   <div class="examples-container">
@@ -205,7 +219,7 @@
 
     <!-- Manufacturing -->
     <section class="category-section">
-      <h2 class="category-title">Manufacturing & Supply Chain</h2>
+      <h2 class="category-title">Manufacturing</h2>
       <div class="examples-grid">
         <div class="example-card">
           <div class="example-header">
@@ -233,7 +247,7 @@
       <div class="examples-grid">
         <div class="example-card">
           <div class="example-header">
-            <div class="example-title">Solar PPA (Morocco → Spain)</div>
+            <div class="example-title">Solar PPA (Morocco to Spain)</div>
             <span class="example-badge">v4.1</span>
           </div>
           <p class="example-description">Cross-border power purchase agreement between Morocco solar farm and Spanish utility. Multi-year energy contract.</p>
@@ -244,8 +258,50 @@
             <span class="component-count act">2 ACT</span>
           </div>
           <div class="example-stats">
-            <div class="example-stat"><div class="example-stat-value">€2.4M</div><div class="example-stat-label">Monthly</div></div>
+            <div class="example-stat"><div class="example-stat-value">EUR 2.4M</div><div class="example-stat-label">Monthly</div></div>
             <div class="example-stat"><div class="example-stat-value">7</div><div class="example-stat-label">Components</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Supply Chain & Provenance -->
+    <section class="category-section">
+      <h2 class="category-title">Supply Chain & Provenance</h2>
+      <div class="examples-grid">
+        <div class="example-card">
+          <div class="example-header">
+            <div class="example-title">Olive Oil Provenance</div>
+            <span class="example-badge">v4.1</span>
+          </div>
+          <p class="example-description">DOP-certified Tuscan Extra Virgin Olive Oil. Production batch with laboratory analysis and certification issuance.</p>
+          <div class="example-components">
+            <span class="component-count arr">2 ARR</span>
+            <span class="component-count acc">2 ACC</span>
+            <span class="component-count ant">1 ANT</span>
+            <span class="component-count act">2 ACT</span>
+          </div>
+          <div class="example-stats">
+            <div class="example-stat"><div class="example-stat-value">EUR 125K</div><div class="example-stat-label">Batch Value</div></div>
+            <div class="example-stat"><div class="example-stat-value">7</div><div class="example-stat-label">Components</div></div>
+          </div>
+        </div>
+        
+        <div class="example-card">
+          <div class="example-header">
+            <div class="example-title">Luxury Watch Authentication</div>
+            <span class="example-badge">v4.1</span>
+          </div>
+          <p class="example-description">Product authentication with inspection results. Authorized dealer verification and warranty registration.</p>
+          <div class="example-components">
+            <span class="component-count arr">2 ARR</span>
+            <span class="component-count acc">2 ACC</span>
+            <span class="component-count ant">2 ANT</span>
+            <span class="component-count act">2 ACT</span>
+          </div>
+          <div class="example-stats">
+            <div class="example-stat"><div class="example-stat-value">$29.5K</div><div class="example-stat-label">MSRP</div></div>
+            <div class="example-stat"><div class="example-stat-value">8</div><div class="example-stat-label">Components</div></div>
           </div>
         </div>
       </div>
@@ -265,8 +321,8 @@
   </div>
 
   <footer class="footer">
-    <p>© 2026 Marvin Percival. All rights reserved.</p>
-    <p style="margin-top: 0.5rem;"><a href="about.html#license">License</a> · <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a></p>
+    <p>&copy; 2026 Marvin Percival. All rights reserved.</p>
+    <p style="margin-top: 0.5rem;"><a href="about.html#license">License</a> &middot; <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a></p>
   </footer>
 </body>
 </html>

@@ -3,15 +3,14 @@
   File: docs.html
   Version: 4.1.2
   Created: 2026-01-29T08:15:00Z
-  Modified: 2026-01-29T09:05:00Z
+  Modified: 2026-01-29T20:00:00Z
   Author: Marvin Percival
   Email: marvinp@dunin7.com
   GitHub: DUNIN7/foray-kaspathon
   
   FORAY Protocol Documentation Page
   Change Log:
-    v4.1.2 (2026-01-29): Updated Privacy Architecture from 8-layer to 3-layer + ZK-Ready
-                         per current FORAY v4.1 specification.
+    v4.1.2 (2026-01-29): Added Industry Guides section with links to all guides
     v4.1.1 (2026-01-29): Corrected Accruals definition from "economic recognition" 
                          to "formulas applied against asset flows" per FORAY spec.
 -->
@@ -19,7 +18,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Documentation — FORAY Protocol</title>
+  <title>Documentation â€” FORAY Protocol</title>
   <meta name="description" content="Technical documentation for FORAY Protocol v4.1 - specification, integration guides, and API reference.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -373,6 +372,15 @@
         <a href="#salesforce" class="sidebar-link">Salesforce</a>
         <a href="#erp" class="sidebar-link">ERP Systems</a>
       </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Industry Guides</div>
+        <a href="#guide-energy" class="sidebar-link">Energy Sector</a>
+        <a href="#guide-financial" class="sidebar-link">Financial Services</a>
+        <a href="#guide-manufacturing" class="sidebar-link">Manufacturing</a>
+        <a href="#guide-defense" class="sidebar-link">Defense Contractors</a>
+        <a href="#guide-supply-chain" class="sidebar-link">Supply Chain</a>
+      </div>
     </aside>
 
     <main class="docs-content">
@@ -390,16 +398,16 @@
           </svg>
           About the Name
         </div>
-        <p>FORAY is derived from "4A" — the four components: Arrangements, Accruals, Anticipations, and Actions.</p>
+        <p>FORAY is derived from "4A" â€” the four components: Arrangements, Accruals, Anticipations, and Actions.</p>
       </div>
 
       <h2 id="quick-start">Quick Start</h2>
       <p>Get started with FORAY in three steps:</p>
       
       <ol>
-        <li><strong>Model your transaction</strong> — Decompose it into the 4 components</li>
-        <li><strong>Generate JSON</strong> — Create a valid FORAY Protocol JSON document</li>
-        <li><strong>Anchor to Kaspa</strong> — Submit the merkle root to Kaspa blockchain</li>
+        <li><strong>Model your transaction</strong> â€” Decompose it into the 4 components</li>
+        <li><strong>Generate JSON</strong> â€” Create a valid FORAY Protocol JSON document</li>
+        <li><strong>Anchor to Kaspa</strong> â€” Submit the merkle root to Kaspa blockchain</li>
       </ol>
       
       <p>Try the <a href="demo.html">interactive demo</a> to see how it works.</p>
@@ -408,19 +416,19 @@
       <p>FORAY is built on these core principles:</p>
       
       <ol>
-        <li><strong>Source System Trust</strong> — FORAY trusts validated ERP data</li>
-        <li><strong>4-Component Model</strong> — Arrangements → Accruals → Anticipations → Actions</li>
-        <li><strong>Immutable Anchoring</strong> — Blockchain provides tamper-proof timestamps</li>
-        <li><strong>Privacy Preservation</strong> — Hash-based verification without data exposure</li>
-        <li><strong>Separation of Concerns</strong> — Core protocol separate from audit metadata</li>
-        <li><strong>Layered Storage</strong> — Right data in right place at right cost</li>
+        <li><strong>Source System Trust</strong> â€” FORAY trusts validated ERP data</li>
+        <li><strong>4-Component Model</strong> â€” Arrangements â†’ Accruals â†’ Anticipations â†’ Actions</li>
+        <li><strong>Immutable Anchoring</strong> â€” Blockchain provides tamper-proof timestamps</li>
+        <li><strong>Privacy Preservation</strong> â€” Hash-based verification without data exposure</li>
+        <li><strong>Separation of Concerns</strong> â€” Core protocol separate from audit metadata</li>
+        <li><strong>Layered Storage</strong> â€” Right data in right place at right cost</li>
       </ol>
 
       <h3>New in v4.1</h3>
       <ul>
-        <li><strong>Transaction Fidelity</strong> — Model what actually happened, not artificial structures</li>
-        <li><strong>Relationship Accuracy</strong> — Support real-world many-to-many flows</li>
-        <li><strong>Flexible Entry Points</strong> — Any component type can serve as transaction entry point</li>
+        <li><strong>Transaction Fidelity</strong> â€” Model what actually happened, not artificial structures</li>
+        <li><strong>Relationship Accuracy</strong> â€” Support real-world many-to-many flows</li>
+        <li><strong>Flexible Entry Points</strong> â€” Any component type can serve as transaction entry point</li>
       </ul>
 
       <h2 id="4-component-model">4-Component Model</h2>
@@ -463,7 +471,7 @@
 
       <h2 id="arrangements">Arrangements</h2>
       <p>
-        Arrangements represent the contractual foundation of a transaction — the "what we agreed to."
+        Arrangements represent the contractual foundation of a transaction â€” the "what we agreed to."
         They define parties, terms, and obligations.
       </p>
       
@@ -491,8 +499,8 @@
 
       <h2 id="accruals">Accruals</h2>
       <p>
-        Accruals represent formulas applied against asset flows — the "how amounts are computed." They 
-        capture calculations such as interest (P × r × t), depreciation, overhead allocation, and 
+        Accruals represent formulas applied against asset flows â€” the "how amounts are computed." They 
+        capture calculations such as interest (P Ã— r Ã— t), depreciation, overhead allocation, and 
         valuations. Accruals link back to Arrangements and define the computational logic that 
         transforms contractual terms into quantified amounts.
       </p>
@@ -529,7 +537,7 @@
 
       <h2 id="anticipations">Anticipations</h2>
       <p>
-        Anticipations represent expected future cash flows or deliverables — the "what we expect to happen."
+        Anticipations represent expected future cash flows or deliverables â€” the "what we expect to happen."
         They can reference both Accruals and Arrangements directly.
       </p>
       
@@ -552,7 +560,7 @@
 
       <h2 id="actions">Actions</h2>
       <p>
-        Actions represent actual asset transfers — the "what actually moved." They record 
+        Actions represent actual asset transfers â€” the "what actually moved." They record 
         settlements, payments, deliveries, and other concrete movements.
       </p>
       
@@ -668,48 +676,20 @@
 
       <h2 id="privacy">Privacy Architecture</h2>
       <p>
-        FORAY implements a 3-layer privacy architecture (with a 4th layer reserved for future 
-        zero-knowledge capabilities) to protect sensitive business data while enabling 
-        cryptographic verification:
+        FORAY implements an 8-layer privacy defense to protect sensitive business data while 
+        enabling cryptographic verification:
       </p>
       
-      <table>
-        <thead>
-          <tr>
-            <th>Layer</th>
-            <th>Mechanism</th>
-            <th>Purpose</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1. Identifier Hashing</td>
-            <td>Salted SHA-256</td>
-            <td>Cross-entity unlinkability</td>
-          </tr>
-          <tr>
-            <td>2. Formula Commitments</td>
-            <td>Hash-based registry</td>
-            <td>Prove correctness without revealing logic</td>
-          </tr>
-          <tr>
-            <td>3. Instance Pooling</td>
-            <td>Multiple representations</td>
-            <td>Statistical confusion</td>
-          </tr>
-          <tr>
-            <td>4. Zero-Knowledge <em>(Future)</em></td>
-            <td>ZK-SNARKs/STARKs</td>
-            <td>When Kaspa supports on-chain ZK</td>
-          </tr>
-        </tbody>
-      </table>
-      
-      <p>
-        Privacy metadata scales proportionally to data sensitivity. High-sensitivity transactions 
-        may use 7-15 obfuscated formulas and 5-10 instance pools, while low-sensitivity 
-        transactions require minimal protection.
-      </p>
+      <ol>
+        <li><strong>Salted Formula IDs</strong> â€” Computation methods are hashed with entity-specific salts</li>
+        <li><strong>Multi-Layer Indirection</strong> â€” References use opaque identifiers</li>
+        <li><strong>Instance Pools</strong> â€” Similar transactions are batched to prevent pattern analysis</li>
+        <li><strong>Differential Privacy</strong> â€” Noise injection for aggregate statistics</li>
+        <li><strong>Tiered Oracle Attestation</strong> â€” Data verification without full disclosure</li>
+        <li><strong>Off-Chain Storage</strong> â€” Sensitive data never touches the blockchain</li>
+        <li><strong>Hash-Only Anchoring</strong> â€” Only cryptographic proofs are anchored</li>
+        <li><strong>Access Control</strong> â€” Role-based visibility for audit data</li>
+      </ol>
 
       <h2 id="quickbooks">QuickBooks Integration</h2>
       <p>
@@ -752,11 +732,11 @@
       </p>
       
       <ol>
-        <li><strong>Extract</strong> — Pull transaction data from ERP via API or export</li>
-        <li><strong>Transform</strong> — Map to FORAY 4-component model</li>
-        <li><strong>Hash</strong> — Generate component hashes and merkle root</li>
-        <li><strong>Anchor</strong> — Submit proof to Kaspa blockchain</li>
-        <li><strong>Store</strong> — Archive full transaction with anchor reference</li>
+        <li><strong>Extract</strong> â€” Pull transaction data from ERP via API or export</li>
+        <li><strong>Transform</strong> â€” Map to FORAY 4-component model</li>
+        <li><strong>Hash</strong> â€” Generate component hashes and merkle root</li>
+        <li><strong>Anchor</strong> â€” Submit proof to Kaspa blockchain</li>
+        <li><strong>Store</strong> â€” Archive full transaction with anchor reference</li>
       </ol>
       
       <p>
@@ -764,10 +744,81 @@
         Contact us for enterprise integration support.
       </p>
 
+      <h2 id="guide-energy">Industry Guide: Energy Sector</h2>
+      <p>
+        FORAY Protocol addresses unique challenges in energy sector accounting and compliance, 
+        including cross-border power sales, Renewable Energy Certificates (RECs), and multi-party settlement.
+      </p>
+      <p>
+        <strong>Key applications:</strong> Power Purchase Agreements, transmission tariffs, REC tracking, 
+        project finance compliance, sovereign guarantee verification.
+      </p>
+      <p>
+        <strong>Sample transaction:</strong> <code>energy-solar-ppa-morocco-spain-v3.json</code> - 
+        EUR 197M annual PPA between Moroccan solar farm and Spanish utility.
+      </p>
+      <p><a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Energy_Sector_Guide.md" target="_blank">View Full Energy Sector Guide &rarr;</a></p>
+
+      <h2 id="guide-financial">Industry Guide: Financial Services</h2>
+      <p>
+        FORAY provides audit infrastructure for derivatives, securitizations, trading operations, 
+        and complex financial instruments requiring SOX 404, Basel III, and Dodd-Frank compliance.
+      </p>
+      <p>
+        <strong>Key applications:</strong> RMBS securitizations, FX spot trades, overnight repo, 
+        waterfall calculations, tranche tracking.
+      </p>
+      <p>
+        <strong>Sample transactions:</strong> <code>fx-spot-usdjpy-v41.json</code>, 
+        <code>overnight-repo-v41.json</code>, <code>rmbs-transaction-v3.json</code>
+      </p>
+      <p><a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Financial_Services_Guide.md" target="_blank">View Full Financial Services Guide &rarr;</a></p>
+
+      <h2 id="guide-manufacturing">Industry Guide: Manufacturing</h2>
+      <p>
+        FORAY enables audit trails for manufacturing operations including BOM rollups, labor allocation, 
+        WIP tracking, and cost accounting.
+      </p>
+      <p>
+        <strong>Key applications:</strong> Work order tracking, material consumption, overhead allocation, 
+        finished goods receipt, cost flow verification.
+      </p>
+      <p>
+        <strong>Sample transaction:</strong> <code>manufacturing-work-order-v41.json</code> - 
+        Production run with BOM, labor, and overhead allocation.
+      </p>
+      <p><a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Manufacturing_Supply_Chain_Guide.md" target="_blank">View Full Manufacturing Guide &rarr;</a></p>
+
+      <h2 id="guide-defense">Industry Guide: Defense Contractors</h2>
+      <p>
+        FORAY addresses DCAA audit requirements and DFARS compliance for defense contractors, 
+        with privacy architecture suitable for sensitive government contracts.
+      </p>
+      <p>
+        <strong>Key applications:</strong> Cost tracking, timekeeping verification, indirect cost allocation, 
+        supply chain compliance, contract closeout.
+      </p>
+      <p><a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Defense_Contractor_Guide.md" target="_blank">View Full Defense Contractor Guide &rarr;</a></p>
+
+      <h2 id="guide-supply-chain">Industry Guide: Supply Chain & Provenance</h2>
+      <p>
+        FORAY enables product provenance and authentication tracking for food products, luxury goods, 
+        and other items requiring verifiable chain of custody.
+      </p>
+      <p>
+        <strong>Key applications:</strong> Origin certification, quality analysis records, batch tracking, 
+        product authentication, warranty registration.
+      </p>
+      <p>
+        <strong>Sample transactions:</strong> <code>olive-oil-provenance-v41.json</code> - DOP-certified olive oil batch, 
+        <code>luxury-watch-authentication-v41.json</code> - Luxury product verification.
+      </p>
+      <p><a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Supply_Chain_Provenance_Guide.md" target="_blank">View Full Supply Chain Guide &rarr;</a></p>
+
       <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(125, 211, 214, 0.1); text-align: center; color: var(--gray-400); font-size: 0.9rem;">
-        <p>© 2026 Marvin Percival. All rights reserved.</p>
+        <p>&copy; 2026 Marvin Percival. All rights reserved.</p>
         <p style="margin-top: 0.5rem;">
-          <a href="about.html#license">License</a> · 
+          <a href="about.html#license">License</a> &middot; 
           <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a>
         </p>
       </div>

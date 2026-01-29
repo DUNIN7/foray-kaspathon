@@ -1,0 +1,138 @@
+{
+  "transaction_id": "PROV_YYYY_QN_PRODUCT_BATCH_NNN",
+  "schema_version": "4.1",
+  "timestamp": "2026-01-01T00:00:00Z",
+
+  "foray_core": {
+    "entity": "Producer Name",
+    "entity_hash": "sha256:entity_hash...",
+    "transaction_type": "product_provenance",
+    "total_value": 0.00,
+    "currency": "USD",
+    "status": "completed",
+    "compliance_flags": []
+  },
+
+  "component_hashes": {
+    "arrangements": "sha256:...",
+    "accruals": "sha256:...",
+    "anticipations": "sha256:...",
+    "actions": "sha256:..."
+  },
+
+  "arrangements": [
+    {
+      "id": "ARR_ORIGIN_CERTIFICATION",
+      "foray_core": {
+        "type": "origin_certification",
+        "effective_date": "2026-01-01T00:00:00Z",
+        "parties": [
+          { "role": "producer", "name": "Producer Name", "jurisdiction": "XX" },
+          { "role": "certifier", "name": "Certification Body", "jurisdiction": "XX" }
+        ],
+        "description": "Product origin certification",
+        "total_value": 0.00,
+        "currency": "USD",
+        "terms": {},
+        "dependencies": []
+      }
+    },
+    {
+      "id": "ARR_BATCH_DEFINITION",
+      "foray_core": {
+        "type": "production_batch",
+        "effective_date": "2026-01-01T00:00:00Z",
+        "parties": [
+          { "role": "producer", "name": "Producer Name", "jurisdiction": "XX" }
+        ],
+        "description": "Production batch definition",
+        "total_value": 0.00,
+        "currency": "USD",
+        "terms": {
+          "batch_id": "LOT-YYYY-NNN",
+          "quantity": 0,
+          "unit": "units"
+        },
+        "dependencies": ["ARR_ORIGIN_CERTIFICATION"]
+      }
+    }
+  ],
+
+  "accruals": [
+    {
+      "id": "ACC_PRODUCT_ANALYSIS",
+      "foray_core": {
+        "arrangement_refs": ["ARR_BATCH_DEFINITION"],
+        "type": "product_analysis",
+        "description": "Product quality analysis results",
+        "computation_method": "Valuation",
+        "formula_id": "sha256:analysis_protocol...",
+        "inputs": {
+          "sample_id": "SAMPLE-NNN",
+          "analysis_date": "2026-01-01"
+        },
+        "output": 0.00,
+        "currency": "USD",
+        "dependencies": ["ARR_BATCH_DEFINITION"]
+      }
+    }
+  ],
+
+  "anticipations": [
+    {
+      "id": "ANT_DISTRIBUTION_SCHEDULE",
+      "foray_core": {
+        "accrual_refs": ["ACC_PRODUCT_ANALYSIS"],
+        "arrangement_refs": ["ARR_BATCH_DEFINITION"],
+        "type": "scheduled_distribution",
+        "description": "Expected distribution schedule",
+        "expected_amount": 0.00,
+        "currency": "USD",
+        "expected_date": "2026-02-01",
+        "probability_factor": 0.95,
+        "dependencies": ["ACC_PRODUCT_ANALYSIS"]
+      }
+    }
+  ],
+
+  "actions": [
+    {
+      "id": "ACT_VERIFICATION_RECORDED",
+      "foray_core": {
+        "anticipation_refs": [],
+        "accrual_refs": ["ACC_PRODUCT_ANALYSIS"],
+        "arrangement_refs": ["ARR_BATCH_DEFINITION"],
+        "type": "verification_record",
+        "description": "Verification record anchored to blockchain",
+        "amount_settled": 0.00,
+        "currency": "USD",
+        "settlement_date": "2026-01-01T00:00:00Z",
+        "settlement_status": "completed",
+        "payment_method": "other",
+        "counterparty": "Internal",
+        "dependencies": ["ACC_PRODUCT_ANALYSIS"]
+      }
+    }
+  ],
+
+  "merkle_root": "sha256:...",
+
+  "blockchain_anchor": {
+    "kaspa_tx_id": "kaspa:qr...",
+    "block_height": 0,
+    "confirmation_time_ms": 0,
+    "anchored_at": "2026-01-01T00:00:00Z"
+  },
+
+  "audit_data_anchor": {
+    "audit_data_hash": "sha256:...",
+    "audit_profile": "standard",
+    "storage_locations": []
+  },
+
+  "privacy_metadata": {
+    "formulas_obfuscated": 0,
+    "instance_pools": 0,
+    "attack_complexity": "2^96 operations"
+  }
+}

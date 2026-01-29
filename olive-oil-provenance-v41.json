@@ -1,0 +1,227 @@
+{
+  "transaction_id": "PROV_2026_Q1_OLIVE_OIL_BATCH_001",
+  "schema_version": "4.1",
+  "timestamp": "2026-01-15T09:00:00Z",
+
+  "foray_core": {
+    "entity": "Tuscan Olive Cooperative",
+    "entity_hash": "sha256:toc_2026_abc123...",
+    "transaction_type": "product_provenance",
+    "total_value": 125000.00,
+    "currency": "EUR",
+    "status": "completed",
+    "compliance_flags": ["EU_Food_Safety", "DOP_Certification", "ISO_22000"]
+  },
+
+  "component_hashes": {
+    "arrangements": "sha256:arr_olive_a1b2c3...",
+    "accruals": "sha256:acc_olive_d4e5f6...",
+    "anticipations": "sha256:ant_olive_g7h8i9...",
+    "actions": "sha256:act_olive_j0k1l2..."
+  },
+
+  "arrangements": [
+    {
+      "id": "ARR_DOP_CERTIFICATION_2026",
+      "foray_core": {
+        "type": "origin_certification",
+        "effective_date": "2026-01-01T00:00:00Z",
+        "parties": [
+          { "role": "producer", "name": "Tuscan Olive Cooperative", "jurisdiction": "IT" },
+          { "role": "certifier", "name": "Consorzio DOP Toscano", "jurisdiction": "IT" },
+          { "role": "laboratory", "name": "Laboratorio Analisi Alimentari", "jurisdiction": "IT" }
+        ],
+        "description": "DOP certification for Tuscan IGP Extra Virgin Olive Oil production",
+        "total_value": 125000.00,
+        "currency": "EUR",
+        "terms": {
+          "certification_type": "DOP_Toscano_IGP",
+          "valid_until": "2026-12-31",
+          "annual_audit_required": true
+        },
+        "dependencies": []
+      }
+    },
+    {
+      "id": "ARR_BATCH_DEFINITION_2026_001",
+      "foray_core": {
+        "type": "production_batch",
+        "effective_date": "2026-01-10T00:00:00Z",
+        "parties": [
+          { "role": "producer", "name": "Tuscan Olive Cooperative", "jurisdiction": "IT" }
+        ],
+        "description": "Production batch LOT-2026-001 - 2,500 liters EVOO",
+        "total_value": 125000.00,
+        "currency": "EUR",
+        "terms": {
+          "batch_id": "LOT-2026-001",
+          "volume_liters": 2500,
+          "bottle_count": 5000,
+          "bottle_size_ml": 500,
+          "harvest_date": "2025-11-15",
+          "press_date": "2025-11-16",
+          "grove_region": "Chianti Hills"
+        },
+        "dependencies": ["ARR_DOP_CERTIFICATION_2026"]
+      }
+    }
+  ],
+
+  "accruals": [
+    {
+      "id": "ACC_LABORATORY_ANALYSIS_001",
+      "foray_core": {
+        "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001", "ARR_DOP_CERTIFICATION_2026"],
+        "type": "product_analysis",
+        "description": "Laboratory analysis results for batch LOT-2026-001",
+        "computation_method": "Valuation",
+        "formula_id": "sha256:lab_analysis_protocol_v3...",
+        "inputs": {
+          "sample_id": "SAMPLE-2026-001-A",
+          "analysis_date": "2026-01-12",
+          "methodology": "EU_Reg_2568_91"
+        },
+        "output": 125000.00,
+        "currency": "EUR",
+        "analysis_results": {
+          "free_acidity_percent": 0.28,
+          "peroxide_value_meq_kg": 8.5,
+          "k232": 1.85,
+          "k270": 0.12,
+          "delta_k": -0.003,
+          "polyphenols_mg_kg": 285,
+          "classification": "Extra Virgin",
+          "grade_confirmed": true
+        },
+        "dependencies": ["ARR_BATCH_DEFINITION_2026_001"]
+      }
+    },
+    {
+      "id": "ACC_BATCH_VALUATION_001",
+      "foray_core": {
+        "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001"],
+        "type": "inventory_valuation",
+        "description": "Batch valuation at wholesale price",
+        "computation_method": "Calculated",
+        "formula_id": "sha256:valuation_volume_x_price...",
+        "inputs": {
+          "volume_liters": 2500,
+          "price_per_liter_eur": 50.00
+        },
+        "output": 125000.00,
+        "currency": "EUR",
+        "dependencies": ["ARR_BATCH_DEFINITION_2026_001"]
+      }
+    }
+  ],
+
+  "anticipations": [
+    {
+      "id": "ANT_DISTRIBUTION_2026_001",
+      "foray_core": {
+        "accrual_refs": ["ACC_BATCH_VALUATION_001"],
+        "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001"],
+        "type": "scheduled_distribution",
+        "description": "Expected distribution to wholesale partners",
+        "expected_amount": 125000.00,
+        "currency": "EUR",
+        "expected_date": "2026-02-01",
+        "probability_factor": 0.95,
+        "distribution_plan": {
+          "wholesaler_count": 12,
+          "bottles_per_wholesaler": 400,
+          "reserved_bottles": 200
+        },
+        "dependencies": ["ACC_BATCH_VALUATION_001"]
+      }
+    },
+    {
+      "id": "ANT_SHELF_LIFE_WINDOW_001",
+      "foray_core": {
+        "accrual_refs": ["ACC_LABORATORY_ANALYSIS_001"],
+        "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001"],
+        "type": "quality_validity_window",
+        "description": "Expected shelf life based on analysis results",
+        "expected_amount": 0,
+        "currency": "EUR",
+        "expected_date": "2028-01-15",
+        "probability_factor": 0.90,
+        "quality_parameters": {
+          "best_before_date": "2028-01-15",
+          "optimal_storage_temp_c": "14-18",
+          "light_exposure": "protected"
+        },
+        "dependencies": ["ACC_LABORATORY_ANALYSIS_001"]
+      }
+    }
+  ],
+
+  "actions": [
+    {
+      "id": "ACT_BOTTLING_COMPLETE_001",
+      "foray_core": {
+        "anticipation_refs": ["ANT_DISTRIBUTION_2026_001"],
+        "accrual_refs": ["ACC_LABORATORY_ANALYSIS_001", "ACC_BATCH_VALUATION_001"],
+        "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001"],
+        "type": "production_completion",
+        "description": "Bottling completed for batch LOT-2026-001",
+        "amount_settled": 125000.00,
+        "currency": "EUR",
+        "settlement_date": "2026-01-15T09:00:00Z",
+        "settlement_status": "completed",
+        "payment_method": "other",
+        "counterparty": "Internal",
+        "production_details": {
+          "bottles_produced": 5000,
+          "bottles_passed_qc": 4985,
+          "bottles_rejected": 15,
+          "rejection_rate_percent": 0.3
+        },
+        "dependencies": ["ANT_DISTRIBUTION_2026_001"]
+      }
+    },
+    {
+      "id": "ACT_CERTIFICATION_ISSUED_001",
+      "foray_core": {
+        "anticipation_refs": [],
+        "accrual_refs": ["ACC_LABORATORY_ANALYSIS_001"],
+        "arrangement_refs": ["ARR_DOP_CERTIFICATION_2026", "ARR_BATCH_DEFINITION_2026_001"],
+        "type": "certification_issuance",
+        "description": "DOP certificate issued for batch LOT-2026-001",
+        "amount_settled": 0,
+        "currency": "EUR",
+        "settlement_date": "2026-01-14T14:00:00Z",
+        "settlement_status": "completed",
+        "payment_method": "other",
+        "counterparty": "Consorzio DOP Toscano",
+        "certificate_details": {
+          "certificate_number": "DOP-TOS-2026-00847",
+          "issued_by": "Consorzio DOP Toscano",
+          "valid_for_batch": "LOT-2026-001"
+        },
+        "dependencies": ["ACC_LABORATORY_ANALYSIS_001"]
+      }
+    }
+  ],
+
+  "merkle_root": "sha256:olive_batch_001_merkle_root...",
+
+  "blockchain_anchor": {
+    "kaspa_tx_id": "kaspa:qr_olive_batch_001...",
+    "block_height": 2950000,
+    "confirmation_time_ms": 1100,
+    "anchored_at": "2026-01-15T09:00:02Z"
+  },
+
+  "audit_data_anchor": {
+    "audit_data_hash": "sha256:olive_audit_data...",
+    "audit_profile": "standard",
+    "storage_locations": ["s3://foray-audit/2026/Q1/PROV_2026_Q1_OLIVE_OIL_BATCH_001"]
+  },
+
+  "privacy_metadata": {
+    "formulas_obfuscated": 2,
+    "instance_pools": 3,
+    "attack_complexity": "2^96 operations"
+  }
+}
