@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.0.0
+Version:       2.1.0
 Created:       2026-01-27T20:00:00Z
-Last Modified: 2026-01-28T22:45:00Z
+Last Modified: 2026-01-29T11:30:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,10 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.1.0 (2026-01-29)
+    - Fixed scroll indicator overlap on smaller screens (now hidden on mobile)
+    - Corrected Accruals description to "formulas applied against asset flows"
+  
   v2.0.0 (2026-01-28)
     - Reduced section spacing for better visual flow
     - Preserved hero -> Problem section gap
@@ -787,6 +791,10 @@ Changelog:
         display: none;
       }
       
+      .scroll-indicator {
+        display: none;
+      }
+      
       .problem-grid {
         grid-template-columns: 1fr;
       }
@@ -973,7 +981,7 @@ Changelog:
             </svg>
           </div>
           <h3>Accruals</h3>
-          <p>Economic recognition of obligations and revenue. The "what we owe or are owed."</p>
+          <p>Formulas applied against asset flows. The "how amounts are computed."</p>
         </div>
         
         <div class="model-card anticipation">
