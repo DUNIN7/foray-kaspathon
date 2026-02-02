@@ -748,7 +748,7 @@
       
       autoLoan: {
         name: "Auto Loan (Full Chain)",
-        description: "Consumer loan with arrangement â†’ accruals â†’ anticipations â†’ actions",
+        description: "Consumer loan with arrangement &rarr; accruals &rarr; anticipations &rarr; actions",
         data: {
           "transaction_id": "AUTO_LOAN_2026_Q1_JOHN_DOE",
           "schema_version": "4.1",
@@ -1180,7 +1180,7 @@
       
       salesforceOpportunity: {
         name: "Salesforce Opportunity",
-        description: "CRM opportunity â†’ quote â†’ order â†’ invoice â†’ payment",
+        description: "CRM opportunity &rarr; quote &rarr; order &rarr; invoice &rarr; payment",
         data: {
           "transaction_id": "SF_OPP_2026_Q1_ACME_ENTERPRISE",
           "schema_version": "4.1",
@@ -2125,7 +2125,7 @@ Rather than sending three separate payments, Acme's AP team consolidates these i
 
 ## How FORAY Models This Transaction
 
-This is a classic **many-to-many** scenarioâ€”one payment settling multiple obligations. FORAY v4.1's reference arrays handle this elegantly.
+This is a classic **many-to-many** scenario&mdash;one payment settling multiple obligations. FORAY v4.1's reference arrays handle this elegantly.
 
 ### The Arrangement
 
@@ -2137,7 +2137,7 @@ The MSA governs the relationship:
 
 ### The Accruals (3 Invoices)
 
-Each invoice creates an accrualâ€”a recognized obligation:
+Each invoice creates an accrual&mdash;a recognized obligation:
 - **ACC_INV_0142**: $15,000 (Q4 components)
 - **ACC_INV_0156**: $22,500 (Emergency parts)
 - **ACC_INV_0171**: $10,000 (Maintenance)
@@ -2167,9 +2167,9 @@ Here's where v4.1 shines. The action references **all three** anticipations:
 
 | Feature | How It's Used |
 |---------|---------------|
-| **Many-to-many references** | One payment â†’ three invoices |
+| **Many-to-many references** | One payment &rarr; three invoices |
 | **Allocations array** | Shows exact split per invoice |
-| **Dependency chain** | MSA â†’ Invoices â†’ Payments â†’ Settlement |
+| **Dependency chain** | MSA &rarr; Invoices &rarr; Payments &rarr; Settlement |
 
 ---
 
@@ -2214,9 +2214,9 @@ This demonstrates v4.1's **flexible entry point** feature. Not every transaction
 
 ### The Structure
 
-- **Arrangements**: Empty \`[]\` â€” no contract
-- **Accruals**: Empty \`[]\` â€” no obligation created
-- **Anticipations**: Empty \`[]\` â€” no future payment expected
+- **Arrangements**: Empty \`[]\` &mdash; no contract
+- **Accruals**: Empty \`[]\` &mdash; no obligation created
+- **Anticipations**: Empty \`[]\` &mdash; no future payment expected
 - **Actions**: Single cash receipt action
 
 ### The Action
@@ -2275,7 +2275,7 @@ John Doe finances a 2024 Tesla Model 3:
 
 ## How FORAY Models This Transaction
 
-This demonstrates the **complete 4-component chain**: Arrangement â†’ Accruals â†’ Anticipations â†’ Actions.
+This demonstrates the **complete 4-component chain**: Arrangement &rarr; Accruals &rarr; Anticipations &rarr; Actions.
 
 ### 1. Arrangement (Loan Contract)
 
@@ -2293,7 +2293,7 @@ Monthly interest accrues on the outstanding balance:
 - **February**: $163.25 (on $35,000 balance)
 - **March**: $145.32 (on reduced balance)
 
-Formula: \`Principal Ã— (APR/12)\`
+Formula: \`Principal &times; (APR/12)\`
 
 ### 3. Anticipations (Expected Payments)
 
@@ -2383,7 +2383,7 @@ Single action with allocations to all three tranches showing interest/principal 
 
 | Feature | How It's Used |
 |---------|---------------|
-| **Many-to-many references** | Pool â†’ 3 tranches |
+| **Many-to-many references** | Pool &rarr; 3 tranches |
 | **Complex allocations** | Interest/principal splits |
 | **Multiple arrangements** | Parallel tranche structure |
 | **Waterfall priority** | Strict payment order |
@@ -2407,7 +2407,7 @@ SunPower Utilities purchases solar electricity from Morocco's Ouarzazate Solar C
 - **Contract**: 20-year PPA
 - **January Delivery**: 38,500 MWh
 - **Curtailment**: 1,500 MWh (grid congestion)
-- **Price**: â‚¬43.18/MWh (Year 2 with escalation)
+- **Price**: &euro;43.18/MWh (Year 2 with escalation)
 
 ---
 
@@ -2417,20 +2417,20 @@ SunPower Utilities purchases solar electricity from Morocco's Ouarzazate Solar C
 
 20-year PPA terms:
 - Annual commitment: 420,000 MWh
-- Base price: â‚¬42.50/MWh
+- Base price: &euro;42.50/MWh
 - Escalation: 1.5%/year
 - Curtailment compensation: 85%
 - RECs included
 
 ### The Accruals (3 Types)
 
-**1. Energy Delivery**: â‚¬1,662,430 (38,500 MWh)
-**2. Curtailment**: â‚¬55,054.50 (1,500 MWh @ 85%)
-**3. RECs**: â‚¬140,000 (40,000 certificates @ â‚¬3.50)
+**1. Energy Delivery**: &euro;1,662,430 (38,500 MWh)
+**2. Curtailment**: &euro;55,054.50 (1,500 MWh @ 85%)
+**3. RECs**: &euro;140,000 (40,000 certificates @ &euro;3.50)
 
 ### The Actions (2 Settlements)
 
-**Energy Payment**: â‚¬1,717,484.50 via SWIFT
+**Energy Payment**: &euro;1,717,484.50 via SWIFT
 **REC Transfer**: 40,000 certificates via EU GO Registry
 
 ---
@@ -2441,7 +2441,7 @@ SunPower Utilities purchases solar electricity from Morocco's Ouarzazate Solar C
 |---------|---------------|
 | **Multiple accrual types** | Energy, curtailment, RECs |
 | **Non-cash settlements** | Registry transfer for RECs |
-| **Cross-border parties** | Morocco â†’ Spain |
+| **Cross-border parties** | Morocco &rarr; Spain |
 | **Physical delivery** | Meter readings captured |`
       },
       
@@ -2485,9 +2485,9 @@ Unit cost: $478.49
 
 ### The Accruals (3 Cost Elements)
 
-**Raw Materials**: BOM explosion â†’ $26,350
-**Direct Labor**: 245 hours Ã— $52/hr â†’ $12,740
-**Overhead**: 245 hours Ã— $35.75/hr â†’ $8,758.75
+**Raw Materials**: BOM explosion &rarr; $26,350
+**Direct Labor**: 245 hours &times; $52/hr &rarr; $12,740
+**Overhead**: 245 hours &times; $35.75/hr &rarr; $8,758.75
 
 ### The Action (FG Receipt)
 
@@ -2514,7 +2514,7 @@ Unit cost: $478.49
 
 ## The Business Scenario
 
-Month-end closing at Precision Manufacturingâ€”recording depreciation:
+Month-end closing at Precision Manufacturing&mdash;recording depreciation:
 
 | Asset Class | Original Cost | Monthly Depreciation |
 |-------------|---------------|---------------------|
@@ -2527,7 +2527,7 @@ Month-end closing at Precision Manufacturingâ€”recording depreciation:
 
 ## How FORAY Models This Transaction
 
-This demonstrates **Accrual-only** entry pointâ€”no contract, no payment, just accounting recognition.
+This demonstrates **Accrual-only** entry point&mdash;no contract, no payment, just accounting recognition.
 
 ### Why Accrual-Only Makes Sense
 
@@ -2571,12 +2571,12 @@ This demonstrates **Accrual-only** entry pointâ€”no contract, no payment, j
 
 Global Treasury executes a EUR/USD spot trade:
 
-- **Buy**: â‚¬1,000,000
+- **Buy**: &euro;1,000,000
 - **Sell**: $1,085,000
 - **Rate**: 1.0850
 - **Settlement**: T+2 (January 27, 2026)
 
-By settlement, EUR/USD moved to 1.0875 â†’ **$2,500 realized gain**.
+By settlement, EUR/USD moved to 1.0875 &rarr; **$2,500 realized gain**.
 
 ---
 
@@ -2593,16 +2593,16 @@ FX spot contract:
 ### The Accruals (Mark-to-Market)
 
 **Trade Date (T+0)**: P&L = $0
-**T+1**: Market rate 1.0875 â†’ Unrealized P&L = $2,500
+**T+1**: Market rate 1.0875 &rarr; Unrealized P&L = $2,500
 
 ### The Anticipations (Two Legs)
 
-**EUR Receipt**: â‚¬1,000,000 expected
+**EUR Receipt**: &euro;1,000,000 expected
 **USD Payment**: $1,085,000 expected
 
 ### The Actions (Three Settlements)
 
-**1. EUR Received**: â‚¬1,000,000 via SWIFT
+**1. EUR Received**: &euro;1,000,000 via SWIFT
 **2. USD Paid**: $1,085,000 via Fedwire
 **3. P&L Realized**: $2,500 gain booked
 
@@ -3182,7 +3182,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               className="text-xs flex items-center gap-1"
                               style={{ color: forayColors.primaryTeal }}
                             >
-                              <DollarSign className="w-3 h-3" /> Get free test KAS from faucet â†’
+                              <DollarSign className="w-3 h-3" /> Get free test KAS from faucet &rarr;
                             </a>
                           </div>
                         )}
@@ -3389,7 +3389,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     <div className="mt-4 p-3 rounded-lg" style={{ backgroundColor: '#fee2e2' }}>
                       <p className="font-medium text-sm mb-2" style={{ color: '#b91c1c' }}>Validation Errors:</p>
                       <ul className="text-sm space-y-1" style={{ color: '#b91c1c' }}>
-                        {validationResult.errors.map((err, idx) => <li key={idx}>â€¢ {err}</li>)}
+                        {validationResult.errors.map((err, idx) => <li key={idx}>&bull; {err}</li>)}
                       </ul>
                     </div>
                   )}
@@ -3766,7 +3766,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                       {/* Introduction */}
                       <div className="p-4 rounded-lg" style={{ backgroundColor: `${forayColors.primaryTeal}10` }}>
                         <p className="text-sm" style={{ color: forayColors.secondaryNavy }}>
-                          <strong>FORAY Protocol</strong> creates immutable, tamper-proof audit trails of your ERP transactions that regulators, auditors, and forensic investigators can trustâ€”without exposing your competitive secrets. Each version adds capabilities while maintaining backward compatibility.
+                          <strong>FORAY Protocol</strong> creates immutable, tamper-proof audit trails of your ERP transactions that regulators, auditors, and forensic investigators can trust&mdash;without exposing your competitive secrets. Each version adds capabilities while maintaining backward compatibility.
                         </p>
                       </div>
                       
@@ -3785,7 +3785,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               Introduced the core 4-component transaction model that forms the foundation of all FORAY transactions.
                             </p>
                             <div className="grid grid-cols-2 gap-2 text-xs">
-                              <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>4-Component Model (Aâ†’Aâ†’Aâ†’A)</span></div>
+                              <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>4-Component Model (A&rarr;A&rarr;A&rarr;A)</span></div>
                               <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>Basic blockchain anchoring</span></div>
                               <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>Simple hash verification</span></div>
                               <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>Transaction dependency tracking</span></div>
@@ -3902,8 +3902,8 @@ Anchored By: ${anchorResult.anchored_by}`;
                             <tbody>
                               <tr>
                                 <td className="border p-2" style={{ borderColor: forayColors.gray400 }}>Arrangements Required</td>
-                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>âœ“</td>
-                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>âœ“</td>
+                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>&#x2714;</td>
+                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>&#x2714;</td>
                                 <td className="border p-2 text-center font-semibold" style={{ borderColor: forayColors.gray400, backgroundColor: `${forayColors.primaryTeal}10`, color: forayColors.primaryTeal }}>Optional</td>
                               </tr>
                               <tr>
@@ -3914,15 +3914,15 @@ Anchored By: ${anchorResult.anchored_by}`;
                               </tr>
                               <tr>
                                 <td className="border p-2" style={{ borderColor: forayColors.gray400 }}>foray_core Separation</td>
-                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>â€”</td>
-                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>âœ“</td>
-                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400, backgroundColor: `${forayColors.primaryTeal}10` }}>âœ“</td>
+                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>&mdash;</td>
+                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>&#x2714;</td>
+                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400, backgroundColor: `${forayColors.primaryTeal}10` }}>&#x2714;</td>
                               </tr>
                               <tr>
                                 <td className="border p-2" style={{ borderColor: forayColors.gray400 }}>Allocation Tracking</td>
-                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>â€”</td>
-                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>â€”</td>
-                                <td className="border p-2 text-center font-semibold" style={{ borderColor: forayColors.gray400, backgroundColor: `${forayColors.primaryTeal}10`, color: forayColors.primaryTeal }}>âœ“</td>
+                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>&mdash;</td>
+                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>&mdash;</td>
+                                <td className="border p-2 text-center font-semibold" style={{ borderColor: forayColors.gray400, backgroundColor: `${forayColors.primaryTeal}10`, color: forayColors.primaryTeal }}>&#x2714;</td>
                               </tr>
                               <tr>
                                 <td className="border p-2" style={{ borderColor: forayColors.gray400 }}>Entry Points</td>
@@ -3979,7 +3979,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               <div className="flex gap-3">
                                 <span className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: forayColors.primaryTeal, color: 'white' }}>3</span>
                                 <div>
-                                  <strong>Proof Linkage:</strong> The Kaspa Transaction ID is linked to your FORAY transaction hash. This creates an unbreakable chain: <code className="px-1 rounded" style={{ backgroundColor: forayColors.bgLight }}>Kaspa TX ID â†’ FORAY Hash â†’ Original Transaction</code>
+                                  <strong>Proof Linkage:</strong> The Kaspa Transaction ID is linked to your FORAY transaction hash. This creates an unbreakable chain: <code className="px-1 rounded" style={{ backgroundColor: forayColors.bgLight }}>Kaspa TX ID &rarr; FORAY Hash &rarr; Original Transaction</code>
                                 </div>
                               </div>
                             </div>
@@ -3992,10 +3992,10 @@ Anchored By: ${anchorResult.anchored_by}`;
                                 <Database className="w-4 h-4" /> On Blockchain
                               </h4>
                               <ul className="text-xs space-y-1" style={{ color: forayColors.gray600 }}>
-                                <li>â€¢ Kaspa Transaction ID</li>
-                                <li>â€¢ Timestamp (block time)</li>
-                                <li>â€¢ Wallet address</li>
-                                <li>â€¢ Block height & hash</li>
+                                <li>&bull; Kaspa Transaction ID</li>
+                                <li>&bull; Timestamp (block time)</li>
+                                <li>&bull; Wallet address</li>
+                                <li>&bull; Block height & hash</li>
                               </ul>
                             </div>
                             <div className="p-4 border rounded-lg" style={{ borderColor: forayColors.secondaryNavy, backgroundColor: `${forayColors.secondaryNavy}05` }}>
@@ -4003,10 +4003,10 @@ Anchored By: ${anchorResult.anchored_by}`;
                                 <FileText className="w-4 h-4" /> In Your System
                               </h4>
                               <ul className="text-xs space-y-1" style={{ color: forayColors.gray600 }}>
-                                <li>â€¢ Complete FORAY JSON</li>
-                                <li>â€¢ Transaction hash (SHA-256)</li>
-                                <li>â€¢ Kaspa TX ID reference</li>
-                                <li>â€¢ Anchor metadata</li>
+                                <li>&bull; Complete FORAY JSON</li>
+                                <li>&bull; Transaction hash (SHA-256)</li>
+                                <li>&bull; Kaspa TX ID reference</li>
+                                <li>&bull; Anchor metadata</li>
                               </ul>
                             </div>
                           </div>
@@ -4020,10 +4020,10 @@ Anchored By: ${anchorResult.anchored_by}`;
                               This Transaction Review tool demonstrates blockchain anchoring using actual Kaspa testnet transactions. When you anchor a transaction:
                             </p>
                             <ul className="text-sm mt-2 space-y-1" style={{ color: forayColors.gray600 }}>
-                              <li>â€¢ <strong>Real Kaspa TX:</strong> A real transaction is submitted to Kaspa Testnet 10 or 11</li>
-                              <li>â€¢ <strong>Explorer Verification:</strong> Click "View on Explorer" to see the actual blockchain record</li>
-                              <li>â€¢ <strong>Test Funds Required:</strong> Get free test KAS from the faucet (link in network dropdown)</li>
-                              <li>â€¢ <strong>No FORAY Data in TX:</strong> The FORAY data itself is NOT embedded in the blockchain transactionâ€”only the timestamp proof is on-chain</li>
+                              <li>&bull; <strong>Real Kaspa TX:</strong> A real transaction is submitted to Kaspa Testnet 10 or 11</li>
+                              <li>&bull; <strong>Explorer Verification:</strong> Click "View on Explorer" to see the actual blockchain record</li>
+                              <li>&bull; <strong>Test Funds Required:</strong> Get free test KAS from the faucet (link in network dropdown)</li>
+                              <li>&bull; <strong>No FORAY Data in TX:</strong> The FORAY data itself is NOT embedded in the blockchain transaction&mdash;only the timestamp proof is on-chain</li>
                             </ul>
                             <p className="text-xs mt-3" style={{ color: '#b45309' }}>
                               <strong>Note:</strong> In production, you would store the Kaspa TX ID alongside your FORAY transaction in your audit system. The hash links them cryptographically.
@@ -4208,7 +4208,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     </p>
                     <div className="p-3 rounded-lg mb-4" style={{ backgroundColor: `${forayColors.errorRed}10` }}>
                       <p className="text-xs font-medium" style={{ color: forayColors.errorRed }}>
-                        âš ï¸ <strong>Warning:</strong> Any blockchain anchoring on Mainnet will cost real KAS and create permanent, irreversible records.
+                        &#x26A0;&#xFE0F; <strong>Warning:</strong> Any blockchain anchoring on Mainnet will cost real KAS and create permanent, irreversible records.
                       </p>
                     </div>
                     <div className="p-3 rounded-lg mb-6" style={{ backgroundColor: forayColors.bgLight }}>
@@ -4269,14 +4269,14 @@ Anchored By: ${anchorResult.anchored_by}`;
                     {!currentNetwork.isTestnet && (
                       <div className="p-3 rounded-lg mb-4" style={{ backgroundColor: `${forayColors.errorRed}10` }}>
                         <p className="text-xs font-medium" style={{ color: forayColors.errorRed }}>
-                          âš ï¸ <strong>Mainnet Transaction:</strong> This will use real KAS tokens and incur actual transaction fees.
+                          &#x26A0;&#xFE0F; <strong>Mainnet Transaction:</strong> This will use real KAS tokens and incur actual transaction fees.
                         </p>
                       </div>
                     )}
                     
                     <div className="p-3 rounded-lg mb-4" style={{ backgroundColor: `${forayColors.actionAmber}20` }}>
                       <p className="text-xs font-medium" style={{ color: '#b45309' }}>
-                        âš ï¸ This action is <strong>permanent and irreversible</strong>. Ensure the transaction data is correct before proceeding.
+                        &#x26A0;&#xFE0F; This action is <strong>permanent and irreversible</strong>. Ensure the transaction data is correct before proceeding.
                       </p>
                     </div>
                     
@@ -4375,7 +4375,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                         className="mt-3 inline-flex items-center gap-2 text-sm px-4 py-2 rounded-lg no-print"
                         style={{ backgroundColor: `${forayColors.primaryTeal}10`, color: forayColors.primaryTeal }}
                       >
-                        <Link2 className="w-4 h-4" /> View on Kaspa Explorer â†’
+                        <Link2 className="w-4 h-4" /> View on Kaspa Explorer &rarr;
                       </a>
                     </div>
                     
