@@ -58,8 +58,8 @@ Each component is cryptographically anchored to Kaspa with sub-second finality, 
 FORAY enables end-to-end traceability while protecting competitive information:
 
 ```
-Supplier â†’ Manufacturer â†’ Distributor â†’ Retailer â†’ Consumer
-    â†“            â†“             â†“            â†“           â†“
+Supplier Ã¢â€ â€™ Manufacturer Ã¢â€ â€™ Distributor Ã¢â€ â€™ Retailer Ã¢â€ â€™ Consumer
+    Ã¢â€ â€œ            Ã¢â€ â€œ             Ã¢â€ â€œ            Ã¢â€ â€œ           Ã¢â€ â€œ
   Anchor      Anchor        Anchor       Anchor      Verify
 ```
 
@@ -162,7 +162,7 @@ FORAY enables verified supplier transactions without exposing internal systems:
 
 ### Purchase Order Confirmation
 ```
-Buyer anchors PO â†’ Supplier anchors acknowledgment â†’ Delivery anchored â†’ Receipt anchored
+Buyer anchors PO Ã¢â€ â€™ Supplier anchors acknowledgment Ã¢â€ â€™ Delivery anchored Ã¢â€ â€™ Receipt anchored
 ```
 
 Each party maintains their own records. Disputes resolved by comparing anchors.
@@ -222,7 +222,7 @@ Integration patterns are documented in the protocol specification.
 
 ## About FORAY Protocol
 
-FORAY (derived from "4A" â€” the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's immutability benefits without privacy compromise.
+FORAY (derived from "4A" Ã¢â‚¬â€ the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's immutability benefits without privacy compromise.
 
 **Key Resources:**
 - Protocol Specification: `FORAY_Protocol_v4_1_Specification.md`
@@ -239,8 +239,8 @@ FORAY (derived from "4A" â€” the four components) is an open protocol desig
 
 ---
 
-*FORAY Protocol â€” Transparent audits, protected secrets, powered by Kaspa.*
+*FORAY Protocol Ã¢â‚¬â€ Transparent audits, protected secrets, powered by Kaspa.*
 
 ---
 
-**Copyright Â© 2026 Marvin Percival. All rights reserved.**
+**Copyright Ã‚Â© 2026 Marvin Percival. All rights reserved.**

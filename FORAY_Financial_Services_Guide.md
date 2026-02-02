@@ -134,7 +134,7 @@ FORAY is designed for Kaspa's unique properties:
 | Low transaction cost | Economical for high-volume trading |
 | GHOSTDAG consensus | Throughput for institutional volumes |
 
-Future Kaspa features (ZK-proofs) will enable regulators to verify compliance without any data exposureâ€”proving solvency without revealing positions.
+Future Kaspa features (ZK-proofs) will enable regulators to verify compliance without any data exposureÃ¢â‚¬â€proving solvency without revealing positions.
 
 ---
 
@@ -142,23 +142,23 @@ Future Kaspa features (ZK-proofs) will enable regulators to verify compliance wi
 
 The FORAY repository includes financial services examples:
 
-**`rmbs-transaction-v3.json`** â€” $300M RMBS securitization with:
+**`rmbs-transaction-v3.json`** Ã¢â‚¬â€ $300M RMBS securitization with:
 - Multi-tranche waterfall structure
 - Servicer, trustee, and credit enhancement parties
 - Monthly payment anticipations
 - Loss allocation mechanics
 
-**`fx-spot-usdjpy-v41.json`** â€” $10M FX spot trade with:
+**`fx-spot-usdjpy-v41.json`** Ã¢â‚¬â€ $10M FX spot trade with:
 - T+2 settlement structure
 - Nostro/vostro account references
 - Real-time rate capture
 
-**`overnight-repo-v41.json`** â€” $100M overnight repo with:
+**`overnight-repo-v41.json`** Ã¢â‚¬â€ $100M overnight repo with:
 - Treasury collateral with haircut
 - Opening and closing leg structure
 - Tri-party custody reference
 
-**`auto-loan-john-doe-v3.json`** â€” $25K consumer auto loan with:
+**`auto-loan-john-doe-v3.json`** Ã¢â‚¬â€ $25K consumer auto loan with:
 - Full amortization schedule
 - Payment tracking
 - Servicing fee allocation
@@ -178,7 +178,7 @@ These examples are based on real financial market transaction patterns.
 
 ## About FORAY Protocol
 
-FORAY (derived from "4A" â€” the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's immutability benefits without privacy compromise.
+FORAY (derived from "4A" Ã¢â‚¬â€ the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's immutability benefits without privacy compromise.
 
 **Key Resources:**
 - Protocol Specification: `FORAY_Protocol_v4_1_Specification.md`
@@ -195,8 +195,8 @@ FORAY (derived from "4A" â€” the four components) is an open protocol desig
 
 ---
 
-*FORAY Protocol â€” Transparent audits, protected secrets, powered by Kaspa.*
+*FORAY Protocol Ã¢â‚¬â€ Transparent audits, protected secrets, powered by Kaspa.*
 
 ---
 
-**Copyright Â© 2026 Marvin Percival. All rights reserved.**
+**Copyright Ã‚Â© 2026 Marvin Percival. All rights reserved.**

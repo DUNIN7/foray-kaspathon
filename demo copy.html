@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORAY Transaction Generator</title>
+    <!--
+    ============================================================================
+    FORAY Protocol Transaction Generator
+    ============================================================================
+    Version:       3.2.0
+    Created:       2025-01-28T16:30:00Z
+    Last Modified: 2026-01-28T22:20:00Z
+    
+    Author:        Marvin Percival
+    Email:         marvinp@dunin7.com
+    GitHub:        github.com/DUNIN7/foray-kaspathon
+    
+    License:       Business Source License 1.1
+    Copyright (c) 2026 Marvin Percival. All rights reserved.
+    
+    Changelog:
+      v3.2.0 (2026-01-28)
+        - Matching nav bar with Transaction Review
+        - Fixed generateTransaction button
+        - Enhanced loading screen with AI explanation
+        - Teal gradient success bar
+      
+      v3.0.0 (2025-01-28)
+        - Two-mode edition with templates and AI generation
+    ============================================================================
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(to bottom right, #F7F9FA, #E8F4F5);
+            min-height: 100vh;
+            padding-top: 44px;
+        }
+
+        .font-mono {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        /* Site Navigation - Matching Transaction Review */
+        .site-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            padding: 0.6rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #0D7377 0%, #1B365D 100%);
+            border-bottom: 1px solid rgba(125, 211, 214, 0.2);
+        }
+        .site-nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        .site-nav-logo-text { font-size: 1.1rem; font-weight: 700; }
+        .site-nav-logo-foray { color: #7DD3D6; }
+        .site-nav-logo-protocol { color: #F7F9FA; font-weight: 400; }
+        .site-nav-badge { font-size: 0.55rem; padding: 0.15rem 0.35rem; background: #E6A817; color: #1A1D21; border-radius: 3px; font-weight: 600; }
+        .site-nav-links { display: flex; gap: 1.25rem; align-items: center; }
+        .site-nav-link { color: rgba(247, 249, 250, 0.8); text-decoration: none; font-size: 0.8rem; font-weight: 500; transition: color 0.2s; }
+        .site-nav-link:hover { color: #7DD3D6; }
+        .site-nav-link.active { color: #7DD3D6; }
+        @media (max-width: 640px) { .site-nav-links { display: none; } }
+
+        /* FORAY Brand Colors */
+        :root {
+            --foray-primary-teal: #0D7377;
+            --foray-secondary-navy: #1B365D;
+            --foray-accent-cyan: #14B8B8;
+            --foray-highlight-mint: #7DD3D6;
+            --foray-action-amber: #E6A817;
+            --foray-text-dark: #1A1D21;
+            --foray-text-light: #F7F9FA;
+            --foray-bg-light: #F7F9FA;
+            --foray-bg-dark: #1A1D21;
+            --foray-gray-600: #636E72;
+            --foray-gray-400: #94A3A8;
+            --foray-success: #10B981;
+            --foray-warning: #F59E0B;
+            --foray-error: #EF4444;
+        }
+
+        .page-header {
+            padding: 1.5rem 1.5rem 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .page-header .protocol-name {
+            color: var(--foray-primary-teal);
+        }
+
+        .page-header .protocol-word {
+            color: var(--foray-highlight-mint);
+        }
+
+        .page-header .page-name {
+            color: var(--foray-secondary-navy);
+        }
+
+        .version-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 0.25rem;
+            background: var(--foray-action-amber);
+            color: white;
+        }
+
+        .page-header p {
+            font-size: 1rem;
+            color: var(--foray-gray-600);
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            margin-bottom: 1.25rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: var(--foray-bg-light);
+            padding: 1rem 1.5rem;
+            border-bottom: 2px solid var(--foray-highlight-mint);
+        }
+
+        .card-header h2 {
+            color: var(--foray-secondary-navy);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-body-compact {
+            padding: 1rem 1.5rem;
+        }
+
+        .welcome-banner {
+            border-left: 4px solid var(--foray-primary-teal);
+            background: linear-gradient(135deg, rgba(13, 115, 119, 0.05), rgba(125, 211, 214, 0.05));
+        }
+
+        .welcome-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .welcome-text {
+            flex: 1;
+        }
+
+        .welcome-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .welcome-title h3 {
+            margin: 0;
+            color: var(--foray-secondary-navy);
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .welcome-list {
+            margin: 0;
+            padding-left: 1.5rem;
+            color: var(--foray-gray-600);
+            line-height: 1.8;
+            font-size: 0.9375rem;
+        }
+
+        .close-welcome {
+            background: none;
+            border: none;
+            color: var(--foray-gray-600);
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 0;
+            margin-left: 1rem;
+            line-height: 1;
+        }
+
+        .close-welcome:hover {
+            color: var(--foray-text-dark);
+        }
+
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .reference-btn {
+            padding: 0.5rem 0.625rem;
+            background: white;
+            border: 2px solid var(--foray-bg-light);
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--foray-secondary-navy);
+            line-height: 1.3;
+        }
+
+        .reference-btn:hover {
+            border-color: var(--foray-primary-teal);
+            background: linear-gradient(135deg, rgba(13, 115, 119, 0.05), rgba(125, 211, 214, 0.05));
+        }
+
+        .reference-btn small {
+            display: block;
+            color: var(--foray-gray-400);
+            font-size: 0.6875rem;
+            font-weight: 400;
+            margin-top: 0.125rem;
+        }
+
+        .section-intro {
+            color: var(--foray-gray-600);
+            font-size: 0.9375rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--foray-secondary-navy);
+            margin-bottom: 0.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #E8F4F5;
+            border-radius: 0.5rem;
+            font-size: 0.9375rem;
+            font-family: 'IBM Plex Sans', sans-serif;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--foray-primary-teal);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group .hint {
+            font-size: 0.8125rem;
+            color: var(--foray-gray-400);
+            margin-top: 0.375rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--foray-primary-teal);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--foray-accent-cyan);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--foray-bg-light);
+            color: var(--foray-gray-600);
+            border: 2px solid transparent;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--foray-gray-400);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(27, 54, 93, 0.8);
+            z-index: 1000;
+            padding: 2rem;
+            overflow-y: auto;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 0.75rem;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1B365D, #0D7377);
+            color: white;
+            padding: 1.25rem 1.5rem;
+            border-radius: 0.75rem 0.75rem 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-actions {
+            padding: 1rem 1.5rem;
+            border-top: 2px solid var(--foray-bg-light);
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            background: var(--foray-bg-light);
+        }
+
+        .modal-btn {
+            flex: 1;
+            min-width: 140px;
+            padding: 0.625rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        .modal-btn-review {
+            background: var(--foray-primary-teal);
+            color: white;
+            flex: 2;
+        }
+
+        .modal-btn-review:hover {
+            background: var(--foray-accent-cyan);
+            transform: translateY(-1px);
+        }
+
+        .modal-btn-copy {
+            background: #10B981;
+            color: white;
+        }
+
+        .modal-btn-copy:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        .modal-btn-download {
+            background: var(--foray-secondary-navy);
+            color: white;
+        }
+
+        .modal-btn-download:hover {
+            background: #2a4a7c;
+            transform: translateY(-1px);
+        }
+
+        .success-message {
+            background: white;
+            border: 2px solid #7DD3D6;
+            border-left: 4px solid #0D7377;
+            color: #1B365D;
+            padding: 1rem 1.25rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9375rem;
+        }
+
+        .success-message svg {
+            color: #0D7377;
+            flex-shrink: 0;
+        }
+
+        .success-message strong {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1B365D;
+        }
+
+        .json-container {
+            background: var(--foray-bg-dark);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            overflow-x: auto;
+            border: 2px solid var(--foray-primary-teal);
+        }
+
+        .json-container pre {
+            color: var(--foray-text-light);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8125rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .footer {
+            text-align: center;
+            color: var(--foray-gray-600);
+            padding: 2rem 1.5rem;
+        }
+
+        .footer a {
+            color: var(--foray-primary-teal);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            color: var(--foray-accent-cyan);
+            text-decoration: underline;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .reference-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+
+            .modal-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Site Navigation - Matching Transaction Review -->
+    <nav class="site-nav">
+        <a href="index.html" class="site-nav-logo">
+            <span class="site-nav-logo-text">
+                <span class="site-nav-logo-foray">FORAY</span>
+                <span class="site-nav-logo-protocol">Protocol</span>
+            </span>
+            <span class="site-nav-badge">v4.1</span>
+        </a>
+        <div class="site-nav-links">
+            <a href="demo.html" class="site-nav-link active">Demo</a>
+            <a href="docs.html" class="site-nav-link">Docs</a>
+            <a href="examples.html" class="site-nav-link">Examples</a>
+            <a href="about.html" class="site-nav-link">About</a>
+            <a href="https://github.com/DUNIN7/foray-kaspathon" class="site-nav-link" target="_blank">GitHub</a>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="page-header-content">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <h1>
+                    <span class="protocol-name">FORAY</span>
+                    <span class="protocol-word">Protocol</span>
+                    <span class="page-name">Transaction Generator</span>
+                </h1>
+                <span class="version-badge">v4.1</span>
+            </div>
+            <p>Create and explore FORAY Protocol transactions</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Welcome Banner -->
+        <div class="card welcome-banner" id="welcomeBanner">
+            <div class="card-body" style="padding: 1.25rem;">
+                <div class="welcome-content">
+                    <div class="welcome-text">
+                        <div class="welcome-title">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--foray-primary-teal);">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 16v-4M12 8h.01"></path>
+                            </svg>
+                            <h3>Welcome to FORAY Protocol Demo</h3>
+                        </div>
+                        <ol class="welcome-list">
+                            <li><strong>View reference examples</strong> showing proper FORAY v4.1 structure</li>
+                            <li><strong>Or generate custom transactions</strong> from your own descriptions</li>
+                            <li><strong>Review the breakdown</strong> and anchor to Kaspa blockchain</li>
+                        </ol>
+                    </div>
+                    <button class="close-welcome" onclick="dismissWelcome()">&times;</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reference Examples Section -->
+        <div class="card">
+            <div class="card-header">
+                <h2>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    Reference Examples
+                </h2>
+            </div>
+            <div class="card-body card-body-compact">
+                <p class="section-intro">
+                    Pre-built FORAY v4.1 transactions demonstrating protocol structure. Click any example to view in Review Tool.
+                </p>
+                <div class="reference-grid">
+                    <button class="reference-btn" onclick="viewReference('batchPayment')">
+                        Batch Payment <small>(3 Invoices)</small>
+                    </button>
+                    <button class="reference-btn" onclick="viewReference('cashSale')">
+                        Cash Sale <small>(Action Only)</small>
+                    </button>
+                    <button class="reference-btn" onclick="viewReference('depreciation')">
+                        Depreciation <small>(Accrual Only)</small>
+                    </button>
+                    <button class="reference-btn" onclick="viewReference('autoLoan')">
+                        Auto Loan <small>(Full Chain)</small>
+                    </button>
+                    <button class="reference-btn" onclick="viewReference('energyPPA')">
+                        Energy PPA <small>(Solar)</small>
+                    </button>
+                    <button class="reference-btn" onclick="viewReference('manufacturing')">
+                        Manufacturing <small>(Work Order)</small>
+                    </button>
+                    <button class="reference-btn" onclick="viewReference('salesforce')">
+                        Salesforce <small>(Opportunity)</small>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Transaction Section -->
+        <div class="card">
+            <div class="card-header">
+                <h2>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                    </svg>
+                    Create Custom Transaction
+                </h2>
+            </div>
+            <div class="card-body">
+                <p class="section-intro">
+                    Generate a FORAY transaction from your description. AI will analyze your input and create proper arrangements, actions, accruals, and anticipations.
+                </p>
+
+                <div class="form-group">
+                    <label>Transaction Name</label>
+                    <input 
+                        type="text" 
+                        id="customTxName"
+                        placeholder="e.g., Office Equipment Purchase"
+                    >
+                    <div class="hint">A descriptive name for this transaction type</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Transaction Description</label>
+                    <textarea 
+                        id="customTxDescription"
+                        placeholder="e.g., Purchase of office furniture including desks, chairs, and filing cabinets from Office Depot. Payment via company credit card on January 15, 2025 for $5,248.75."
+                    ></textarea>
+                    <div class="hint">Detailed description including parties, amounts, dates, and any relevant terms</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Start with Template (Optional)</label>
+                    <select id="sampleSelect" onchange="loadTemplate()">
+                        <option value="">-- Select a template to pre-fill fields --</option>
+                        <option value="payroll">Payroll Entry</option>
+                        <option value="equipment">Equipment Purchase</option>
+                        <option value="fx">FX Spot Trade</option>
+                        <option value="subscription">Subscription Revenue</option>
+                        <option value="inventory">Inventory Adjustment</option>
+                    </select>
+                    <div class="hint">Optional: Choose a template to start with, then customize as needed</div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="generateTransaction()">
+                        Generate Transaction
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearForm()">
+                        Clear Form
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>FORAY Transaction JSON</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-actions" id="modalActions" style="display: none;">
+                <button class="modal-btn modal-btn-review" onclick="openReview()">
+                    🔍 Review This Transaction →
+                </button>
+                <button class="modal-btn modal-btn-copy" onclick="copyJSON()">
+                    📋 Copy JSON
+                </button>
+                <button class="modal-btn modal-btn-download" onclick="downloadJSON()">
+                    💾 Download
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>
+            <strong>FORAY Protocol</strong> — Privacy-Preserving Blockchain Audit Infrastructure<br>
+            <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a> • 
+            <a href="mailto:marvinp@dunin7.com">marvinp@dunin7.com</a> • 
+            Marvin Percival
+        </p>
+    </div>
+
+    <script>
+        // Configuration - Update this to point to your API server
+        const API_ENDPOINT = 'http://localhost:3001/api/generate-foray';
+        // For Cloudflare Tunnel: const API_ENDPOINT = 'https://your-tunnel-url.com/api/generate-foray';
+
+        let currentTransaction = null;
+
+        // Reference examples data URLs (will load from review page samples)
+        const REVIEW_PAGE_URL = 'foray-tx-review-v41.html';
+
+        // Template data for custom generation
+        const templates = {
+            payroll: {
+                name: 'Payroll Entry',
+                description: 'Monthly payroll processing for employee John Doe. Gross salary $5,000 with federal tax withholding $750, state tax $250, Social Security $310, and Medicare $72.50. Net pay of $3,617.50 paid on January 31, 2025. Employee ID: EMP-1001.'
+            },
+            equipment: {
+                name: 'Equipment Purchase',
+                description: 'Purchase of industrial CNC machine from TechEquip Corp for $125,000. Down payment of $25,000 on January 15, 2025. Remaining $100,000 financed over 60 months at 5.5% APR with monthly payment of $1,910.83 starting February 15, 2025. Expected useful life 10 years with straight-line depreciation.'
+            },
+            fx: {
+                name: 'FX Spot Trade',
+                description: 'Foreign exchange spot trade executed on January 27, 2025. Sell 1,000,000 USD and buy 146,500,000 JPY at spot rate 146.50. Settlement date T+2 on January 29, 2025. Counterparty: Global Bank Tokyo. Trade reference: FX-2025-0127-001.'
+            },
+            subscription: {
+                name: 'Subscription Revenue',
+                description: 'Annual software subscription from Acme Corporation. Contract value $50,000 for 12-month term starting February 1, 2025. Payment received in advance on January 20, 2025. Revenue recognized monthly at $4,166.67. Contract includes quarterly performance reviews and automatic renewal clause.'
+            },
+            inventory: {
+                name: 'Inventory Adjustment',
+                description: 'Physical inventory count conducted on January 26, 2025. Product SKU-5589 shows book quantity 500 units at $45.00 per unit. Physical count reveals 475 units. Shortage of 25 units valued at $1,125 due to warehouse damage during forklift operations. Location: Warehouse Zone C-14.'
+            }
+        };
+
+        // Reference example keys map to review page sample keys
+        const referenceKeys = {
+            batchPayment: 'batchPayment',
+            cashSale: 'cashSale',
+            depreciation: 'depreciation',
+            autoLoan: 'autoLoan',
+            energyPPA: 'energyPPA',
+            manufacturing: 'manufacturing',
+            salesforce: 'salesforceOpportunity'
+        };
+
+        // Welcome banner
+        function dismissWelcome() {
+            document.getElementById('welcomeBanner').style.display = 'none';
+            sessionStorage.setItem('foray_welcome_dismissed', 'true');
+        }
+
+        if (sessionStorage.getItem('foray_welcome_dismissed') === 'true') {
+            document.addEventListener('DOMContentLoaded', () => {
+                const banner = document.getElementById('welcomeBanner');
+                if (banner) banner.style.display = 'none';
+            });
+        }
+
+        // Reference examples - go straight to review page
+        function viewReference(key) {
+            const mappedKey = referenceKeys[key];
+            // Store the sample key in sessionStorage
+            sessionStorage.setItem('foray_load_sample', mappedKey);
+            // Navigate to review page
+            window.location.href = REVIEW_PAGE_URL;
+        }
+
+        // Custom transaction generation
+        function loadTemplate() {
+            const select = document.getElementById('sampleSelect');
+            const key = select.value;
+            
+            if (!key || !templates[key]) return;
+            
+            document.getElementById('customTxName').value = templates[key].name;
+            document.getElementById('customTxDescription').value = templates[key].description;
+        }
+
+        function clearForm() {
+            document.getElementById('customTxName').value = '';
+            document.getElementById('customTxDescription').value = '';
+            document.getElementById('sampleSelect').selectedIndex = 0;
+        }
+
+        async function generateTransaction() {
+            const customName = document.getElementById('customTxName').value.trim();
+            const customDescription = document.getElementById('customTxDescription').value.trim();
+            
+            if (!customName || !customDescription) {
+                alert('Please enter both a transaction name and description, or select a template from the dropdown.');
+                return;
+            }
+            
+            // Show modal with loading state
+            showLoadingModal();
+            
+            // Call the AI API to generate FORAY JSON
+            await generateFromAI(customName, customDescription);
+        }
+
+        async function generateFromAI(transactionName, transactionDescription) {
+            try {
+                const response = await fetch(API_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        transactionName,
+                        transactionDescription
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `API request failed: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                currentTransaction = data.forayJSON;
+                
+                showModal(transactionName);
+                
+            } catch (error) {
+                console.error('Error generating FORAY JSON:', error);
+                showErrorModal(error.message);
+            }
+        }
+
+        function showLoadingModal() {
+            const modal = document.getElementById('resultModal');
+            const modalBody = document.getElementById('modalBody');
+            const modalActions = document.getElementById('modalActions');
+
+            modalBody.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; overflow: hidden;">
+                    <div style="border: 4px solid #7DD3D6; border-top: 4px solid #0D7377; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 1rem;"></div>
+                    <p style="color: #1B365D; font-size: 1.125rem; font-weight: 600; margin-bottom: 0.75rem;">Generating FORAY Protocol JSON</p>
+                    <div style="background: #F7F9FA; border-radius: 0.5rem; padding: 1rem 1.5rem; width: 100%; max-width: 480px;">
+                        <p style="color: #636E72; font-size: 0.8125rem; margin-bottom: 0.5rem;">
+                            <strong style="color: #0D7377;">Claude AI</strong> is identifying the 4 components:
+                        </p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem 1rem; color: #636E72; font-size: 0.75rem; line-height: 1.6;">
+                            <div><strong>Arrangements</strong> — Contracts</div>
+                            <div><strong>Accruals</strong> — Calculations</div>
+                            <div><strong>Anticipations</strong> — Expected flows</div>
+                            <div><strong>Actions</strong> — Settlements</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem; padding: 0.75rem 1rem; background: linear-gradient(135deg, rgba(13, 115, 119, 0.08), rgba(27, 54, 93, 0.08)); border-radius: 0.375rem; border-left: 3px solid #E6A817; max-width: 480px;">
+                        <p style="color: #636E72; font-size: 0.6875rem; line-height: 1.5; margin: 0;">
+                            <strong style="color: #1B365D;">Demo Mode:</strong> This interactive AI generation takes 5-15 seconds for educational purposes. 
+                            In production, FORAY transactions are generated via <strong>ERP adapters</strong> (QuickBooks, Salesforce, SAP) 
+                            with sub-second latency through pre-defined mappings and batch processing.
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            modalActions.style.display = 'none';
+            modal.classList.add('active');
+        }
+
+        function showModal(name) {
+            const modal = document.getElementById('resultModal');
+            const modalBody = document.getElementById('modalBody');
+            const modalActions = document.getElementById('modalActions');
+
+            modalBody.innerHTML = `
+                <div class="success-message">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <strong>${name}</strong>
+                </div>
+                <div class="json-container">
+                    <pre>${JSON.stringify(currentTransaction, null, 2)}</pre>
+                </div>
+            `;
+
+            modalActions.style.display = 'flex';
+            modal.classList.add('active');
+        }
+
+        function showErrorModal(errorMessage) {
+            const modalBody = document.getElementById('modalBody');
+            const modalActions = document.getElementById('modalActions');
+
+            modalBody.innerHTML = `
+                <div style="background: #ffebee; color: #c62828; padding: 1rem 1.25rem; border-radius: 0.5rem; margin-bottom: 1.25rem; border-left: 4px solid #c62828;">
+                    <strong>Error Generating Transaction</strong>
+                    <p style="margin-top: 0.5rem;">${errorMessage}</p>
+                </div>
+                <div style="background: var(--foray-bg-light); padding: 1rem; border-radius: 0.5rem; border-left: 3px solid var(--foray-action-amber);">
+                    <p style="color: var(--foray-gray-600); font-size: 0.875rem; margin-bottom: 0.5rem;"><strong>Troubleshooting:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--foray-gray-600); font-size: 0.875rem; line-height: 1.6;">
+                        <li>Make sure the API server is running: <code>node foray-api-server.js</code></li>
+                        <li>Check that API_ENDPOINT points to the correct URL</li>
+                        <li>Verify your Anthropic API key is set in .env</li>
+                        <li>Check the browser console (F12) for more details</li>
+                    </ul>
+                </div>
+            `;
+
+            modalActions.style.display = 'none';
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').classList.remove('active');
+        }
+
+        async function copyJSON() {
+            try {
+                await navigator.clipboard.writeText(JSON.stringify(currentTransaction, null, 2));
+                alert('✅ JSON copied to clipboard!');
+            } catch (err) {
+                alert('Failed to copy to clipboard');
+            }
+        }
+
+        function downloadJSON() {
+            const txId = currentTransaction.transaction_id || 
+                         currentTransaction.transaction_metadata?.transaction_id || 
+                         'transaction';
+            const blob = new Blob([JSON.stringify(currentTransaction, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `foray-${txId}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function openReview() {
+            sessionStorage.setItem('foray_transaction', JSON.stringify(currentTransaction));
+            window.location.href = REVIEW_PAGE_URL;
+        }
+
+        // Close modal on outside click
+        document.getElementById('resultModal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,783 @@
+{
+  "transaction_id": "RMBS_2026_Q1_SERIES_A",
+  "timestamp": "2026-01-17T14:30:00Z",
+  "block_height": 462845,
+  "merkle_root": "d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4",
+  "kaspa_commitment": "e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6",
+  "schema_version": "3.0",
+  "entity": "Global Investment Bank",
+  "transaction_type": "asset_backed_securitization",
+  "total_value": 300000000,
+  "currency": "USD",
+  "status": "Active",
+  "compliance_flags": [
+    "Reg_AB_II",
+    "Dodd_Frank",
+    "Basel_III",
+    "Risk_Retention_5_Percent"
+  ],
+  
+  "arrangements": [
+    {
+      "id": "ARR_LOAN_POOL_001",
+      "type": "loan_pooling_agreement",
+      "effective_date": "2026-01-15T00:00:00Z",
+      "parties": [
+        {
+          "role": "originator",
+          "name": "Global Investment Bank",
+          "jurisdiction": "United States"
+        },
+        {
+          "role": "special_purpose_entity",
+          "name": "RMBS Trust 2026-A",
+          "jurisdiction": "Delaware"
+        },
+        {
+          "role": "trustee",
+          "name": "BNY Mellon",
+          "jurisdiction": "United States"
+        },
+        {
+          "role": "master_servicer",
+          "name": "Wells Fargo",
+          "jurisdiction": "United States"
+        }
+      ],
+      "description": "Transfer of 1,000 residential mortgage loans to bankruptcy-remote SPE for securitization",
+      "terms": {
+        "loan_count": 1000,
+        "total_principal": 300000000,
+        "weighted_average_coupon": 0.0675,
+        "weighted_average_maturity_months": 348,
+        "weighted_average_ltv": 0.78,
+        "weighted_average_fico": 720,
+        "geographic_concentration": {
+          "california": 0.25,
+          "texas": 0.18,
+          "florida": 0.15,
+          "new_york": 0.12,
+          "other": 0.30
+        },
+        "true_sale_representation": true,
+        "bankruptcy_remoteness": true,
+        "qm_compliant": true
+      },
+      "legal_documentation": [
+        "Pooling and Servicing Agreement",
+        "Mortgage Loan Purchase Agreement",
+        "Trust Agreement"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "ARR_SPE_DELAWARE",
+      "type": "special_purpose_entity_formation",
+      "effective_date": "2025-12-01T00:00:00Z",
+      "parties": [
+        {
+          "role": "sponsor",
+          "name": "Global Investment Bank",
+          "jurisdiction": "United States"
+        },
+        {
+          "role": "trust_entity",
+          "name": "RMBS Trust 2026-A",
+          "jurisdiction": "Delaware"
+        },
+        {
+          "role": "registered_agent",
+          "name": "Delaware Trust Company",
+          "jurisdiction": "Delaware"
+        }
+      ],
+      "description": "Formation of bankruptcy-remote Delaware statutory trust",
+      "terms": {
+        "jurisdiction": "Delaware",
+        "entity_type": "statutory_trust",
+        "purpose": "Hold mortgage loans and issue asset-backed securities",
+        "independent_director": true,
+        "non_consolidation_opinion": true,
+        "permitted_activities": [
+          "Hold mortgage loans",
+          "Issue asset-backed securities",
+          "Engage servicer and trustee",
+          "Distribute cash flows per waterfall"
+        ],
+        "prohibited_activities": [
+          "Incur additional debt",
+          "Engage in trading activities",
+          "Merge or consolidate",
+          "File voluntary bankruptcy"
+        ]
+      },
+      "legal_documentation": [
+        "Delaware Certificate of Trust",
+        "Trust Agreement",
+        "Non-Consolidation Legal Opinion"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "ARR_TRANCHE_CLASS_A_AAA",
+      "type": "senior_tranche_structure",
+      "effective_date": "2026-01-20T00:00:00Z",
+      "parties": [
+        {
+          "role": "issuer",
+          "name": "RMBS Trust 2026-A",
+          "jurisdiction": "Delaware"
+        },
+        {
+          "role": "investors",
+          "name": "Institutional Investors",
+          "jurisdiction": "Various"
+        }
+      ],
+      "description": "Class A Senior AAA-rated tranche with first priority in payment waterfall",
+      "terms": {
+        "tranche_class": "A",
+        "rating": "AAA",
+        "principal_amount": 240000000,
+        "coupon_rate": 0.045,
+        "payment_frequency": "monthly",
+        "waterfall_priority": 1,
+        "credit_enhancement": {
+          "subordination_percentage": 0.20,
+          "overcollateralization": true,
+          "mortgage_insurance": 2400000
+        }
+      },
+      "legal_documentation": [
+        "Offering Circular",
+        "Indenture Agreement"
+      ],
+      "dependencies": ["ARR_LOAN_POOL_001", "ARR_SPE_DELAWARE"]
+    },
+    {
+      "id": "ARR_TRANCHE_CLASS_M1_AA",
+      "type": "mezzanine_tranche_structure",
+      "effective_date": "2026-01-20T00:00:00Z",
+      "parties": [
+        {
+          "role": "issuer",
+          "name": "RMBS Trust 2026-A",
+          "jurisdiction": "Delaware"
+        },
+        {
+          "role": "investors",
+          "name": "Institutional Investors",
+          "jurisdiction": "Various"
+        }
+      ],
+      "description": "Class M-1 Mezzanine AA-rated tranche with second priority in payment waterfall",
+      "terms": {
+        "tranche_class": "M-1",
+        "rating": "AA",
+        "principal_amount": 30000000,
+        "coupon_rate": 0.055,
+        "payment_frequency": "monthly",
+        "waterfall_priority": 2,
+        "credit_enhancement": {
+          "subordination_percentage": 0.10,
+          "subordinated_to": "Class A"
+        }
+      },
+      "legal_documentation": [
+        "Offering Circular",
+        "Indenture Agreement"
+      ],
+      "dependencies": ["ARR_LOAN_POOL_001", "ARR_SPE_DELAWARE"]
+    },
+    {
+      "id": "ARR_TRANCHE_CLASS_B_BB",
+      "type": "subordinate_tranche_structure",
+      "effective_date": "2026-01-20T00:00:00Z",
+      "parties": [
+        {
+          "role": "issuer",
+          "name": "RMBS Trust 2026-A",
+          "jurisdiction": "Delaware"
+        },
+        {
+          "role": "investors",
+          "name": "Institutional Investors",
+          "jurisdiction": "Various"
+        }
+      ],
+      "description": "Class B Subordinate BB-rated tranche with third priority in payment waterfall",
+      "terms": {
+        "tranche_class": "B",
+        "rating": "BB",
+        "principal_amount": 15000000,
+        "coupon_rate": 0.075,
+        "payment_frequency": "monthly",
+        "waterfall_priority": 3,
+        "credit_enhancement": {
+          "subordination_percentage": 0.05,
+          "subordinated_to": "Class A and Class M-1"
+        }
+      },
+      "legal_documentation": [
+        "Offering Circular",
+        "Indenture Agreement"
+      ],
+      "dependencies": ["ARR_LOAN_POOL_001", "ARR_SPE_DELAWARE"]
+    },
+    {
+      "id": "ARR_TRANCHE_EQUITY_RETAINED",
+      "type": "equity_tranche_structure",
+      "effective_date": "2026-01-20T00:00:00Z",
+      "parties": [
+        {
+          "role": "issuer",
+          "name": "RMBS Trust 2026-A",
+          "jurisdiction": "Delaware"
+        },
+        {
+          "role": "holder",
+          "name": "Global Investment Bank",
+          "jurisdiction": "United States"
+        }
+      ],
+      "description": "Equity tranche retained by originator for Dodd-Frank risk retention (5% requirement)",
+      "terms": {
+        "tranche_class": "Equity",
+        "rating": "Unrated",
+        "principal_amount": 15000000,
+        "coupon_rate": null,
+        "payment_frequency": "residual_monthly",
+        "waterfall_priority": 4,
+        "risk_retention_compliance": true,
+        "retention_percentage": 0.05,
+        "first_loss_position": true
+      },
+      "legal_documentation": [
+        "Risk Retention Certificate",
+        "Offering Circular"
+      ],
+      "dependencies": ["ARR_LOAN_POOL_001", "ARR_SPE_DELAWARE"]
+    },
+    {
+      "id": "ARR_SERVICING_AGREEMENT",
+      "type": "loan_servicing_contract",
+      "effective_date": "2026-01-15T00:00:00Z",
+      "parties": [
+        {
+          "role": "servicer",
+          "name": "Wells Fargo",
+          "jurisdiction": "United States"
+        },
+        {
+          "role": "issuer",
+          "name": "RMBS Trust 2026-A",
+          "jurisdiction": "Delaware"
+        }
+      ],
+      "description": "Master servicing agreement for loan collection and administration",
+      "terms": {
+        "servicing_fee_rate": 0.0025,
+        "fee_calculation_basis": "outstanding_principal_balance",
+        "payment_frequency": "monthly",
+        "responsibilities": [
+          "Collect monthly payments",
+          "Manage escrow accounts",
+          "Handle delinquencies",
+          "Process prepayments",
+          "Provide investor reporting"
+        ]
+      },
+      "legal_documentation": [
+        "Master Servicing Agreement",
+        "Pooling and Servicing Agreement"
+      ],
+      "dependencies": ["ARR_LOAN_POOL_001"]
+    },
+    {
+      "id": "ARR_CREDIT_ENHANCEMENT_INSURANCE",
+      "type": "mortgage_insurance_policy",
+      "effective_date": "2026-01-15T00:00:00Z",
+      "parties": [
+        {
+          "role": "insurer",
+          "name": "Arch Mortgage Insurance",
+          "jurisdiction": "United States"
+        },
+        {
+          "role": "insured",
+          "name": "RMBS Trust 2026-A",
+          "jurisdiction": "Delaware"
+        }
+      ],
+      "description": "Mortgage insurance providing additional credit enhancement",
+      "terms": {
+        "coverage_amount": 2400000,
+        "coverage_percentage": 0.008,
+        "premium_rate": 0.0035,
+        "premium_frequency": "annual"
+      },
+      "legal_documentation": [
+        "Master Insurance Policy",
+        "Certificate of Insurance"
+      ],
+      "dependencies": ["ARR_LOAN_POOL_001"]
+    }
+  ],
+  
+  "accruals": [
+    {
+      "id": "ACC_CLASS_A_INTEREST_MONTH_1",
+      "arrangement_ref": "ARR_TRANCHE_CLASS_A_AAA",
+      "type": "tranche_interest_accrual",
+      "description": "Class A AAA tranche interest accrual for Month 1 (February 2026)",
+      "computation_method": "Calculated",
+      "formula_id": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6",
+      "inputs": {
+        "principal_balance": 240000000,
+        "coupon_rate": 0.045,
+        "days_in_period": 28
+      },
+      "output": 829315.07,
+      "currency": "USD",
+      "accounting_entry": {
+        "debit": {
+          "account": "Interest Expense - Class A",
+          "amount": 829315.07
+        },
+        "credit": {
+          "account": "Interest Payable - Class A",
+          "amount": 829315.07
+        }
+      },
+      "fiscal_period": {
+        "start": "2026-01-20",
+        "end": "2026-02-20"
+      },
+      "dependencies": ["ARR_TRANCHE_CLASS_A_AAA"]
+    },
+    {
+      "id": "ACC_CLASS_M1_INTEREST_MONTH_1",
+      "arrangement_ref": "ARR_TRANCHE_CLASS_M1_AA",
+      "type": "tranche_interest_accrual",
+      "description": "Class M-1 AA tranche interest accrual for Month 1 (February 2026)",
+      "computation_method": "Calculated",
+      "formula_id": "b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7",
+      "inputs": {
+        "principal_balance": 30000000,
+        "coupon_rate": 0.055,
+        "days_in_period": 28
+      },
+      "output": 126712.33,
+      "currency": "USD",
+      "accounting_entry": {
+        "debit": {
+          "account": "Interest Expense - Class M-1",
+          "amount": 126712.33
+        },
+        "credit": {
+          "account": "Interest Payable - Class M-1",
+          "amount": 126712.33
+        }
+      },
+      "fiscal_period": {
+        "start": "2026-01-20",
+        "end": "2026-02-20"
+      },
+      "dependencies": ["ARR_TRANCHE_CLASS_M1_AA"]
+    },
+    {
+      "id": "ACC_CLASS_B_INTEREST_MONTH_1",
+      "arrangement_ref": "ARR_TRANCHE_CLASS_B_BB",
+      "type": "tranche_interest_accrual",
+      "description": "Class B BB tranche interest accrual for Month 1 (February 2026)",
+      "computation_method": "Calculated",
+      "formula_id": "c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8",
+      "inputs": {
+        "principal_balance": 15000000,
+        "coupon_rate": 0.075,
+        "days_in_period": 28
+      },
+      "output": 86301.37,
+      "currency": "USD",
+      "accounting_entry": {
+        "debit": {
+          "account": "Interest Expense - Class B",
+          "amount": 86301.37
+        },
+        "credit": {
+          "account": "Interest Payable - Class B",
+          "amount": 86301.37
+        }
+      },
+      "fiscal_period": {
+        "start": "2026-01-20",
+        "end": "2026-02-20"
+      },
+      "dependencies": ["ARR_TRANCHE_CLASS_B_BB"]
+    },
+    {
+      "id": "ACC_SERVICING_FEE_MONTH_1",
+      "arrangement_ref": "ARR_SERVICING_AGREEMENT",
+      "type": "servicing_fee_accrual",
+      "description": "Wells Fargo servicing fee for Month 1 (0.25% annual)",
+      "computation_method": "Calculated",
+      "formula_id": "d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9",
+      "inputs": {
+        "outstanding_principal": 300000000,
+        "servicing_fee_rate": 0.0025,
+        "days_in_period": 28
+      },
+      "output": 57534.25,
+      "currency": "USD",
+      "accounting_entry": {
+        "debit": {
+          "account": "Servicing Fee Expense",
+          "amount": 57534.25
+        },
+        "credit": {
+          "account": "Servicing Fee Payable",
+          "amount": 57534.25
+        }
+      },
+      "fiscal_period": {
+        "start": "2026-01-20",
+        "end": "2026-02-20"
+      },
+      "dependencies": ["ARR_SERVICING_AGREEMENT"]
+    },
+    {
+      "id": "ACC_CECL_LOSS_RESERVE",
+      "arrangement_ref": "ARR_LOAN_POOL_001",
+      "type": "credit_loss_reserve",
+      "description": "CECL expected credit loss reserve estimation",
+      "computation_method": "Valuation",
+      "formula_id": "e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+      "inputs": {
+        "pool_balance": 300000000,
+        "expected_default_rate": 0.025,
+        "loss_given_default": 0.40,
+        "discount_rate": 0.05
+      },
+      "output": 3000000,
+      "currency": "USD",
+      "accounting_entry": {
+        "debit": {
+          "account": "Credit Loss Expense",
+          "amount": 3000000
+        },
+        "credit": {
+          "account": "Allowance for Credit Losses",
+          "amount": 3000000
+        }
+      },
+      "fiscal_period": {
+        "start": "2026-01-20",
+        "end": "2026-01-20"
+      },
+      "dependencies": ["ARR_LOAN_POOL_001"]
+    },
+    {
+      "id": "ACC_INSURANCE_PREMIUM",
+      "arrangement_ref": "ARR_CREDIT_ENHANCEMENT_INSURANCE",
+      "type": "insurance_premium_accrual",
+      "description": "Monthly mortgage insurance premium accrual",
+      "computation_method": "Calculated",
+      "formula_id": "f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1",
+      "inputs": {
+        "coverage_amount": 2400000,
+        "premium_rate": 0.0035,
+        "period_months": 1
+      },
+      "output": 700,
+      "currency": "USD",
+      "accounting_entry": {
+        "debit": {
+          "account": "Insurance Expense",
+          "amount": 700
+        },
+        "credit": {
+          "account": "Insurance Premium Payable",
+          "amount": 700
+        }
+      },
+      "fiscal_period": {
+        "start": "2026-01-20",
+        "end": "2026-02-20"
+      },
+      "dependencies": ["ARR_CREDIT_ENHANCEMENT_INSURANCE"]
+    }
+  ],
+  
+  "anticipations": [
+    {
+      "id": "ANT_PREPAYMENT_BASELINE",
+      "type": "prepayment_scenario",
+      "description": "Baseline prepayment scenario: 15% CPR (Constant Prepayment Rate)",
+      "condition": "stable_interest_rate_environment",
+      "probability_factor": 0.60,
+      "expected_impact": "Average loan life of 7 years, moderate principal reduction",
+      "assumptions": {
+        "cpr_assumption": 0.15,
+        "interest_rate_environment": "stable",
+        "refinance_incentive": "moderate",
+        "expected_weighted_average_life_years": 7.2
+      },
+      "dependencies": ["ARR_LOAN_POOL_001"]
+    },
+    {
+      "id": "ANT_PREPAYMENT_SLOW",
+      "type": "prepayment_scenario",
+      "description": "Slow prepayment scenario: 8% CPR",
+      "condition": "rising_interest_rate_environment",
+      "probability_factor": 0.25,
+      "expected_impact": "Extended loan life of 10+ years, slower principal reduction",
+      "assumptions": {
+        "cpr_assumption": 0.08,
+        "interest_rate_environment": "rising",
+        "refinance_incentive": "low",
+        "expected_weighted_average_life_years": 10.5
+      },
+      "dependencies": ["ARR_LOAN_POOL_001"]
+    },
+    {
+      "id": "ANT_PREPAYMENT_FAST",
+      "type": "prepayment_scenario",
+      "description": "Fast prepayment scenario: 25% CPR",
+      "condition": "declining_interest_rate_environment",
+      "probability_factor": 0.15,
+      "expected_impact": "Shortened loan life of 4-5 years, rapid principal reduction",
+      "assumptions": {
+        "cpr_assumption": 0.25,
+        "interest_rate_environment": "declining",
+        "refinance_incentive": "high",
+        "expected_weighted_average_life_years": 4.8
+      },
+      "dependencies": ["ARR_LOAN_POOL_001"]
+    },
+    {
+      "id": "ANT_DEFAULT_BASELINE",
+      "type": "default_projection",
+      "description": "Baseline cumulative default rate projection: 2.5%",
+      "condition": "stable_economic_conditions",
+      "probability_factor": 0.70,
+      "expected_impact": "Expected cumulative losses of $3M over life of pool",
+      "assumptions": {
+        "cumulative_default_rate": 0.025,
+        "loss_given_default": 0.40,
+        "expected_cumulative_loss": 3000000,
+        "unemployment_rate": "stable",
+        "home_price_appreciation": "moderate_2_percent_annual"
+      },
+      "dependencies": ["ARR_LOAN_POOL_001", "ACC_CECL_LOSS_RESERVE"]
+    },
+    {
+      "id": "ANT_INTEREST_RATE_RISK",
+      "type": "interest_rate_risk_scenario",
+      "description": "Interest rate increase scenario impact on tranche values",
+      "condition": "200_basis_point_rate_increase",
+      "probability_factor": 0.30,
+      "expected_impact": "Negative duration impact on Class A, potential extension risk",
+      "assumptions": {
+        "rate_shock_bps": 200,
+        "class_a_duration": 5.2,
+        "estimated_price_impact_class_a": -0.10,
+        "extension_risk": "moderate"
+      },
+      "dependencies": ["ARR_TRANCHE_CLASS_A_AAA"]
+    },
+    {
+      "id": "ANT_REPURCHASE_OBLIGATION",
+      "type": "representation_warranty_breach",
+      "description": "Potential repurchase obligation for defective loans",
+      "condition": "breach_of_reps_and_warranties",
+      "probability_factor": 0.05,
+      "expected_impact": "Estimated 1-2% of pool may require repurchase",
+      "assumptions": {
+        "estimated_breach_rate": 0.015,
+        "estimated_repurchase_amount": 4500000,
+        "review_period_months": 36,
+        "most_common_breaches": [
+          "Income documentation defects",
+          "Appraisal issues",
+          "Occupancy misrepresentation"
+        ]
+      },
+      "dependencies": ["ARR_LOAN_POOL_001"]
+    }
+  ],
+  
+  "actions": [
+    {
+      "id": "ACT_LOAN_UNDERWRITING",
+      "type": "loan_origination_and_pooling",
+      "timestamp": "2026-01-15T00:00:00Z",
+      "description": "Underwriting and pooling of 1,000 QM-compliant residential mortgage loans",
+      "amount_settled": 300000000,
+      "quantity_delivered": 1000,
+      "settlement_status": "Completed",
+      "details": {
+        "loans_originated": 1000,
+        "qm_compliant_percentage": 1.00,
+        "average_loan_amount": 300000,
+        "underwriting_standards": "Qualified Mortgage (QM)",
+        "documentation_type": "Full documentation",
+        "appraisal_method": "Independent third-party"
+      },
+      "breakdown": {
+        "conforming_loans": 850,
+        "jumbo_loans": 150,
+        "purchase_mortgages": 700,
+        "refinance_mortgages": 300
+      },
+      "counterparty": "Various Borrowers",
+      "payment_method": "wire",
+      "dependencies": ["ARR_LOAN_POOL_001"]
+    },
+    {
+      "id": "ACT_SECURITIES_ISSUANCE",
+      "type": "abs_issuance",
+      "timestamp": "2026-01-20T10:00:00Z",
+      "description": "Issuance of asset-backed securities across four tranches",
+      "amount_settled": 285000000,
+      "quantity_delivered": null,
+      "settlement_status": "Completed",
+      "details": {
+        "gross_proceeds": 285000000,
+        "issuance_costs": 4000000,
+        "net_proceeds": 281000000,
+        "underwriter_discount": 2500000,
+        "legal_and_rating_fees": 1500000,
+        "class_a_issued": 240000000,
+        "class_m1_issued": 30000000,
+        "class_b_issued": 15000000,
+        "equity_retained": 15000000
+      },
+      "breakdown": {
+        "class_a_price": 100.00,
+        "class_m1_price": 99.75,
+        "class_b_price": 98.50
+      },
+      "counterparty": "Institutional Investors",
+      "payment_method": "wire",
+      "dependencies": [
+        "ARR_TRANCHE_CLASS_A_AAA",
+        "ARR_TRANCHE_CLASS_M1_AA",
+        "ARR_TRANCHE_CLASS_B_BB",
+        "ARR_TRANCHE_EQUITY_RETAINED"
+      ]
+    },
+    {
+      "id": "ACT_MONTH_1_SERVICING",
+      "type": "monthly_servicing_settlement",
+      "timestamp": "2026-02-20T15:00:00Z",
+      "description": "Month 1 servicing: Collections, waterfall distribution, and investor reporting",
+      "amount_settled": 6200000,
+      "quantity_delivered": null,
+      "settlement_status": "Completed",
+      "details": {
+        "total_collections": 6200000,
+        "scheduled_principal": 2500000,
+        "scheduled_interest": 1800000,
+        "prepayments": 1900000,
+        "actual_cpr": 0.165,
+        "delinquency_30_day": 0.03,
+        "delinquency_60_day": 0.006,
+        "delinquency_90_plus": 0.004,
+        "pool_factor": 0.9858,
+        "remaining_balance": 295740000
+      },
+      "breakdown": {
+        "collections_scheduled_payments": 4300000,
+        "collections_prepayments": 1900000,
+        "disbursements_class_a_interest": 829315,
+        "disbursements_class_a_principal": 1500000,
+        "disbursements_class_m1_interest": 126712,
+        "disbursements_class_m1_principal": 200000,
+        "disbursements_class_b_interest": 86301,
+        "disbursements_servicing_fee": 57534,
+        "disbursements_insurance_premium": 700,
+        "retained_in_reserve": 200000
+      },
+      "counterparty": "RMBS Trust 2026-A",
+      "payment_method": "ach",
+      "dependencies": [
+        "ARR_SERVICING_AGREEMENT",
+        "ACC_CLASS_A_INTEREST_MONTH_1",
+        "ACC_CLASS_M1_INTEREST_MONTH_1",
+        "ACC_CLASS_B_INTEREST_MONTH_1",
+        "ACC_SERVICING_FEE_MONTH_1"
+      ]
+    },
+    {
+      "id": "ACT_MONTH_1_INVESTOR_REPORTING",
+      "type": "investor_reporting",
+      "timestamp": "2026-02-25T17:00:00Z",
+      "description": "Month 1 investor report distribution per Reg AB II requirements",
+      "amount_settled": null,
+      "quantity_delivered": null,
+      "settlement_status": "Completed",
+      "details": {
+        "reporting_period": "2026-02",
+        "pool_factor": 0.9858,
+        "actual_cpr": 0.165,
+        "actual_cdr": 0.0,
+        "delinquency_total": 0.04,
+        "servicer_advances": 0,
+        "loss_mitigation_actions": {
+          "forbearance_plans": 5,
+          "loan_modifications": 2,
+          "short_sales": 0,
+          "foreclosures_initiated": 0
+        },
+        "credit_enhancement_remaining": 0.20
+      },
+      "breakdown": null,
+      "counterparty": "All Tranche Holders",
+      "payment_method": "electronic_distribution",
+      "dependencies": ["ACT_MONTH_1_SERVICING"]
+    }
+  ],
+  
+  "privacy_metadata": {
+    "formulas_obfuscated": 7,
+    "instance_pools": 10,
+    "attack_complexity": "2^128 operations",
+    "obfuscated_formulas": [
+      {
+        "formula_id": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6",
+        "purpose": "Class A interest calculation (4.5% APR)",
+        "obfuscation_method": "instance_pool"
+      },
+      {
+        "formula_id": "b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7",
+        "purpose": "Class M-1 interest calculation (5.5% APR)",
+        "obfuscation_method": "instance_pool"
+      },
+      {
+        "formula_id": "c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8",
+        "purpose": "Class B interest calculation (7.5% APR)",
+        "obfuscation_method": "instance_pool"
+      },
+      {
+        "formula_id": "d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9",
+        "purpose": "Servicing fee calculation (0.25% annual)",
+        "obfuscation_method": "instance_pool"
+      },
+      {
+        "formula_id": "e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0",
+        "purpose": "CECL credit loss estimation",
+        "obfuscation_method": "instance_pool"
+      },
+      {
+        "formula_id": "f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1",
+        "purpose": "Insurance premium calculation",
+        "obfuscation_method": "instance_pool"
+      },
+      {
+        "formula_id": "a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2",
+        "purpose": "Prepayment CPR calculation",
+        "obfuscation_method": "instance_pool"
+      }
+    ]
+  }
+}

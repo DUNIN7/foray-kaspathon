@@ -1,0 +1,429 @@
+{
+  "transaction_id": "XBORDER_PPA_2026_001",
+  "timestamp": "2026-01-15T10:00:00Z",
+  "block_height": 2848100,
+  "merkle_root": "7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b",
+  "kaspa_commitment": "8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c",
+  "schema_version": "3.0",
+  "entity": "Noor Energy SARL",
+  "transaction_type": "cross_border_power_purchase_agreement",
+  "total_value": 197100000,
+  "currency": "EUR",
+  "status": "Active",
+  "compliance_flags": [
+    "EU_Energy_Directives",
+    "Morocco_RE_Regulations",
+    "Cross_Border_Grid_Codes",
+    "Renewable_Energy_Certificates"
+  ],
+  
+  "arrangements": [
+    {
+      "id": "ARR_PPA_MOROCCO_SPAIN",
+      "type": "power_purchase_agreement",
+      "effective_date": "2026-01-01T00:00:00Z",
+      "parties": [
+        {
+          "role": "seller",
+          "name": "Noor Energy SARL",
+          "jurisdiction": "Morocco"
+        },
+        {
+          "role": "buyer",
+          "name": "Iberdrola SA",
+          "jurisdiction": "Spain"
+        },
+        {
+          "role": "sovereign_guarantor",
+          "name": "Kingdom of Morocco",
+          "jurisdiction": "Morocco"
+        }
+      ],
+      "description": "25-year power purchase agreement for 500 MW baseload solar power delivered via HVDC submarine cable from Morocco to Spain",
+      "terms": {
+        "contract_duration_years": 25,
+        "capacity_mw": 500,
+        "baseload_delivery": true,
+        "price_per_mwh": 45.00,
+        "annual_mwh": 4380000,
+        "monthly_mwh": 365000,
+        "sovereign_guarantee": 150000000,
+        "penalty_rate": 0.10,
+        "inflation_indexation": "HICP"
+      },
+      "legal_documentation": [
+        "Power Purchase Agreement",
+        "Sovereign Guarantee Agreement",
+        "Grid Connection Agreement",
+        "Capacity Reservation Agreement"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "ARR_HVDC_TRANSMISSION",
+      "type": "transmission_agreement",
+      "effective_date": "2026-01-01T00:00:00Z",
+      "parties": [
+        {
+          "role": "transmitter",
+          "name": "TransMaghreb HVDC Operating Company",
+          "jurisdiction": "Morocco/Spain Joint Venture"
+        },
+        {
+          "role": "seller",
+          "name": "Noor Energy SARL",
+          "jurisdiction": "Morocco"
+        }
+      ],
+      "description": "HVDC submarine cable transmission (600 km) with 8% line loss allocation",
+      "terms": {
+        "cable_length_km": 600,
+        "transmission_loss_rate": 0.08,
+        "capacity_mw": 2000,
+        "reserved_capacity_mw": 500,
+        "transmission_tariff_per_mwh": 3.50,
+        "technology": "VSC_HVDC",
+        "availability_guarantee": 0.98
+      },
+      "legal_documentation": [
+        "Transmission Services Agreement",
+        "Operation & Maintenance Agreement",
+        "Grid Code Compliance Certificate"
+      ],
+      "dependencies": ["ARR_PPA_MOROCCO_SPAIN"]
+    }
+  ],
+  
+  "accruals": [
+    {
+      "id": "ACC_ENERGY_REVENUE",
+      "arrangement_ref": "ARR_PPA_MOROCCO_SPAIN",
+      "type": "energy_sales_revenue",
+      "description": "Monthly energy revenue for delivered power (400,000 MWh after transmission losses)",
+      "computation_method": "Calculated",
+      "formula_id": "e1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6",
+      "inputs": {
+        "monthly_delivered_mwh": 400000,
+        "price_per_mwh_eur": 45.00
+      },
+      "output": 18000000.00,
+      "currency": "EUR",
+      "accounting_entry": {
+        "debit": {
+          "account": "Accounts Receivable - Iberdrola",
+          "amount": 18000000.00
+        },
+        "credit": {
+          "account": "Energy Sales Revenue",
+          "amount": 18000000.00
+        }
+      },
+      "fiscal_period": {
+        "start": "2026-01-01",
+        "end": "2026-01-31"
+      },
+      "dependencies": ["ARR_PPA_MOROCCO_SPAIN"]
+    },
+    {
+      "id": "ACC_TRANSMISSION_TARIFF",
+      "arrangement_ref": "ARR_HVDC_TRANSMISSION",
+      "type": "transmission_expense",
+      "description": "HVDC transmission tariff for 365,000 MWh (pre-loss)",
+      "computation_method": "Calculated",
+      "formula_id": "e2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7",
+      "inputs": {
+        "monthly_transmitted_mwh": 365000,
+        "tariff_per_mwh_eur": 3.50
+      },
+      "output": 1277500.00,
+      "currency": "EUR",
+      "accounting_entry": {
+        "debit": {
+          "account": "Transmission Expense",
+          "amount": 1277500.00
+        },
+        "credit": {
+          "account": "Accounts Payable - TransMaghreb",
+          "amount": 1277500.00
+        }
+      },
+      "fiscal_period": {
+        "start": "2026-01-01",
+        "end": "2026-01-31"
+      },
+      "dependencies": ["ARR_HVDC_TRANSMISSION"]
+    },
+    {
+      "id": "ACC_RENEWABLE_CERTIFICATES",
+      "arrangement_ref": "ARR_PPA_MOROCCO_SPAIN",
+      "type": "renewable_energy_certificate_revenue",
+      "description": "European Guarantees of Origin (RECs) for 400,000 MWh solar generation",
+      "computation_method": "Calculated",
+      "formula_id": "e3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8",
+      "inputs": {
+        "monthly_delivered_mwh": 400000,
+        "rec_price_per_mwh_eur": 2.00
+      },
+      "output": 800000.00,
+      "currency": "EUR",
+      "fiscal_period": {
+        "start": "2026-01-01",
+        "end": "2026-01-31"
+      },
+      "dependencies": ["ARR_PPA_MOROCCO_SPAIN"]
+    },
+    {
+      "id": "ACC_FOREIGN_EXCHANGE_ADJUSTMENT",
+      "arrangement_ref": "ARR_PPA_MOROCCO_SPAIN",
+      "type": "forex_adjustment",
+      "description": "Currency translation adjustment (EUR/MAD exposure)",
+      "computation_method": "Calculated",
+      "formula_id": "e4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9",
+      "inputs": {
+        "base_revenue_eur": 18000000.00,
+        "fx_variance_rate": 0.0045
+      },
+      "output": 81000.00,
+      "currency": "EUR",
+      "fiscal_period": {
+        "start": "2026-01-01",
+        "end": "2026-01-31"
+      },
+      "dependencies": ["ARR_PPA_MOROCCO_SPAIN"]
+    },
+    {
+      "id": "ACC_OPERATIONS_MAINTENANCE",
+      "arrangement_ref": "ARR_PPA_MOROCCO_SPAIN",
+      "type": "operating_expense",
+      "description": "Monthly O&M costs for 2 GW solar farm",
+      "computation_method": "FixedAmount",
+      "formula_id": "e5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0",
+      "inputs": {
+        "monthly_fixed_cost_eur": 600000
+      },
+      "output": 600000.00,
+      "currency": "EUR",
+      "fiscal_period": {
+        "start": "2026-01-01",
+        "end": "2026-01-31"
+      },
+      "dependencies": ["ARR_PPA_MOROCCO_SPAIN"]
+    }
+  ],
+  
+  "anticipations": [
+    {
+      "id": "ANT_SUMMER_PRODUCTION_INCREASE",
+      "type": "seasonal_variance",
+      "description": "Expected 10% increase in summer solar production (June-August)",
+      "condition": "Summer peak solar irradiation months",
+      "probability_factor": 0.90,
+      "expected_impact": "Monthly revenue increase to â‚¬19.8M (vs â‚¬18M baseline)",
+      "assumptions": {
+        "summer_months": "June, July, August",
+        "production_increase": 0.10,
+        "expected_monthly_mwh": 440000,
+        "expected_monthly_revenue_eur": 19800000
+      },
+      "dependencies": ["ACC_ENERGY_REVENUE"]
+    },
+    {
+      "id": "ANT_WINTER_PRODUCTION_DECREASE",
+      "type": "seasonal_variance",
+      "description": "Expected 25% decrease in winter solar production (December-February)",
+      "condition": "Winter reduced solar irradiation months",
+      "probability_factor": 0.85,
+      "expected_impact": "Monthly revenue decrease to â‚¬13.5M (vs â‚¬18M baseline)",
+      "assumptions": {
+        "winter_months": "December, January, February",
+        "production_decrease": 0.25,
+        "expected_monthly_mwh": 300000,
+        "expected_monthly_revenue_eur": 13500000
+      },
+      "dependencies": ["ACC_ENERGY_REVENUE"]
+    },
+    {
+      "id": "ANT_PLANNED_MAINTENANCE",
+      "type": "scheduled_outage",
+      "description": "Annual planned maintenance reducing capacity by 100 MW for 10 days",
+      "condition": "Scheduled maintenance window in April",
+      "probability_factor": 1.00,
+      "expected_impact": "Revenue reduction of â‚¬450K during maintenance period",
+      "assumptions": {
+        "maintenance_days": 10,
+        "capacity_reduction_mw": 100,
+        "lost_mwh": 10000,
+        "revenue_impact_eur": -450000
+      },
+      "dependencies": ["ACC_ENERGY_REVENUE"]
+    },
+    {
+      "id": "ANT_FOREX_VOLATILITY",
+      "type": "currency_risk",
+      "description": "EUR/MAD exchange rate volatility impacting cost base",
+      "condition": "Currency fluctuation between EUR and MAD",
+      "probability_factor": 0.75,
+      "expected_impact": "Â±5% variance in EUR-denominated O&M costs",
+      "assumptions": {
+        "base_rate": 10.85,
+        "volatility_range": "Â±5%",
+        "monthly_exposure_eur": 600000,
+        "potential_variance_eur": 30000
+      },
+      "dependencies": ["ACC_OPERATIONS_MAINTENANCE"]
+    },
+    {
+      "id": "ANT_REC_PRICE_FLUCTUATION",
+      "type": "commodity_price_risk",
+      "description": "European REC market price volatility (â‚¬0.50-â‚¬2.00 range)",
+      "condition": "Market-driven REC pricing",
+      "probability_factor": 0.80,
+      "expected_impact": "Monthly REC revenue between â‚¬200K-â‚¬800K",
+      "assumptions": {
+        "baseline_rec_price_eur": 2.00,
+        "low_scenario_price_eur": 0.50,
+        "high_scenario_price_eur": 2.00,
+        "monthly_mwh": 400000
+      },
+      "dependencies": ["ACC_RENEWABLE_CERTIFICATES"]
+    },
+    {
+      "id": "ANT_GRID_CURTAILMENT",
+      "type": "curtailment_risk",
+      "description": "Spanish grid operator curtailment during low demand periods",
+      "condition": "Grid oversupply or transmission constraints",
+      "probability_factor": 0.15,
+      "expected_impact": "Up to 3% monthly production curtailment (12,000 MWh)",
+      "assumptions": {
+        "curtailment_rate": 0.03,
+        "curtailed_mwh": 12000,
+        "revenue_impact_eur": -540000
+      },
+      "dependencies": ["ACC_ENERGY_REVENUE"]
+    }
+  ],
+  
+  "actions": [
+    {
+      "id": "ACT_MONTHLY_ENERGY_DELIVERY",
+      "type": "energy_delivery",
+      "timestamp": "2026-01-31T23:59:00Z",
+      "description": "Completed monthly energy delivery for January 2026",
+      "amount_settled": null,
+      "quantity_delivered": 400000,
+      "settlement_status": "Completed",
+      "details": {
+        "generation_mwh": 435000,
+        "transmission_loss_mwh": 35000,
+        "delivered_mwh": 400000,
+        "capacity_factor": 0.99,
+        "availability_rate": 0.992
+      },
+      "breakdown": {
+        "week_1_mwh": 100500,
+        "week_2_mwh": 99800,
+        "week_3_mwh": 101200,
+        "week_4_mwh": 98500
+      },
+      "counterparty": "Iberdrola SA",
+      "payment_method": "grid_settlement",
+      "dependencies": ["ANT_SUMMER_PRODUCTION_INCREASE", "ANT_WINTER_PRODUCTION_DECREASE"]
+    },
+    {
+      "id": "ACT_MONTHLY_SETTLEMENT",
+      "type": "payment_settlement",
+      "timestamp": "2026-02-05T10:00:00Z",
+      "description": "January 2026 net settlement payment received",
+      "amount_settled": 16522500.00,
+      "quantity_delivered": null,
+      "settlement_status": "Completed",
+      "details": {
+        "gross_revenue_eur": 18000000.00,
+        "transmission_cost_eur": -1277500.00,
+        "rec_revenue_eur": 800000.00,
+        "net_settlement_eur": 16522500.00
+      },
+      "breakdown": {
+        "energy_revenue": 18000000.00,
+        "transmission_expense": -1277500.00,
+        "rec_revenue": 800000.00,
+        "net_amount": 16522500.00
+      },
+      "counterparty": "Iberdrola SA",
+      "payment_method": "wire",
+      "dependencies": ["ACT_MONTHLY_ENERGY_DELIVERY"]
+    },
+    {
+      "id": "ACT_REC_RETIREMENT",
+      "type": "certificate_retirement",
+      "timestamp": "2026-01-31T23:59:00Z",
+      "description": "Retirement of 400,000 European Guarantees of Origin",
+      "amount_settled": 800000.00,
+      "quantity_delivered": 400000,
+      "settlement_status": "Completed",
+      "details": {
+        "rec_type": "European_Guarantee_of_Origin",
+        "generation_source": "Solar_PV",
+        "registry": "AIB_Registry",
+        "retirement_date": "2026-01-31",
+        "certificates_retired": 400000
+      },
+      "breakdown": null,
+      "counterparty": "Iberdrola SA",
+      "payment_method": "registry_transfer",
+      "dependencies": ["ACC_RENEWABLE_CERTIFICATES"]
+    },
+    {
+      "id": "ACT_GRID_BALANCING_CHARGE",
+      "type": "ancillary_service",
+      "timestamp": "2026-01-31T23:59:00Z",
+      "description": "Spanish grid balancing charge for January 2026",
+      "amount_settled": 150000.00,
+      "quantity_delivered": null,
+      "settlement_status": "Completed",
+      "details": {
+        "balancing_mechanism": "Spanish_Grid_Code",
+        "imbalance_volume_mwh": 1200,
+        "balancing_rate_eur_per_mwh": 125.00,
+        "total_charge_eur": 150000.00
+      },
+      "breakdown": null,
+      "counterparty": "RED Electrica de Espana",
+      "payment_method": "grid_settlement",
+      "dependencies": ["ACT_MONTHLY_ENERGY_DELIVERY"]
+    }
+  ],
+  
+  "privacy_metadata": {
+    "formulas_obfuscated": 5,
+    "instance_pools": 8,
+    "attack_complexity": "2^96 operations",
+    "obfuscated_formulas": [
+      {
+        "formula_id": "e1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6",
+        "purpose": "Energy revenue calculation (MWh Ã— Price)",
+        "obfuscation_method": "instance_pool"
+      },
+      {
+        "formula_id": "e2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7",
+        "purpose": "Transmission tariff calculation",
+        "obfuscation_method": "instance_pool"
+      },
+      {
+        "formula_id": "e3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8",
+        "purpose": "REC revenue calculation",
+        "obfuscation_method": "instance_pool"
+      },
+      {
+        "formula_id": "e4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9",
+        "purpose": "Foreign exchange adjustment",
+        "obfuscation_method": "instance_pool"
+      },
+      {
+        "formula_id": "e5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0",
+        "purpose": "O&M cost allocation",
+        "obfuscation_method": "instance_pool"
+      }
+    ]
+  }
+}

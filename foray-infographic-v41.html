@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <!--
   File: foray-infographic-v41.html
-  Version: 4.1.1
+  Version: 4.1.3
   Created: 2026-01-27T00:00:00Z
-  Modified: 2026-01-29T20:00:00Z
+  Modified: 2026-01-31T11:15:00Z
   Author: Marvin Percival
   Email: marvinp@dunin7.com
   GitHub: DUNIN7/foray-kaspathon
   
   FORAY Protocol Infographic
   Change Log:
+    v4.1.3 (2026-01-31): Added Attestations verification layer section
+                         Clarifies FORAY captures claims, Attestations verify truth
+                         Addresses fraud prevention critique with governance layer
+                         Changed "Complete Audit Trail" to "Structured Transaction Chain"
+                         Changed "complete, verifiable chain" to "structured chain" for accuracy
+    v4.1.2 (2026-01-31): Content review - "immutable" to "tamper-evident" for accuracy
     v4.1.1 (2026-01-29): Added Supply Chain use case, changed to 3-column grid
     v4.1.0 (2026-01-27): Initial release
 -->
@@ -18,8 +24,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FORAY Protocol v4.1 - Infographic</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* === BULLETPROOF NAV CSS v4.0 - FULLY SELF-CONTAINED === */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
+    .nav * { box-sizing: border-box; }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: inherit; font-size: inherit; line-height: inherit; }
+    .nav-logo-text { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; display: flex; align-items: center; }
+    .nav-logo-foray { color: #0D7377; }
+    .nav-logo-protocol { color: #F7F9FA; font-weight: 400; }
+    .nav-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: #E6A817; color: #1A1D21; border-radius: 4px; font-weight: 600; line-height: 1; display: inline-block; vertical-align: middle; font-family: inherit; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-link { color: #94A3A8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; font-family: inherit; line-height: 1; }
+    .nav-link:hover, .nav-link.active { color: #14B8B8; }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; align-items: center; width: 40px; height: 40px; background: transparent; border: none; cursor: pointer; z-index: 1001; padding: 8px; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #F7F9FA; margin: 3px 0; transition: all 0.3s ease; border-radius: 2px; }
+    .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .nav-mobile-menu.active { opacity: 1; visibility: visible; }
+    .nav-mobile-menu .nav-link { font-size: 1.5rem; font-weight: 500; color: #F7F9FA; line-height: 1; }
+    .nav-mobile-menu .nav-link:hover { color: #14B8B8; }
+    @media (max-width: 768px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .nav-mobile-menu { display: flex; } }
+    /* === END BULLETPROOF NAV CSS === */
+    
     :root {
       --foray-teal: #49B4A7;
       --foray-navy: #1C2541;
@@ -29,7 +63,40 @@
     }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white p-8">
+<body class="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white">
+  
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-text">
+        <span class="nav-logo-foray">FORAY</span> <span class="nav-logo-protocol">Protocol</span>
+      </span>
+      <span class="nav-badge">v4.1</span>
+    </a>
+    <div class="nav-links">
+      <a href="demo.html" class="nav-link">Demo</a>
+      <a href="docs.html" class="nav-link">Documentation</a>
+      <a href="examples.html" class="nav-link">Examples</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
+    </div>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+  
+  <!-- Mobile Menu -->
+  <div class="nav-mobile-menu" id="mobileMenu">
+    <a href="demo.html" class="nav-link" onclick="closeMobileMenu()">Demo</a>
+    <a href="docs.html" class="nav-link" onclick="closeMobileMenu()">Documentation</a>
+    <a href="examples.html" class="nav-link" onclick="closeMobileMenu()">Examples</a>
+    <a href="about.html" class="nav-link" onclick="closeMobileMenu()">About</a>
+    <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank" onclick="closeMobileMenu()">GitHub</a>
+  </div>
+
+  <div class="p-8" style="padding-top: 6rem;">
   <div class="max-w-5xl mx-auto">
     
     <!-- Version Badge -->
@@ -47,7 +114,7 @@
       <p class="text-slate-300 text-lg max-w-4xl mx-auto leading-relaxed">
         Enterprises struggle to prove that complex financial transactions occurred correctly, with full auditability.
         FORAY solves this by decomposing any transaction into four verifiable components - Arrangements, Accruals, 
-        Anticipations, and Actions - creating an immutable audit trail anchored to the Kaspa blockchain.
+        Anticipations, and Actions - creating a tamper-evident audit trail anchored to the Kaspa blockchain.
       </p>
     </div>
 
@@ -112,7 +179,7 @@
         THE FORAY SOLUTION: 4-COMPONENT STRUCTURE
       </h2>
       <p class="text-center text-slate-400 mb-8 max-w-2xl mx-auto">
-        Every transaction decomposes into four linked components that create a complete, verifiable chain from contract to settlement.
+        Every transaction decomposes into four linked components that create a structured chain from contract to settlement.
       </p>
 
       <!-- 4 Component Cards -->
@@ -267,7 +334,126 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>
           <span class="text-purple-400 font-semibold">A</span>
-          <span class="ml-4 text-slate-400 text-sm">= Complete Audit Trail</span>
+          <span class="ml-4 text-slate-400 text-sm">= Structured Transaction Chain</span>
+        </div>
+      </div>
+      
+      <!-- Attestations: The Verification Layer -->
+      <div class="mt-12 bg-gradient-to-br from-slate-800/80 to-slate-900/60 rounded-2xl p-8 border border-slate-600">
+        <div class="flex items-start gap-4 mb-6">
+          <div class="bg-rose-500/20 rounded-full p-3 flex-shrink-0">
+            <svg class="w-8 h-8 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-xl font-semibold text-rose-400 mb-2">ATTESTATIONS: External Verification</h3>
+            <p class="text-slate-300 text-base mb-4">
+              FORAY creates a tamper-evident record of <em>claimed</em> transactions. Attestations provide independent verification of those claims.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-6">
+          <!-- What FORAY Captures -->
+          <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-700">
+            <h4 class="font-semibold text-cyan-300 mb-3 flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              What FORAY Captures
+            </h4>
+            <ul class="text-sm text-slate-400 space-y-2">
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 mt-1">â†’</span>
+                <span><strong>Structured claims:</strong> "Provider served 150 meals"</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 mt-1">â†’</span>
+                <span><strong>Formula hashes:</strong> Calculation integrity verified</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 mt-1">â†’</span>
+                <span><strong>Component linkage:</strong> Payment references service claim</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 mt-1">â†’</span>
+                <span><strong>Blockchain timestamp:</strong> When claim was made</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- What Attestations Add -->
+          <div class="bg-slate-900/50 rounded-xl p-5 border border-rose-500/40">
+            <h4 class="font-semibold text-rose-400 mb-3 flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              What Attestations Add
+            </h4>
+            <ul class="text-sm text-slate-400 space-y-2">
+              <li class="flex items-start gap-2">
+                <span class="text-rose-400 mt-1">âœ“</span>
+                <span><strong>Independent verification:</strong> Third party confirms 150 meals served</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-rose-400 mt-1">âœ“</span>
+                <span><strong>Evidence anchoring:</strong> Photos, signatures, sensor data</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-rose-400 mt-1">âœ“</span>
+                <span><strong>Multi-party consensus:</strong> Provider + supervisor + auditor</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-rose-400 mt-1">âœ“</span>
+                <span><strong>Attestation timestamp:</strong> When verification occurred</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Attestation Examples -->
+        <div class="mt-6 bg-slate-900/30 rounded-xl p-5 border border-slate-600">
+          <h4 class="font-semibold text-amber-300 mb-4">Example Attestation Sources:</h4>
+          <div class="grid grid-cols-3 gap-4 text-xs">
+            <div class="flex items-center gap-2 text-slate-400">
+              <span class="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></span>
+              <span><strong>IoT Sensors:</strong> RFID, GPS, temperature monitors</span>
+            </div>
+            <div class="flex items-center gap-2 text-slate-400">
+              <span class="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></span>
+              <span><strong>Digital Signatures:</strong> Multi-party approval chains</span>
+            </div>
+            <div class="flex items-center gap-2 text-slate-400">
+              <span class="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"></span>
+              <span><strong>Oracles:</strong> Market data, exchange rates, commodity prices</span>
+            </div>
+            <div class="flex items-center gap-2 text-slate-400">
+              <span class="w-2 h-2 bg-yellow-500 rounded-full flex-shrink-0"></span>
+              <span><strong>Site Inspections:</strong> Physical verification reports</span>
+            </div>
+            <div class="flex items-center gap-2 text-slate-400">
+              <span class="w-2 h-2 bg-red-500 rounded-full flex-shrink-0"></span>
+              <span><strong>Biometrics:</strong> Fingerprint, facial recognition for attendance</span>
+            </div>
+            <div class="flex items-center gap-2 text-slate-400">
+              <span class="w-2 h-2 bg-pink-500 rounded-full flex-shrink-0"></span>
+              <span><strong>Cross-System:</strong> Validation against external databases</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Critical Note -->
+        <div class="mt-5 bg-amber-900/20 border border-amber-500/40 rounded-lg p-4">
+          <div class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <p class="text-sm text-amber-200">
+              <strong>Important:</strong> FORAY provides the <em>structure</em> for capturing claims and linking them to settlements. 
+              Attestations provide the <em>governance</em> layer that validates those claims are true. Both are necessary for fraud prevention.
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -301,7 +487,7 @@
         </div>
         <h3 class="font-semibold mb-2" style="color: var(--foray-teal);">ANCHORED ON KASPA</h3>
         <p class="text-slate-400 text-sm">
-          Sub-second confirmation on Kaspa blockchain. Decentralized, immutable proof of existence with real-time verification.
+          Sub-second confirmation on Kaspa blockchain. Decentralized, tamper-evident proof of existence with real-time verification.
         </p>
       </div>
 
@@ -442,5 +628,28 @@
       </p>
     </div>
   </div>
+
+  <script>
+    // Mobile menu functions
+    function toggleMobileMenu() {
+      const hamburger = document.querySelector(".nav-hamburger");
+      const mobileMenu = document.getElementById("mobileMenu");
+      hamburger.classList.toggle("active");
+      mobileMenu.classList.toggle("active");
+      document.body.style.overflow = mobileMenu.classList.contains("active") ? "hidden" : "";
+    }
+    
+    function closeMobileMenu() {
+      const hamburger = document.querySelector(".nav-hamburger");
+      const mobileMenu = document.getElementById("mobileMenu");
+      hamburger.classList.remove("active");
+      mobileMenu.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+    
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") closeMobileMenu();
+    });
+  </script>
 </body>
 </html>

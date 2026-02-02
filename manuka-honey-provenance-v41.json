@@ -1,0 +1,330 @@
+{
+  "transaction_id": "PROV_2026_Q1_MANUKA_HONEY_BATCH_001",
+  "schema_version": "4.1",
+  "timestamp": "2026-01-15T09:00:00Z",
+
+  "foray_core": {
+    "entity": "Waikato Apiaries Ltd",
+    "entity_hash": "sha256:wal_2026_abc123...",
+    "transaction_type": "product_provenance",
+    "total_value": 185000.00,
+    "currency": "NZD",
+    "status": "completed",
+    "compliance_flags": ["MPI_Export_Certified", "UMF_Licensed", "ISO_22000"]
+  },
+
+  "component_hashes": {
+    "arrangements": "sha256:arr_manuka_a1b2c3...",
+    "accruals": "sha256:acc_manuka_d4e5f6...",
+    "anticipations": "sha256:ant_manuka_g7h8i9...",
+    "actions": "sha256:act_manuka_j0k1l2...",
+    "attestations": "sha256:att_manuka_m3n4o5..."
+  },
+
+  "arrangements": [
+    {
+      "id": "ARR_UMF_LICENSE_2026",
+      "foray_core": {
+        "type": "origin_certification",
+        "effective_date": "2026-01-01T00:00:00Z",
+        "parties": [
+          { "role": "producer", "name": "Waikato Apiaries Ltd", "jurisdiction": "NZ" },
+          { "role": "certifier", "name": "UMF Honey Association", "jurisdiction": "NZ" },
+          { "role": "laboratory", "name": "Analytica Laboratories", "jurisdiction": "NZ" }
+        ],
+        "description": "UMF certification license for authentic New Zealand Manuka Honey",
+        "total_value": 185000.00,
+        "currency": "NZD",
+        "terms": {
+          "certification_type": "UMF_Licensed_Producer",
+          "license_number": "UMF-2026-0847",
+          "valid_until": "2026-12-31",
+          "annual_audit_required": true
+        },
+        "dependencies": []
+      }
+    },
+    {
+      "id": "ARR_BATCH_DEFINITION_2026_001",
+      "foray_core": {
+        "type": "production_batch",
+        "effective_date": "2026-01-10T00:00:00Z",
+        "parties": [
+          { "role": "producer", "name": "Waikato Apiaries Ltd", "jurisdiction": "NZ" }
+        ],
+        "description": "Production batch MH-2026-001 - 500kg UMF 15+ Manuka Honey",
+        "total_value": 185000.00,
+        "currency": "NZD",
+        "terms": {
+          "batch_id": "MH-2026-001",
+          "weight_kg": 500,
+          "jar_count": 1000,
+          "jar_size_g": 500,
+          "harvest_date": "2025-12-20",
+          "extraction_date": "2025-12-22",
+          "apiary_region": "Waikato, North Island",
+          "hive_source_ids": ["HIVE-W-042", "HIVE-W-043", "HIVE-W-044"]
+        },
+        "dependencies": ["ARR_UMF_LICENSE_2026"]
+      }
+    }
+  ],
+
+  "accruals": [
+    {
+      "id": "ACC_LABORATORY_ANALYSIS_001",
+      "foray_core": {
+        "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001", "ARR_UMF_LICENSE_2026"],
+        "type": "product_analysis",
+        "description": "Laboratory analysis results for batch MH-2026-001",
+        "computation_method": "Valuation",
+        "formula_id": "sha256:umf_analysis_protocol_v2...",
+        "inputs": {
+          "sample_id": "SAMPLE-MH-2026-001-A",
+          "analysis_date": "2026-01-12",
+          "methodology": "UMF_Grading_Standard_v4"
+        },
+        "output": 185000.00,
+        "currency": "NZD",
+        "analysis_results": {
+          "mgo_mg_kg": 514,
+          "dha_mg_kg": 1250,
+          "hmo_mg_kg": 42,
+          "leptosperin_mg_kg": 185,
+          "umf_rating": 15,
+          "umf_grade": "UMF 15+",
+          "npa_equivalent": 15.2,
+          "moisture_percent": 17.8,
+          "hmf_mg_kg": 12,
+          "diastase_number": 18,
+          "authenticity_markers": {
+            "c4_sugar_percent": 0.8,
+            "pollen_analysis": "Leptospermum scoparium dominant",
+            "dna_verified": true
+          },
+          "classification": "Authentic Monofloral Manuka",
+          "grade_confirmed": true
+        },
+        "dependencies": ["ARR_BATCH_DEFINITION_2026_001"]
+      }
+    },
+    {
+      "id": "ACC_BATCH_VALUATION_001",
+      "foray_core": {
+        "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001"],
+        "type": "inventory_valuation",
+        "description": "Batch valuation at export wholesale price",
+        "computation_method": "Calculated",
+        "formula_id": "sha256:valuation_weight_x_grade_price...",
+        "inputs": {
+          "weight_kg": 500,
+          "umf_grade": "UMF 15+",
+          "price_per_kg_nzd": 370.00
+        },
+        "output": 185000.00,
+        "currency": "NZD",
+        "dependencies": ["ARR_BATCH_DEFINITION_2026_001"]
+      }
+    }
+  ],
+
+  "anticipations": [
+    {
+      "id": "ANT_EXPORT_DISTRIBUTION_2026_001",
+      "foray_core": {
+        "accrual_refs": ["ACC_BATCH_VALUATION_001"],
+        "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001"],
+        "type": "scheduled_distribution",
+        "description": "Expected export distribution to international partners",
+        "expected_amount": 185000.00,
+        "currency": "NZD",
+        "expected_date": "2026-02-15",
+        "probability_factor": 0.95,
+        "distribution_plan": {
+          "export_markets": ["China", "UK", "USA", "Japan"],
+          "jars_per_market": {
+            "china": 400,
+            "uk": 250,
+            "usa": 200,
+            "japan": 150
+          },
+          "mpi_export_certificate_required": true
+        },
+        "dependencies": ["ACC_BATCH_VALUATION_001"]
+      }
+    },
+    {
+      "id": "ANT_SHELF_LIFE_WINDOW_001",
+      "foray_core": {
+        "accrual_refs": ["ACC_LABORATORY_ANALYSIS_001"],
+        "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001"],
+        "type": "quality_validity_window",
+        "description": "Expected shelf life based on analysis results",
+        "expected_amount": 0,
+        "currency": "NZD",
+        "expected_date": "2031-01-15",
+        "probability_factor": 0.95,
+        "quality_parameters": {
+          "best_before_date": "2031-01-15",
+          "optimal_storage_temp_c": "below 25",
+          "light_exposure": "protected",
+          "note": "Honey does not spoil; UMF activity may decrease over time"
+        },
+        "dependencies": ["ACC_LABORATORY_ANALYSIS_001"]
+      }
+    }
+  ],
+
+  "actions": [
+    {
+      "id": "ACT_JARRING_COMPLETE_001",
+      "foray_core": {
+        "anticipation_refs": ["ANT_EXPORT_DISTRIBUTION_2026_001"],
+        "accrual_refs": ["ACC_LABORATORY_ANALYSIS_001", "ACC_BATCH_VALUATION_001"],
+        "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001"],
+        "type": "production_completion",
+        "description": "Jarring completed for batch MH-2026-001",
+        "amount_settled": 185000.00,
+        "currency": "NZD",
+        "settlement_date": "2026-01-15T09:00:00Z",
+        "settlement_status": "completed",
+        "payment_method": "other",
+        "counterparty": "Internal",
+        "production_details": {
+          "jars_produced": 1000,
+          "jars_passed_qc": 998,
+          "jars_rejected": 2,
+          "rejection_rate_percent": 0.2,
+          "tamper_seal_applied": true,
+          "umf_label_applied": true
+        },
+        "dependencies": ["ANT_EXPORT_DISTRIBUTION_2026_001"]
+      }
+    },
+    {
+      "id": "ACT_UMF_CERTIFICATION_ISSUED_001",
+      "foray_core": {
+        "anticipation_refs": [],
+        "accrual_refs": ["ACC_LABORATORY_ANALYSIS_001"],
+        "arrangement_refs": ["ARR_UMF_LICENSE_2026", "ARR_BATCH_DEFINITION_2026_001"],
+        "type": "certification_issuance",
+        "description": "UMF certificate issued for batch MH-2026-001",
+        "amount_settled": 0,
+        "currency": "NZD",
+        "settlement_date": "2026-01-14T14:00:00Z",
+        "settlement_status": "completed",
+        "payment_method": "other",
+        "counterparty": "UMF Honey Association",
+        "certificate_details": {
+          "certificate_number": "UMF-BATCH-2026-00847",
+          "issued_by": "UMF Honey Association",
+          "valid_for_batch": "MH-2026-001",
+          "umf_grade_certified": "UMF 15+",
+          "mgo_verified_mg_kg": 514,
+          "qr_verification_url": "https://umf.org.nz/verify/UMF-BATCH-2026-00847"
+        },
+        "dependencies": ["ACC_LABORATORY_ANALYSIS_001"]
+      }
+    }
+  ],
+
+  "attestations": [
+    {
+      "id": "ATT_LAB_ANALYSIS_001",
+      "foray_core": {
+        "attestor": "Analytica Laboratories",
+        "attestor_hash": "sha256:analytica_nz_2026...",
+        "attestor_type": "laboratory",
+        "attestor_credentials": ["IANZ_Accredited", "MPI_Recognized", "ISO_17025"],
+        "subject_refs": ["ACC_LABORATORY_ANALYSIS_001"],
+        "attestation_type": "analysis",
+        "attestation_date": "2026-01-12T16:30:00Z",
+        "validity_period": {
+          "start": "2026-01-12",
+          "end": "2027-01-12"
+        },
+        "outcome": "certified",
+        "evidence_hash": "sha256:lab_report_mh2026001...",
+        "evidence_location": "off-chain",
+        "analysis_summary": {
+          "mgo_result_mg_kg": 514,
+          "leptosperin_result_mg_kg": 185,
+          "dna_verified": true,
+          "methodology": "UMF_Grading_Standard_v4"
+        },
+        "dependencies": []
+      }
+    },
+    {
+      "id": "ATT_UMF_CERTIFICATION_001",
+      "foray_core": {
+        "attestor": "UMF Honey Association",
+        "attestor_hash": "sha256:umf_assoc_nz_2026...",
+        "attestor_type": "certification_body",
+        "attestor_credentials": ["NZ_Govt_Recognized", "Trademark_Owner_UMF", "MPI_Partner"],
+        "subject_refs": ["ARR_UMF_LICENSE_2026", "ARR_BATCH_DEFINITION_2026_001", "ATT_LAB_ANALYSIS_001"],
+        "attestation_type": "certification",
+        "attestation_date": "2026-01-14T14:00:00Z",
+        "validity_period": {
+          "start": "2026-01-14",
+          "end": "2026-12-31"
+        },
+        "outcome": "certified",
+        "evidence_hash": "sha256:umf_certificate_mh2026001...",
+        "evidence_location": "off-chain",
+        "certificate_details": {
+          "certificate_number": "UMF-BATCH-2026-00847",
+          "umf_grade": "UMF 15+",
+          "qr_verification_url": "https://umf.org.nz/verify/UMF-BATCH-2026-00847"
+        },
+        "dependencies": ["ATT_LAB_ANALYSIS_001"]
+      }
+    },
+    {
+      "id": "ATT_MPI_EXPORT_001",
+      "foray_core": {
+        "attestor": "Ministry for Primary Industries",
+        "attestor_hash": "sha256:mpi_nz_govt_2026...",
+        "attestor_type": "regulator",
+        "attestor_credentials": ["NZ_Government_Authority", "Food_Safety_Regulator", "Export_Certification_Authority"],
+        "subject_refs": ["ARR_BATCH_DEFINITION_2026_001", "ATT_UMF_CERTIFICATION_001"],
+        "attestation_type": "approval",
+        "attestation_date": "2026-01-15T08:00:00Z",
+        "validity_period": {
+          "start": "2026-01-15",
+          "end": "2026-07-15"
+        },
+        "outcome": "approved",
+        "evidence_hash": "sha256:mpi_export_cert_mh2026001...",
+        "evidence_location": "off-chain",
+        "export_details": {
+          "export_certificate_number": "MPI-EXP-2026-NZ-00847",
+          "approved_markets": ["China", "UK", "USA", "Japan"],
+          "health_certificate_included": true
+        },
+        "dependencies": ["ATT_UMF_CERTIFICATION_001"]
+      }
+    }
+  ],
+
+  "merkle_root": "sha256:manuka_batch_001_merkle_root...",
+
+  "blockchain_anchor": {
+    "kaspa_tx_id": "kaspa:qr_manuka_batch_001...",
+    "block_height": 2950000,
+    "confirmation_time_ms": 1100,
+    "anchored_at": "2026-01-15T09:00:02Z"
+  },
+
+  "audit_data_anchor": {
+    "audit_data_hash": "sha256:manuka_audit_data...",
+    "audit_profile": "standard",
+    "storage_locations": ["s3://foray-audit/2026/Q1/PROV_2026_Q1_MANUKA_HONEY_BATCH_001"]
+  },
+
+  "privacy_metadata": {
+    "formulas_obfuscated": 2,
+    "instance_pools": 3,
+    "attack_complexity": "2^96 operations"
+  }
+}

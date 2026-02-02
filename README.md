@@ -1,5 +1,20 @@
 # FORAY Protocol
 
+<!--
+Version:       2.1.0
+Created:       2026-01-25T00:00:00Z
+Modified:      2026-02-01T04:15:00Z
+Author:        Marvin Percival
+
+Changelog:
+  v2.1.0 (2026-02-01)
+    - Fixed terminology: "immutable, tamper-proof" to "tamper-evident"
+    - Added Manuka Honey Provenance and Luxury Watch Authentication examples
+    - Updated sample count from 10 to 13
+  v2.0.0 (2026-01-31)
+    - Initial v4.1 documentation
+-->
+
 **Privacy-Preserving Blockchain Audit Infrastructure**
 
 [![License: BSL 1.1](https://img.shields.io/badge/License-BSL%201.1-blue.svg)](LICENSE.md)
@@ -12,7 +27,7 @@
 
 ## What is FORAY?
 
-FORAY creates **immutable, tamper-proof audit trails** of enterprise transactions that regulators, auditors, and forensic investigators can trust--without exposing your competitive secrets.
+FORAY creates **tamper-evident audit trails** of enterprise transactions that regulators, auditors, and forensic investigators can trust--without exposing your competitive secrets.
 
 **The Problem:** Internal audit trails can be altered. When fraud happens (Enron, Wirecard, FTX), companies rewrite history. External auditors have no way to prove records weren't tampered with.
 
@@ -57,9 +72,9 @@ This maps to how businesses actually operate--from contract to cash.
 
 ### Try the Transaction Review Tool
 
-1. Open the [FORAY Transaction Review Tool](demo/foray-tx-review-v41.html) in **Chrome browser**
+1. Open the [FORAY Transaction Review Tool](demo/foray-tx-review-v41.html)
 2. Paste any FORAY JSON (examples in `/examples`)
-3. Click "Connect Wallet" (requires [KasWare](https://kasware.xyz) Chrome extension)
+3. Click "Connect Wallet" (requires [KasWare](https://kasware.xyz))
 4. Review the transaction structure
 5. Click "Anchor to Kaspa" to create an immutable proof
 
@@ -106,9 +121,8 @@ foray-kaspathon/
 |   +-- auto-loan-john-doe-v3.json     # $25K consumer auto loan
 |   +-- mary-smith-loan-v3.json        # $60K commercial loan
 |   +-- energy-solar-ppa-morocco-spain-v3.json  # EUR 197M cross-border PPA
-|   +-- olive-oil-provenance-v41.json  # DOP-certified olive oil batch
-|   +-- luxury-watch-authentication-v41.json   # Luxury product authentication
-|   +-- supply-chain-provenance-template-v41.json  # Provenance template
+|   +-- manuka-honey-provenance-v41.json   # NZ$185K UMF-certified honey with attestations
+|   +-- luxury-watch-authentication-v41.json  # $29.5K Rolex with material fingerprinting
 |
 +-- adapters/
     +-- quickbooks-adapter.js
@@ -131,9 +145,9 @@ The demo tool includes 13 embedded sample transactions:
 | RMBS Securitization | Full lifecycle | Mortgage-backed security with tranches and waterfall |
 | FX Spot Trade | Full lifecycle | Foreign exchange USD/JPY with T+2 settlement |
 | Overnight Repo | Full lifecycle | Secured overnight financing with Treasury collateral |
-| Olive Oil Provenance | Full lifecycle | DOP-certified product batch with lab analysis |
-| Luxury Watch Authentication | Full lifecycle | Product authentication with inspection results |
-| Supply Chain Template | Template | Minimal template for provenance transactions |
+| Manuka Honey Provenance | Full + Attestations | UMF-certified honey with lab/certifier/regulator attestation chain |
+| Luxury Watch Authentication | Full lifecycle | Rolex with spectroscopic material fingerprinting |
+| Supply Chain Template | Configurable | Generic provenance tracking template |
 
 ---
 
@@ -160,7 +174,6 @@ FORAY protects sensitive business data while enabling verification:
 | Defense | Cost tracking, supply chain | DCAA, DFARS |
 | Manufacturing | BOM, WIP, inventory | SOX, IFRS |
 | Energy | PPA settlements, grid transactions | FERC, regulatory |
-| Supply Chain | Product provenance, authenticity | FDA, EU Food Safety |
 
 ---
 

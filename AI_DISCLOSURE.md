@@ -1,7 +1,7 @@
 # AI Assistance Disclosure
 
 **Project:** FORAY Protocol  
-**Submission:** Kaspathon 2026 — Real-Time Data Track  
+**Submission:** Kaspathon 2026 â€” Real-Time Data Track  
 **Author:** Marvin Percival
 
 ---
@@ -57,10 +57,10 @@ This project was developed collaboratively with AI assistance. Per Kaspathon 202
 
 ## What AI Did NOT Do
 
-- **Domain expertise** — The author provided accounting, audit, and financial services knowledge
-- **Strategic decisions** — Protocol positioning, target markets, and business model decisions were made by the author
-- **Kaspa integration choices** — Blockchain selection and technical rationale came from the author
-- **Final review** — All materials were reviewed and approved by the author before publication
+- **Domain expertise** â€” The author provided accounting, audit, and financial services knowledge
+- **Strategic decisions** â€” Protocol positioning, target markets, and business model decisions were made by the author
+- **Kaspa integration choices** â€” Blockchain selection and technical rationale came from the author
+- **Final review** â€” All materials were reviewed and approved by the author before publication
 
 ---
 
@@ -93,4 +93,4 @@ All AI-generated content was reviewed, edited, and approved by the author before
 
 ---
 
-**Copyright © 2026 Marvin Percival. All rights reserved.**
+**Copyright Â© 2026 Marvin Percival. All rights reserved.**

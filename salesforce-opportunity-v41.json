@@ -1,0 +1,226 @@
+{
+  "transaction_id": "SF_OPP_2026_Q1_ACME_ENTERPRISE",
+  "schema_version": "4.1",
+  "timestamp": "2026-01-22T10:00:00Z",
+  "foray_core": {
+    "entity": "CloudTech Solutions",
+    "entity_hash": "sha256:cloudtech...",
+    "transaction_type": "salesforce_opportunity",
+    "total_value": 125000.00,
+    "currency": "USD",
+    "status": "closed_won",
+    "compliance_flags": ["ASC_606", "SOX_404", "Revenue_Recognition"]
+  },
+  "source_system": {
+    "type": "Salesforce",
+    "instance": "cloudtech.salesforce.com",
+    "api_version": "v59.0"
+  },
+  "component_hashes": {
+    "arrangements": "sha256:opp1...",
+    "accruals": "sha256:rev1...",
+    "anticipations": "sha256:pay1...",
+    "actions": "sha256:close1..."
+  },
+  "arrangements": [
+    {
+      "id": "ARR_SF_OPPORTUNITY",
+      "foray_core": {
+        "type": "sales_opportunity",
+        "effective_date": "2025-11-15T00:00:00Z",
+        "parties": [
+          { "role": "seller", "name": "CloudTech Solutions", "jurisdiction": "US-CA" },
+          { "role": "buyer", "name": "Acme Corporation", "jurisdiction": "US-NY" }
+        ],
+        "description": "Enterprise Cloud Platform - 3 Year Agreement",
+        "total_value": 125000.00,
+        "currency": "USD",
+        "terms": {
+          "contract_term_years": 3,
+          "annual_value": 41666.67,
+          "payment_terms": "Annual in advance",
+          "renewal_type": "auto_renewal"
+        },
+        "salesforce_refs": {
+          "opportunity_id": "006Dn000004XyZ1ABC",
+          "account_id": "001Dn000003ABC1DEF",
+          "owner_id": "005Dn000001XYZ9ABC",
+          "opportunity_name": "Acme Corp - Enterprise Platform",
+          "stage": "Closed Won",
+          "close_date": "2026-01-20"
+        },
+        "dependencies": []
+      }
+    },
+    {
+      "id": "ARR_SF_QUOTE",
+      "foray_core": {
+        "type": "sales_quote",
+        "effective_date": "2026-01-10T00:00:00Z",
+        "arrangement_refs": ["ARR_SF_OPPORTUNITY"],
+        "parties": [
+          { "role": "seller", "name": "CloudTech Solutions" },
+          { "role": "buyer", "name": "Acme Corporation" }
+        ],
+        "description": "Quote Q-2026-0142: Enterprise Cloud Platform",
+        "total_value": 125000.00,
+        "currency": "USD",
+        "salesforce_refs": {
+          "quote_id": "0Q0Dn000000ABC1DEF",
+          "quote_number": "Q-2026-0142",
+          "status": "Accepted"
+        },
+        "line_items": [
+          { "product": "Enterprise Platform License", "quantity": 500, "unit_price": 200.00, "total": 100000.00 },
+          { "product": "Premium Support", "quantity": 1, "unit_price": 15000.00, "total": 15000.00 },
+          { "product": "Implementation Services", "quantity": 1, "unit_price": 10000.00, "total": 10000.00 }
+        ],
+        "dependencies": ["ARR_SF_OPPORTUNITY"]
+      }
+    }
+  ],
+  "accruals": [
+    {
+      "id": "ACC_REVENUE_RECOGNITION_Y1",
+      "foray_core": {
+        "arrangement_refs": ["ARR_SF_OPPORTUNITY", "ARR_SF_QUOTE"],
+        "type": "revenue_recognition",
+        "description": "Year 1 revenue recognition - ASC 606 compliant",
+        "computation_method": "Calculated",
+        "formula_id": "sha256:asc606_rev...",
+        "inputs": {
+          "total_contract_value": 125000.00,
+          "performance_obligations": 3,
+          "license_ssp": 100000,
+          "support_ssp": 15000,
+          "services_ssp": 10000
+        },
+        "output": 41666.67,
+        "currency": "USD",
+        "accounting_entry": {
+          "debit": { "account": "1200-Accounts Receivable", "amount": 125000.00 },
+          "credit": { "account": "2400-Deferred Revenue", "amount": 83333.33 },
+          "credit2": { "account": "4100-License Revenue", "amount": 33333.33 },
+          "credit3": { "account": "4200-Service Revenue", "amount": 8333.34 }
+        },
+        "fiscal_period": { "year": 2026, "quarter": 1, "month": 1 },
+        "salesforce_refs": {
+          "revenue_schedule_id": "0RSxxxxxxx"
+        },
+        "dependencies": ["ARR_SF_QUOTE"]
+      }
+    }
+  ],
+  "anticipations": [
+    {
+      "id": "ANT_CUSTOMER_PAYMENT",
+      "foray_core": {
+        "accrual_refs": ["ACC_REVENUE_RECOGNITION_Y1"],
+        "arrangement_refs": ["ARR_SF_OPPORTUNITY"],
+        "type": "scheduled_payment",
+        "description": "Expected Year 1 payment upon contract signing",
+        "expected_amount": 125000.00,
+        "currency": "USD",
+        "expected_date": "2026-01-25",
+        "probability_factor": 0.99,
+        "assumptions": {
+          "payment_method": "wire",
+          "payment_terms": "due_on_signing"
+        },
+        "dependencies": ["ACC_REVENUE_RECOGNITION_Y1"]
+      }
+    }
+  ],
+  "actions": [
+    {
+      "id": "ACT_CONTRACT_EXECUTION",
+      "foray_core": {
+        "anticipation_refs": [],
+        "accrual_refs": [],
+        "arrangement_refs": ["ARR_SF_OPPORTUNITY", "ARR_SF_QUOTE"],
+        "type": "contract_execution",
+        "description": "Contract signed via DocuSign",
+        "amount_settled": 0,
+        "currency": "USD",
+        "settlement_date": "2026-01-20T14:30:00Z",
+        "settlement_status": "completed",
+        "allocations": [],
+        "details": {
+          "contract_id": "800Dn000001ABC1DEF",
+          "docusign_envelope_id": "12345-abcde-67890",
+          "signed_by": "Jane Smith, VP Operations"
+        },
+        "dependencies": ["ARR_SF_QUOTE"]
+      }
+    },
+    {
+      "id": "ACT_INVOICE_GENERATED",
+      "foray_core": {
+        "anticipation_refs": ["ANT_CUSTOMER_PAYMENT"],
+        "accrual_refs": ["ACC_REVENUE_RECOGNITION_Y1"],
+        "arrangement_refs": ["ARR_SF_OPPORTUNITY"],
+        "type": "invoice",
+        "description": "Invoice generated from Salesforce CPQ",
+        "amount_settled": 125000.00,
+        "currency": "USD",
+        "settlement_date": "2026-01-21T09:00:00Z",
+        "settlement_status": "issued",
+        "allocations": [],
+        "details": {
+          "invoice_id": "a0BDn000001ABC1DEF",
+          "invoice_number": "INV-2026-00089",
+          "due_date": "2026-02-20"
+        },
+        "salesforce_refs": {
+          "invoice_id": "a0BDn000001ABC1DEF"
+        },
+        "dependencies": ["ACT_CONTRACT_EXECUTION"]
+      }
+    },
+    {
+      "id": "ACT_PAYMENT_RECEIVED",
+      "foray_core": {
+        "anticipation_refs": ["ANT_CUSTOMER_PAYMENT"],
+        "accrual_refs": ["ACC_REVENUE_RECOGNITION_Y1"],
+        "arrangement_refs": ["ARR_SF_OPPORTUNITY"],
+        "type": "payment_receipt",
+        "description": "Wire payment received from Acme Corporation",
+        "amount_settled": 125000.00,
+        "currency": "USD",
+        "settlement_date": "2026-01-22T10:00:00Z",
+        "settlement_status": "completed",
+        "payment_method": "wire",
+        "counterparty": "Acme Corporation",
+        "allocations": [
+          { "ref": "ANT_CUSTOMER_PAYMENT", "ref_type": "anticipation", "amount": 125000.00, "currency": "USD", "allocation_type": "full", "remaining_balance": 0.00 }
+        ],
+        "variance": { "expected": 125000.00, "actual": 125000.00, "difference": 0.00 },
+        "details": {
+          "bank_reference": "WIR-2026012200145",
+          "payment_id": "a1CDn000002ABC1DEF"
+        },
+        "salesforce_refs": {
+          "payment_id": "a1CDn000002ABC1DEF"
+        },
+        "dependencies": ["ACT_INVOICE_GENERATED", "ANT_CUSTOMER_PAYMENT"]
+      }
+    }
+  ],
+  "merkle_root": "sha256:sfopp123...",
+  "blockchain_anchor": {
+    "kaspa_tx_id": "kaspa:qrsf...",
+    "block_height": 2850600,
+    "confirmation_time_ms": 1020,
+    "anchored_at": "2026-01-22T10:00:02Z"
+  },
+  "audit_data_anchor": {
+    "audit_data_hash": "sha256:sfaudit...",
+    "audit_profile": "revenue_recognition",
+    "storage_locations": ["s3://foray-audit/2026/Q1/SF_OPP_ACME_ENTERPRISE"]
+  },
+  "privacy_metadata": {
+    "formulas_obfuscated": 1,
+    "instance_pools": 3,
+    "attack_complexity": "2^96 operations"
+  }
+}

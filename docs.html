@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <!--
   File: docs.html
-  Version: 4.1.2
+  Version: 4.1.3
   Created: 2026-01-29T08:15:00Z
-  Modified: 2026-01-29T20:00:00Z
+  Modified: 2026-01-31T19:30:00Z
   Author: Marvin Percival
   Email: marvinp@dunin7.com
   GitHub: DUNIN7/foray-kaspathon
   
   FORAY Protocol Documentation Page
   Change Log:
-    v4.1.2 (2026-01-29): Added Industry Guides section with links to all guides
+    v4.1.3 (2026-01-31): Content review - "immutable" to "tamper-evident"
+                         Content review - removed "complete" overclaim
+                         Updated privacy architecture from 8-layer to 3-layer + ZK-ready
+                         Fixed Kaspa BPS (32 -> 10+)
+                         Fixed character encoding (Ã— symbols, copyright, middot)
+                         Removed dead sidebar links (Hashing, Salesforce)
+                         Added scroll-margin-top to fix anchor links under fixed nav
+                         Removed v4.1 Breaking Change box from Accruals
+    v4.1.2 (2026-01-30): Unified navigation with responsive hamburger menu
+                         Added favicon link
+                         Fixed character encoding issues
     v4.1.1 (2026-01-29): Corrected Accruals definition from "economic recognition" 
                          to "formulas applied against asset flows" per FORAY spec.
 -->
@@ -18,7 +28,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Documentation â€” FORAY Protocol</title>
+  <title>Documentation - FORAY Protocol</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <meta name="description" content="Technical documentation for FORAY Protocol v4.1 - specification, integration guides, and API reference.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,36 +64,31 @@
     .font-mono { font-family: 'IBM Plex Mono', monospace; }
     
     /* Navigation */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(26, 29, 33, 0.95);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(125, 211, 214, 0.1);
-    }
-    
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-    }
-    
-    .nav-logo-text { font-size: 1.5rem; font-weight: 700; }
-    .nav-logo-foray { color: var(--primary-teal); }
-    .nav-logo-protocol { color: var(--text-light); font-weight: 400; }
-    .nav-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: var(--action-amber); color: var(--text-dark); border-radius: 4px; font-weight: 600; }
-    
+        /* === BULLETPROOF NAV CSS v4.0 - FULLY SELF-CONTAINED === */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
+    .nav * { box-sizing: border-box; }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: inherit; font-size: inherit; line-height: inherit; }
+    .nav-logo-text { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; display: flex; align-items: center; }
+    .nav-logo-foray { color: #0D7377; }
+    .nav-logo-protocol { color: #F7F9FA; font-weight: 400; }
+    .nav-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: #E6A817; color: #1A1D21; border-radius: 4px; font-weight: 600; line-height: 1; display: inline-block; vertical-align: middle; font-family: inherit; }
     .nav-links { display: flex; gap: 2rem; align-items: center; }
-    .nav-link { color: var(--gray-400); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
-    .nav-link:hover, .nav-link.active { color: var(--accent-cyan); }
+    .nav-link { color: #94A3A8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; font-family: inherit; line-height: 1; }
+    .nav-link:hover, .nav-link.active { color: #14B8B8; }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; align-items: center; width: 40px; height: 40px; background: transparent; border: none; cursor: pointer; z-index: 1001; padding: 8px; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #F7F9FA; margin: 3px 0; transition: all 0.3s ease; border-radius: 2px; }
+    .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .nav-mobile-menu.active { opacity: 1; visibility: visible; }
+    .nav-mobile-menu .nav-link { font-size: 1.5rem; font-weight: 500; color: #F7F9FA; line-height: 1; }
+    .nav-mobile-menu .nav-link:hover { color: #14B8B8; }
+    @media (max-width: 768px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .nav-mobile-menu { display: flex; } }
+    /* === END BULLETPROOF NAV CSS === */
+    
+    
+    
     
     /* Layout */
     .docs-layout {
@@ -150,6 +156,7 @@
       font-weight: 700;
       margin-bottom: 1rem;
       letter-spacing: -0.02em;
+      scroll-margin-top: 100px;
     }
     
     .docs-content h2 {
@@ -160,6 +167,7 @@
       padding-top: 1.5rem;
       border-top: 1px solid rgba(125, 211, 214, 0.1);
       color: var(--accent-cyan);
+      scroll-margin-top: 100px;
     }
     
     .docs-content h3 {
@@ -168,6 +176,7 @@
       margin-top: 2rem;
       margin-bottom: 0.75rem;
       color: var(--text-light);
+      scroll-margin-top: 100px;
     }
     
     .docs-content p {
@@ -317,8 +326,18 @@
       }
     }
     
+    /* Hamburger Menu Button */
+    
+    
+    
+    
+    
+    /* Mobile Menu Overlay */
+    
+    
+    
+    
     @media (max-width: 768px) {
-      .nav-links { display: none; }
     }
   </style>
 </head>
@@ -326,8 +345,7 @@
   <nav class="nav">
     <a href="index.html" class="nav-logo">
       <span class="nav-logo-text">
-        <span class="nav-logo-foray">FORAY</span>
-        <span class="nav-logo-protocol">Protocol</span>
+        <span class="nav-logo-foray">FORAY</span> <span class="nav-logo-protocol">Protocol</span>
       </span>
       <span class="nav-badge">v4.1</span>
     </a>
@@ -338,7 +356,21 @@
       <a href="about.html" class="nav-link">About</a>
       <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
     </div>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </nav>
+  
+  <!-- Mobile Menu -->
+  <div class="nav-mobile-menu" id="mobileMenu">
+    <a href="demo.html" class="nav-link" onclick="closeMobileMenu()">Demo</a>
+    <a href="docs.html" class="nav-link" onclick="closeMobileMenu()">Documentation</a>
+    <a href="examples.html" class="nav-link" onclick="closeMobileMenu()">Examples</a>
+    <a href="about.html" class="nav-link" onclick="closeMobileMenu()">About</a>
+    <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank" onclick="closeMobileMenu()">GitHub</a>
+  </div>
 
   <div class="docs-layout">
     <aside class="sidebar">
@@ -361,7 +393,6 @@
       <div class="sidebar-section">
         <div class="sidebar-title">Technical</div>
         <a href="#schema" class="sidebar-link">JSON Schema</a>
-        <a href="#hashing" class="sidebar-link">Hashing & Merkle Trees</a>
         <a href="#kaspa" class="sidebar-link">Kaspa Integration</a>
         <a href="#privacy" class="sidebar-link">Privacy Architecture</a>
       </div>
@@ -369,17 +400,7 @@
       <div class="sidebar-section">
         <div class="sidebar-title">Integration</div>
         <a href="#quickbooks" class="sidebar-link">QuickBooks</a>
-        <a href="#salesforce" class="sidebar-link">Salesforce</a>
         <a href="#erp" class="sidebar-link">ERP Systems</a>
-      </div>
-      
-      <div class="sidebar-section">
-        <div class="sidebar-title">Industry Guides</div>
-        <a href="#guide-energy" class="sidebar-link">Energy Sector</a>
-        <a href="#guide-financial" class="sidebar-link">Financial Services</a>
-        <a href="#guide-manufacturing" class="sidebar-link">Manufacturing</a>
-        <a href="#guide-defense" class="sidebar-link">Defense Contractors</a>
-        <a href="#guide-supply-chain" class="sidebar-link">Supply Chain</a>
       </div>
     </aside>
 
@@ -387,7 +408,7 @@
       <h1 id="overview">FORAY Protocol Documentation</h1>
       <p>
         FORAY Protocol is a privacy-preserving blockchain audit infrastructure designed to create 
-        immutable transaction records for enterprise systems. This documentation covers the v4.1 
+        tamper-evident transaction records for enterprise systems. This documentation covers the v4.1 
         specification, integration patterns, and best practices.
       </p>
       
@@ -398,16 +419,16 @@
           </svg>
           About the Name
         </div>
-        <p>FORAY is derived from "4A" â€” the four components: Arrangements, Accruals, Anticipations, and Actions.</p>
+        <p>FORAY is derived from "4A" &mdash; the four components: Arrangements, Accruals, Anticipations, and Actions.</p>
       </div>
 
       <h2 id="quick-start">Quick Start</h2>
       <p>Get started with FORAY in three steps:</p>
       
       <ol>
-        <li><strong>Model your transaction</strong> â€” Decompose it into the 4 components</li>
-        <li><strong>Generate JSON</strong> â€” Create a valid FORAY Protocol JSON document</li>
-        <li><strong>Anchor to Kaspa</strong> â€” Submit the merkle root to Kaspa blockchain</li>
+        <li><strong>Model your transaction</strong> &mdash; Decompose it into the 4 components</li>
+        <li><strong>Generate JSON</strong> &mdash; Create a valid FORAY Protocol JSON document</li>
+        <li><strong>Anchor to Kaspa</strong> &mdash; Submit the merkle root to Kaspa blockchain</li>
       </ol>
       
       <p>Try the <a href="demo.html">interactive demo</a> to see how it works.</p>
@@ -416,25 +437,25 @@
       <p>FORAY is built on these core principles:</p>
       
       <ol>
-        <li><strong>Source System Trust</strong> â€” FORAY trusts validated ERP data</li>
-        <li><strong>4-Component Model</strong> â€” Arrangements â†’ Accruals â†’ Anticipations â†’ Actions</li>
-        <li><strong>Immutable Anchoring</strong> â€” Blockchain provides tamper-proof timestamps</li>
-        <li><strong>Privacy Preservation</strong> â€” Hash-based verification without data exposure</li>
-        <li><strong>Separation of Concerns</strong> â€” Core protocol separate from audit metadata</li>
-        <li><strong>Layered Storage</strong> â€” Right data in right place at right cost</li>
+        <li><strong>Source System Trust</strong> &mdash; FORAY trusts validated ERP data</li>
+        <li><strong>4-Component Model</strong> &mdash; Arrangements &rarr; Accruals &rarr; Anticipations &rarr; Actions</li>
+        <li><strong>Tamper-Evident Anchoring</strong> &mdash; Blockchain provides tamper-evident timestamps</li>
+        <li><strong>Privacy Preservation</strong> &mdash; Hash-based verification without data exposure</li>
+        <li><strong>Separation of Concerns</strong> &mdash; Core protocol separate from audit metadata</li>
+        <li><strong>Layered Storage</strong> &mdash; Right data in right place at right cost</li>
       </ol>
 
       <h3>New in v4.1</h3>
       <ul>
-        <li><strong>Transaction Fidelity</strong> â€” Model what actually happened, not artificial structures</li>
-        <li><strong>Relationship Accuracy</strong> â€” Support real-world many-to-many flows</li>
-        <li><strong>Flexible Entry Points</strong> â€” Any component type can serve as transaction entry point</li>
+        <li><strong>Transaction Fidelity</strong> &mdash; Model what actually happened, not artificial structures</li>
+        <li><strong>Relationship Accuracy</strong> &mdash; Support real-world many-to-many flows</li>
+        <li><strong>Flexible Entry Points</strong> &mdash; Any component type can serve as transaction entry point</li>
       </ul>
 
       <h2 id="4-component-model">4-Component Model</h2>
       <p>
         Every business transaction in FORAY is decomposed into four auditable components. This structure 
-        provides a complete trail from agreement to settlement.
+        provides a structured trail from agreement to settlement.
       </p>
       
       <table>
@@ -471,7 +492,7 @@
 
       <h2 id="arrangements">Arrangements</h2>
       <p>
-        Arrangements represent the contractual foundation of a transaction â€” the "what we agreed to."
+        Arrangements represent the contractual foundation of a transaction &mdash; the "what we agreed to."
         They define parties, terms, and obligations.
       </p>
       
@@ -499,22 +520,11 @@
 
       <h2 id="accruals">Accruals</h2>
       <p>
-        Accruals represent formulas applied against asset flows â€” the "how amounts are computed." They 
-        capture calculations such as interest (P Ã— r Ã— t), depreciation, overhead allocation, and 
+        Accruals represent formulas applied against asset flows &mdash; the "how amounts are computed." They 
+        capture calculations such as interest (P &times; r &times; t), depreciation, overhead allocation, and 
         valuations. Accruals link back to Arrangements and define the computational logic that 
         transforms contractual terms into quantified amounts.
       </p>
-      
-      <div class="info-box warning">
-        <div class="info-box-title">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-            <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-          </svg>
-          v4.1 Breaking Change
-        </div>
-        <p><code>arrangement_ref</code> is now <code>arrangement_refs</code> (array) to support many-to-many relationships.</p>
-      </div>
       
       <h3>Structure</h3>
       <div class="code-block">
@@ -537,7 +547,7 @@
 
       <h2 id="anticipations">Anticipations</h2>
       <p>
-        Anticipations represent expected future cash flows or deliverables â€” the "what we expect to happen."
+        Anticipations represent expected future cash flows or deliverables &mdash; the "what we expect to happen."
         They can reference both Accruals and Arrangements directly.
       </p>
       
@@ -560,7 +570,7 @@
 
       <h2 id="actions">Actions</h2>
       <p>
-        Actions represent actual asset transfers â€” the "what actually moved." They record 
+        Actions represent actual asset transfers &mdash; the "what actually moved." They record 
         settlements, payments, deliveries, and other concrete movements.
       </p>
       
@@ -658,7 +668,7 @@
           </tr>
           <tr>
             <td>Throughput</td>
-            <td>32 blocks/second</td>
+            <td>10+ blocks/second</td>
             <td>Handles enterprise-scale volume</td>
           </tr>
         </tbody>
@@ -676,20 +686,48 @@
 
       <h2 id="privacy">Privacy Architecture</h2>
       <p>
-        FORAY implements an 8-layer privacy defense to protect sensitive business data while 
-        enabling cryptographic verification:
+        FORAY implements a 3-layer privacy architecture (with a 4th layer reserved for future 
+        zero-knowledge capabilities) to protect sensitive business data while enabling 
+        cryptographic verification:
       </p>
       
-      <ol>
-        <li><strong>Salted Formula IDs</strong> â€” Computation methods are hashed with entity-specific salts</li>
-        <li><strong>Multi-Layer Indirection</strong> â€” References use opaque identifiers</li>
-        <li><strong>Instance Pools</strong> â€” Similar transactions are batched to prevent pattern analysis</li>
-        <li><strong>Differential Privacy</strong> â€” Noise injection for aggregate statistics</li>
-        <li><strong>Tiered Oracle Attestation</strong> â€” Data verification without full disclosure</li>
-        <li><strong>Off-Chain Storage</strong> â€” Sensitive data never touches the blockchain</li>
-        <li><strong>Hash-Only Anchoring</strong> â€” Only cryptographic proofs are anchored</li>
-        <li><strong>Access Control</strong> â€” Role-based visibility for audit data</li>
-      </ol>
+      <table>
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Mechanism</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1. Identifier Hashing</td>
+            <td>Salted SHA-256</td>
+            <td>Cross-entity unlinkability</td>
+          </tr>
+          <tr>
+            <td>2. Formula Commitments</td>
+            <td>Hash-based registry</td>
+            <td>Prove correctness without revealing logic</td>
+          </tr>
+          <tr>
+            <td>3. Instance Pooling</td>
+            <td>Multiple representations</td>
+            <td>Statistical confusion</td>
+          </tr>
+          <tr>
+            <td>4. Zero-Knowledge <em>(Future)</em></td>
+            <td>ZK-SNARKs/STARKs</td>
+            <td>When Kaspa supports on-chain ZK</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <p>
+        Privacy metadata scales proportionally to data sensitivity. High-sensitivity transactions 
+        may use 7-15 obfuscated formulas and 5-10 instance pools, while low-sensitivity 
+        transactions require minimal protection.
+      </p>
 
       <h2 id="quickbooks">QuickBooks Integration</h2>
       <p>
@@ -732,88 +770,17 @@
       </p>
       
       <ol>
-        <li><strong>Extract</strong> â€” Pull transaction data from ERP via API or export</li>
-        <li><strong>Transform</strong> â€” Map to FORAY 4-component model</li>
-        <li><strong>Hash</strong> â€” Generate component hashes and merkle root</li>
-        <li><strong>Anchor</strong> â€” Submit proof to Kaspa blockchain</li>
-        <li><strong>Store</strong> â€” Archive full transaction with anchor reference</li>
+        <li><strong>Extract</strong> &mdash; Pull transaction data from ERP via API or export</li>
+        <li><strong>Transform</strong> &mdash; Map to FORAY 4-component model</li>
+        <li><strong>Hash</strong> &mdash; Generate component hashes and merkle root</li>
+        <li><strong>Anchor</strong> &mdash; Submit proof to Kaspa blockchain</li>
+        <li><strong>Store</strong> &mdash; Archive full transaction with anchor reference</li>
       </ol>
       
       <p>
         FORAY adapters are available or planned for SAP, Oracle, NetSuite, and Salesforce. 
         Contact us for enterprise integration support.
       </p>
-
-      <h2 id="guide-energy">Industry Guide: Energy Sector</h2>
-      <p>
-        FORAY Protocol addresses unique challenges in energy sector accounting and compliance, 
-        including cross-border power sales, Renewable Energy Certificates (RECs), and multi-party settlement.
-      </p>
-      <p>
-        <strong>Key applications:</strong> Power Purchase Agreements, transmission tariffs, REC tracking, 
-        project finance compliance, sovereign guarantee verification.
-      </p>
-      <p>
-        <strong>Sample transaction:</strong> <code>energy-solar-ppa-morocco-spain-v3.json</code> - 
-        EUR 197M annual PPA between Moroccan solar farm and Spanish utility.
-      </p>
-      <p><a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Energy_Sector_Guide.md" target="_blank">View Full Energy Sector Guide &rarr;</a></p>
-
-      <h2 id="guide-financial">Industry Guide: Financial Services</h2>
-      <p>
-        FORAY provides audit infrastructure for derivatives, securitizations, trading operations, 
-        and complex financial instruments requiring SOX 404, Basel III, and Dodd-Frank compliance.
-      </p>
-      <p>
-        <strong>Key applications:</strong> RMBS securitizations, FX spot trades, overnight repo, 
-        waterfall calculations, tranche tracking.
-      </p>
-      <p>
-        <strong>Sample transactions:</strong> <code>fx-spot-usdjpy-v41.json</code>, 
-        <code>overnight-repo-v41.json</code>, <code>rmbs-transaction-v3.json</code>
-      </p>
-      <p><a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Financial_Services_Guide.md" target="_blank">View Full Financial Services Guide &rarr;</a></p>
-
-      <h2 id="guide-manufacturing">Industry Guide: Manufacturing</h2>
-      <p>
-        FORAY enables audit trails for manufacturing operations including BOM rollups, labor allocation, 
-        WIP tracking, and cost accounting.
-      </p>
-      <p>
-        <strong>Key applications:</strong> Work order tracking, material consumption, overhead allocation, 
-        finished goods receipt, cost flow verification.
-      </p>
-      <p>
-        <strong>Sample transaction:</strong> <code>manufacturing-work-order-v41.json</code> - 
-        Production run with BOM, labor, and overhead allocation.
-      </p>
-      <p><a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Manufacturing_Supply_Chain_Guide.md" target="_blank">View Full Manufacturing Guide &rarr;</a></p>
-
-      <h2 id="guide-defense">Industry Guide: Defense Contractors</h2>
-      <p>
-        FORAY addresses DCAA audit requirements and DFARS compliance for defense contractors, 
-        with privacy architecture suitable for sensitive government contracts.
-      </p>
-      <p>
-        <strong>Key applications:</strong> Cost tracking, timekeeping verification, indirect cost allocation, 
-        supply chain compliance, contract closeout.
-      </p>
-      <p><a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Defense_Contractor_Guide.md" target="_blank">View Full Defense Contractor Guide &rarr;</a></p>
-
-      <h2 id="guide-supply-chain">Industry Guide: Supply Chain & Provenance</h2>
-      <p>
-        FORAY enables product provenance and authentication tracking for food products, luxury goods, 
-        and other items requiring verifiable chain of custody.
-      </p>
-      <p>
-        <strong>Key applications:</strong> Origin certification, quality analysis records, batch tracking, 
-        product authentication, warranty registration.
-      </p>
-      <p>
-        <strong>Sample transactions:</strong> <code>olive-oil-provenance-v41.json</code> - DOP-certified olive oil batch, 
-        <code>luxury-watch-authentication-v41.json</code> - Luxury product verification.
-      </p>
-      <p><a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Supply_Chain_Provenance_Guide.md" target="_blank">View Full Supply Chain Guide &rarr;</a></p>
 
       <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(125, 211, 214, 0.1); text-align: center; color: var(--gray-400); font-size: 0.9rem;">
         <p>&copy; 2026 Marvin Percival. All rights reserved.</p>
@@ -824,5 +791,28 @@
       </div>
     </main>
   </div>
+  
+  <script>
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+      const hamburger = document.querySelector('.nav-hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    }
+    
+    function closeMobileMenu() {
+      const hamburger = document.querySelector('.nav-hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeMobileMenu();
+    });
+  </script>
 </body>
 </html>

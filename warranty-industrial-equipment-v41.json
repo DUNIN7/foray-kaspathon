@@ -1,0 +1,600 @@
+{
+  "transaction_id": "WARRANTY_2026_Q1_INDUSTRIAL_EQUIPMENT_001",
+  "schema_version": "4.1",
+  "timestamp": "2026-01-30T10:00:00Z",
+  
+  "_metadata": {
+    "version": "1.0",
+    "created": "2026-01-30T16:45:00Z",
+    "author": "Marvin Percival",
+    "email": "marvinp@dunin7.com",
+    "github": "DUNIN7/foray-kaspathon",
+    "description": "Comprehensive warranty transaction example - industrial equipment with standard warranty, extended service agreement, and claim lifecycle"
+  },
+
+  "foray_core": {
+    "entity": "PrecisionTech Manufacturing Inc.",
+    "entity_hash": "sha256:9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b",
+    "transaction_type": "equipment_warranty_full_lifecycle",
+    "total_value": 125000.00,
+    "currency": "USD",
+    "status": "active",
+    "compliance_flags": ["ASC_606", "ASC_450", "ISO_9001"]
+  },
+
+  "component_hashes": {
+    "arrangements": "sha256:arr_hash_industrial_warranty_001...",
+    "accruals": "sha256:acc_hash_industrial_warranty_001...",
+    "anticipations": "sha256:ant_hash_industrial_warranty_001...",
+    "actions": "sha256:act_hash_industrial_warranty_001..."
+  },
+
+  "arrangements": [
+    {
+      "id": "ARR_EQUIPMENT_SALE_001",
+      "foray_core": {
+        "type": "equipment_sale",
+        "effective_date": "2026-01-15T09:00:00Z",
+        "parties": [
+          {
+            "role": "seller",
+            "name": "PrecisionTech Manufacturing Inc.",
+            "party_id_hash": "sha256:seller_001...",
+            "jurisdiction": "US-MI"
+          },
+          {
+            "role": "buyer",
+            "name": "Midwest Assembly Corp",
+            "party_id_hash": "sha256:buyer_001...",
+            "jurisdiction": "US-OH"
+          }
+        ],
+        "description": "CNC Milling Center Model PTM-5000 with standard accessories",
+        "total_value": 125000.00,
+        "currency": "USD",
+        "terms": {
+          "model_number": "PTM-5000-HD",
+          "serial_number_hash": "sha256:serial_ptm5000_001...",
+          "configuration": "5-axis_high_precision",
+          "delivery_terms": "FOB_destination",
+          "payment_terms": "net_30",
+          "installation_included": true,
+          "training_hours": 16
+        },
+        "dependencies": []
+      }
+    },
+    {
+      "id": "ARR_STANDARD_WARRANTY_001",
+      "foray_core": {
+        "type": "equipment_standard_warranty",
+        "effective_date": "2026-01-20T00:00:00Z",
+        "parties": [
+          {
+            "role": "warrantor",
+            "name": "PrecisionTech Manufacturing Inc.",
+            "party_id_hash": "sha256:seller_001..."
+          },
+          {
+            "role": "beneficiary",
+            "name": "Midwest Assembly Corp",
+            "party_id_hash": "sha256:buyer_001..."
+          }
+        ],
+        "description": "12-month standard warranty - parts and labor for manufacturing defects",
+        "total_value": 0,
+        "currency": "USD",
+        "terms": {
+          "warranty_type": "assurance",
+          "warranty_start_trigger": "commissioning_completion",
+          "commissioning_date": "2026-01-20",
+          "duration_months": 12,
+          "expiration_date": "2027-01-20",
+          "coverage_scope": "manufacturing_defects_parts_labor",
+          "coverage_exclusions": [
+            "consumables",
+            "operator_error",
+            "unauthorized_modification",
+            "failure_to_maintain",
+            "acts_of_god"
+          ],
+          "response_time_hours": 24,
+          "resolution_target_hours": 72,
+          "remedy_options": ["repair", "replace", "refund_prorated"]
+        },
+        "dependencies": ["ARR_EQUIPMENT_SALE_001"]
+      }
+    },
+    {
+      "id": "ARR_EXTENDED_SERVICE_001",
+      "foray_core": {
+        "type": "extended_service_agreement",
+        "effective_date": "2027-01-20T00:00:00Z",
+        "parties": [
+          {
+            "role": "service_provider",
+            "name": "PrecisionTech Manufacturing Inc.",
+            "party_id_hash": "sha256:seller_001..."
+          },
+          {
+            "role": "customer",
+            "name": "Midwest Assembly Corp",
+            "party_id_hash": "sha256:buyer_001..."
+          }
+        ],
+        "description": "24-month Extended Service Agreement - Years 2-3 coverage",
+        "total_value": 8500.00,
+        "currency": "USD",
+        "terms": {
+          "warranty_type": "service",
+          "coverage_start": "2027-01-20",
+          "coverage_end": "2029-01-20",
+          "duration_months": 24,
+          "coverage_scope": "parts_labor_preventive_maintenance",
+          "annual_pm_visits": 2,
+          "response_time_hours": 8,
+          "resolution_target_hours": 48,
+          "parts_coverage_limit_annual": 15000.00,
+          "labor_coverage_unlimited": true,
+          "deductible_per_incident": 250.00
+        },
+        "dependencies": ["ARR_EQUIPMENT_SALE_001", "ARR_STANDARD_WARRANTY_001"]
+      }
+    },
+    {
+      "id": "ARR_PERFORMANCE_GUARANTEE_001",
+      "foray_core": {
+        "type": "performance_guarantee",
+        "effective_date": "2026-01-20T00:00:00Z",
+        "parties": [
+          {
+            "role": "guarantor",
+            "name": "PrecisionTech Manufacturing Inc.",
+            "party_id_hash": "sha256:seller_001..."
+          },
+          {
+            "role": "beneficiary",
+            "name": "Midwest Assembly Corp",
+            "party_id_hash": "sha256:buyer_001..."
+          }
+        ],
+        "description": "90-day performance guarantee - precision specifications",
+        "total_value": 0,
+        "currency": "USD",
+        "terms": {
+          "guarantee_period_days": 90,
+          "expiration_date": "2026-04-20",
+          "performance_specifications": {
+            "positioning_accuracy_mm": 0.005,
+            "repeatability_mm": 0.002,
+            "spindle_runout_mm": 0.003,
+            "surface_finish_ra_um": 0.8
+          },
+          "test_protocol": "ISO_10791-7",
+          "remedy_if_failed": "adjust_repair_replace_refund",
+          "max_remedy_attempts": 3
+        },
+        "dependencies": ["ARR_EQUIPMENT_SALE_001"]
+      }
+    }
+  ],
+
+  "accruals": [
+    {
+      "id": "ACC_STANDARD_WARRANTY_RESERVE_001",
+      "foray_core": {
+        "arrangement_refs": ["ARR_STANDARD_WARRANTY_001"],
+        "type": "warranty_reserve",
+        "description": "Standard warranty reserve accrual at commissioning",
+        "computation_method": "Calculated",
+        "formula_id": "sha256:cnc_warranty_reserve_v3.2_7a8b9c0d1e2f...",
+        "inputs": {
+          "equipment_class": "cnc_milling_center",
+          "model_tier": "high_precision",
+          "sale_price": 125000.00,
+          "historical_claim_rate_pct": "ENCRYPTED:aes256:claim_rate_001...",
+          "avg_claim_cost": "ENCRYPTED:aes256:avg_cost_001...",
+          "reserve_margin_factor": 1.15
+        },
+        "output": 3750.00,
+        "currency": "USD",
+        "accounting_entry": {
+          "debit": { "account": "5400-Warranty Expense", "amount": 3750.00 },
+          "credit": { "account": "2350-Warranty Reserve", "amount": 3750.00 }
+        },
+        "fiscal_period": { "year": 2026, "quarter": 1, "month": 1 },
+        "dependencies": ["ARR_STANDARD_WARRANTY_001"]
+      }
+    },
+    {
+      "id": "ACC_ESA_DEFERRED_REVENUE_001",
+      "foray_core": {
+        "arrangement_refs": ["ARR_EXTENDED_SERVICE_001"],
+        "type": "deferred_revenue_initial",
+        "description": "Extended Service Agreement - deferred revenue recognition",
+        "computation_method": "FixedAmount",
+        "formula_id": "sha256:esa_deferred_rev_init...",
+        "inputs": {
+          "contract_value": 8500.00,
+          "coverage_start": "2027-01-20",
+          "recognition_method": "straight_line"
+        },
+        "output": 8500.00,
+        "currency": "USD",
+        "accounting_entry": {
+          "debit": { "account": "1200-Accounts Receivable", "amount": 8500.00 },
+          "credit": { "account": "2400-Deferred Revenue - ESA", "amount": 8500.00 }
+        },
+        "fiscal_period": { "year": 2026, "quarter": 1, "month": 1 },
+        "dependencies": ["ARR_EXTENDED_SERVICE_001"]
+      }
+    },
+    {
+      "id": "ACC_ESA_CLAIMS_RESERVE_001",
+      "foray_core": {
+        "arrangement_refs": ["ARR_EXTENDED_SERVICE_001"],
+        "type": "claims_reserve",
+        "description": "ESA expected claims reserve - 24-month coverage period",
+        "computation_method": "Valuation",
+        "formula_id": "sha256:esa_claims_reserve_actuarial_v2.0...",
+        "inputs": {
+          "equipment_age_at_start_months": 12,
+          "coverage_duration_months": 24,
+          "equipment_class": "cnc_milling_center",
+          "usage_profile": "two_shift_operation",
+          "actuarial_model_version": "v2.0",
+          "historical_data_window_years": 5
+        },
+        "output": 5100.00,
+        "currency": "USD",
+        "accounting_entry": {
+          "debit": { "account": "5500-ESA Claims Expense", "amount": 5100.00 },
+          "credit": { "account": "2360-ESA Claims Reserve", "amount": 5100.00 }
+        },
+        "fiscal_period": { "year": 2026, "quarter": 1, "month": 1 },
+        "dependencies": ["ARR_EXTENDED_SERVICE_001"]
+      }
+    },
+    {
+      "id": "ACC_PERFORMANCE_GUARANTEE_RESERVE_001",
+      "foray_core": {
+        "arrangement_refs": ["ARR_PERFORMANCE_GUARANTEE_001"],
+        "type": "contingent_liability_reserve",
+        "description": "Performance guarantee contingent liability reserve",
+        "computation_method": "Calculated",
+        "formula_id": "sha256:perf_guarantee_reserve_v1.1...",
+        "inputs": {
+          "max_remedy_exposure": 125000.00,
+          "historical_failure_rate_pct": "ENCRYPTED:aes256:perf_fail_rate...",
+          "probability_weighted_exposure": true
+        },
+        "output": 2500.00,
+        "currency": "USD",
+        "accounting_entry": {
+          "debit": { "account": "5450-Performance Guarantee Expense", "amount": 2500.00 },
+          "credit": { "account": "2370-Performance Guarantee Reserve", "amount": 2500.00 }
+        },
+        "fiscal_period": { "year": 2026, "quarter": 1, "month": 1 },
+        "dependencies": ["ARR_PERFORMANCE_GUARANTEE_001"]
+      }
+    },
+    {
+      "id": "ACC_WARRANTY_CLAIM_COST_001",
+      "foray_core": {
+        "arrangement_refs": ["ARR_STANDARD_WARRANTY_001"],
+        "type": "warranty_claim_cost",
+        "description": "Spindle bearing replacement - warranty claim",
+        "computation_method": "Calculated",
+        "formula_id": "sha256:warranty_claim_cost_calc_v2.0...",
+        "inputs": {
+          "part_number": "SPN-BRG-5000-HD",
+          "part_cost": 1850.00,
+          "labor_hours": 6.5,
+          "labor_rate_hourly": 125.00,
+          "travel_cost": 350.00,
+          "diagnostic_hours": 1.5
+        },
+        "output": 3200.00,
+        "currency": "USD",
+        "accounting_entry": {
+          "debit": { "account": "2350-Warranty Reserve", "amount": 3200.00 },
+          "credit": { "account": "1400-Parts Inventory", "amount": 1850.00 },
+          "credit2": { "account": "5410-Service Labor", "amount": 1000.00 },
+          "credit3": { "account": "5420-Travel Expense", "amount": 350.00 }
+        },
+        "fiscal_period": { "year": 2026, "quarter": 2, "month": 5 },
+        "claim_details": {
+          "claim_number": "WC-2026-05-0234",
+          "failure_code": "SPN-VIBRATION-001",
+          "root_cause": "premature_bearing_wear",
+          "equipment_hours_at_failure": 1850
+        },
+        "dependencies": ["ARR_STANDARD_WARRANTY_001"]
+      }
+    }
+  ],
+
+  "anticipations": [
+    {
+      "id": "ANT_WARRANTY_CLAIMS_Q1_2026",
+      "foray_core": {
+        "accrual_refs": ["ACC_STANDARD_WARRANTY_RESERVE_001"],
+        "arrangement_refs": ["ARR_STANDARD_WARRANTY_001"],
+        "type": "expected_warranty_claims",
+        "description": "Expected warranty claims - Q1 2026 (commissioning quarter)",
+        "expected_amount": 500.00,
+        "currency": "USD",
+        "expected_date": "2026-03-31",
+        "probability_factor": 0.70,
+        "assumptions": {
+          "claim_distribution": "early_failure_period",
+          "expected_claim_count": 0.3
+        },
+        "dependencies": ["ACC_STANDARD_WARRANTY_RESERVE_001"]
+      }
+    },
+    {
+      "id": "ANT_WARRANTY_CLAIMS_Q2_2026",
+      "foray_core": {
+        "accrual_refs": ["ACC_STANDARD_WARRANTY_RESERVE_001"],
+        "arrangement_refs": ["ARR_STANDARD_WARRANTY_001"],
+        "type": "expected_warranty_claims",
+        "description": "Expected warranty claims - Q2 2026",
+        "expected_amount": 800.00,
+        "currency": "USD",
+        "expected_date": "2026-06-30",
+        "probability_factor": 0.85,
+        "assumptions": {
+          "claim_distribution": "steady_state",
+          "expected_claim_count": 0.5
+        },
+        "dependencies": ["ACC_STANDARD_WARRANTY_RESERVE_001"]
+      }
+    },
+    {
+      "id": "ANT_SPINDLE_CLAIM_PENDING_001",
+      "foray_core": {
+        "accrual_refs": ["ACC_WARRANTY_CLAIM_COST_001"],
+        "arrangement_refs": ["ARR_STANDARD_WARRANTY_001"],
+        "type": "warranty_claim_pending_settlement",
+        "description": "Spindle bearing claim - awaiting parts and service scheduling",
+        "expected_amount": 3200.00,
+        "currency": "USD",
+        "expected_date": "2026-05-25",
+        "probability_factor": 1.0,
+        "claim_status": {
+          "claim_number": "WC-2026-05-0234",
+          "status": "approved_pending_service",
+          "parts_ordered_date": "2026-05-10",
+          "service_scheduled_date": "2026-05-20"
+        },
+        "dependencies": ["ACC_WARRANTY_CLAIM_COST_001"]
+      }
+    },
+    {
+      "id": "ANT_PERFORMANCE_TEST_001",
+      "foray_core": {
+        "accrual_refs": ["ACC_PERFORMANCE_GUARANTEE_RESERVE_001"],
+        "arrangement_refs": ["ARR_PERFORMANCE_GUARANTEE_001"],
+        "type": "performance_milestone",
+        "description": "90-day performance verification test",
+        "expected_amount": 0,
+        "currency": "USD",
+        "expected_date": "2026-04-20",
+        "probability_factor": 1.0,
+        "test_specifications": {
+          "test_protocol": "ISO_10791-7",
+          "expected_outcome": "pass",
+          "pass_probability": 0.98
+        },
+        "dependencies": ["ARR_PERFORMANCE_GUARANTEE_001"]
+      }
+    },
+    {
+      "id": "ANT_WARRANTY_EXPIRATION_001",
+      "foray_core": {
+        "accrual_refs": [],
+        "arrangement_refs": ["ARR_STANDARD_WARRANTY_001"],
+        "type": "warranty_expiration",
+        "description": "Standard warranty expiration - reserve true-up required",
+        "expected_amount": 0,
+        "currency": "USD",
+        "expected_date": "2027-01-20T00:00:00Z",
+        "probability_factor": 1.0,
+        "dependencies": ["ARR_STANDARD_WARRANTY_001"]
+      }
+    },
+    {
+      "id": "ANT_ESA_REVENUE_M1",
+      "foray_core": {
+        "accrual_refs": ["ACC_ESA_DEFERRED_REVENUE_001"],
+        "arrangement_refs": ["ARR_EXTENDED_SERVICE_001"],
+        "type": "scheduled_revenue_recognition",
+        "description": "ESA revenue recognition - Month 1 (Feb 2027)",
+        "expected_amount": 354.17,
+        "currency": "USD",
+        "expected_date": "2027-02-20",
+        "probability_factor": 1.0,
+        "recognition_details": {
+          "method": "straight_line",
+          "period_number": 1,
+          "total_periods": 24,
+          "monthly_amount": 354.17
+        },
+        "dependencies": ["ACC_ESA_DEFERRED_REVENUE_001"]
+      }
+    },
+    {
+      "id": "ANT_ESA_PM_VISIT_Y2_H1",
+      "foray_core": {
+        "accrual_refs": ["ACC_ESA_CLAIMS_RESERVE_001"],
+        "arrangement_refs": ["ARR_EXTENDED_SERVICE_001"],
+        "type": "scheduled_service",
+        "description": "Scheduled preventive maintenance - Year 2 First Half",
+        "expected_amount": 1200.00,
+        "currency": "USD",
+        "expected_date": "2027-07-20",
+        "probability_factor": 1.0,
+        "service_details": {
+          "service_type": "preventive_maintenance",
+          "pm_protocol": "PTM-5000-PM-ANNUAL",
+          "estimated_duration_hours": 8
+        },
+        "dependencies": ["ARR_EXTENDED_SERVICE_001"]
+      }
+    }
+  ],
+
+  "actions": [
+    {
+      "id": "ACT_COMMISSIONING_COMPLETE_001",
+      "foray_core": {
+        "anticipation_refs": [],
+        "accrual_refs": [],
+        "arrangement_refs": ["ARR_EQUIPMENT_SALE_001", "ARR_STANDARD_WARRANTY_001", "ARR_PERFORMANCE_GUARANTEE_001"],
+        "type": "commissioning_completion",
+        "description": "Equipment commissioning completed - warranty periods activated",
+        "amount_settled": 0,
+        "currency": "USD",
+        "settlement_date": "2026-01-20T16:30:00Z",
+        "settlement_status": "completed",
+        "details": {
+          "commissioning_engineer": "J. Martinez (ID: ENG-0234)",
+          "commissioning_report": "CR-2026-01-0089",
+          "initial_calibration_certificate": "CAL-2026-01-0456",
+          "customer_acceptance_signature": true,
+          "training_completed_hours": 16
+        },
+        "dependencies": ["ARR_EQUIPMENT_SALE_001"]
+      }
+    },
+    {
+      "id": "ACT_PERFORMANCE_TEST_PASS_001",
+      "foray_core": {
+        "anticipation_refs": ["ANT_PERFORMANCE_TEST_001"],
+        "accrual_refs": ["ACC_PERFORMANCE_GUARANTEE_RESERVE_001"],
+        "arrangement_refs": ["ARR_PERFORMANCE_GUARANTEE_001"],
+        "type": "performance_verification",
+        "description": "90-day performance test completed - all specifications met",
+        "amount_settled": 0,
+        "currency": "USD",
+        "settlement_date": "2026-04-18T11:00:00Z",
+        "settlement_status": "completed",
+        "test_results": {
+          "test_protocol": "ISO_10791-7",
+          "test_report": "TR-2026-04-0123",
+          "results": {
+            "positioning_accuracy_mm": { "spec": 0.005, "measured": 0.003, "pass": true },
+            "repeatability_mm": { "spec": 0.002, "measured": 0.0015, "pass": true },
+            "spindle_runout_mm": { "spec": 0.003, "measured": 0.002, "pass": true },
+            "surface_finish_ra_um": { "spec": 0.8, "measured": 0.65, "pass": true }
+          },
+          "overall_result": "PASS",
+          "guarantee_obligation_released": true
+        },
+        "allocations": [
+          {
+            "ref": "ANT_PERFORMANCE_TEST_001",
+            "ref_type": "anticipation",
+            "amount": 0,
+            "currency": "USD",
+            "allocation_type": "full"
+          }
+        ],
+        "dependencies": ["ANT_PERFORMANCE_TEST_001"]
+      }
+    },
+    {
+      "id": "ACT_PERFORMANCE_RESERVE_RELEASE_001",
+      "foray_core": {
+        "anticipation_refs": [],
+        "accrual_refs": ["ACC_PERFORMANCE_GUARANTEE_RESERVE_001"],
+        "arrangement_refs": ["ARR_PERFORMANCE_GUARANTEE_001"],
+        "type": "reserve_release",
+        "description": "Performance guarantee reserve release - guarantee satisfied",
+        "amount_settled": 2500.00,
+        "currency": "USD",
+        "settlement_date": "2026-04-18T11:30:00Z",
+        "settlement_status": "completed",
+        "accounting_entry": {
+          "debit": { "account": "2370-Performance Guarantee Reserve", "amount": 2500.00 },
+          "credit": { "account": "5450-Performance Guarantee Expense", "amount": 2500.00 }
+        },
+        "details": {
+          "release_reason": "guarantee_period_satisfied",
+          "test_report_reference": "TR-2026-04-0123"
+        },
+        "dependencies": ["ACT_PERFORMANCE_TEST_PASS_001"]
+      }
+    },
+    {
+      "id": "ACT_WARRANTY_CLAIM_SERVICE_001",
+      "foray_core": {
+        "anticipation_refs": ["ANT_SPINDLE_CLAIM_PENDING_001"],
+        "accrual_refs": ["ACC_WARRANTY_CLAIM_COST_001"],
+        "arrangement_refs": ["ARR_STANDARD_WARRANTY_001"],
+        "type": "warranty_service_completion",
+        "description": "Spindle bearing replacement completed under warranty",
+        "amount_settled": 3200.00,
+        "currency": "USD",
+        "settlement_date": "2026-05-22T17:00:00Z",
+        "settlement_status": "completed",
+        "service_details": {
+          "claim_number": "WC-2026-05-0234",
+          "work_order": "WO-2026-05-0891",
+          "service_engineer": "R. Thompson (ID: ENG-0156)",
+          "parts_replaced": [
+            { "part_number": "SPN-BRG-5000-HD", "quantity": 1, "serial": "BRG-2026-04-9823" }
+          ],
+          "labor_hours_actual": 6.0,
+          "travel_hours": 2.5,
+          "customer_downtime_hours": 8.0,
+          "equipment_hours_at_completion": 1858,
+          "test_results_post_repair": "PASS"
+        },
+        "allocations": [
+          {
+            "ref": "ANT_SPINDLE_CLAIM_PENDING_001",
+            "ref_type": "anticipation",
+            "amount": 3200.00,
+            "currency": "USD",
+            "allocation_type": "full"
+          }
+        ],
+        "dependencies": ["ANT_SPINDLE_CLAIM_PENDING_001"]
+      }
+    }
+  ],
+
+  "merkle_root": "sha256:a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2",
+
+  "blockchain_anchor": {
+    "kaspa_tx_id": "kaspa:qr0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "block_height": 12456789,
+    "confirmation_time_ms": 780,
+    "anchored_at": "2026-05-22T17:05:00Z"
+  },
+
+  "audit_data_anchor": {
+    "audit_data_hash": "sha256:audit_data_warranty_001...",
+    "audit_profile": "standard",
+    "storage_locations": [
+      {
+        "type": "corporate_archive",
+        "uri": "s3://precisiontech-foray/warranty/2026/Q1/001/audit_data.enc",
+        "encryption": "AES-256-GCM"
+      }
+    ]
+  },
+
+  "privacy_metadata": {
+    "formulas_obfuscated": 5,
+    "instance_pools": 0,
+    "encrypted_fields": [
+      "historical_claim_rate_pct",
+      "avg_claim_cost",
+      "historical_failure_rate_pct"
+    ],
+    "attack_complexity": "2^96 operations"
+  }
+}

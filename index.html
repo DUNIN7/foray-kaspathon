@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.1.0
+Version:       2.4.0
 Created:       2026-01-27T20:00:00Z
-Last Modified: 2026-01-29T11:30:00Z
+Modified:      2026-02-01T04:30:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,27 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.4.0 (2026-02-01)
+    - Added Attestations component to 4A model section
+    - Updated title to "The 4A Model + Attestations"
+    - Added attestation-color CSS variable (pink #EC4899)
+    - Updated flow diagram to show "+ Attestations"
+  
+  v2.3.0 (2026-01-31)
+    - Content review: "tamper-proof" changed to "tamper-evident" throughout
+    - Content review: Softened overclaiming language in 4A model section
+    - Content review: Updated compliance claims to be aspirational not absolute
+    - Content review: "Immutable Proof" -> "Tamper-Evident Proof" with on-chain qualifier
+    - Content review: "previously impossible" -> "previously impractical"
+    - Content review: Removed "completely" from problem statement
+    - Fixed Kaspa BPS stat (32 -> 10+)
+    - Fixed footer closing tag
+  
+  v2.2.0 (2026-01-30)
+    - Unified navigation with responsive hamburger menu
+    - Fixed UTF-8 encoding issues (mojibake characters)
+    - Added favicon link
+  
   v2.1.0 (2026-01-29)
     - Fixed scroll indicator overlap on smaller screens (now hidden on mobile)
     - Corrected Accruals description to "formulas applied against asset flows"
@@ -34,8 +55,9 @@ Changelog:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FORAY Protocol — Immutable Audit Infrastructure for Enterprise</title>
+  <title>FORAY Protocol - Immutable Audit Infrastructure for Enterprise</title>
   <meta name="description" content="Privacy-preserving blockchain audit trails for enterprise transactions. Built for Kaspathon 2026.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -63,6 +85,7 @@ Changelog:
       --accrual-color: #E6A817;
       --anticipation-color: #8B5CF6;
       --action-color: #10B981;
+      --attestation-color: #EC4899;
     }
     
     * {
@@ -88,86 +111,50 @@ Changelog:
     }
     
     /* Navigation */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(26, 29, 33, 0.85);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(125, 211, 214, 0.1);
-    }
+        /* === BULLETPROOF NAV CSS v4.0 - FULLY SELF-CONTAINED === */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
+    .nav * { box-sizing: border-box; }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: inherit; font-size: inherit; line-height: inherit; }
+    .nav-logo-text { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; display: flex; align-items: center; }
+    .nav-logo-foray { color: #0D7377; }
+    .nav-logo-protocol { color: #F7F9FA; font-weight: 400; }
+    .nav-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: #E6A817; color: #1A1D21; border-radius: 4px; font-weight: 600; line-height: 1; display: inline-block; vertical-align: middle; font-family: inherit; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-link { color: #94A3A8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; font-family: inherit; line-height: 1; }
+    .nav-link:hover, .nav-link.active { color: #14B8B8; }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; align-items: center; width: 40px; height: 40px; background: transparent; border: none; cursor: pointer; z-index: 1001; padding: 8px; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #F7F9FA; margin: 3px 0; transition: all 0.3s ease; border-radius: 2px; }
+    .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .nav-mobile-menu.active { opacity: 1; visibility: visible; }
+    .nav-mobile-menu .nav-link { font-size: 1.5rem; font-weight: 500; color: #F7F9FA; line-height: 1; }
+    .nav-mobile-menu .nav-link:hover { color: #14B8B8; }
+    @media (max-width: 768px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .nav-mobile-menu { display: flex; } }
+    /* === END BULLETPROOF NAV CSS === */
     
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-    }
     
-    .nav-logo-text {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
     
-    .nav-logo-foray {
-      color: var(--primary-teal);
-    }
     
-    .nav-logo-protocol {
-      color: var(--text-light);
-      font-weight: 400;
-    }
     
-    .nav-badge {
-      font-size: 0.65rem;
-      padding: 0.2rem 0.5rem;
-      background: var(--action-amber);
-      color: var(--text-dark);
-      border-radius: 4px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-    }
     
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-    }
     
-    .nav-link {
-      color: var(--gray-400);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
     
-    .nav-link:hover {
-      color: var(--accent-cyan);
-    }
     
-    .nav-cta {
-      padding: 0.6rem 1.2rem;
-      background: var(--primary-teal);
-      color: var(--text-light);
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: all 0.2s;
-    }
     
-    .nav-cta:hover {
-      background: var(--accent-cyan);
-      transform: translateY(-1px);
-    }
+    
+    /* Hamburger Menu Button */
+    
+    
+    
+    
+    
+    /* Mobile Menu Overlay */
+    
+    
+    
+    
     
     /* Hero Section */
     .hero {
@@ -273,14 +260,6 @@ Changelog:
       animation: fadeInUp 0.8s ease-out 0.2s both;
     }
     
-    .hero-ctas {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      animation: fadeInUp 0.8s ease-out 0.3s both;
-    }
-    
     .btn {
       display: inline-flex;
       align-items: center;
@@ -293,17 +272,6 @@ Changelog:
       transition: all 0.3s;
       cursor: pointer;
       border: none;
-    }
-    
-    .btn-primary {
-      background: var(--primary-teal);
-      color: var(--text-light);
-    }
-    
-    .btn-primary:hover {
-      background: var(--accent-cyan);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 40px rgba(13, 115, 119, 0.3);
     }
     
     .btn-secondary {
@@ -326,40 +294,6 @@ Changelog:
         opacity: 1;
         transform: translateY(0);
       }
-    }
-    
-    /* Scroll indicator */
-    .scroll-indicator {
-      position: absolute;
-      bottom: 3rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      animation: fadeInUp 0.8s ease-out 0.5s both;
-    }
-    
-    .scroll-indicator span {
-      font-size: 0.75rem;
-      color: var(--gray-600);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-    
-    .scroll-arrow {
-      width: 24px;
-      height: 24px;
-      border-right: 2px solid var(--gray-600);
-      border-bottom: 2px solid var(--gray-600);
-      transform: rotate(45deg);
-      animation: scrollBounce 2s infinite;
-    }
-    
-    @keyframes scrollBounce {
-      0%, 100% { transform: rotate(45deg) translateY(0); opacity: 1; }
-      50% { transform: rotate(45deg) translateY(8px); opacity: 0.5; }
     }
     
     /* Problem Section */
@@ -564,6 +498,67 @@ Changelog:
       color: var(--accent-cyan);
     }
     
+    /* Attestations Banner */
+    .attestations-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(236, 72, 153, 0.03) 100%);
+      border: 1px solid rgba(236, 72, 153, 0.2);
+      border-left: 3px solid var(--attestation-color);
+      border-radius: 8px;
+    }
+    
+    .attestations-icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(236, 72, 153, 0.15);
+      border-radius: 10px;
+      color: var(--attestation-color);
+    }
+    
+    .attestations-content h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--attestation-color);
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    
+    .attestations-badge {
+      font-size: 0.65rem;
+      font-weight: 500;
+      padding: 0.2rem 0.5rem;
+      background: rgba(236, 72, 153, 0.15);
+      color: var(--attestation-color);
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    
+    .attestations-content p {
+      font-size: 0.875rem;
+      color: var(--gray-400);
+      line-height: 1.5;
+      margin: 0;
+    }
+    
+    @media (max-width: 640px) {
+      .attestations-banner {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+    
     /* Benefits Section */
     .benefits-grid {
       display: grid;
@@ -763,12 +758,6 @@ Changelog:
     }
     
     /* Responsive */
-    @media (max-width: 1500px) {
-      .scroll-indicator {
-        display: none;
-      }
-    }
-    
     @media (max-width: 1024px) {
       .problem-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -793,9 +782,8 @@ Changelog:
     }
     
     @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
+      
+      
       
       .problem-grid {
         grid-template-columns: 1fr;
@@ -831,8 +819,7 @@ Changelog:
   <nav class="nav">
     <a href="index.html" class="nav-logo">
       <span class="nav-logo-text">
-        <span class="nav-logo-foray">FORAY</span>
-        <span class="nav-logo-protocol">Protocol</span>
+        <span class="nav-logo-foray">FORAY</span> <span class="nav-logo-protocol">Protocol</span>
       </span>
       <span class="nav-badge">v4.1</span>
     </a>
@@ -842,9 +829,22 @@ Changelog:
       <a href="examples.html" class="nav-link">Examples</a>
       <a href="about.html" class="nav-link">About</a>
       <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
-      <a href="demo.html" class="nav-cta">Try Demo →</a>
     </div>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </nav>
+  
+  <!-- Mobile Menu -->
+  <div class="nav-mobile-menu" id="mobileMenu">
+    <a href="demo.html" class="nav-link" onclick="closeMobileMenu()">Demo</a>
+    <a href="docs.html" class="nav-link" onclick="closeMobileMenu()">Documentation</a>
+    <a href="examples.html" class="nav-link" onclick="closeMobileMenu()">Examples</a>
+    <a href="about.html" class="nav-link" onclick="closeMobileMenu()">About</a>
+    <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank" onclick="closeMobileMenu()">GitHub</a>
+  </div>
 
   <!-- Hero Section -->
   <section class="hero">
@@ -852,38 +852,18 @@ Changelog:
     <div class="hero-content">
       <div class="hero-kaspathon">
         <span class="hero-kaspathon-dot"></span>
-        Built for Kaspathon 2026 — Real-Time Data Track
+        Built for Kaspathon 2026 - Real-Time Data Track
       </div>
       <h1 class="hero-title">
         <span class="hero-title-gradient">Transparent Audits.</span><br>
         Protected Secrets.
       </h1>
       <p class="hero-subtitle">
-        FORAY Protocol creates tamper-proof blockchain audit trails for enterprise transactions 
+        FORAY Protocol creates tamper-evident blockchain audit trails for enterprise transactions 
         without exposing sensitive business data. Powered by Kaspa's sub-second block times.
       </p>
-      <div class="hero-ctas">
-        <a href="demo.html" class="btn btn-primary">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-          </svg>
-          Launch Demo
-        </a>
-        <a href="docs.html" class="btn btn-secondary">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/>
-            <line x1="16" y1="17" x2="8" y2="17"/>
-          </svg>
-          Read Docs
-        </a>
-      </div>
-    </div>
-    <div class="scroll-indicator">
-      <span>Scroll to explore</span>
-      <div class="scroll-arrow"></div>
-    </div>
+</div>
+</div>
   </section>
 
   <!-- Problem Section -->
@@ -892,7 +872,7 @@ Changelog:
     <h2 class="section-title">Enterprise Audit Trails Are Broken</h2>
     <p class="section-subtitle">
       Companies spend billions annually on audits, struggling to prove that complex 
-      financial transactions occurred correctly and completely.
+      financial transactions occurred correctly.
     </p>
     
     <div class="problem-grid">
@@ -932,7 +912,7 @@ Changelog:
         </div>
         <h3>Privacy vs. Transparency</h3>
         <p>Full transparency exposes competitive secrets. Full privacy prevents verification. 
-        There's no middle ground—until now.</p>
+        Finding the right balance has been difficult.</p>
       </div>
       
       <div class="problem-card">
@@ -949,19 +929,18 @@ Changelog:
     </div>
   </section>
 
-  <!-- Solution Section - 4A Model -->
+  <!-- Solution Section - 4A Model + Attestations -->
   <section class="solution-section" id="solution">
     <div class="section">
       <span class="section-label">The Solution</span>
-      <h2 class="section-title">The 4-Component Model</h2>
+      <h2 class="section-title">The 4A Model + Attestations</h2>
       <p class="section-subtitle">
-        FORAY decomposes any business transaction into four auditable components, 
-        creating a complete, verifiable trail from agreement to settlement.
+        FORAY decomposes business transactions into four auditable components, 
+        with optional third-party attestations for enhanced trust.
       </p>
       
       <div class="model-container">
         <div class="model-card arrangement">
-          <span class="model-number">1</span>
           <div class="model-icon">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -975,7 +954,6 @@ Changelog:
         </div>
         
         <div class="model-card accrual">
-          <span class="model-number">2</span>
           <div class="model-icon">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="12" y1="1" x2="12" y2="23"/>
@@ -987,7 +965,6 @@ Changelog:
         </div>
         
         <div class="model-card anticipation">
-          <span class="model-number">3</span>
           <div class="model-icon">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"/>
@@ -999,7 +976,6 @@ Changelog:
         </div>
         
         <div class="model-card action">
-          <span class="model-number">4</span>
           <div class="model-icon">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="9 11 12 14 22 4"/>
@@ -1011,15 +987,31 @@ Changelog:
         </div>
       </div>
       
+      <!-- Attestations Extension Banner -->
+      <div class="attestations-banner">
+        <div class="attestations-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="attestations-content">
+          <h4>+ Attestations <span class="attestations-badge">Optional Extension</span></h4>
+          <p>Third-party verifications from laboratories, auditors, certification bodies, or regulators. Creates trust chains for supply chain provenance, product authentication, and regulatory compliance.</p>
+        </div>
+      </div>
+      
       <div class="model-flow">
         <div class="flow-step">
-          <span style="color: var(--arrangement-color);">Arrangement</span>
-          <span class="flow-arrow">→</span>
-          <span style="color: var(--accrual-color);">Accrual</span>
-          <span class="flow-arrow">→</span>
-          <span style="color: var(--anticipation-color);">Anticipation</span>
-          <span class="flow-arrow">→</span>
-          <span style="color: var(--action-color);">Action</span>
+          <span style="color: var(--arrangement-color);">Arrangements</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span style="color: var(--accrual-color);">Accruals</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span style="color: var(--anticipation-color);">Anticipations</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span style="color: var(--action-color);">Actions</span>
+          <span class="flow-arrow">&nbsp;+&nbsp;</span>
+          <span style="color: var(--attestation-color);">Attestations</span>
         </div>
       </div>
     </div>
@@ -1030,7 +1022,7 @@ Changelog:
     <span class="section-label">Why FORAY</span>
     <h2 class="section-title">Built for Enterprise Reality</h2>
     <p class="section-subtitle">
-      FORAY isn't just another blockchain project—it's designed for the complex, 
+      FORAY isn't just another blockchain project&mdash;it's designed for the complex, 
       regulated world of enterprise finance.
     </p>
     
@@ -1054,9 +1046,9 @@ Changelog:
             <polyline points="9 12 12 15 15 9"/>
           </svg>
         </div>
-        <h3>Immutable Proof</h3>
-        <p>Blockchain anchoring provides tamper-proof timestamps. 
-        No one—not even system administrators—can alter the record.</p>
+        <h3>Tamper-Evident Proof</h3>
+        <p>Blockchain anchoring provides tamper-evident timestamps. 
+        No one&mdash;not even system administrators&mdash;can alter the on-chain record.</p>
       </div>
       
       <div class="benefit-card">
@@ -1080,7 +1072,7 @@ Changelog:
         </div>
         <h3>ERP Integration Ready</h3>
         <p>Designed to work alongside SAP, QuickBooks, Salesforce, and other 
-        enterprise systems—not replace them.</p>
+        enterprise systems&mdash;not replace them.</p>
       </div>
       
       <div class="benefit-card">
@@ -1091,8 +1083,7 @@ Changelog:
           </svg>
         </div>
         <h3>Compliance Ready</h3>
-        <p>Supports SOX 404, DCAA, and Big 4 audit requirements. 
-        Different audit profiles for different regulatory needs.</p>
+        <p>Designed to support enterprise audit requirements including SOX and DCAA compliance workflows.</p>
       </div>
       
       <div class="benefit-card">
@@ -1115,9 +1106,9 @@ Changelog:
       <h2>Why Kaspa?</h2>
       <p>
         FORAY leverages Kaspa's unique BlockDAG architecture to enable 
-        real-time audit anchoring that was previously impossible.
+        real-time audit anchoring that was previously impractical.
       </p>
-      <a href="docs.html#kaspa" class="btn btn-secondary">Learn More →</a>
+      <a href="docs.html#kaspa" class="btn btn-secondary">Learn More &rarr;</a>
     </div>
     <div class="kaspa-stats">
       <div class="kaspa-stat">
@@ -1129,7 +1120,7 @@ Changelog:
         <div class="kaspa-stat-label">Per Transaction</div>
       </div>
       <div class="kaspa-stat">
-        <div class="kaspa-stat-value">10</div>
+        <div class="kaspa-stat-value">10+</div>
         <div class="kaspa-stat-label">Blocks/Second</div>
       </div>
       <div class="kaspa-stat">
@@ -1154,17 +1145,6 @@ Changelog:
       <p class="cta-subtitle">
         Try the interactive demo and anchor your first transaction to Kaspa Testnet.
       </p>
-      <div class="hero-ctas">
-        <a href="demo.html" class="btn btn-primary">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-          </svg>
-          Launch Demo
-        </a>
-        <a href="examples.html" class="btn btn-secondary">
-          View Example Transactions
-        </a>
-      </div>
     </div>
   </section>
 
@@ -1174,8 +1154,7 @@ Changelog:
       <div class="footer-brand">
         <div class="nav-logo">
           <span class="nav-logo-text">
-            <span class="nav-logo-foray">FORAY</span>
-            <span class="nav-logo-protocol">Protocol</span>
+            <span class="nav-logo-foray">FORAY</span> <span class="nav-logo-protocol">Protocol</span>
           </span>
         </div>
         <p>Transparent audits, protected secrets, powered by Kaspa.</p>
@@ -1199,13 +1178,40 @@ Changelog:
       <div class="footer-links">
         <h4>Connect</h4>
         <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a>
-        <a href="/cdn-cgi/l/email-protection#a3cec2d1d5cacdd3e3c7d6cdcacd948dc0ccce">Contact</a>
+        <a href="mailto:marvinp@dunin7.com">marvinp@dunin7.com</a>
       </div>
     </div>
     
     <div class="footer-bottom">
-      <span>© 2026 Marvin Percival. All rights reserved.</span>
+      <span>(c) 2026 Marvin Percival. All rights reserved.</span>
       <div class="footer-legal">
         <a href="about.html#license">License (BSL 1.1)</a>
         <a href="about.html#ai-disclosure">AI Disclosure</a>
-      </div
+      </div>
+    </div>
+  </footer>
+  
+  <script>
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+      const hamburger = document.querySelector(".nav-hamburger");
+      const mobileMenu = document.getElementById("mobileMenu");
+      hamburger.classList.toggle("active");
+      mobileMenu.classList.toggle("active");
+      document.body.style.overflow = mobileMenu.classList.contains("active") ? "hidden" : "";
+    }
+    
+    function closeMobileMenu() {
+      const hamburger = document.querySelector(".nav-hamburger");
+      const mobileMenu = document.getElementById("mobileMenu");
+      hamburger.classList.remove("active");
+      mobileMenu.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+    
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") closeMobileMenu();
+    });
+  </script>
+</body>
+</html>

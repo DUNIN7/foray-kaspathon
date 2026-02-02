@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 <!--
   File: examples.html
-  Version: 1.1.0
+  Version: 1.3.0
   Created: 2026-01-28T00:00:00Z
-  Modified: 2026-01-29T20:00:00Z
+  Modified: 2026-02-01T00:00:00Z
   Author: Marvin Percival
   Email: marvinp@dunin7.com
   GitHub: DUNIN7/foray-kaspathon
   
   FORAY Protocol Examples Page
   Change Log:
-    v1.1.0 (2026-01-29): Added Supply Chain & Provenance category
-    v1.0.1 (2026-01-29): Fixed UTF-8 encoding issues
+    v1.3.0 (2026-02-01): Changed Olive Oil to Manuka Honey example
+    v1.2.0 (2026-01-31): Added Olive Oil Provenance and Luxury Watch Authentication examples
+                         Fixed character encoding (Euro, copyright, middot)
+    v1.1.0 (2026-01-30): Unified navigation with responsive hamburger menu
+                         Added favicon link
+                         Fixed nav logo spacing
+    v1.0.1 (2026-01-29): Fixed UTF-8 encoding issues (mojibake characters)
 -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Examples - FORAY Protocol</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <meta name="description" content="Example FORAY Protocol transactions across industries.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,17 +45,31 @@
     }
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body { font-family: 'IBM Plex Sans', -apple-system, sans-serif; background: var(--bg-dark); color: var(--text-light); line-height: 1.6; }
     
-    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); }
-    .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
-    .nav-logo-text { font-size: 1.5rem; font-weight: 700; }
-    .nav-logo-foray { color: var(--primary-teal); }
-    .nav-logo-protocol { color: var(--text-light); font-weight: 400; }
-    .nav-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: var(--action-amber); color: var(--text-dark); border-radius: 4px; font-weight: 600; }
+        /* === BULLETPROOF NAV CSS v4.0 - FULLY SELF-CONTAINED === */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
+    .nav * { box-sizing: border-box; }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: inherit; font-size: inherit; line-height: inherit; }
+    .nav-logo-text { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; display: flex; align-items: center; }
+    .nav-logo-foray { color: #0D7377; }
+    .nav-logo-protocol { color: #F7F9FA; font-weight: 400; }
+    .nav-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: #E6A817; color: #1A1D21; border-radius: 4px; font-weight: 600; line-height: 1; display: inline-block; vertical-align: middle; font-family: inherit; }
     .nav-links { display: flex; gap: 2rem; align-items: center; }
-    .nav-link { color: var(--gray-400); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
-    .nav-link:hover, .nav-link.active { color: var(--accent-cyan); }
+    .nav-link { color: #94A3A8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; font-family: inherit; line-height: 1; }
+    .nav-link:hover, .nav-link.active { color: #14B8B8; }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; align-items: center; width: 40px; height: 40px; background: transparent; border: none; cursor: pointer; z-index: 1001; padding: 8px; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #F7F9FA; margin: 3px 0; transition: all 0.3s ease; border-radius: 2px; }
+    .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .nav-mobile-menu.active { opacity: 1; visibility: visible; }
+    .nav-mobile-menu .nav-link { font-size: 1.5rem; font-weight: 500; color: #F7F9FA; line-height: 1; }
+    .nav-mobile-menu .nav-link:hover { color: #14B8B8; }
+    @media (max-width: 768px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .nav-mobile-menu { display: flex; } }
+    /* === END BULLETPROOF NAV CSS === */
     
     .page-header { padding: 8rem 2rem 3rem; text-align: center; background: linear-gradient(180deg, rgba(13, 115, 119, 0.1) 0%, transparent 100%); }
     .page-header h1 { font-size: 2.5rem; margin-bottom: 1rem; }
@@ -61,7 +81,7 @@
     
     .examples-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem; }
     
-    .example-card { background: rgba(27, 54, 93, 0.15); border: 1px solid rgba(125, 211, 214, 0.1); border-radius: 12px; padding: 1.5rem; transition: all 0.3s; cursor: pointer; text-decoration: none; display: block; }
+    .example-card { background: rgba(27, 54, 93, 0.15); border: 1px solid rgba(125, 211, 214, 0.1); border-radius: 12px; padding: 1.5rem; transition: all 0.3s; cursor: pointer; }
     .example-card:hover { border-color: var(--accent-cyan); transform: translateY(-4px); box-shadow: 0 10px 40px rgba(13, 115, 119, 0.15); }
     
     .example-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
@@ -75,6 +95,7 @@
     .component-count.acc { background: rgba(230, 168, 23, 0.2); color: #E6A817; }
     .component-count.ant { background: rgba(139, 92, 246, 0.2); color: #8B5CF6; }
     .component-count.act { background: rgba(16, 185, 129, 0.2); color: #10B981; }
+    .component-count.att { background: rgba(168, 85, 247, 0.2); color: #A855F7; }
     
     .example-stats { display: flex; gap: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(125, 211, 214, 0.1); margin-top: 1rem; }
     .example-stat-value { font-size: 1.25rem; font-weight: 600; color: var(--accent-cyan); font-family: 'IBM Plex Mono', monospace; }
@@ -91,13 +112,16 @@
     .footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid rgba(125, 211, 214, 0.1); color: var(--gray-400); font-size: 0.9rem; }
     .footer a { color: var(--accent-cyan); text-decoration: none; }
     
-    @media (max-width: 768px) { .nav-links { display: none; } .examples-grid { grid-template-columns: 1fr; } }
+    /* Hamburger Menu Button */
+    
+    /* Mobile Menu Overlay */
+    
   </style>
 </head>
 <body>
   <nav class="nav">
     <a href="index.html" class="nav-logo">
-      <span class="nav-logo-text"><span class="nav-logo-foray">FORAY</span><span class="nav-logo-protocol">Protocol</span></span>
+      <span class="nav-logo-text"><span class="nav-logo-foray">FORAY</span> <span class="nav-logo-protocol">Protocol</span></span>
       <span class="nav-badge">v4.1</span>
     </a>
     <div class="nav-links">
@@ -107,7 +131,21 @@
       <a href="about.html" class="nav-link">About</a>
       <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
     </div>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </nav>
+  
+  <!-- Mobile Menu -->
+  <div class="nav-mobile-menu" id="mobileMenu">
+    <a href="demo.html" class="nav-link" onclick="closeMobileMenu()">Demo</a>
+    <a href="docs.html" class="nav-link" onclick="closeMobileMenu()">Documentation</a>
+    <a href="examples.html" class="nav-link" onclick="closeMobileMenu()">Examples</a>
+    <a href="about.html" class="nav-link" onclick="closeMobileMenu()">About</a>
+    <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank" onclick="closeMobileMenu()">GitHub</a>
+  </div>
 
   <header class="page-header">
     <h1>Example Transactions</h1>
@@ -219,7 +257,7 @@
 
     <!-- Manufacturing -->
     <section class="category-section">
-      <h2 class="category-title">Manufacturing</h2>
+      <h2 class="category-title">Manufacturing & Supply Chain</h2>
       <div class="examples-grid">
         <div class="example-card">
           <div class="example-header">
@@ -238,6 +276,43 @@
             <div class="example-stat"><div class="example-stat-value">10</div><div class="example-stat-label">Components</div></div>
           </div>
         </div>
+        
+        <div class="example-card">
+          <div class="example-header">
+            <div class="example-title">Manuka Honey Provenance</div>
+            <span class="example-badge">v4.1</span>
+          </div>
+          <p class="example-description">UMF-certified New Zealand Manuka honey batch with full origin tracking. MGO analysis, hive source data, certification chain, and attestations from lab, UMF Association, and MPI export approval.</p>
+          <div class="example-components">
+            <span class="component-count arr">2 ARR</span>
+            <span class="component-count acc">2 ACC</span>
+            <span class="component-count ant">2 ANT</span>
+            <span class="component-count act">2 ACT</span>
+            <span class="component-count att">3 ATT</span>
+          </div>
+          <div class="example-stats">
+            <div class="example-stat"><div class="example-stat-value">NZ$185K</div><div class="example-stat-label">Batch Value</div></div>
+            <div class="example-stat"><div class="example-stat-value">11</div><div class="example-stat-label">Components</div></div>
+          </div>
+        </div>
+        
+        <div class="example-card">
+          <div class="example-header">
+            <div class="example-title">Luxury Watch Authentication</div>
+            <span class="example-badge">v4.1</span>
+          </div>
+          <p class="example-description">Rolex Daytona authentication with COSC certification, dealer authorization, and ownership transfer. Anti-counterfeiting proof.</p>
+          <div class="example-components">
+            <span class="component-count arr">2 ARR</span>
+            <span class="component-count acc">1 ACC</span>
+            <span class="component-count ant">1 ANT</span>
+            <span class="component-count act">2 ACT</span>
+          </div>
+          <div class="example-stats">
+            <div class="example-stat"><div class="example-stat-value">$29.5K</div><div class="example-stat-label">Value</div></div>
+            <div class="example-stat"><div class="example-stat-value">6</div><div class="example-stat-label">Components</div></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -247,7 +322,7 @@
       <div class="examples-grid">
         <div class="example-card">
           <div class="example-header">
-            <div class="example-title">Solar PPA (Morocco to Spain)</div>
+            <div class="example-title">Solar PPA (Morocco &rarr; Spain)</div>
             <span class="example-badge">v4.1</span>
           </div>
           <p class="example-description">Cross-border power purchase agreement between Morocco solar farm and Spanish utility. Multi-year energy contract.</p>
@@ -258,50 +333,8 @@
             <span class="component-count act">2 ACT</span>
           </div>
           <div class="example-stats">
-            <div class="example-stat"><div class="example-stat-value">EUR 2.4M</div><div class="example-stat-label">Monthly</div></div>
+            <div class="example-stat"><div class="example-stat-value">&euro;2.4M</div><div class="example-stat-label">Monthly</div></div>
             <div class="example-stat"><div class="example-stat-value">7</div><div class="example-stat-label">Components</div></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Supply Chain & Provenance -->
-    <section class="category-section">
-      <h2 class="category-title">Supply Chain & Provenance</h2>
-      <div class="examples-grid">
-        <div class="example-card">
-          <div class="example-header">
-            <div class="example-title">Olive Oil Provenance</div>
-            <span class="example-badge">v4.1</span>
-          </div>
-          <p class="example-description">DOP-certified Tuscan Extra Virgin Olive Oil. Production batch with laboratory analysis and certification issuance.</p>
-          <div class="example-components">
-            <span class="component-count arr">2 ARR</span>
-            <span class="component-count acc">2 ACC</span>
-            <span class="component-count ant">1 ANT</span>
-            <span class="component-count act">2 ACT</span>
-          </div>
-          <div class="example-stats">
-            <div class="example-stat"><div class="example-stat-value">EUR 125K</div><div class="example-stat-label">Batch Value</div></div>
-            <div class="example-stat"><div class="example-stat-value">7</div><div class="example-stat-label">Components</div></div>
-          </div>
-        </div>
-        
-        <div class="example-card">
-          <div class="example-header">
-            <div class="example-title">Luxury Watch Authentication</div>
-            <span class="example-badge">v4.1</span>
-          </div>
-          <p class="example-description">Product authentication with inspection results. Authorized dealer verification and warranty registration.</p>
-          <div class="example-components">
-            <span class="component-count arr">2 ARR</span>
-            <span class="component-count acc">2 ACC</span>
-            <span class="component-count ant">2 ANT</span>
-            <span class="component-count act">2 ACT</span>
-          </div>
-          <div class="example-stats">
-            <div class="example-stat"><div class="example-stat-value">$29.5K</div><div class="example-stat-label">MSRP</div></div>
-            <div class="example-stat"><div class="example-stat-value">8</div><div class="example-stat-label">Components</div></div>
           </div>
         </div>
       </div>
@@ -324,5 +357,28 @@
     <p>&copy; 2026 Marvin Percival. All rights reserved.</p>
     <p style="margin-top: 0.5rem;"><a href="about.html#license">License</a> &middot; <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a></p>
   </footer>
+  
+  <script>
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+      const hamburger = document.querySelector('.nav-hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    }
+    
+    function closeMobileMenu() {
+      const hamburger = document.querySelector('.nav-hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeMobileMenu();
+    });
+  </script>
 </body>
 </html>

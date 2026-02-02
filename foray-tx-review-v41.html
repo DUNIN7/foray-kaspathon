@@ -3,9 +3,9 @@
   ============================================================================
   FORAY Protocol Transaction Review Tool
   ============================================================================
-  Version:       4.1.3
+  Version:       4.1.5
   Created:       2026-01-26T23:43:00Z
-  Last Modified: 2026-01-29T21:00:00Z
+  Last Modified: 2026-02-01T12:00:00Z
   
   Author:        Marvin Percival
   Email:         marvinp@dunin7.com
@@ -20,6 +20,24 @@
                  and print/PDF export.
   
   Changelog:
+    v4.1.5 (2026-02-01)
+      - Added full Attestations UI section with expandable cards
+      - Attestations display: attestor info, credentials, subject refs, 
+        validity periods, evidence hashes, and type-specific details
+      - Added Shield and Award icons for attestation visuals
+      - Added 'attestations' to expandedSections state
+      - Updated scrollToComponent to handle ATT_ prefixes
+      - Added attestation color (#8B5CF6 purple) to RefBadge
+      - Updated DependencyGraph to recognize attestation refs
+      - Added manukaHoneyProvenance componentTips with attestations explanation
+      - Component summary now includes attestations count (5-column grid when present)
+      - Copy anchor details includes attestations count when applicable
+    
+    v4.1.4 (2026-02-01)
+      - Changed Olive Oil example to Manuka Honey (UMF certified, NZ origin)
+      - Added Attestations component (3 attestations: Lab, UMF, MPI Export)
+      - First example to demonstrate 4A + Attestations extension
+    
     v4.1.3 (2026-01-29)
       - Added Supply Chain/Provenance samples: Olive Oil, Luxury Watch, Template
       - Now 13 sample transaction types
@@ -45,6 +63,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FORAY Protocol Transaction Review v4.1</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
@@ -101,57 +120,85 @@
       .print-break-inside-avoid { break-inside: avoid; }
     }
     
-    /* Site Navigation */
-    .site-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 9999;
-      padding: 0.6rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(135deg, #0D7377 0%, #1B365D 100%);
-      border-bottom: 1px solid rgba(125, 211, 214, 0.2);
-    }
-    .site-nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-    }
-    .site-nav-logo-text { font-size: 1.1rem; font-weight: 700; }
-    .site-nav-logo-foray { color: #7DD3D6; }
-    .site-nav-logo-protocol { color: #F7F9FA; font-weight: 400; }
-    .site-nav-badge { font-size: 0.55rem; padding: 0.15rem 0.35rem; background: #E6A817; color: #1A1D21; border-radius: 3px; font-weight: 600; }
-    .site-nav-links { display: flex; gap: 1.25rem; align-items: center; }
-    .site-nav-link { color: rgba(247, 249, 250, 0.8); text-decoration: none; font-size: 0.8rem; font-weight: 500; transition: color 0.2s; }
-    .site-nav-link:hover { color: #7DD3D6; }
-    .site-nav-link.active { color: #7DD3D6; }
-    @media (max-width: 640px) { .site-nav-links { display: none; } }
+    /* === BULLETPROOF NAV CSS v4.0 - FULLY SELF-CONTAINED === */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
+    .nav * { box-sizing: border-box; }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: inherit; font-size: inherit; line-height: inherit; }
+    .nav-logo-text { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; display: flex; align-items: center; }
+    .nav-logo-foray { color: #0D7377; }
+    .nav-logo-protocol { color: #F7F9FA; font-weight: 400; }
+    .nav-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: #E6A817; color: #1A1D21; border-radius: 4px; font-weight: 600; line-height: 1; display: inline-block; vertical-align: middle; font-family: inherit; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-link { color: #94A3A8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; font-family: inherit; line-height: 1; }
+    .nav-link:hover, .nav-link.active { color: #14B8B8; }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; align-items: center; width: 40px; height: 40px; background: transparent; border: none; cursor: pointer; z-index: 1001; padding: 8px; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #F7F9FA; margin: 3px 0; transition: all 0.3s ease; border-radius: 2px; }
+    .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .nav-mobile-menu.active { opacity: 1; visibility: visible; }
+    .nav-mobile-menu .nav-link { font-size: 1.5rem; font-weight: 500; color: #F7F9FA; line-height: 1; }
+    .nav-mobile-menu .nav-link:hover { color: #14B8B8; }
+    @media (max-width: 768px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .nav-mobile-menu { display: flex; } }
+    /* === END BULLETPROOF NAV CSS === */
   </style>
 </head>
 <body>
-  <!-- Site Navigation -->
-  <nav class="site-nav no-print">
-    <a href="index.html" class="site-nav-logo">
-      <span class="site-nav-logo-text">
-        <span class="site-nav-logo-foray">FORAY</span>
-        <span class="site-nav-logo-protocol">Protocol</span>
+  <nav class="nav no-print">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-text">
+        <span class="nav-logo-foray">FORAY</span> <span class="nav-logo-protocol">Protocol</span>
       </span>
-      <span class="site-nav-badge">v4.1</span>
+      <span class="nav-badge">v4.1</span>
     </a>
-    <div class="site-nav-links">
-      <a href="demo.html" class="site-nav-link active">Demo</a>
-      <a href="docs.html" class="site-nav-link">Docs</a>
-      <a href="examples.html" class="site-nav-link">Examples</a>
-      <a href="about.html" class="site-nav-link">About</a>
-      <a href="https://github.com/DUNIN7/foray-kaspathon" class="site-nav-link" target="_blank">GitHub</a>
+    <div class="nav-links">
+      <a href="demo.html" class="nav-link active">Demo</a>
+      <a href="docs.html" class="nav-link">Documentation</a>
+      <a href="examples.html" class="nav-link">Examples</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
     </div>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </nav>
   
-  <div id="root" style="padding-top: 44px;"></div>
+  <!-- Mobile Menu -->
+  <div class="nav-mobile-menu no-print" id="mobileMenu">
+    <a href="demo.html" class="nav-link" onclick="closeMobileMenu()">Demo</a>
+    <a href="docs.html" class="nav-link" onclick="closeMobileMenu()">Documentation</a>
+    <a href="examples.html" class="nav-link" onclick="closeMobileMenu()">Examples</a>
+    <a href="about.html" class="nav-link" onclick="closeMobileMenu()">About</a>
+    <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank" onclick="closeMobileMenu()">GitHub</a>
+  </div>
+
+  <script>
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+      const hamburger = document.querySelector('.nav-hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    }
+    
+    function closeMobileMenu() {
+      const hamburger = document.querySelector('.nav-hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeMobileMenu();
+    });
+  </script>
+  
+  <div id="root" style="padding-top: 60px;"></div>
   
   <script type="text/babel">
     const { useState, useMemo, useEffect } = React;
@@ -316,6 +363,18 @@
     const Database = ({ className, style }) => (
       <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+      </svg>
+    );
+    
+    const Shield = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+    );
+    
+    const Award = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
       </svg>
     );
     
@@ -630,6 +689,7 @@
       for (const acc of transaction.accruals || []) allIds.add(acc.id);
       for (const ant of transaction.anticipations || []) allIds.add(ant.id);
       for (const act of transaction.actions || []) allIds.add(act.id);
+      for (const att of transaction.attestations || []) allIds.add(att.id);
       
       const validateRefs = (refs, componentId, refType) => {
         for (const ref of refs || []) {
@@ -665,6 +725,13 @@
         }
       }
       
+      // Validate attestation subject_refs
+      for (const att of transaction.attestations || []) {
+        const core = att.foray_core || att;
+        validateRefs(core.subject_refs, att.id, 'subject');
+        validateRefs(core.dependencies, att.id, 'dependency');
+      }
+      
       let entryPointType = null;
       if (transaction.arrangements?.length > 0) entryPointType = 'arrangement';
       else if (transaction.accruals?.length > 0) entryPointType = 'accrual';
@@ -680,7 +747,8 @@
           arrangements: transaction.arrangements?.length || 0,
           accruals: transaction.accruals?.length || 0,
           anticipations: transaction.anticipations?.length || 0,
-          actions: transaction.actions?.length || 0
+          actions: transaction.actions?.length || 0,
+          attestations: transaction.attestations?.length || 0
         }
       };
     }
@@ -761,7 +829,8 @@
         arrangement: forayColors.primaryTeal,
         accrual: forayColors.accentCyan,
         anticipation: forayColors.actionAmber,
-        action: forayColors.successGreen
+        action: forayColors.successGreen,
+        attestation: '#8B5CF6'  // Purple for attestations
       };
       const color = typeColors[refType] || forayColors.gray600;
       
@@ -851,6 +920,7 @@
               if (dep.startsWith('ACC_')) refType = 'accrual';
               else if (dep.startsWith('ANT_')) refType = 'anticipation';
               else if (dep.startsWith('ACT_')) refType = 'action';
+              else if (dep.startsWith('ATT_')) refType = 'attestation';
               return <RefBadge key={idx} refId={dep} refType={refType} onNavigate={onNavigate} />;
             })}
           </div>
@@ -1088,7 +1158,7 @@
       
       autoLoan: {
         name: "Auto Loan (Full Chain)",
-        description: "Consumer loan with arrangement → accruals → anticipations → actions",
+        description: "Consumer loan with arrangement â†’ accruals â†’ anticipations â†’ actions",
         data: {
           "transaction_id": "AUTO_LOAN_2026_Q1_JOHN_DOE",
           "schema_version": "4.1",
@@ -1520,7 +1590,7 @@
       
       salesforceOpportunity: {
         name: "Salesforce Opportunity",
-        description: "CRM opportunity → quote → order → invoice → payment",
+        description: "CRM opportunity â†’ quote â†’ order â†’ invoice â†’ payment",
         data: {
           "transaction_id": "SF_OPP_2026_Q1_ACME_ENTERPRISE",
           "schema_version": "4.1",
@@ -2441,43 +2511,44 @@
         }
       },
 
-      oliveOilProvenance: {
-        name: "Olive Oil Provenance",
-        description: "DOP-certified product batch with laboratory analysis",
+      manukaHoneyProvenance: {
+        name: "Manuka Honey Provenance",
+        description: "UMF-certified New Zealand Manuka honey with attestation chain",
         data: {
-          "transaction_id": "PROV_2026_Q1_OLIVE_OIL_BATCH_001",
+          "transaction_id": "PROV_2026_Q1_MANUKA_HONEY_BATCH_001",
           "schema_version": "4.1",
           "timestamp": "2026-01-15T09:00:00Z",
           "foray_core": {
-            "entity": "Tuscan Olive Cooperative",
-            "entity_hash": "sha256:toc_2026_abc123...",
+            "entity": "Waikato Apiaries Ltd",
+            "entity_hash": "sha256:wal_2026_abc123...",
             "transaction_type": "product_provenance",
-            "total_value": 125000.00,
-            "currency": "EUR",
+            "total_value": 185000.00,
+            "currency": "NZD",
             "status": "completed",
-            "compliance_flags": ["EU_Food_Safety", "DOP_Certification", "ISO_22000"]
+            "compliance_flags": ["MPI_Export_Certified", "UMF_Licensed", "ISO_22000"]
           },
           "component_hashes": {
-            "arrangements": "sha256:arr_olive_a1b2c3...",
-            "accruals": "sha256:acc_olive_d4e5f6...",
-            "anticipations": "sha256:ant_olive_g7h8i9...",
-            "actions": "sha256:act_olive_j0k1l2..."
+            "arrangements": "sha256:arr_manuka_a1b2c3...",
+            "accruals": "sha256:acc_manuka_d4e5f6...",
+            "anticipations": "sha256:ant_manuka_g7h8i9...",
+            "actions": "sha256:act_manuka_j0k1l2...",
+            "attestations": "sha256:att_manuka_m3n4o5..."
           },
           "arrangements": [
             {
-              "id": "ARR_DOP_CERTIFICATION_2026",
+              "id": "ARR_UMF_LICENSE_2026",
               "foray_core": {
                 "type": "origin_certification",
                 "effective_date": "2026-01-01T00:00:00Z",
                 "parties": [
-                  { "role": "producer", "name": "Tuscan Olive Cooperative", "jurisdiction": "IT" },
-                  { "role": "certifier", "name": "Consorzio DOP Toscano", "jurisdiction": "IT" },
-                  { "role": "laboratory", "name": "Laboratorio Analisi Alimentari", "jurisdiction": "IT" }
+                  { "role": "producer", "name": "Waikato Apiaries Ltd", "jurisdiction": "NZ" },
+                  { "role": "certifier", "name": "UMF Honey Association", "jurisdiction": "NZ" },
+                  { "role": "laboratory", "name": "Analytica Laboratories", "jurisdiction": "NZ" }
                 ],
-                "description": "DOP certification for Tuscan IGP Extra Virgin Olive Oil production",
-                "total_value": 125000.00,
-                "currency": "EUR",
-                "terms": { "certification_type": "DOP_Toscano_IGP", "valid_until": "2026-12-31", "annual_audit_required": true },
+                "description": "UMF certification license for authentic New Zealand Manuka Honey",
+                "total_value": 185000.00,
+                "currency": "NZD",
+                "terms": { "certification_type": "UMF_Licensed_Producer", "license_number": "UMF-2026-0847", "valid_until": "2026-12-31", "annual_audit_required": true },
                 "dependencies": []
               }
             },
@@ -2487,13 +2558,13 @@
                 "type": "production_batch",
                 "effective_date": "2026-01-10T00:00:00Z",
                 "parties": [
-                  { "role": "producer", "name": "Tuscan Olive Cooperative", "jurisdiction": "IT" }
+                  { "role": "producer", "name": "Waikato Apiaries Ltd", "jurisdiction": "NZ" }
                 ],
-                "description": "Production batch LOT-2026-001 - 2,500 liters EVOO",
-                "total_value": 125000.00,
-                "currency": "EUR",
-                "terms": { "batch_id": "LOT-2026-001", "volume_liters": 2500, "bottle_count": 5000, "harvest_date": "2025-11-15", "grove_region": "Chianti Hills" },
-                "dependencies": ["ARR_DOP_CERTIFICATION_2026"]
+                "description": "Production batch MH-2026-001 - 500kg UMF 15+ Manuka Honey",
+                "total_value": 185000.00,
+                "currency": "NZD",
+                "terms": { "batch_id": "MH-2026-001", "weight_kg": 500, "jar_count": 1000, "jar_size_g": 500, "harvest_date": "2025-12-20", "apiary_region": "Waikato, North Island" },
+                "dependencies": ["ARR_UMF_LICENSE_2026"]
               }
             }
           ],
@@ -2501,15 +2572,15 @@
             {
               "id": "ACC_LABORATORY_ANALYSIS_001",
               "foray_core": {
-                "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001", "ARR_DOP_CERTIFICATION_2026"],
+                "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001", "ARR_UMF_LICENSE_2026"],
                 "type": "product_analysis",
-                "description": "Laboratory analysis results for batch LOT-2026-001",
+                "description": "Laboratory analysis results for batch MH-2026-001",
                 "computation_method": "Valuation",
-                "formula_id": "sha256:lab_analysis_protocol_v3...",
-                "inputs": { "sample_id": "SAMPLE-2026-001-A", "analysis_date": "2026-01-12", "methodology": "EU_Reg_2568_91" },
-                "output": 125000.00,
-                "currency": "EUR",
-                "analysis_results": { "free_acidity_percent": 0.28, "peroxide_value_meq_kg": 8.5, "polyphenols_mg_kg": 285, "classification": "Extra Virgin", "grade_confirmed": true },
+                "formula_id": "sha256:umf_analysis_protocol_v2...",
+                "inputs": { "sample_id": "SAMPLE-MH-2026-001-A", "analysis_date": "2026-01-12", "methodology": "UMF_Grading_Standard_v4" },
+                "output": 185000.00,
+                "currency": "NZD",
+                "analysis_results": { "mgo_mg_kg": 514, "leptosperin_mg_kg": 185, "umf_rating": 15, "umf_grade": "UMF 15+", "dna_verified": true, "classification": "Authentic Monofloral Manuka", "grade_confirmed": true },
                 "dependencies": ["ARR_BATCH_DEFINITION_2026_001"]
               }
             },
@@ -2518,73 +2589,145 @@
               "foray_core": {
                 "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001"],
                 "type": "inventory_valuation",
-                "description": "Batch valuation at wholesale price",
+                "description": "Batch valuation at export wholesale price",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:valuation_volume_x_price...",
-                "inputs": { "volume_liters": 2500, "price_per_liter_eur": 50.00 },
-                "output": 125000.00,
-                "currency": "EUR",
+                "formula_id": "sha256:valuation_weight_x_grade_price...",
+                "inputs": { "weight_kg": 500, "umf_grade": "UMF 15+", "price_per_kg_nzd": 370.00 },
+                "output": 185000.00,
+                "currency": "NZD",
                 "dependencies": ["ARR_BATCH_DEFINITION_2026_001"]
               }
             }
           ],
           "anticipations": [
             {
-              "id": "ANT_DISTRIBUTION_2026_001",
+              "id": "ANT_EXPORT_DISTRIBUTION_2026_001",
               "foray_core": {
                 "accrual_refs": ["ACC_BATCH_VALUATION_001"],
                 "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001"],
                 "type": "scheduled_distribution",
-                "description": "Expected distribution to wholesale partners",
-                "expected_amount": 125000.00,
-                "currency": "EUR",
-                "expected_date": "2026-02-01",
+                "description": "Expected export distribution to international partners",
+                "expected_amount": 185000.00,
+                "currency": "NZD",
+                "expected_date": "2026-02-15",
                 "probability_factor": 0.95,
+                "distribution_plan": { "export_markets": ["China", "UK", "USA", "Japan"] },
                 "dependencies": ["ACC_BATCH_VALUATION_001"]
+              }
+            },
+            {
+              "id": "ANT_SHELF_LIFE_WINDOW_001",
+              "foray_core": {
+                "accrual_refs": ["ACC_LABORATORY_ANALYSIS_001"],
+                "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001"],
+                "type": "quality_validity_window",
+                "description": "Expected shelf life based on analysis results",
+                "expected_amount": 0,
+                "currency": "NZD",
+                "expected_date": "2031-01-15",
+                "probability_factor": 0.95,
+                "quality_parameters": { "best_before_date": "2031-01-15", "optimal_storage_temp_c": "below 25", "note": "Honey does not spoil; UMF activity may decrease over time" },
+                "dependencies": ["ACC_LABORATORY_ANALYSIS_001"]
               }
             }
           ],
           "actions": [
             {
-              "id": "ACT_BOTTLING_COMPLETE_001",
+              "id": "ACT_JARRING_COMPLETE_001",
               "foray_core": {
-                "anticipation_refs": ["ANT_DISTRIBUTION_2026_001"],
+                "anticipation_refs": ["ANT_EXPORT_DISTRIBUTION_2026_001"],
                 "accrual_refs": ["ACC_LABORATORY_ANALYSIS_001", "ACC_BATCH_VALUATION_001"],
                 "arrangement_refs": ["ARR_BATCH_DEFINITION_2026_001"],
                 "type": "production_completion",
-                "description": "Bottling completed for batch LOT-2026-001",
-                "amount_settled": 125000.00,
-                "currency": "EUR",
+                "description": "Jarring completed for batch MH-2026-001",
+                "amount_settled": 185000.00,
+                "currency": "NZD",
                 "settlement_date": "2026-01-15T09:00:00Z",
                 "settlement_status": "completed",
                 "payment_method": "other",
                 "counterparty": "Internal",
-                "production_details": { "bottles_produced": 5000, "bottles_passed_qc": 4985, "bottles_rejected": 15 },
-                "dependencies": ["ANT_DISTRIBUTION_2026_001"]
+                "production_details": { "jars_produced": 1000, "jars_passed_qc": 998, "jars_rejected": 2, "tamper_seal_applied": true, "umf_label_applied": true },
+                "dependencies": ["ANT_EXPORT_DISTRIBUTION_2026_001"]
               }
             },
             {
-              "id": "ACT_CERTIFICATION_ISSUED_001",
+              "id": "ACT_UMF_CERTIFICATION_ISSUED_001",
               "foray_core": {
                 "anticipation_refs": [],
                 "accrual_refs": ["ACC_LABORATORY_ANALYSIS_001"],
-                "arrangement_refs": ["ARR_DOP_CERTIFICATION_2026", "ARR_BATCH_DEFINITION_2026_001"],
+                "arrangement_refs": ["ARR_UMF_LICENSE_2026", "ARR_BATCH_DEFINITION_2026_001"],
                 "type": "certification_issuance",
-                "description": "DOP certificate issued for batch LOT-2026-001",
+                "description": "UMF certificate issued for batch MH-2026-001",
                 "amount_settled": 0,
-                "currency": "EUR",
+                "currency": "NZD",
                 "settlement_date": "2026-01-14T14:00:00Z",
                 "settlement_status": "completed",
                 "payment_method": "other",
-                "counterparty": "Consorzio DOP Toscano",
-                "certificate_details": { "certificate_number": "DOP-TOS-2026-00847", "issued_by": "Consorzio DOP Toscano" },
+                "counterparty": "UMF Honey Association",
+                "certificate_details": { "certificate_number": "UMF-BATCH-2026-00847", "issued_by": "UMF Honey Association", "umf_grade_certified": "UMF 15+", "qr_verification_url": "https://umf.org.nz/verify/UMF-BATCH-2026-00847" },
                 "dependencies": ["ACC_LABORATORY_ANALYSIS_001"]
               }
             }
           ],
-          "merkle_root": "sha256:olive_batch_001_merkle_root...",
+          "attestations": [
+            {
+              "id": "ATT_LAB_ANALYSIS_001",
+              "foray_core": {
+                "attestor": "Analytica Laboratories",
+                "attestor_hash": "sha256:analytica_nz_2026...",
+                "attestor_type": "laboratory",
+                "attestor_credentials": ["IANZ_Accredited", "MPI_Recognized", "ISO_17025"],
+                "subject_refs": ["ACC_LABORATORY_ANALYSIS_001"],
+                "attestation_type": "analysis",
+                "attestation_date": "2026-01-12T16:30:00Z",
+                "validity_period": { "start": "2026-01-12", "end": "2027-01-12" },
+                "outcome": "certified",
+                "evidence_hash": "sha256:lab_report_mh2026001...",
+                "evidence_location": "off-chain",
+                "analysis_summary": { "mgo_result_mg_kg": 514, "leptosperin_result_mg_kg": 185, "dna_verified": true, "methodology": "UMF_Grading_Standard_v4" },
+                "dependencies": []
+              }
+            },
+            {
+              "id": "ATT_UMF_CERTIFICATION_001",
+              "foray_core": {
+                "attestor": "UMF Honey Association",
+                "attestor_hash": "sha256:umf_assoc_nz_2026...",
+                "attestor_type": "certification_body",
+                "attestor_credentials": ["NZ_Govt_Recognized", "Trademark_Owner_UMF", "MPI_Partner"],
+                "subject_refs": ["ARR_UMF_LICENSE_2026", "ARR_BATCH_DEFINITION_2026_001", "ATT_LAB_ANALYSIS_001"],
+                "attestation_type": "certification",
+                "attestation_date": "2026-01-14T14:00:00Z",
+                "validity_period": { "start": "2026-01-14", "end": "2026-12-31" },
+                "outcome": "certified",
+                "evidence_hash": "sha256:umf_certificate_mh2026001...",
+                "evidence_location": "off-chain",
+                "certificate_details": { "certificate_number": "UMF-BATCH-2026-00847", "umf_grade": "UMF 15+", "qr_verification_url": "https://umf.org.nz/verify/UMF-BATCH-2026-00847" },
+                "dependencies": ["ATT_LAB_ANALYSIS_001"]
+              }
+            },
+            {
+              "id": "ATT_MPI_EXPORT_001",
+              "foray_core": {
+                "attestor": "Ministry for Primary Industries",
+                "attestor_hash": "sha256:mpi_nz_govt_2026...",
+                "attestor_type": "regulator",
+                "attestor_credentials": ["NZ_Government_Authority", "Food_Safety_Regulator", "Export_Certification_Authority"],
+                "subject_refs": ["ARR_BATCH_DEFINITION_2026_001", "ATT_UMF_CERTIFICATION_001"],
+                "attestation_type": "approval",
+                "attestation_date": "2026-01-15T08:00:00Z",
+                "validity_period": { "start": "2026-01-15", "end": "2026-07-15" },
+                "outcome": "approved",
+                "evidence_hash": "sha256:mpi_export_cert_mh2026001...",
+                "evidence_location": "off-chain",
+                "export_details": { "export_certificate_number": "MPI-EXP-2026-NZ-00847", "approved_markets": ["China", "UK", "USA", "Japan"], "health_certificate_included": true },
+                "dependencies": ["ATT_UMF_CERTIFICATION_001"]
+              }
+            }
+          ],
+          "merkle_root": "sha256:manuka_batch_001_merkle_root...",
           "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
-          "audit_data_anchor": { "audit_data_hash": "sha256:olive_audit_data...", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/PROV_2026_Q1_OLIVE_OIL_BATCH_001"] },
+          "audit_data_anchor": { "audit_data_hash": "sha256:manuka_audit_data...", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/PROV_2026_Q1_MANUKA_HONEY_BATCH_001"] },
           "privacy_metadata": { "formulas_obfuscated": 2, "instance_pools": 3, "attack_complexity": "2^96 operations" }
         }
       },
@@ -2871,7 +3014,7 @@
 
 ## The Business Scenario
 
-Acme Manufacturing Corp needs to pay their vendor, GlobalParts Inc, for three outstanding invoices. Rather than issuing three separate payments, the accounts payable team processes them as a single batch payment—a common practice that reduces transaction fees and simplifies bank reconciliation.
+Acme Manufacturing Corp needs to pay their vendor, GlobalParts Inc, for three outstanding invoices. Rather than issuing three separate payments, the accounts payable team processes them as a single batch paymentâ€”a common practice that reduces transaction fees and simplifies bank reconciliation.
 
 The three invoices are:
 - **GP-2026-001**: $15,000 for electronic components (due Jan 27)
@@ -2897,7 +3040,7 @@ The MSA is the contractual foundation that all invoices reference back to.
 
 ### The Accruals (3 Invoices)
 
-Each invoice becomes an Accrual in FORAY—an economic obligation that Acme owes to GlobalParts. Each accrual:
+Each invoice becomes an Accrual in FORAYâ€”an economic obligation that Acme owes to GlobalParts. Each accrual:
 - References the MSA arrangement
 - Records the invoice details (number, date, due date, line items)
 - Captures the accounting entry (Debit: Raw Materials, Credit: Accounts Payable)
@@ -2952,7 +3095,7 @@ With FORAY, all of this is captured in a single, cryptographically anchored stru
 |---------|---------------|
 | **Many-to-many references** | One Action references three Accruals |
 | **Allocation tracking** | Payment split shown in allocations array |
-| **Dependency chain** | Arrangement → Accruals → Anticipation → Action |
+| **Dependency chain** | Arrangement â†’ Accruals â†’ Anticipation â†’ Action |
 | **Privacy hashing** | Party names hashed, amounts visible |
 
 ---
@@ -2990,13 +3133,13 @@ It's 9:15 AM at Downtown Coffee House, and the morning rush is in full swing. A 
 
 The customer pays with $140 cash and receives $5.50 in change.
 
-This is a completely ordinary retail transaction—no contract, no credit terms, no accounts receivable. Just cash across the counter.
+This is a completely ordinary retail transactionâ€”no contract, no credit terms, no accounts receivable. Just cash across the counter.
 
 ---
 
 ## How FORAY Models This Transaction
 
-This transaction demonstrates v4.1's **flexible entry point** feature. In previous versions, every FORAY transaction required an Arrangement as the starting point. But a walk-in cash sale has no contract—and forcing an artificial "arrangement" would misrepresent the reality.
+This transaction demonstrates v4.1's **flexible entry point** feature. In previous versions, every FORAY transaction required an Arrangement as the starting point. But a walk-in cash sale has no contractâ€”and forcing an artificial "arrangement" would misrepresent the reality.
 
 ### The Solution: Action-Only
 
@@ -3078,7 +3221,7 @@ Small businesses shouldn't need complex accounting structures to participate in 
 Even simple transactions benefit from immutability. Sales tax audits, cash handling reviews, and franchise compliance checks all need reliable records.
 
 ### For the Protocol
-Supporting action-only transactions means FORAY can scale from enterprise securitizations down to everyday point-of-sale transactions—capturing the full spectrum of economic activity.
+Supporting action-only transactions means FORAY can scale from enterprise securitizations down to everyday point-of-sale transactionsâ€”capturing the full spectrum of economic activity.
 
 ---
 
@@ -3122,7 +3265,7 @@ Sarah Johnson walks into a Tesla dealership in Palo Alto and purchases a 2025 Mo
 
 The vehicle serves as collateral, with a loan-to-value ratio of 87.5%. The first payment is due February 25, 2026.
 
-This is a classic consumer credit transaction—and it demonstrates FORAY's complete 4-component model in action.
+This is a classic consumer credit transactionâ€”and it demonstrates FORAY's complete 4-component model in action.
 
 ---
 
@@ -3207,7 +3350,7 @@ Before each payment is received, FORAY records what's expected:
 | **Total** | **$665.28** |
 | Balance After | $33,978.01 |
 
-Notice the probability factor of 0.97—this reflects a 3% expected default rate for this credit tier.
+Notice the probability factor of 0.97â€”this reflects a 3% expected default rate for this credit tier.
 
 ### Component 4: The Actions (What Actually Happened)
 
@@ -3222,8 +3365,8 @@ On February 25, 2026, Sarah's ACH payment of $665.28 arrives. The action capture
 - Payment reference number
 - Settlement timestamp
 - **Allocation breakdown** showing how the payment was applied:
-  - $163.25 → Interest (fully satisfies Feb interest accrual)
-  - $502.03 → Principal (partial reduction of loan balance)
+  - $163.25 â†’ Interest (fully satisfies Feb interest accrual)
+  - $502.03 â†’ Principal (partial reduction of loan balance)
 
 ---
 
@@ -3231,14 +3374,14 @@ On February 25, 2026, Sarah's ACH payment of $665.28 arrives. The action capture
 
 \`\`\`
 Arrangement (Loan Contract)
-     ↓
+     â†“
 Accrual (Feb Interest: $163.25)
-     ↓
+     â†“
 Anticipation (Feb Payment Expected: $665.28)
-     ↓
+     â†“
 Action (Feb Payment Received: $665.28)
-     → Allocation: $163.25 to interest
-     → Allocation: $502.03 to principal
+     â†’ Allocation: $163.25 to interest
+     â†’ Allocation: $502.03 to principal
 \`\`\`
 
 This chain continues for all 60 months of the loan. Each month adds:
@@ -3278,7 +3421,7 @@ Auto loans are heavily regulated. This FORAY transaction captures compliance wit
 
 | Feature | How It's Used |
 |---------|---------------|
-| **Full 4-component chain** | Arrangement → Accrual → Anticipation → Action |
+| **Full 4-component chain** | Arrangement â†’ Accrual â†’ Anticipation â†’ Action |
 | **Allocation tracking** | Payment split between principal and interest |
 | **Formula hashing** | Interest calculation method protected |
 | **Enhanced privacy** | Consumer PII hashed, amounts visible |
@@ -3333,7 +3476,7 @@ Structured Finance Trust 2025-1 is a $100 million residential mortgage-backed se
 | Class B (Mezzanine) | A | $14,250,000 | 5.75% | 2nd |
 | Class C (Subordinate) | BBB | $4,750,000 | 8.25% | 3rd |
 
-Every month, homeowners make their mortgage payments. The trust collects these payments and distributes them to investors according to a strict "waterfall" priority—senior bondholders get paid first, then mezzanine, then subordinate.
+Every month, homeowners make their mortgage payments. The trust collects these payments and distributes them to investors according to a strict "waterfall" priorityâ€”senior bondholders get paid first, then mezzanine, then subordinate.
 
 This is January 2026's distribution: **$2,492,500** flowing through the waterfall.
 
@@ -3377,17 +3520,17 @@ Scheduled Interest:   $  650,000
 Prepayments:          $   45,000
 Defaults:             $   (5,000)
 Recoveries:           $    2,500
-─────────────────────────────────
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Total Available:      $2,492,500
 \`\`\`
 
-This single accrual references **all three tranches**—a many-to-many relationship because the pool supports all investors.
+This single accrual references **all three tranches**â€”a many-to-many relationship because the pool supports all investors.
 
 **Tranche Interest Accruals (3)**
 Each tranche has its own interest calculation:
-- Class A: $72M × 4.25% × 30/360 = $255,000
-- Class B: $14.25M × 5.75% × 30/360 = $68,281.25
-- Class C: $4.75M × 8.25% × 30/360 = $32,656.25
+- Class A: $72M Ã— 4.25% Ã— 30/360 = $255,000
+- Class B: $14.25M Ã— 5.75% Ã— 30/360 = $68,281.25
+- Class C: $4.75M Ã— 8.25% Ã— 30/360 = $32,656.25
 
 ### The Anticipation (Waterfall Priority)
 
@@ -3405,7 +3548,7 @@ Before distribution, the trustee calculates the expected waterfall:
 | 8 | Class C Principal | $75,000 |
 | 9 | Residual | $4,062.50 |
 
-This anticipation references **all four accruals** and **all three arrangements**—the full complexity of the deal captured in component references.
+This anticipation references **all four accruals** and **all three arrangements**â€”the full complexity of the deal captured in component references.
 
 ### The Action (Distribution Executed)
 
@@ -3477,7 +3620,7 @@ FORAY doesn't replace regulatory filings, but provides an immutable audit trail 
 
 | Feature | How It's Used |
 |---------|---------------|
-| **Many-to-many references** | Pool accrual → 3 tranches; Anticipation → 4 accruals |
+| **Many-to-many references** | Pool accrual â†’ 3 tranches; Anticipation â†’ 4 accruals |
 | **Complex allocations** | Single distribution split across 3 tranches |
 | **Interest/principal breakdown** | Each allocation shows component split |
 | **Multiple arrangements** | 3 parallel tranches, one pool |
@@ -3487,9 +3630,9 @@ FORAY doesn't replace regulatory filings, but provides an immutable audit trail 
 
 ## The 2008 Lesson
 
-The 2008 financial crisis revealed that no one—not investors, not regulators, not even the banks—could trace mortgage payments through securitization structures. FORAY provides the transparency that was missing.
+The 2008 financial crisis revealed that no oneâ€”not investors, not regulators, not even the banksâ€”could trace mortgage payments through securitization structures. FORAY provides the transparency that was missing.
 
-Every payment, every allocation, every calculation—cryptographically anchored and fully traceable.
+Every payment, every allocation, every calculationâ€”cryptographically anchored and fully traceable.
 
 ---
 
@@ -3517,7 +3660,7 @@ SunPower Utilities International, a Spanish energy company, purchases solar elec
 
 The 20-year Power Purchase Agreement (PPA) commits to:
 - **420,000 MWh** annually
-- **€42.50/MWh** base price (with 1.5% annual escalation)
+- **â‚¬42.50/MWh** base price (with 1.5% annual escalation)
 - **Renewable Energy Certificates (RECs)** included
 - **Curtailment compensation** at 85% of contract price
 
@@ -3527,7 +3670,7 @@ January 2026's delivery: **38,500 MWh** of solar power plus **1,500 MWh** curtai
 
 ## How FORAY Models This Transaction
 
-Energy transactions are unique—they involve physical delivery of electrons, regulatory certificates, and complex pricing that varies with weather, grid conditions, and time of day. FORAY captures all of this.
+Energy transactions are uniqueâ€”they involve physical delivery of electrons, regulatory certificates, and complex pricing that varies with weather, grid conditions, and time of day. FORAY captures all of this.
 
 ### The Arrangement
 
@@ -3544,7 +3687,7 @@ The PPA is a 20-year contract with detailed terms:
 |------|-------|
 | Contract Duration | 2025-2045 (20 years) |
 | Annual Commitment | 420,000 MWh |
-| Base Price | €42.50/MWh |
+| Base Price | â‚¬42.50/MWh |
 | Price Escalation | 1.5%/year |
 | Curtailment Cap | 5% of annual delivery |
 | Curtailment Compensation | 85% of contract price |
@@ -3556,36 +3699,36 @@ The PPA is a 20-year contract with detailed terms:
 ### The Accruals (3 Types)
 
 **1. Energy Delivery Accrual**
-The core transaction—actual electricity delivered:
+The core transactionâ€”actual electricity delivered:
 \`\`\`
 Metered Energy:     38,500 MWh
-PPA Price (Year 2): €43.18/MWh
-─────────────────────────────────
-Energy Value:       €1,662,430.00
+PPA Price (Year 2): â‚¬43.18/MWh
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+Energy Value:       â‚¬1,662,430.00
 \`\`\`
 
-The price reflects Year 2 escalation (€42.50 × 1.015 = €43.18).
+The price reflects Year 2 escalation (â‚¬42.50 Ã— 1.015 = â‚¬43.18).
 
 **2. Curtailment Accrual**
 Sometimes the grid can't accept all available power. When this happens, the generator is compensated:
 \`\`\`
 Curtailed Energy:     1,500 MWh
-PPA Price:            €43.18/MWh
+PPA Price:            â‚¬43.18/MWh
 Compensation Rate:    85%
-─────────────────────────────────
-Curtailment Payment:  €55,054.50
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+Curtailment Payment:  â‚¬55,054.50
 \`\`\`
 
 Curtailment occurred for 45 hours in January due to grid congestion on the Spain interconnect.
 
 **3. Renewable Energy Credits (RECs)**
-The PPA includes bundled RECs—certificates proving the energy is renewable:
+The PPA includes bundled RECsâ€”certificates proving the energy is renewable:
 \`\`\`
 MWh Generated:      40,000 MWh
 RECs per MWh:       1
-REC Value:          €3.50 each
-─────────────────────────────────
-Total REC Value:    €140,000.00
+REC Value:          â‚¬3.50 each
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+Total REC Value:    â‚¬140,000.00
 \`\`\`
 
 These certificates are registered in the EU Guarantees of Origin (GO) Registry and certified by AENOR.
@@ -3594,10 +3737,10 @@ These certificates are registered in the EU Guarantees of Origin (GO) Registry a
 
 Before payment, the anticipated settlement is calculated:
 \`\`\`
-Energy Delivery:        €1,662,430.00
-Curtailment Compensation: €   55,054.50
-─────────────────────────────────────────
-Expected Payment:       €1,717,484.50
+Energy Delivery:        â‚¬1,662,430.00
+Curtailment Compensation: â‚¬   55,054.50
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+Expected Payment:       â‚¬1,717,484.50
 \`\`\`
 
 RECs are transferred separately (not a cash payment).
@@ -3606,17 +3749,17 @@ RECs are transferred separately (not a cash payment).
 
 **1. Energy Payment**
 On February 14, 2026, SunPower wires payment to Morocco Solar Farm:
-- Amount: €1,717,484.50
+- Amount: â‚¬1,717,484.50
 - Method: SWIFT MT103
 - Allocations:
-  - €1,662,430.00 → Energy delivery (38,500 MWh)
-  - €55,054.50 → Curtailment compensation (1,500 MWh)
+  - â‚¬1,662,430.00 â†’ Energy delivery (38,500 MWh)
+  - â‚¬55,054.50 â†’ Curtailment compensation (1,500 MWh)
 
 **2. REC Transfer**
 On February 10, 2026, 40,000 RECs transfer in the EU GO Registry:
 - Source Account: MA-NOOR-GEN-001 (Generator)
 - Destination Account: ES-SUNPOWER-OFF-001 (Offtaker)
-- Value: €140,000 (40,000 × €3.50)
+- Value: â‚¬140,000 (40,000 Ã— â‚¬3.50)
 
 ---
 
@@ -3694,7 +3837,7 @@ This PPA triggers multiple regulatory frameworks:
 
 As the world shifts to renewable energy, PPAs like this are proliferating. Solar and wind projects need long-term offtake agreements to secure financing. Utilities need renewable generation to meet climate commitments.
 
-FORAY provides the transparent, auditable infrastructure these markets need—tracking every electron from desert sunshine to Spanish homes.
+FORAY provides the transparent, auditable infrastructure these markets needâ€”tracking every electron from desert sunshine to Spanish homes.
 
 ---
 
@@ -3735,7 +3878,7 @@ The manufacturing process takes 4 days, moving through machining, assembly, test
 
 ## How FORAY Models This Transaction
 
-Manufacturing cost accounting is notoriously complex. Materials, labor, and overhead must be tracked, allocated, and reconciled—with auditors (and often the Department of Defense) scrutinizing every dollar. FORAY captures the complete cost build-up.
+Manufacturing cost accounting is notoriously complex. Materials, labor, and overhead must be tracked, allocated, and reconciledâ€”with auditors (and often the Department of Defense) scrutinizing every dollar. FORAY captures the complete cost build-up.
 
 ### The Arrangement (Work Order)
 
@@ -3760,7 +3903,7 @@ The work order defines what's being built and how:
 | HSG-500 | Housing | 1 | $65.00 |
 | | **Total Material/Unit** | | **$263.50** |
 
-The BOM is the DNA of the product—every component traced and costed.
+The BOM is the DNA of the productâ€”every component traced and costed.
 
 ### The Accruals (3 Cost Elements)
 
@@ -3803,7 +3946,7 @@ Overhead is allocated based on direct labor hours:
 \`\`\`
 Labor Hours:        245
 Overhead Rate:      $35.75/hour
-─────────────────────────────────
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Total Overhead:     $8,758.75
 \`\`\`
 
@@ -3829,7 +3972,7 @@ Before completion, the system projects the finished goods transfer:
 Materials:    $26,350.00
 Labor:        $12,740.00
 Overhead:     $ 8,758.75
-─────────────────────────
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Total Cost:   $47,848.75
 Cost/Unit:    $   478.49
 \`\`\`
@@ -3920,12 +4063,12 @@ FORAY captures expected vs. actual at every step, making variance analysis audit
 
 This single work order connects:
 
-1. **Purchasing** → Material costs from PO prices
-2. **Inventory** → Raw material issues and FG receipts
-3. **Payroll** → Labor hours and rates
-4. **Cost Accounting** → Overhead absorption
-5. **Quality** → Inspection and certification
-6. **Financial Reporting** → Inventory valuation
+1. **Purchasing** â†’ Material costs from PO prices
+2. **Inventory** â†’ Raw material issues and FG receipts
+3. **Payroll** â†’ Labor hours and rates
+4. **Cost Accounting** â†’ Overhead absorption
+5. **Quality** â†’ Inspection and certification
+6. **Financial Reporting** â†’ Inventory valuation
 
 FORAY provides the audit trail that links them all.
 
@@ -3952,7 +4095,7 @@ Load \`manufacturing-v41.json\` in the Transaction Review tool to see:
 
 ## The Business Scenario
 
-It's January 31, 2026—month-end closing at Precision Manufacturing Inc. The accounting team runs the depreciation schedule, recording the monthly wear and tear on company assets:
+It's January 31, 2026â€”month-end closing at Precision Manufacturing Inc. The accounting team runs the depreciation schedule, recording the monthly wear and tear on company assets:
 
 | Asset Class | Original Cost | Monthly Depreciation |
 |-------------|---------------|---------------------|
@@ -3969,7 +4112,7 @@ There's no contract here. No payment. No counterparty. Just an adjusting journal
 
 ## How FORAY Models This Transaction
 
-This transaction demonstrates v4.1's **flexible entry point** feature—specifically, an Accrual-only transaction. Depreciation is a pure accounting recognition with no arrangement, no anticipation, and no action.
+This transaction demonstrates v4.1's **flexible entry point** featureâ€”specifically, an Accrual-only transaction. Depreciation is a pure accounting recognition with no arrangement, no anticipation, and no action.
 
 ### Why Accrual-Only Makes Sense
 
@@ -3980,7 +4123,7 @@ This transaction demonstrates v4.1's **flexible entry point** feature—specific
 | Cash will flow | No cash flow |
 | Future settlement expected | Nothing to settle |
 
-Depreciation is an **allocation of historical cost** over an asset's useful life. It exists entirely within the accounting system—there's nothing external to link to.
+Depreciation is an **allocation of historical cost** over an asset's useful life. It exists entirely within the accounting systemâ€”there's nothing external to link to.
 
 ### The Accruals (3 Asset Classes)
 
@@ -4034,9 +4177,9 @@ After 96 months (8 years):
 
 ### The Empty Components
 
-- **Arrangements**: Empty \`[]\` — no contract governs depreciation
-- **Anticipations**: Empty \`[]\` — no future event is expected
-- **Actions**: Empty \`[]\` — no settlement will occur
+- **Arrangements**: Empty \`[]\` â€” no contract governs depreciation
+- **Anticipations**: Empty \`[]\` â€” no future event is expected
+- **Actions**: Empty \`[]\` â€” no settlement will occur
 
 This is the cleanest possible FORAY structure: just the economic recognition, nothing more.
 
@@ -4053,7 +4196,7 @@ FORAY supports multiple depreciation methods through formula IDs:
 | Double-declining | \`hash_depr_ddb_monthly\` | Accelerated book |
 | Units of production | \`hash_depr_units_monthly\` | Variable usage |
 
-The formula ID is hashed—auditors can verify the method used without exposing proprietary asset valuation models.
+The formula ID is hashedâ€”auditors can verify the method used without exposing proprietary asset valuation models.
 
 ---
 
@@ -4127,7 +4270,7 @@ Depreciation is one of several **adjusting entry** types that FORAY v4.1 handles
 | Depreciation | Accrual-only |
 | Amortization | Accrual-only |
 | Bad debt expense | Accrual-only |
-| Accrued expenses | Accrual → Action |
+| Accrued expenses | Accrual â†’ Action |
 | Prepaid expense recognition | Accrual-only |
 | Deferred revenue recognition | Accrual-only |
 
@@ -4158,16 +4301,16 @@ Load \`depreciation-entry-v41.json\` in the Transaction Review tool to see:
 Global Treasury Services Inc needs to pay a European supplier in euros. On January 23, 2026, the treasury desk calls their FX counterparty at Deutsche Bank and executes a spot trade:
 
 **Trade Details:**
-- **Buy**: €1,000,000
+- **Buy**: â‚¬1,000,000
 - **Sell**: $1,085,000
 - **Spot Rate**: 1.0850
 - **Value Date**: January 27, 2026 (T+2)
 
 Two days later, on the value date, the currencies settle:
-- Global Treasury receives €1,000,000 in their Deutsche Bank nostro account
+- Global Treasury receives â‚¬1,000,000 in their Deutsche Bank nostro account
 - Global Treasury pays $1,085,000 from their JPMorgan Chase nostro account
 
-By settlement, the market has moved—EUR/USD is now 1.0875. Global Treasury locked in at 1.0850, saving $2,500.
+By settlement, the market has movedâ€”EUR/USD is now 1.0875. Global Treasury locked in at 1.0850, saving $2,500.
 
 **Realized Gain: $2,500**
 
@@ -4175,7 +4318,7 @@ By settlement, the market has moved—EUR/USD is now 1.0875. Global Treasury loc
 
 ## How FORAY Models This Transaction
 
-FX transactions are unique—they involve two currencies flowing in opposite directions, with potential P&L from rate movements. FORAY captures both legs and the valuation changes.
+FX transactions are uniqueâ€”they involve two currencies flowing in opposite directions, with potential P&L from rate movements. FORAY captures both legs and the valuation changes.
 
 ### The Arrangement (FX Spot Contract)
 
@@ -4211,7 +4354,7 @@ Contract Rate:  1.0850
 Unrealized P&L: $0.00
 \`\`\`
 
-No gain or loss—the trade was just executed at market.
+No gain or lossâ€”the trade was just executed at market.
 
 **T+1 - January 24:**
 \`\`\`
@@ -4221,7 +4364,7 @@ Rate Difference: 0.0025
 Unrealized P&L: $2,500.00
 \`\`\`
 
-The euro strengthened—good for Global Treasury who locked in at 1.0850.
+The euro strengthenedâ€”good for Global Treasury who locked in at 1.0850.
 
 Accounting entry:
 \`\`\`
@@ -4231,10 +4374,10 @@ Credit: 4200 - Unrealized FX Gain  $2,500.00
 
 ### The Anticipations (Two Settlement Legs)
 
-FX spot trades have **two legs**—one for each currency:
+FX spot trades have **two legs**â€”one for each currency:
 
 **EUR Receipt Anticipation:**
-- Expected: €1,000,000
+- Expected: â‚¬1,000,000
 - Date: January 27, 2026
 - Receiving Bank: Deutsche Bank
 - Cut-off: 17:00 CET
@@ -4251,7 +4394,7 @@ The probability factor of 0.999 reflects near-certainty (counterparty risk on a 
 
 **1. EUR Receipt (09:30 CET):**
 \`\`\`
-Amount:    €1,000,000
+Amount:    â‚¬1,000,000
 Method:    SWIFT MT202
 Reference: SWIFT-MT202-20260127-001
 \`\`\`
@@ -4268,7 +4411,7 @@ Reference: FEDWIRE-20260127-002
 Contracted Rate: 1.0850
 Settlement Rate: 1.0875
 Rate Difference: 0.0025
-Notional:        €1,000,000
+Notional:        â‚¬1,000,000
 Realized Gain:   $2,500.00
 \`\`\`
 
@@ -4282,7 +4425,7 @@ Credit: 4210 - Realized FX Gain    $2,500.00
 
 ## FX Settlement Risk
 
-FX trades carry **Herstatt risk**—the danger that you pay your currency but don't receive the other side. This famously occurred in 1974 when Herstatt Bank failed mid-settlement.
+FX trades carry **Herstatt risk**â€”the danger that you pay your currency but don't receive the other side. This famously occurred in 1974 when Herstatt Bank failed mid-settlement.
 
 FORAY timestamps both legs precisely:
 - EUR received: 09:30 CET (14:30 UTC)
@@ -4315,10 +4458,10 @@ Treasury operations depend on accurate nostro reconciliation:
 
 | Account | Opening | Receipt | Payment | Closing |
 |---------|---------|---------|---------|---------|
-| EUR Nostro | €X | +€1,000,000 | — | €X+1M |
-| USD Nostro | $Y | — | -$1,085,000 | $Y-1.085M |
+| EUR Nostro | â‚¬X | +â‚¬1,000,000 | â€” | â‚¬X+1M |
+| USD Nostro | $Y | â€” | -$1,085,000 | $Y-1.085M |
 
-FORAY provides the audit trail that links FX trades to nostro movements—critical for cash management and bank reconciliation.
+FORAY provides the audit trail that links FX trades to nostro movementsâ€”critical for cash management and bank reconciliation.
 
 ---
 
@@ -4382,7 +4525,7 @@ On Friday, Alpha delivers $51 million in Treasuries and receives $50 million in 
 
 ## How FORAY Models This Transaction
 
-Repos are secured financing transactions—essentially collateralized loans with two legs (opening and closing). FORAY captures the full lifecycle including collateral, daily accruals, and margin monitoring.
+Repos are secured financing transactionsâ€”essentially collateralized loans with two legs (opening and closing). FORAY captures the full lifecycle including collateral, daily accruals, and margin monitoring.
 
 ### The Arrangement (Repo Agreement)
 
@@ -4409,7 +4552,7 @@ The repo contract specifies all terms:
 | Market Value | $51,020,000 |
 | After Haircut | $50,000,000 |
 
-The 2% haircut means Alpha must pledge $51M in Treasuries to borrow $50M—providing the lender with a cushion against market movements.
+The 2% haircut means Alpha must pledge $51M in Treasuries to borrow $50Mâ€”providing the lender with a cushion against market movements.
 
 **Legal Framework:**
 - SIFMA Master Repurchase Agreement
@@ -4428,7 +4571,7 @@ Days:          1
 Interest:      $7,361.11
 \`\`\`
 
-Formula: $50M × 5.30% × 1/360 = $7,361.11
+Formula: $50M Ã— 5.30% Ã— 1/360 = $7,361.11
 
 **2. Day 2-3 Interest Accrual (Weekend):**
 \`\`\`
@@ -4440,7 +4583,7 @@ Days:          2
 Interest:      $14,722.22
 \`\`\`
 
-Weekend accrues at Friday's SOFR rate—the market is closed.
+Weekend accrues at Friday's SOFR rateâ€”the market is closed.
 
 **3. Collateral Valuation:**
 \`\`\`
@@ -4453,7 +4596,7 @@ Excess Collateral: $1,020,000
 Margin Call:       Not Required
 \`\`\`
 
-The collateral is worth 2.04% more than the loan—no margin call needed.
+The collateral is worth 2.04% more than the loanâ€”no margin call needed.
 
 ### The Anticipation (Maturity)
 
@@ -4510,13 +4653,13 @@ SOFR (Secured Overnight Financing Rate) replaced LIBOR as the primary USD benchm
 | Manipulation risk | High (scandal) | Low (transaction-based) |
 | Credit component | Yes | No |
 
-FORAY captures the SOFR fixing date and rate for each accrual period—critical for audit trail and rate verification.
+FORAY captures the SOFR fixing date and rate for each accrual periodâ€”critical for audit trail and rate verification.
 
 ---
 
 ## Repo Market Mechanics
 
-The repo market is enormous—over $4 trillion daily in the US alone. It's how:
+The repo market is enormousâ€”over $4 trillion daily in the US alone. It's how:
 - Dealers finance inventory
 - Money market funds earn returns
 - The Fed implements monetary policy
@@ -4628,7 +4771,7 @@ CloudTech Solutions just closed a major deal. Their sales rep landed MegaCorp In
 | Training Package | $15,000 | Training |
 | **Total Deal** | **$285,000** | |
 
-The opportunity moved through Salesforce stages—Qualification, Proposal, Negotiation—and finally **Closed Won** on January 20, 2026.
+The opportunity moved through Salesforce stagesâ€”Qualification, Proposal, Negotiationâ€”and finally **Closed Won** on January 20, 2026.
 
 Now the real work begins: recognizing revenue properly under ASC 606.
 
@@ -4636,7 +4779,7 @@ Now the real work begins: recognizing revenue properly under ASC 606.
 
 ## How FORAY Models This Transaction
 
-This transaction demonstrates FORAY's **CRM integration pattern**—linking Salesforce opportunity data to the financial audit trail. Every Salesforce record ID is captured, creating a bridge between CRM and accounting.
+This transaction demonstrates FORAY's **CRM integration pattern**â€”linking Salesforce opportunity data to the financial audit trail. Every Salesforce record ID is captured, creating a bridge between CRM and accounting.
 
 ### The Arrangement (Salesforce Opportunity)
 
@@ -4662,7 +4805,7 @@ Owner:       005Dn00000JKL012MNO
 Quote:       0Q0Dn00000PQR345STU
 \`\`\`
 
-These IDs create an unbreakable link between FORAY and Salesforce—auditors can trace from the blockchain anchor back to the original CRM record.
+These IDs create an unbreakable link between FORAY and Salesforceâ€”auditors can trace from the blockchain anchor back to the original CRM record.
 
 **Product Lines:**
 
@@ -4686,7 +4829,7 @@ Days in January:       12 (of 31)
 January Revenue:       $  2,419.35
 \`\`\`
 
-This uses the formula \`hash_asc606_subscription\`—time-based recognition over the contract period.
+This uses the formula \`hash_asc606_subscription\`â€”time-based recognition over the contract period.
 
 **2. Implementation Revenue (Milestone-based):**
 \`\`\`
@@ -4697,7 +4840,7 @@ Revenue Recognized:    $13,500
 \`\`\`
 
 Implementation uses **percentage of completion** based on milestones:
-- Milestone 1: Requirements & Design (30%) ✓
+- Milestone 1: Requirements & Design (30%) âœ“
 - Milestone 2: Development & Configuration (50%)
 - Milestone 3: Go-Live & Acceptance (20%)
 
@@ -4709,7 +4852,7 @@ Attendees:        25
 Revenue:          $15,000 (100%)
 \`\`\`
 
-Training is recognized when delivered—a single point-in-time event.
+Training is recognized when deliveredâ€”a single point-in-time event.
 
 **4. Accounts Receivable (Invoice):**
 \`\`\`
@@ -4766,11 +4909,11 @@ Credit: 1200 - Accounts Receivable   $135,000
 Revenue recognition under ASC 606 is complex:
 
 ### Five-Step Model
-1. **Identify the contract** → Salesforce opportunity
-2. **Identify performance obligations** → License, implementation, training
-3. **Determine transaction price** → $285,000
-4. **Allocate to obligations** → Based on standalone selling prices
-5. **Recognize when satisfied** → Over time or point-in-time
+1. **Identify the contract** â†’ Salesforce opportunity
+2. **Identify performance obligations** â†’ License, implementation, training
+3. **Determine transaction price** â†’ $285,000
+4. **Allocate to obligations** â†’ Based on standalone selling prices
+5. **Recognize when satisfied** â†’ Over time or point-in-time
 
 FORAY captures each step in the component structure.
 
@@ -4794,17 +4937,17 @@ The Salesforce integration enables end-to-end traceability:
 
 \`\`\`
 Salesforce Opportunity (006Dn00000ABC123XYZ)
-         ↓
+         â†“
 FORAY Arrangement (ARR_SF_OPP_ENTERPRISE_2026)
-         ↓
+         â†“
 Revenue Accruals (subscription, services, training)
-         ↓
+         â†“
 Invoice Accrual (ACC_AR_INVOICE_JAN2026)
-         ↓
+         â†“
 Payment Action (ACT_PAYMENT_RECEIVED_001234)
 \`\`\`
 
-Every step references the Salesforce Opportunity ID—auditors can trace from payment back to the original sales opportunity in seconds.
+Every step references the Salesforce Opportunity IDâ€”auditors can trace from payment back to the original sales opportunity in seconds.
 
 ---
 
@@ -4841,11 +4984,11 @@ This sample demonstrates the pattern for FORAY's planned ERP adapters:
 
 \`\`\`
 Source System (Salesforce)
-         ↓
+         â†“
 Adapter (extracts + transforms)
-         ↓
+         â†“
 FORAY JSON
-         ↓
+         â†“
 Blockchain Anchor
 \`\`\`
 
@@ -4881,7 +5024,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
 
 **Scenario**: Acme Manufacturing pays GlobalParts Inc for three invoices ($15K + $22.5K + $10K = $47,500) in a single ACH batch payment.
 
-**Key v4.1 Feature**: Many-to-many references — one Action settles three Anticipations.
+**Key v4.1 Feature**: Many-to-many references â€” one Action settles three Anticipations.
 
 **Structure**:
 - **Arrangement**: Master Service Agreement (2-year, $500K)
@@ -4895,9 +5038,9 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         title: "Cash Sale: Action-Only Entry Point",
         content: `## Summary
 
-**Scenario**: Coffee shop morning rush — walk-in customer pays $134.50 cash for office order (lattes, muffins, coffee, bagels).
+**Scenario**: Coffee shop morning rush â€” walk-in customer pays $134.50 cash for office order (lattes, muffins, coffee, bagels).
 
-**Key v4.1 Feature**: Flexible entry point — transaction starts at Action with no Arrangement needed.
+**Key v4.1 Feature**: Flexible entry point â€” transaction starts at Action with no Arrangement needed.
 
 **Structure**:
 - **Arrangements**: Empty \`[]\`
@@ -4905,7 +5048,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
 - **Anticipations**: Empty \`[]\`
 - **Actions**: Single cash receipt with line items
 
-**Why It Matters**: SMBs can use FORAY without creating artificial contracts. A cash sale is just that — immediate exchange, no credit terms.`
+**Why It Matters**: SMBs can use FORAY without creating artificial contracts. A cash sale is just that â€” immediate exchange, no credit terms.`
       },
       autoLoan: {
         title: "Auto Loan: Full 4-Component Chain",
@@ -4929,7 +5072,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
 
 **Scenario**: $100M mortgage-backed security with 3 tranches (AAA/A/BBB) distributes $2.49M monthly collections through strict payment waterfall.
 
-**Key v4.1 Feature**: Complex many-to-many — pool collections flow to multiple tranches with priority rules.
+**Key v4.1 Feature**: Complex many-to-many â€” pool collections flow to multiple tranches with priority rules.
 
 **Structure**:
 - **Arrangements**: 3 tranches (Senior, Mezzanine, Subordinate)
@@ -4943,17 +5086,17 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         title: "Energy PPA: Solar Power Purchase",
         content: `## Summary
 
-**Scenario**: SunPower Utilities buys 38,500 MWh of solar power from Morocco (plus 1,500 MWh curtailed) under a 20-year PPA at €43.18/MWh.
+**Scenario**: SunPower Utilities buys 38,500 MWh of solar power from Morocco (plus 1,500 MWh curtailed) under a 20-year PPA at â‚¬43.18/MWh.
 
-**Key v4.1 Feature**: Multiple accrual types — energy delivery, curtailment compensation, and RECs.
+**Key v4.1 Feature**: Multiple accrual types â€” energy delivery, curtailment compensation, and RECs.
 
 **Structure**:
 - **Arrangement**: 20-year Power Purchase Agreement
-- **Accruals**: Energy (€1.66M) + Curtailment (€55K) + RECs (€140K)
+- **Accruals**: Energy (â‚¬1.66M) + Curtailment (â‚¬55K) + RECs (â‚¬140K)
 - **Anticipation**: Expected payment
 - **Actions**: Cash payment (SWIFT) + REC transfer (registry)
 
-**Why It Matters**: Energy transactions involve physical delivery, grid constraints, and environmental certificates — all captured in one structure.`
+**Why It Matters**: Energy transactions involve physical delivery, grid constraints, and environmental certificates â€” all captured in one structure.`
       },
       manufacturingWO: {
         title: "Manufacturing: BOM and Cost Allocation",
@@ -4977,7 +5120,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
 
 **Scenario**: Month-end depreciation for CNC machinery ($25K), vehicles ($3,750), and building ($17,083) = $45,833 total.
 
-**Key v4.1 Feature**: Accrual-only transaction — no Arrangement, Anticipation, or Action needed.
+**Key v4.1 Feature**: Accrual-only transaction â€” no Arrangement, Anticipation, or Action needed.
 
 **Structure**:
 - **Arrangements**: Empty \`[]\`
@@ -4985,13 +5128,13 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
 - **Anticipations**: Empty \`[]\`
 - **Actions**: Empty \`[]\`
 
-**Why It Matters**: Adjusting entries don't involve contracts or cash. FORAY models what actually happened — an accounting recognition, nothing more.`
+**Why It Matters**: Adjusting entries don't involve contracts or cash. FORAY models what actually happened â€” an accounting recognition, nothing more.`
       },
       fxSpot: {
         title: "FX Spot: Multi-Currency Settlement",
         content: `## Summary
 
-**Scenario**: Buy €1,000,000 / Sell $1,085,000 at spot rate 1.0850. T+2 settlement. Market moves to 1.0875 = $2,500 realized gain.
+**Scenario**: Buy â‚¬1,000,000 / Sell $1,085,000 at spot rate 1.0850. T+2 settlement. Market moves to 1.0875 = $2,500 realized gain.
 
 **Key v4.1 Feature**: Dual-currency flows with mark-to-market tracking.
 
@@ -5025,7 +5168,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
 
 **Scenario**: CloudTech closes $285K enterprise deal (3-year license $225K + implementation $45K + training $15K). Customer pays early, takes 2% discount.
 
-**Key v4.1 Feature**: CRM integration — Salesforce record IDs captured for end-to-end traceability.
+**Key v4.1 Feature**: CRM integration â€” Salesforce record IDs captured for end-to-end traceability.
 
 **Structure**:
 - **Arrangement**: Salesforce Opportunity with product lines
@@ -5042,18 +5185,18 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
       batchPayment: {
         arrangements: "Master Service Agreement (MSA) between Acme & GlobalParts. 2-year contract covering up to $500K in purchases. Terms: Net 30, 2% early payment discount within 10 days, 1.5% late penalty. This is the contractual foundation all invoices reference.",
         accruals: "Three invoice obligations, each referencing the MSA. Each accrual captures: invoice number, date, due date, line items, and accounting entry (Debit: Raw Materials, Credit: Accounts Payable). Uses FixedAmount computation since totals are predetermined.",
-        anticipations: "Scheduled batch payment referencing ALL THREE accruals — this demonstrates v4.1's many-to-many feature. Specifies expected amount ($47,500), planned date, and payment method (ACH).",
+        anticipations: "Scheduled batch payment referencing ALL THREE accruals â€” this demonstrates v4.1's many-to-many feature. Specifies expected amount ($47,500), planned date, and payment method (ACH).",
         actions: "Single ACH payment with ALLOCATIONS ARRAY showing exact distribution: $15K to invoice 001, $22.5K to invoice 002, $10K to invoice 003. This allocation tracking is critical for auditors matching payments to invoices."
       },
       cashSale: {
         arrangements: null,
         accruals: null,
         anticipations: null,
-        actions: "Complete POS transaction capturing everything: register ID, cashier, 6 line items with SKU/price, subtotal ($124.25), tax calculation (8.25% = $10.25), total ($134.50), cash tendered ($140), change given ($5.50). No contract needed — demonstrates v4.1 flexible entry point."
+        actions: "Complete POS transaction capturing everything: register ID, cashier, 6 line items with SKU/price, subtotal ($124.25), tax calculation (8.25% = $10.25), total ($134.50), cash tendered ($140), change given ($5.50). No contract needed â€” demonstrates v4.1 flexible entry point."
       },
       autoLoan: {
         arrangements: "Retail Installment Contract with PRIVACY-PROTECTED details: borrower name hashed, VIN hashed. Captures: principal ($35,000), APR (5.49%), term (60 months), monthly payment ($667.33), collateral description.",
-        accruals: "Monthly interest calculations using formula: Principal × (APR/12). February: $163.25 on $35K balance. March: $145.32 on reduced balance. Formula ID is hashed for privacy while auditors can verify the math.",
+        accruals: "Monthly interest calculations using formula: Principal Ã— (APR/12). February: $163.25 on $35K balance. March: $145.32 on reduced balance. Formula ID is hashed for privacy while auditors can verify the math.",
         anticipations: "60-month payment schedule. Each anticipation shows: expected date (1st of month), amount ($667.33), breakdown (principal vs interest portions). Creates the amortization schedule auditors need.",
         actions: "Two action types: (1) Disbursement of $35K to dealer, (2) Monthly payment receipts. Each payment shows actual vs expected, enabling variance tracking if borrower pays early/late or different amounts."
       },
@@ -5061,17 +5204,17 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         arrangements: "THREE TRANCHES as separate arrangements: Class A (AAA, $72M, 4.25%), Class B (A, $14.25M, 5.75%), Class C (BBB, $4.75M, 8.25%). Each captures credit rating, subordination level, and coupon rate.",
         accruals: "FOUR calculations: (1) Pool collections from 450 mortgages ($2.49M), (2-4) Interest due to each tranche. Demonstrates how borrower payments flow into the structure before waterfall distribution.",
         anticipations: "9-STEP WATERFALL PRIORITY: 1) Trustee fees, 2) Servicing fees, 3) Class A interest, 4) Class A principal, 5) Class B interest, 6) Class B principal, 7) Class C interest, 8) Class C principal, 9) Residual to equity.",
-        actions: "Single distribution action with ALLOCATIONS showing interest/principal breakdown per tranche. This is the transparency 2008 lacked — every dollar traceable from borrower payment to investor distribution."
+        actions: "Single distribution action with ALLOCATIONS showing interest/principal breakdown per tranche. This is the transparency 2008 lacked â€” every dollar traceable from borrower payment to investor distribution."
       },
       energyPPA: {
-        arrangements: "20-year Power Purchase Agreement: 420,000 MWh/year at €42.50/MWh with 1.5% annual escalation. Includes curtailment compensation (85% of foregone revenue) and Renewable Energy Certificates (RECs) at €3.50 each.",
-        accruals: "THREE ACCRUAL TYPES: (1) Energy delivery: 38,500 MWh × €43.18 = €1.66M, (2) Curtailment: 1,500 MWh × €43.18 × 85% = €55K, (3) RECs: 40,000 certificates × €3.50 = €140K. Shows how physical delivery creates financial obligations.",
+        arrangements: "20-year Power Purchase Agreement: 420,000 MWh/year at â‚¬42.50/MWh with 1.5% annual escalation. Includes curtailment compensation (85% of foregone revenue) and Renewable Energy Certificates (RECs) at â‚¬3.50 each.",
+        accruals: "THREE ACCRUAL TYPES: (1) Energy delivery: 38,500 MWh Ã— â‚¬43.18 = â‚¬1.66M, (2) Curtailment: 1,500 MWh Ã— â‚¬43.18 Ã— 85% = â‚¬55K, (3) RECs: 40,000 certificates Ã— â‚¬3.50 = â‚¬140K. Shows how physical delivery creates financial obligations.",
         anticipations: "Expected payment combining all three accrual types. Notes payment terms and that REC transfer happens separately from cash settlement.",
-        actions: "TWO SETTLEMENT TYPES: (1) Cash payment via SWIFT for energy + curtailment (€1.72M), (2) Registry transfer of 40,000 RECs via EU Guarantees of Origin system. Demonstrates non-cash settlement tracking."
+        actions: "TWO SETTLEMENT TYPES: (1) Cash payment via SWIFT for energy + curtailment (â‚¬1.72M), (2) Registry transfer of 40,000 RECs via EU Guarantees of Origin system. Demonstrates non-cash settlement tracking."
       },
       manufacturingWO: {
-        arrangements: "Work Order #500 with BILL OF MATERIALS: 5 components (cylinder body $85, piston assembly $45, seal kit $12.50, control valve $28×2, housing $65). BOM version tracked for engineering change control.",
-        accruals: "THREE COST ELEMENTS: (1) Raw materials: BOM explosion × 100 units = $26,350, (2) Direct labor: 245 hours across 4 operations (machining, assembly, testing, inspection) × $52/hr = $12,740, (3) Overhead: 245 hours × $35.75/hr = $8,759.",
+        arrangements: "Work Order #500 with BILL OF MATERIALS: 5 components (cylinder body $85, piston assembly $45, seal kit $12.50, control valve $28Ã—2, housing $65). BOM version tracked for engineering change control.",
+        accruals: "THREE COST ELEMENTS: (1) Raw materials: BOM explosion Ã— 100 units = $26,350, (2) Direct labor: 245 hours across 4 operations (machining, assembly, testing, inspection) Ã— $52/hr = $12,740, (3) Overhead: 245 hours Ã— $35.75/hr = $8,759.",
         anticipations: "Expected transfer of 100 finished goods to inventory. Includes target completion date, expected unit cost ($478.49), and quality requirements (AS9100D aerospace standard).",
         actions: "Finished goods receipt: 100 units transferred with LOT NUMBER for traceability, quality certification reference, 100% yield (0 scrap). Total cost captured: $47,848.75."
       },
@@ -5082,9 +5225,9 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         actions: null
       },
       fxSpot: {
-        arrangements: "FX spot contract: Buy €1M / Sell $1.085M at rate 1.0850. T+2 settlement. Nostro accounts specified: EUR at Deutsche Bank Frankfurt, USD at JPMorgan Chase New York.",
+        arrangements: "FX spot contract: Buy â‚¬1M / Sell $1.085M at rate 1.0850. T+2 settlement. Nostro accounts specified: EUR at Deutsche Bank Frankfurt, USD at JPMorgan Chase New York.",
         accruals: "MARK-TO-MARKET valuations: Trade date (T+0): P&L = $0 (at trade rate). T+1: Market moves to 1.0875, creating $2,500 unrealized gain. Daily valuation required for trading book accounting.",
-        anticipations: "TWO SETTLEMENT LEGS as separate anticipations: (1) EUR receipt of €1,000,000, (2) USD payment of $1,085,000. Both expected T+2. This split captures Herstatt risk — the 5-hour gap between EUR and USD settlement.",
+        anticipations: "TWO SETTLEMENT LEGS as separate anticipations: (1) EUR receipt of â‚¬1,000,000, (2) USD payment of $1,085,000. Both expected T+2. This split captures Herstatt risk â€” the 5-hour gap between EUR and USD settlement.",
         actions: "THREE SETTLEMENTS: (1) EUR received via SWIFT from Deutsche Bank, (2) USD paid via Fedwire to JPMorgan, (3) P&L realization booking $2,500 gain. Variance tracking shows rate movement impact."
       },
       overnightRepo: {
@@ -5096,8 +5239,15 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
       salesforceOpp: {
         arrangements: "Salesforce Opportunity with RECORD IDs: Opportunity 006Dn..., Account 001Dn..., Contact 003Dn..., Quote 0Q0Dn.... Three products: 3-year license ($225K), implementation ($45K), training ($15K). Links CRM to financial record.",
         accruals: "ASC 606 REVENUE RECOGNITION: (1) Subscription: $225K recognized over 36 months ($2,419/month pro-rata), (2) Implementation: $45K recognized at milestones (30% = $13.5K at kickoff), (3) Training: $15K recognized immediately upon delivery. Plus AR invoice accrual of $135K.",
-        anticipations: "Expected payment within 30 days with 2% EARLY PAYMENT DISCOUNT option. This creates variance potential — customer may pay $135K (full) or $132.3K (with discount).",
+        anticipations: "Expected payment within 30 days with 2% EARLY PAYMENT DISCOUNT option. This creates variance potential â€” customer may pay $135K (full) or $132.3K (with discount).",
         actions: "Payment received: Customer took early discount, paid $132,300. VARIANCE captured: Expected $135K, Actual $132.3K, Difference -$2,700 with explanation 'Early payment discount taken.'"
+      },
+      manukaHoneyProvenance: {
+        arrangements: "TWO ARRANGEMENTS establishing authenticity chain: (1) UMF License Agreement with UMFHA (NZ official certifier), (2) Batch Production Record defining 500kg of UMF 15+ Manuka Honey with hive locations, harvest dates, and raw honey analysis. Forms the foundation for all certifications.",
+        accruals: "Laboratory analysis from IANZ-accredited Analytica Laboratories. MGO: 514mg/kg, Leptosperin: 185mg/kg, DNA-verified monofloral Manuka. Formula-based UMF grade calculation confirmed at 15+. This scientific testing creates the basis for certification claims.",
+        anticipations: "TWO EXPECTED OUTCOMES: (1) UMF certification issuance upon passing lab analysis, (2) MPI export approval enabling international sales. Both anticipations reference the lab analysis accrual as their trigger condition.",
+        actions: "UMF certificate issuance action recording certificate number UMF-BATCH-2026-00847 with QR verification URL. This completes the internal certification before export approval.",
+        attestations: "THREE-TIER ATTESTATION CHAIN demonstrating trust hierarchy: (1) ATT_LAB_ANALYSIS: Analytica Labs (IANZ/ISO 17025 accredited) attests to chemical analysis results, (2) ATT_UMF_CERTIFICATION: UMF Honey Association (NZ trademark owner) certifies UMF 15+ grade based on lab attestation, (3) ATT_MPI_EXPORT: Ministry for Primary Industries (NZ government) approves export to China, UK, USA, Japan based on UMF certification. Each attestation references its predecessor â€” creating an immutable chain of trust from lab bench to export dock."
       }
     };
 
@@ -5168,6 +5318,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         accruals: false,
         anticipations: false,
         actions: false,
+        attestations: false,
         privacy: false
       });
       
@@ -5222,6 +5373,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         else if (componentId.startsWith('ACC_')) setExpandedSections(prev => ({ ...prev, accruals: true }));
         else if (componentId.startsWith('ANT_')) setExpandedSections(prev => ({ ...prev, anticipations: true }));
         else if (componentId.startsWith('ACT_')) setExpandedSections(prev => ({ ...prev, actions: true }));
+        else if (componentId.startsWith('ATT_')) setExpandedSections(prev => ({ ...prev, attestations: true }));
         
         // Small delay to allow section to expand before scrolling
         setTimeout(() => {
@@ -5417,7 +5569,8 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
                 arrangements: transactionData.arrangements?.length || 0,
                 accruals: transactionData.accruals?.length || 0,
                 anticipations: transactionData.anticipations?.length || 0,
-                actions: transactionData.actions?.length || 0
+                actions: transactionData.actions?.length || 0,
+                attestations: transactionData.attestations?.length || 0
               }
             },
             anchored_by: `Wallet: ${walletAddress.substring(0, 20)}...`,
@@ -5459,7 +5612,7 @@ Schema Version: ${anchorResult.foray.schema_version}
 Merkle Root: ${anchorResult.foray.merkle_root}
 Entity: ${anchorResult.foray.entity}
 Total Value: ${anchorResult.foray.total_value} ${anchorResult.foray.currency}
-Components: ${anchorResult.foray.component_summary.arrangements} Arrangements, ${anchorResult.foray.component_summary.accruals} Accruals, ${anchorResult.foray.component_summary.anticipations} Anticipations, ${anchorResult.foray.component_summary.actions} Actions
+Components: ${anchorResult.foray.component_summary.arrangements} Arrangements, ${anchorResult.foray.component_summary.accruals} Accruals, ${anchorResult.foray.component_summary.anticipations} Anticipations, ${anchorResult.foray.component_summary.actions} Actions${anchorResult.foray.component_summary.attestations > 0 ? `, ${anchorResult.foray.component_summary.attestations} Attestations` : ''}
 
 Network: ${anchorResult.network}
 Anchored By: ${anchorResult.anchored_by}`;
@@ -5618,7 +5771,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               className="text-xs flex items-center gap-1"
                               style={{ color: '#7C3AED' }}
                             >
-                              <DollarSign className="w-3 h-3" /> Get free test KAS from faucet →
+                              <DollarSign className="w-3 h-3" /> Get free test KAS from faucet â†’
                             </a>
                           </div>
                         )}
@@ -5778,6 +5931,12 @@ Anchored By: ${anchorResult.anchored_by}`;
                         <span className="text-sm" style={{ color: forayColors.gray600 }}>Actions:</span>
                         <span className="font-bold" style={{ color: forayColors.successGreen }}>{validationResult.componentCounts.actions}</span>
                       </div>
+                      {validationResult.componentCounts.attestations > 0 && (
+                        <div className="flex items-center gap-2 px-3 py-1.5 rounded" style={{ backgroundColor: '#8B5CF610' }}>
+                          <span className="text-sm" style={{ color: forayColors.gray600 }}>Attestations:</span>
+                          <span className="font-bold" style={{ color: '#8B5CF6' }}>{validationResult.componentCounts.attestations}</span>
+                        </div>
+                      )}
                       {validationResult.entryPointType && (
                         <div className="flex items-center gap-2 px-3 py-1.5 rounded" style={{ backgroundColor: '#f3e8ff' }}>
                           <span className="text-sm" style={{ color: forayColors.gray600 }}>Entry Point:</span>
@@ -5791,7 +5950,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     <div className="mt-4 p-3 rounded-lg" style={{ backgroundColor: '#fee2e2' }}>
                       <p className="font-medium text-sm mb-2" style={{ color: '#b91c1c' }}>Validation Errors:</p>
                       <ul className="text-sm space-y-1" style={{ color: '#b91c1c' }}>
-                        {validationResult.errors.map((err, idx) => <li key={idx}>• {err}</li>)}
+                        {validationResult.errors.map((err, idx) => <li key={idx}>â€¢ {err}</li>)}
                       </ul>
                     </div>
                   )}
@@ -6292,6 +6451,158 @@ Anchored By: ${anchorResult.anchored_by}`;
                   </div>
                 )}
 
+                {/* Attestations */}
+                {transactionData.attestations?.length > 0 && (
+                  <div>
+                    <SectionHeader 
+                      title="Attestations" 
+                      icon={Shield} 
+                      isExpanded={expandedSections.attestations} 
+                      onToggle={() => toggleSection('attestations')} 
+                      count={transactionData.attestations.length}
+                      badge="Extension"
+                      action={currentSampleKey && componentTips[currentSampleKey]?.attestations && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setShowComponentTip(showComponentTip === 'attestations' ? null : 'attestations');
+                          }}
+                          className="p-1.5 rounded-lg no-print"
+                          style={{ 
+                            backgroundColor: showComponentTip === 'attestations' ? '#8B5CF6' : 'transparent',
+                            color: showComponentTip === 'attestations' ? 'white' : '#8B5CF6'
+                          }}
+                          data-tooltip="About Attestations in this sample"
+                        >
+                          <Info className="w-6 h-6" />
+                        </button>
+                      )}
+                    />
+                    {showComponentTip === 'attestations' && currentSampleKey && componentTips[currentSampleKey]?.attestations && (
+                      <div className="mt-2 p-4 rounded-lg border-l-4 no-print" style={{ backgroundColor: '#8B5CF608', borderColor: '#8B5CF6' }}>
+                        <div className="flex items-start gap-3">
+                          <Info className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: '#8B5CF6' }} />
+                          <div>
+                            <p className="text-sm font-semibold mb-1" style={{ color: forayColors.secondaryNavy }}>About Attestations in this sample</p>
+                            <p className="text-sm" style={{ color: forayColors.gray600 }}>{componentTips[currentSampleKey].attestations}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {expandedSections.attestations && (
+                      <div className="mt-2 space-y-3">
+                        {transactionData.attestations.map((att, idx) => {
+                          const core = getForayCore(att);
+                          const outcomeColors = {
+                            certified: { bg: '#d1fae5', text: '#047857' },
+                            approved: { bg: '#dbeafe', text: '#1d4ed8' },
+                            verified: { bg: '#e0e7ff', text: '#4338ca' },
+                            rejected: { bg: '#fee2e2', text: '#b91c1c' },
+                            pending: { bg: '#fef3c7', text: '#b45309' },
+                            expired: { bg: '#f3f4f6', text: '#6b7280' }
+                          };
+                          const outcomeStyle = outcomeColors[core.outcome?.toLowerCase()] || outcomeColors.pending;
+                          
+                          return (
+                            <Card key={idx} id={`component-${att.id}`}>
+                              <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-3">
+                                  <span className="px-3 py-1 text-sm font-mono rounded" style={{ backgroundColor: '#8B5CF615', color: '#8B5CF6' }}>{att.id}</span>
+                                  <span className="text-sm font-medium" style={{ color: forayColors.secondaryNavy }}>{core.attestation_type}</span>
+                                  <span className="px-2 py-0.5 text-xs rounded capitalize" style={{ backgroundColor: outcomeStyle.bg, color: outcomeStyle.text }}>{core.outcome}</span>
+                                </div>
+                                {core.attestation_date && (
+                                  <span className="text-sm" style={{ color: forayColors.gray600 }}>Attested: {new Date(core.attestation_date).toLocaleDateString()}</span>
+                                )}
+                              </div>
+                              
+                              {/* Attestor Info */}
+                              <div className="p-3 rounded-lg mb-4" style={{ backgroundColor: '#8B5CF610' }}>
+                                <div className="flex items-center gap-2 mb-2">
+                                  <Award className="w-4 h-4" style={{ color: '#8B5CF6' }} />
+                                  <span className="text-sm font-semibold" style={{ color: forayColors.secondaryNavy }}>Attestor</span>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                  <div>
+                                    <p className="text-xs" style={{ color: forayColors.gray600 }}>Name</p>
+                                    <p className="text-sm font-medium" style={{ color: forayColors.textDark }}>{core.attestor}</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-xs" style={{ color: forayColors.gray600 }}>Type</p>
+                                    <p className="text-sm font-medium capitalize" style={{ color: forayColors.textDark }}>{core.attestor_type?.replace(/_/g, ' ')}</p>
+                                  </div>
+                                </div>
+                                {core.attestor_credentials?.length > 0 && (
+                                  <div className="mt-2">
+                                    <p className="text-xs mb-1" style={{ color: forayColors.gray600 }}>Credentials</p>
+                                    <div className="flex flex-wrap gap-1">
+                                      {core.attestor_credentials.map((cred, cIdx) => (
+                                        <span key={cIdx} className="px-2 py-0.5 text-xs rounded" style={{ backgroundColor: '#f3e8ff', color: '#7c3aed' }}>
+                                          {cred.replace(/_/g, ' ')}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                              
+                              {/* Subject References */}
+                              {core.subject_refs?.length > 0 && (
+                                <div className="mb-3">
+                                  <p className="text-xs font-medium mb-1.5" style={{ color: forayColors.gray600 }}>Subject References ({core.subject_refs.length})</p>
+                                  <div className="flex flex-wrap gap-1.5">
+                                    {core.subject_refs.map((ref, rIdx) => {
+                                      let refType = 'arrangement';
+                                      if (ref.startsWith('ACC_')) refType = 'accrual';
+                                      else if (ref.startsWith('ANT_')) refType = 'anticipation';
+                                      else if (ref.startsWith('ACT_')) refType = 'action';
+                                      else if (ref.startsWith('ATT_')) refType = 'attestation';
+                                      return <RefBadge key={rIdx} refId={ref} refType={refType} onNavigate={scrollToComponent} />;
+                                    })}
+                                  </div>
+                                </div>
+                              )}
+                              
+                              {/* Validity Period */}
+                              {core.validity_period && (
+                                <div className="mb-4 p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
+                                  <p className="text-xs font-medium mb-1" style={{ color: forayColors.gray600 }}>Validity Period</p>
+                                  <div className="flex items-center gap-4 text-sm">
+                                    <span><strong>From:</strong> {core.validity_period.start}</span>
+                                    <span><strong>To:</strong> {core.validity_period.end}</span>
+                                  </div>
+                                </div>
+                              )}
+                              
+                              {/* Evidence */}
+                              {core.evidence_hash && (
+                                <div className="mb-4">
+                                  <p className="text-xs font-medium mb-1" style={{ color: forayColors.gray600 }}>Evidence</p>
+                                  <div className="p-2 rounded text-sm" style={{ backgroundColor: forayColors.bgLight }}>
+                                    <div className="flex justify-between items-center">
+                                      <span className="font-mono text-xs" style={{ color: forayColors.textDark }}>{core.evidence_hash}</span>
+                                      <span className="px-2 py-0.5 text-xs rounded" style={{ backgroundColor: core.evidence_location === 'on-chain' ? '#d1fae5' : '#fef3c7', color: core.evidence_location === 'on-chain' ? '#047857' : '#b45309' }}>
+                                        {core.evidence_location || 'off-chain'}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                              
+                              {/* Attestation-specific details */}
+                              {renderObjectAsTable(core.analysis_summary, 'Analysis Summary')}
+                              {renderObjectAsTable(core.certificate_details, 'Certificate Details')}
+                              {renderObjectAsTable(core.export_details, 'Export Details')}
+                              
+                              <DependencyGraph dependencies={core.dependencies} onNavigate={scrollToComponent} />
+                            </Card>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Privacy & Security */}
                 {transactionData.privacy_metadata && (
                   <div>
@@ -6355,7 +6666,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                       {/* Introduction */}
                       <div className="p-4 rounded-lg" style={{ backgroundColor: `${forayColors.primaryTeal}10` }}>
                         <p className="text-sm" style={{ color: forayColors.secondaryNavy }}>
-                          <strong>FORAY Protocol</strong> creates immutable, tamper-proof audit trails of your ERP transactions that regulators, auditors, and forensic investigators can trust—without exposing your competitive secrets. Each version adds capabilities while maintaining backward compatibility.
+                          <strong>FORAY Protocol</strong> creates immutable, tamper-proof audit trails of your ERP transactions that regulators, auditors, and forensic investigators can trustâ€”without exposing your competitive secrets. Each version adds capabilities while maintaining backward compatibility.
                         </p>
                       </div>
                       
@@ -6374,7 +6685,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               Introduced the core 4-component transaction model that forms the foundation of all FORAY transactions.
                             </p>
                             <div className="grid grid-cols-2 gap-2 text-xs">
-                              <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>4-Component Model (A→A→A→A)</span></div>
+                              <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>4-Component Model (Aâ†’Aâ†’Aâ†’A)</span></div>
                               <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>Basic blockchain anchoring</span></div>
                               <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>Simple hash verification</span></div>
                               <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>Transaction dependency tracking</span></div>
@@ -6491,8 +6802,8 @@ Anchored By: ${anchorResult.anchored_by}`;
                             <tbody>
                               <tr>
                                 <td className="border p-2" style={{ borderColor: forayColors.gray400 }}>Arrangements Required</td>
-                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>✓</td>
-                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>✓</td>
+                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>âœ“</td>
+                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>âœ“</td>
                                 <td className="border p-2 text-center font-semibold" style={{ borderColor: forayColors.gray400, backgroundColor: `${forayColors.primaryTeal}10`, color: forayColors.primaryTeal }}>Optional</td>
                               </tr>
                               <tr>
@@ -6503,15 +6814,15 @@ Anchored By: ${anchorResult.anchored_by}`;
                               </tr>
                               <tr>
                                 <td className="border p-2" style={{ borderColor: forayColors.gray400 }}>foray_core Separation</td>
-                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>—</td>
-                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>✓</td>
-                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400, backgroundColor: `${forayColors.primaryTeal}10` }}>✓</td>
+                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>â€”</td>
+                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>âœ“</td>
+                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400, backgroundColor: `${forayColors.primaryTeal}10` }}>âœ“</td>
                               </tr>
                               <tr>
                                 <td className="border p-2" style={{ borderColor: forayColors.gray400 }}>Allocation Tracking</td>
-                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>—</td>
-                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>—</td>
-                                <td className="border p-2 text-center font-semibold" style={{ borderColor: forayColors.gray400, backgroundColor: `${forayColors.primaryTeal}10`, color: forayColors.primaryTeal }}>✓</td>
+                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>â€”</td>
+                                <td className="border p-2 text-center" style={{ borderColor: forayColors.gray400 }}>â€”</td>
+                                <td className="border p-2 text-center font-semibold" style={{ borderColor: forayColors.gray400, backgroundColor: `${forayColors.primaryTeal}10`, color: forayColors.primaryTeal }}>âœ“</td>
                               </tr>
                               <tr>
                                 <td className="border p-2" style={{ borderColor: forayColors.gray400 }}>Entry Points</td>
@@ -6568,7 +6879,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               <div className="flex gap-3">
                                 <span className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: forayColors.primaryTeal, color: 'white' }}>3</span>
                                 <div>
-                                  <strong>Proof Linkage:</strong> The Kaspa Transaction ID is linked to your FORAY transaction hash. This creates an unbreakable chain: <code className="px-1 rounded" style={{ backgroundColor: forayColors.bgLight }}>Kaspa TX ID → FORAY Hash → Original Transaction</code>
+                                  <strong>Proof Linkage:</strong> The Kaspa Transaction ID is linked to your FORAY transaction hash. This creates an unbreakable chain: <code className="px-1 rounded" style={{ backgroundColor: forayColors.bgLight }}>Kaspa TX ID â†’ FORAY Hash â†’ Original Transaction</code>
                                 </div>
                               </div>
                             </div>
@@ -6581,10 +6892,10 @@ Anchored By: ${anchorResult.anchored_by}`;
                                 <Database className="w-4 h-4" /> On Blockchain
                               </h4>
                               <ul className="text-xs space-y-1" style={{ color: forayColors.gray600 }}>
-                                <li>• Kaspa Transaction ID</li>
-                                <li>• Timestamp (block time)</li>
-                                <li>• Wallet address</li>
-                                <li>• Block height & hash</li>
+                                <li>â€¢ Kaspa Transaction ID</li>
+                                <li>â€¢ Timestamp (block time)</li>
+                                <li>â€¢ Wallet address</li>
+                                <li>â€¢ Block height & hash</li>
                               </ul>
                             </div>
                             <div className="p-4 border rounded-lg" style={{ borderColor: forayColors.secondaryNavy, backgroundColor: `${forayColors.secondaryNavy}05` }}>
@@ -6592,10 +6903,10 @@ Anchored By: ${anchorResult.anchored_by}`;
                                 <FileText className="w-4 h-4" /> In Your System
                               </h4>
                               <ul className="text-xs space-y-1" style={{ color: forayColors.gray600 }}>
-                                <li>• Complete FORAY JSON</li>
-                                <li>• Transaction hash (SHA-256)</li>
-                                <li>• Kaspa TX ID reference</li>
-                                <li>• Anchor metadata</li>
+                                <li>â€¢ Complete FORAY JSON</li>
+                                <li>â€¢ Transaction hash (SHA-256)</li>
+                                <li>â€¢ Kaspa TX ID reference</li>
+                                <li>â€¢ Anchor metadata</li>
                               </ul>
                             </div>
                           </div>
@@ -6609,10 +6920,10 @@ Anchored By: ${anchorResult.anchored_by}`;
                               This Transaction Review tool demonstrates blockchain anchoring using actual Kaspa testnet transactions. When you anchor a transaction:
                             </p>
                             <ul className="text-sm mt-2 space-y-1" style={{ color: forayColors.gray600 }}>
-                              <li>• <strong>Real Kaspa TX:</strong> A real transaction is submitted to Kaspa Testnet 10 or 11</li>
-                              <li>• <strong>Explorer Verification:</strong> Click "View on Explorer" to see the actual blockchain record</li>
-                              <li>• <strong>Test Funds Required:</strong> Get free test KAS from the faucet (link in network dropdown)</li>
-                              <li>• <strong>No FORAY Data in TX:</strong> The FORAY data itself is NOT embedded in the blockchain transaction—only the timestamp proof is on-chain</li>
+                              <li>â€¢ <strong>Real Kaspa TX:</strong> A real transaction is submitted to Kaspa Testnet 10 or 11</li>
+                              <li>â€¢ <strong>Explorer Verification:</strong> Click "View on Explorer" to see the actual blockchain record</li>
+                              <li>â€¢ <strong>Test Funds Required:</strong> Get free test KAS from the faucet (link in network dropdown)</li>
+                              <li>â€¢ <strong>No FORAY Data in TX:</strong> The FORAY data itself is NOT embedded in the blockchain transactionâ€”only the timestamp proof is on-chain</li>
                             </ul>
                             <p className="text-xs mt-3" style={{ color: '#b45309' }}>
                               <strong>Note:</strong> In production, you would store the Kaspa TX ID alongside your FORAY transaction in your audit system. The hash links them cryptographically.
@@ -6737,7 +7048,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                           const match = line.match(/- \*\*(.+?)\*\*:(.+)/);
                           if (match) return <p key={idx} className="text-sm ml-4 mb-1" style={{ color: forayColors.gray600 }}><strong>{match[1]}:</strong>{match[2]}</p>;
                         }
-                        if (line.startsWith('- ')) return <p key={idx} className="text-sm ml-4 mb-1" style={{ color: forayColors.gray600 }}>• {line.slice(2)}</p>;
+                        if (line.startsWith('- ')) return <p key={idx} className="text-sm ml-4 mb-1" style={{ color: forayColors.gray600 }}>â€¢ {line.slice(2)}</p>;
                         if (line.includes('**')) {
                           const parts = line.split(/\*\*(.*?)\*\*/g);
                           return <p key={idx} className="text-sm mb-2" style={{ color: forayColors.gray600 }}>{parts.map((part, pidx) => pidx % 2 === 1 ? <strong key={pidx}>{part}</strong> : part)}</p>;
@@ -6868,7 +7179,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     </p>
                     <div className="p-3 rounded-lg mb-4" style={{ backgroundColor: `${forayColors.errorRed}10` }}>
                       <p className="text-xs font-medium" style={{ color: forayColors.errorRed }}>
-                        ⚠️ <strong>Warning:</strong> Any blockchain anchoring on Mainnet will cost real KAS and create permanent, irreversible records.
+                        âš ï¸ <strong>Warning:</strong> Any blockchain anchoring on Mainnet will cost real KAS and create permanent, irreversible records.
                       </p>
                     </div>
                     <div className="p-3 rounded-lg mb-6" style={{ backgroundColor: forayColors.bgLight }}>
@@ -6929,14 +7240,14 @@ Anchored By: ${anchorResult.anchored_by}`;
                     {!currentNetwork.isTestnet && (
                       <div className="p-3 rounded-lg mb-4" style={{ backgroundColor: `${forayColors.errorRed}10` }}>
                         <p className="text-xs font-medium" style={{ color: forayColors.errorRed }}>
-                          ⚠️ <strong>Mainnet Transaction:</strong> This will use real KAS tokens and incur actual transaction fees.
+                          âš ï¸ <strong>Mainnet Transaction:</strong> This will use real KAS tokens and incur actual transaction fees.
                         </p>
                       </div>
                     )}
                     
                     <div className="p-3 rounded-lg mb-4" style={{ backgroundColor: `${forayColors.actionAmber}20` }}>
                       <p className="text-xs font-medium" style={{ color: '#b45309' }}>
-                        ⚠️ This action is <strong>permanent and irreversible</strong>. Ensure the transaction data is correct before proceeding.
+                        âš ï¸ This action is <strong>permanent and irreversible</strong>. Ensure the transaction data is correct before proceeding.
                       </p>
                     </div>
                     
@@ -7035,7 +7346,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                         className="mt-3 inline-flex items-center gap-2 text-sm px-4 py-2 rounded-lg no-print"
                         style={{ backgroundColor: `${forayColors.primaryTeal}10`, color: forayColors.primaryTeal }}
                       >
-                        <Link2 className="w-4 h-4" /> View on Kaspa Explorer →
+                        <Link2 className="w-4 h-4" /> View on Kaspa Explorer â†’
                       </a>
                     </div>
                     
@@ -7071,7 +7382,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     {/* Component Summary */}
                     <div className="mb-6">
                       <h3 className="text-sm font-bold mb-3" style={{ color: forayColors.secondaryNavy }}>Components Anchored</h3>
-                      <div className="grid grid-cols-4 gap-2">
+                      <div className={`grid gap-2 ${anchorResult.foray.component_summary.attestations > 0 ? 'grid-cols-5' : 'grid-cols-4'}`}>
                         <div className="p-3 rounded-lg text-center" style={{ backgroundColor: `${forayColors.primaryTeal}10` }}>
                           <p className="text-2xl font-bold" style={{ color: forayColors.primaryTeal }}>{anchorResult.foray.component_summary.arrangements}</p>
                           <p className="text-xs" style={{ color: forayColors.gray600 }}>Arrangements</p>
@@ -7088,6 +7399,12 @@ Anchored By: ${anchorResult.anchored_by}`;
                           <p className="text-2xl font-bold" style={{ color: forayColors.successGreen }}>{anchorResult.foray.component_summary.actions}</p>
                           <p className="text-xs" style={{ color: forayColors.gray600 }}>Actions</p>
                         </div>
+                        {anchorResult.foray.component_summary.attestations > 0 && (
+                          <div className="p-3 rounded-lg text-center" style={{ backgroundColor: '#8B5CF610' }}>
+                            <p className="text-2xl font-bold" style={{ color: '#8B5CF6' }}>{anchorResult.foray.component_summary.attestations}</p>
+                            <p className="text-xs" style={{ color: forayColors.gray600 }}>Attestations</p>
+                          </div>
+                        )}
                       </div>
                     </div>
                     

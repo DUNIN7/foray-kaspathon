@@ -2,12 +2,17 @@
 
 <!--
   File: FORAY_Supply_Chain_Provenance_Guide.md
-  Version: 1.0.0
+  Version: 1.1.0
   Created: 2026-01-29T20:00:00Z
-  Modified: 2026-01-29T20:00:00Z
+  Modified: 2026-02-01T00:30:00Z
   Author: Marvin Percival
   Email: marvinp@dunin7.com
   GitHub: DUNIN7/foray-kaspathon
+  
+  Change Log:
+    v1.1.0 (2026-02-01): Changed primary example from Olive Oil to Manuka Honey
+                         Updated terminology (tamper-evident)
+    v1.0.0 (2026-01-29): Initial version
 -->
 
 **Audience:** Supply chain executives, quality assurance managers, and brand protection teams evaluating blockchain for product provenance and authentication
@@ -16,7 +21,7 @@
 
 ## Executive Summary
 
-FORAY Protocol provides a privacy-preserving audit infrastructure designed for enterprise transaction recording on blockchain. For companies managing product provenance, authentication, and supply chain integrity, FORAY offers a framework for creating immutable, verifiable audit trails while protecting commercially sensitive data such as supplier relationships, pricing structures, and proprietary quality metrics.
+FORAY Protocol provides a privacy-preserving audit infrastructure designed for enterprise transaction recording on blockchain. For companies managing product provenance, authentication, and supply chain integrity, FORAY offers a framework for creating tamper-evident, verifiable audit trails while protecting commercially sensitive data such as supplier relationships, pricing structures, and proprietary quality metrics.
 
 This document outlines how FORAY addresses specific challenges in supply chain provenance and product authentication.
 
@@ -51,14 +56,15 @@ FORAY's 4-component model maps naturally to supply chain and provenance transact
 
 ### Example: Food Product Provenance
 
-A EUR 125K batch of DOP-certified Tuscan olive oil demonstrates FORAY's capabilities:
+A NZD 185K batch of UMF-certified New Zealand Manuka honey demonstrates FORAY's capabilities:
 
-- **2 Arrangements:** DOP certification agreement + batch production definition
-- **2 Accruals:** Laboratory analysis results + batch valuation
-- **1 Anticipation:** Distribution schedule to wholesale partners
-- **2 Actions:** Bottling completion + certificate issuance
+- **2 Arrangements:** UMF certification license + batch production definition
+- **2 Accruals:** Laboratory analysis results (MGO, Leptosperin, DNA) + batch valuation
+- **2 Anticipations:** Export distribution schedule + shelf life window
+- **2 Actions:** Jarring completion + UMF certificate issuance
+- **3 Attestations:** Laboratory analysis certification + UMF Association certification + MPI export approval
 
-Each component is cryptographically anchored to Kaspa with sub-second finality, creating an immutable audit trail without exposing supplier pricing or proprietary quality formulas.
+Each component is cryptographically anchored to Kaspa with sub-second finality, creating a tamper-evident audit trail without exposing supplier pricing or proprietary quality formulas.
 
 ### Example: Luxury Product Authentication
 
@@ -99,7 +105,8 @@ FORAY's privacy architecture protects this data:
 | Regulation | FORAY Support |
 |------------|---------------|
 | EU Food Safety Regulation | Timestamped production and analysis records |
-| FDA Food Safety Modernization Act | Immutable traceability from source to shelf |
+| FDA Food Safety Modernization Act | Tamper-evident traceability from source to shelf |
+| UMF Honey Association Standards | Verifiable MGO analysis and batch certification |
 | DOP/IGP Certification | One-to-one batch-to-certificate linkage |
 | Swiss Made / COSC | Verifiable manufacturing provenance |
 | Anti-Counterfeiting Standards | Permanent authentication records |
@@ -125,13 +132,14 @@ Future Kaspa features (ZK-proofs) will enable even stronger privacy guarantees -
 
 The FORAY repository includes supply chain examples:
 
-**`olive-oil-provenance-v41.json`**
+**`manuka-honey-provenance-v41.json`**
 
 Demonstrates food product provenance with:
-- DOP certification arrangement
-- Laboratory analysis results (acidity, peroxide values, polyphenols)
-- Production batch tracking
-- Certificate issuance records
+- UMF certification license arrangement
+- Laboratory analysis results (MGO 514 mg/kg, Leptosperin, DNA verification)
+- Production batch tracking (500kg, 1000 jars)
+- Export distribution to China, UK, USA, Japan
+- UMF certificate issuance records
 
 **`luxury-watch-authentication-v41.json`**
 
@@ -145,7 +153,7 @@ Demonstrates luxury product authentication with:
 
 ## Getting Started
 
-1. **Review the demo:** Open the Transaction Review Tool and load the olive oil or watch example
+1. **Review the demo:** Open the Transaction Review Tool and load the Manuka honey or watch example
 2. **Explore the structure:** See how supply chain events map to FORAY's 4 components
 3. **Test with Kaspa Testnet:** Anchor sample transactions to verify the workflow
 4. **Adapt to your needs:** Use the examples as templates for your product types
@@ -159,7 +167,7 @@ FORAY (derived from "4A" - the four components) is an open protocol designed for
 **Key Resources:**
 - Protocol Specification: `FORAY_Protocol_v4_1_Specification.md`
 - Transaction Review Tool: `demo/foray-tx-review-v41.html`
-- Olive Oil Example: `examples/olive-oil-provenance-v41.json`
+- Manuka Honey Example: `examples/manuka-honey-provenance-v41.json`
 - Luxury Watch Example: `examples/luxury-watch-authentication-v41.json`
 
 ---
@@ -172,7 +180,7 @@ FORAY (derived from "4A" - the four components) is an open protocol designed for
 
 ---
 
-*FORAY Protocol - Transparent audits, protected secrets, powered by Kaspa.*
+*FORAY Protocol - Verifiable audits, protected secrets, powered by Kaspa.*
 
 ---
 

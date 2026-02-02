@@ -1,0 +1,217 @@
+{
+  "transaction_id": "FX_SPOT_2026_USDJPY_001",
+  "schema_version": "4.1",
+  "timestamp": "2026-01-23T14:30:00Z",
+  "foray_core": {
+    "entity": "GlobalTrade Capital LLC",
+    "entity_hash": "sha256:globaltrade...",
+    "transaction_type": "fx_spot",
+    "total_value": 10000000.00,
+    "currency": "USD",
+    "status": "settled",
+    "compliance_flags": ["Dodd_Frank", "EMIR", "MiFID_II", "CFTC"]
+  },
+  "component_hashes": {
+    "arrangements": "sha256:fx_arr...",
+    "accruals": "sha256:fx_acc...",
+    "anticipations": "sha256:fx_ant...",
+    "actions": "sha256:fx_act..."
+  },
+  "arrangements": [
+    {
+      "id": "ARR_FX_SPOT_USDJPY",
+      "foray_core": {
+        "type": "fx_spot_contract",
+        "effective_date": "2026-01-23T14:30:00Z",
+        "parties": [
+          { "role": "buyer_usd", "name": "GlobalTrade Capital LLC", "jurisdiction": "US-NY", "lei": "549300ABCDEFGHIJ1234" },
+          { "role": "seller_usd", "name": "Tokyo Metropolitan Bank", "jurisdiction": "JP", "lei": "353800XYZABCDEFG5678" }
+        ],
+        "description": "USD/JPY Spot - Buy 10M USD vs JPY",
+        "total_value": 10000000.00,
+        "currency": "USD",
+        "terms": {
+          "currency_pair": "USD/JPY",
+          "direction": "buy_usd_sell_jpy",
+          "notional_usd": 10000000.00,
+          "notional_jpy": 1485000000,
+          "spot_rate": 148.50,
+          "trade_date": "2026-01-23",
+          "value_date": "2026-01-27",
+          "settlement_type": "T+2"
+        },
+        "execution_details": {
+          "execution_venue": "Reuters_Matching",
+          "execution_timestamp": "2026-01-23T14:30:22.456Z",
+          "dealer_spread": 0.02,
+          "mid_rate": 148.49,
+          "benchmark_fixing": "WMR_4PM_London"
+        },
+        "legal_documentation": ["ISDA_Master_Agreement", "FX_Definitions_2021"],
+        "dependencies": []
+      }
+    }
+  ],
+  "accruals": [
+    {
+      "id": "ACC_FX_USD_LEG_RECOGNITION",
+      "foray_core": {
+        "arrangement_refs": ["ARR_FX_SPOT_USDJPY"],
+        "type": "fx_leg_recognition",
+        "description": "USD leg recognition - trade date booking at contracted rate",
+        "computation_method": "FixedAmount",
+        "formula_id": "sha256:fx_leg_fixed...",
+        "inputs": {
+          "notional": 10000000.00,
+          "rate": 148.50,
+          "leg": "USD_receive"
+        },
+        "output": 10000000.00,
+        "currency": "USD",
+        "mark_to_market": {
+          "mtm_rate": 148.65,
+          "unrealized_pnl_usd": 10084.18,
+          "mtm_timestamp": "2026-01-23T21:00:00Z"
+        },
+        "dependencies": ["ARR_FX_SPOT_USDJPY"]
+      }
+    },
+    {
+      "id": "ACC_FX_JPY_LEG_RECOGNITION",
+      "foray_core": {
+        "arrangement_refs": ["ARR_FX_SPOT_USDJPY"],
+        "type": "fx_leg_recognition",
+        "description": "JPY leg recognition - trade date booking at contracted rate",
+        "computation_method": "FixedAmount",
+        "formula_id": "sha256:fx_leg_fixed...",
+        "inputs": {
+          "notional": 1485000000,
+          "rate": 148.50,
+          "leg": "JPY_deliver"
+        },
+        "output": 1485000000,
+        "currency": "JPY",
+        "nostro_account": {
+          "bank": "Tokyo Metropolitan Bank",
+          "account_number": "JPY-NOSTRO-001",
+          "swift": "TMBJPJTT"
+        },
+        "dependencies": ["ARR_FX_SPOT_USDJPY"]
+      }
+    }
+  ],
+  "anticipations": [
+    {
+      "id": "ANT_FX_SETTLEMENT",
+      "foray_core": {
+        "accrual_refs": ["ACC_FX_USD_LEG_RECOGNITION", "ACC_FX_JPY_LEG_RECOGNITION"],
+        "arrangement_refs": ["ARR_FX_SPOT_USDJPY"],
+        "type": "fx_settlement",
+        "description": "T+2 settlement of USD/JPY spot",
+        "expected_amount": 10000000.00,
+        "currency": "USD",
+        "expected_date": "2026-01-27",
+        "probability_factor": 0.999,
+        "settlement_instructions": {
+          "usd_receiving_bank": "JPMorgan Chase",
+          "usd_account": "USD-NOSTRO-001",
+          "usd_swift": "CHASUS33",
+          "jpy_paying_bank": "Tokyo Metropolitan Bank",
+          "jpy_account": "JPY-NOSTRO-001",
+          "jpy_swift": "TMBJPJTT"
+        },
+        "dependencies": ["ACC_FX_USD_LEG_RECOGNITION", "ACC_FX_JPY_LEG_RECOGNITION"]
+      }
+    }
+  ],
+  "actions": [
+    {
+      "id": "ACT_FX_TRADE_EXECUTION",
+      "foray_core": {
+        "anticipation_refs": [],
+        "accrual_refs": [],
+        "arrangement_refs": ["ARR_FX_SPOT_USDJPY"],
+        "type": "fx_trade_execution",
+        "description": "Trade executed on Reuters Matching",
+        "amount_settled": 10000000.00,
+        "currency": "USD",
+        "settlement_date": "2026-01-23T14:30:22Z",
+        "settlement_status": "executed",
+        "execution_details": {
+          "deal_id": "RTR-2026012314302245",
+          "counterparty_deal_id": "TMB-FX-20260123-0892",
+          "execution_price": 148.50,
+          "slippage_bps": 0.5
+        },
+        "dependencies": ["ARR_FX_SPOT_USDJPY"]
+      }
+    },
+    {
+      "id": "ACT_FX_SETTLEMENT_USD",
+      "foray_core": {
+        "anticipation_refs": ["ANT_FX_SETTLEMENT"],
+        "accrual_refs": ["ACC_FX_USD_LEG_RECOGNITION"],
+        "arrangement_refs": ["ARR_FX_SPOT_USDJPY"],
+        "type": "fx_settlement_leg",
+        "description": "USD leg settled via CHIPS",
+        "amount_settled": 10000000.00,
+        "currency": "USD",
+        "settlement_date": "2026-01-27T16:00:00Z",
+        "settlement_status": "completed",
+        "payment_method": "chips",
+        "counterparty": "Tokyo Metropolitan Bank",
+        "allocations": [
+          { "ref": "ACC_FX_USD_LEG_RECOGNITION", "ref_type": "accrual", "amount": 10000000.00, "currency": "USD", "allocation_type": "full", "remaining_balance": 0.00 }
+        ],
+        "settlement_details": {
+          "chips_uid": "20260127CHPS1234567",
+          "receiving_bank_confirmation": "JPMC-CONF-789012",
+          "settlement_time_utc": "2026-01-27T16:00:00Z"
+        },
+        "dependencies": ["ANT_FX_SETTLEMENT"]
+      }
+    },
+    {
+      "id": "ACT_FX_SETTLEMENT_JPY",
+      "foray_core": {
+        "anticipation_refs": ["ANT_FX_SETTLEMENT"],
+        "accrual_refs": ["ACC_FX_JPY_LEG_RECOGNITION"],
+        "arrangement_refs": ["ARR_FX_SPOT_USDJPY"],
+        "type": "fx_settlement_leg",
+        "description": "JPY leg settled via BOJ-NET",
+        "amount_settled": 1485000000,
+        "currency": "JPY",
+        "settlement_date": "2026-01-27T09:00:00Z",
+        "settlement_status": "completed",
+        "payment_method": "boj_net",
+        "counterparty": "Tokyo Metropolitan Bank",
+        "allocations": [
+          { "ref": "ACC_FX_JPY_LEG_RECOGNITION", "ref_type": "accrual", "amount": 1485000000, "currency": "JPY", "allocation_type": "full", "remaining_balance": 0 }
+        ],
+        "settlement_details": {
+          "boj_reference": "BOJNET-20260127-JP456789",
+          "paying_bank_confirmation": "TMB-PAY-CONF-2345",
+          "settlement_time_jst": "2026-01-27T18:00:00+09:00"
+        },
+        "dependencies": ["ANT_FX_SETTLEMENT"]
+      }
+    }
+  ],
+  "merkle_root": "sha256:fx_usdjpy_001...",
+  "blockchain_anchor": {
+    "kaspa_tx_id": null,
+    "block_height": null,
+    "confirmation_time_ms": null,
+    "anchored_at": null
+  },
+  "audit_data_anchor": {
+    "audit_data_hash": "sha256:fx_audit...",
+    "audit_profile": "trading_compliance",
+    "storage_locations": ["s3://foray-audit/2026/Q1/FX_SPOT_USDJPY_001"]
+  },
+  "privacy_metadata": {
+    "formulas_obfuscated": 2,
+    "instance_pools": 6,
+    "attack_complexity": "2^96 operations"
+  }
+}

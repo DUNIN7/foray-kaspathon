@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORAY Business Use Case Analyzer - Kaspathon 2026</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 30px 20px;
+      background: rgba(111, 81, 229, 0.1);
+      border-radius: 12px;
+      border: 1px solid rgba(111, 81, 229, 0.3);
+    }
+
+    h1 {
+      color: #9d84f7;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px rgba(111, 81, 229, 0.5);
+    }
+
+    .subtitle {
+      color: #b0b0b0;
+      font-size: 1.1em;
+      margin-bottom: 5px;
+    }
+
+    .powered-by {
+      color: #808080;
+      font-size: 0.9em;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(111, 81, 229, 0.2);
+    }
+
+    .powered-by strong {
+      color: #9d84f7;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 900px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: rgba(30, 30, 46, 0.8);
+      border: 1px solid rgba(111, 81, 229, 0.3);
+      border-radius: 12px;
+      padding: 25px;
+    }
+
+    .panel h2 {
+      color: #9d84f7;
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon {
+      font-size: 1.2em;
+    }
+
+    label {
+      display: block;
+      color: #b0b0b0;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 200px;
+      padding: 15px;
+      background: rgba(22, 33, 62, 0.6);
+      border: 1px solid rgba(111, 81, 229, 0.4);
+      border-radius: 8px;
+      color: #e0e0e0;
+      font-size: 1em;
+      font-family: inherit;
+      resize: vertical;
+      transition: all 0.3s ease;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #9d84f7;
+      box-shadow: 0 0 0 3px rgba(111, 81, 229, 0.2);
+    }
+
+    textarea::placeholder {
+      color: #606060;
+    }
+
+    .examples {
+      margin-top: 15px;
+      padding: 15px;
+      background: rgba(111, 81, 229, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(111, 81, 229, 0.2);
+    }
+
+    .examples h3 {
+      color: #9d84f7;
+      font-size: 0.95em;
+      margin-bottom: 10px;
+    }
+
+    .example-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .example-btn {
+      padding: 6px 12px;
+      background: rgba(111, 81, 229, 0.2);
+      border: 1px solid rgba(111, 81, 229, 0.4);
+      border-radius: 6px;
+      color: #b0b0b0;
+      cursor: pointer;
+      font-size: 0.85em;
+      transition: all 0.2s ease;
+    }
+
+    .example-btn:hover {
+      background: rgba(111, 81, 229, 0.3);
+      color: #9d84f7;
+      border-color: #9d84f7;
+    }
+
+    .analyze-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #6f51e5 0%, #9d84f7 100%);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      box-shadow: 0 4px 15px rgba(111, 81, 229, 0.3);
+    }
+
+    .analyze-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(111, 81, 229, 0.4);
+    }
+
+    .analyze-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      color: #9d84f7;
+    }
+
+    .loading.active {
+      display: block;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(111, 81, 229, 0.2);
+      border-top-color: #9d84f7;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .results {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .results.active {
+      display: block;
+    }
+
+    .result-section {
+      margin-bottom: 25px;
+      padding: 20px;
+      background: rgba(22, 33, 62, 0.4);
+      border-left: 4px solid #9d84f7;
+      border-radius: 8px;
+    }
+
+    .result-section h3 {
+      color: #9d84f7;
+      font-size: 1.3em;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .result-section p, .result-section ul {
+      color: #d0d0d0;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .result-section ul {
+      padding-left: 25px;
+    }
+
+    .result-section li {
+      margin-bottom: 8px;
+    }
+
+    .highlight {
+      color: #9d84f7;
+      font-weight: 600;
+    }
+
+    .component-box {
+      background: rgba(111, 81, 229, 0.1);
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 10px;
+      border: 1px solid rgba(111, 81, 229, 0.2);
+    }
+
+    .component-box h4 {
+      color: #9d84f7;
+      font-size: 1em;
+      margin-bottom: 8px;
+    }
+
+    .compliance-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .compliance-tag {
+      padding: 5px 12px;
+      background: rgba(111, 81, 229, 0.2);
+      border: 1px solid rgba(111, 81, 229, 0.4);
+      border-radius: 20px;
+      font-size: 0.85em;
+      color: #9d84f7;
+    }
+
+    .error {
+      display: none;
+      padding: 15px;
+      background: rgba(220, 53, 69, 0.1);
+      border: 1px solid rgba(220, 53, 69, 0.4);
+      border-radius: 8px;
+      color: #ff6b6b;
+      margin-top: 15px;
+    }
+
+    .error.active {
+      display: block;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding: 30px;
+      color: #808080;
+      border-top: 1px solid rgba(111, 81, 229, 0.2);
+    }
+
+    footer a {
+      color: #9d84f7;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: #b8a0ff;
+    }
+
+    .info-box {
+      background: rgba(0, 123, 255, 0.1);
+      border: 1px solid rgba(0, 123, 255, 0.3);
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .info-box p {
+      color: #b0c4de;
+      font-size: 0.9em;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔍 FORAY Business Use Case Analyzer</h1>
+      <p class="subtitle">Discover how FORAY Protocol can transform your business audit infrastructure</p>
+      <p class="powered-by">Powered by <strong>Kaspa Blockchain</strong> + <strong>Claude AI</strong></p>
+    </header>
+
+    <div class="main-grid">
+      <div class="panel">
+        <h2><span class="icon">💼</span> Describe Your Business</h2>
+        
+        <label for="businessDescription">Tell us about your company, industry, and key transactions:</label>
+        <textarea 
+          id="businessDescription" 
+          placeholder="Example: We're a mid-sized defense contractor manufacturing precision components for military aircraft. We manage complex supply chains with multiple tier-1 and tier-2 suppliers, track labor hours against government contracts, and need to maintain DCAA compliance for cost accounting..."
+        ></textarea>
+
+        <div class="examples">
+          <h3>Quick Examples:</h3>
+          <div class="example-buttons">
+            <button class="example-btn" data-example="defense">Defense Contractor</button>
+            <button class="example-btn" data-example="finance">Financial Services</button>
+            <button class="example-btn" data-example="energy">Energy Company</button>
+            <button class="example-btn" data-example="manufacturing">Manufacturing</button>
+            <button class="example-btn" data-example="pharma">Pharmaceutical</button>
+            <button class="example-btn" data-example="logistics">Logistics/Supply Chain</button>
+          </div>
+        </div>
+
+        <button class="analyze-btn" id="analyzeBtn">
+          ✨ Analyze My Business with FORAY
+        </button>
+
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p>Analyzing your business and mapping FORAY applications...</p>
+        </div>
+
+        <div class="error" id="error"></div>
+      </div>
+
+      <div class="panel">
+        <h2><span class="icon">📊</span> FORAY Analysis Results</h2>
+        
+        <div class="info-box">
+          <p><strong>How it works:</strong> Our AI analyzes your business description, identifies key transaction types, and explains how FORAY's 4-component architecture (Arrangements, Accruals, Anticipations, Actions) creates immutable audit trails while protecting your sensitive data.</p>
+        </div>
+
+        <div class="results" id="results">
+          <!-- Results populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p><strong>FORAY Protocol</strong> - Privacy-Preserving Blockchain Audit Infrastructure</p>
+      <p>Kaspathon 2026 Submission | Real-Time Data Track</p>
+      <p style="margin-top: 15px;">
+        <strong>Contact:</strong> Marvin Percival | 
+        <a href="mailto:marvinp@dunin7.com">marvinp@dunin7.com</a> | 
+        <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a>
+      </p>
+      <p style="margin-top: 10px; font-size: 0.85em;">
+        Copyright © 2026 Marvin Percival. All rights reserved.
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // Example business descriptions
+    const examples = {
+      defense: "We're a mid-sized defense contractor manufacturing precision components for military aircraft. We manage complex supply chains with multiple tier-1 and tier-2 suppliers, track labor hours against government contracts, and need to maintain DCAA compliance for cost accounting. Our biggest challenges are documenting indirect cost allocations, proving timekeeping accuracy, and managing material traceability for sensitive components.",
+      
+      finance: "We're a regional investment bank specializing in structured products and derivatives trading. We execute hundreds of FX trades daily, manage RMBS securitizations, and provide repo financing to institutional clients. We need SOX 404 compliance, Basel III capital adequacy reporting, and Dodd-Frank swap data repository submissions. Our main pain points are cross-system reconciliation and audit trail integrity.",
+      
+      energy: "We're a renewable energy developer operating solar farms across North Africa with power sales into European markets. We manage long-term PPAs with utilities, track REC generation and trading, handle cross-border settlements in multiple currencies, and coordinate with transmission operators. We need FERC compliance, project finance covenant tracking, and sovereign guarantee verification.",
+      
+      manufacturing: "We manufacture industrial pumps and valves for oil & gas applications. We manage multi-level BOMs with specialized metallurgy, track work orders through our job shop, allocate labor and overhead costs, and maintain ISO 9001 quality certifications. Our challenges include cost variance analysis, supplier quality tracking, and transfer pricing documentation for our Mexican subsidiary.",
+      
+      pharma: "We're a pharmaceutical manufacturer producing generic drugs under contract for major brands. We maintain FDA cGMP compliance, track batch genealogy from raw materials through finished goods, manage complex royalty calculations, and coordinate with contract testing laboratories. Our key needs are 21 CFR Part 11 compliance, lot traceability for recalls, and clinical trial cost tracking.",
+      
+      logistics: "We operate a third-party logistics network providing warehousing and distribution services across 12 facilities. We manage inventory for 200+ clients, track freight movements across multiple carriers, handle customs documentation for international shipments, and process complex billing with tiered rate structures. Our pain points are proof of custody, invoice disputes, and regulatory compliance for hazmat shipments."
+    };
+
+    // Event listeners
+    document.querySelectorAll('.example-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const example = btn.dataset.example;
+        document.getElementById('businessDescription').value = examples[example];
+      });
+    });
+
+    document.getElementById('analyzeBtn').addEventListener('click', analyzeBusinessAI);
+
+    async function analyzeBusinessAI() {
+      const description = document.getElementById('businessDescription').value.trim();
+      
+      if (!description) {
+        showError('Please describe your business first.');
+        return;
+      }
+
+      // UI updates
+      document.getElementById('analyzeBtn').disabled = true;
+      document.getElementById('loading').classList.add('active');
+      document.getElementById('results').classList.remove('active');
+      document.getElementById('error').classList.remove('active');
+
+      try {
+        // Call proxy server which forwards to backend
+        const response = await fetch('https://foray.dunin7.com/api/analyze-business', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            businessDescription: description
+          })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || `Request failed: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const analysisHTML = data.analysis || '';
+
+        displayResults(analysisHTML);
+
+      } catch (error) {
+        console.error('Analysis error:', error);
+        showError(`Analysis failed: ${error.message}. Please try again.`);
+      } finally {
+        document.getElementById('analyzeBtn').disabled = false;
+        document.getElementById('loading').classList.remove('active');
+      }
+    }
+
+    function displayResults(html) {
+      const resultsDiv = document.getElementById('results');
+      
+      // Wrap raw content in proper styling
+      const styledHTML = `
+        <div class="result-section">
+          ${html}
+        </div>
+      `;
+      
+      resultsDiv.innerHTML = styledHTML;
+      resultsDiv.classList.add('active');
+      
+      // Scroll to results
+      resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function showError(message) {
+      const errorDiv = document.getElementById('error');
+      errorDiv.textContent = message;
+      errorDiv.classList.add('active');
+    }
+  </script>
+</body>
+</html>

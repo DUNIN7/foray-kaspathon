@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<!--
+============================================================================
+FORAY Business Use Case Analyzer
+============================================================================
+Version:       1.2.0
+Created:       2026-01-29T00:00:00Z
+Modified:      2026-01-31T19:00:00Z
+
+Author:        Marvin Percival
+Email:         marvinp@dunin7.com
+GitHub:        github.com/DUNIN7/foray-kaspathon
+
+License:       Business Source License 1.1
+Copyright (c) 2026 Marvin Percival. All rights reserved.
+
+Changelog:
+  v1.2.0 (2026-01-31)
+    - Removed corrupted emoji from Analyze button
+    - Changed "immutable" to "tamper-evident" (content review)
+  
+  v1.1.0 (2026-01-30)
+    - Added unified navigation with responsive hamburger menu
+    - Consistent styling with other FORAY pages
+  
+  v1.0.0 (2026-01-29)
+    - Initial release with AI-powered business analysis
+============================================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Analyzer - FORAY Protocol</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-teal: #0D7377;
+      --secondary-navy: #1B365D;
+      --accent-cyan: #14B8B8;
+      --highlight-mint: #7DD3D6;
+      --action-amber: #E6A817;
+      --text-dark: #1A1D21;
+      --text-light: #F7F9FA;
+      --bg-dark: #1A1D21;
+      --gray-600: #636E72;
+      --gray-400: #94A3A8;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+      padding: 80px 20px 20px;
+    }
+    
+    /* ========================================
+       UNIFIED NAVIGATION WITH HAMBURGER MENU
+       ======================================== */
+        /* === BULLETPROOF NAV CSS v4.0 - FULLY SELF-CONTAINED === */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
+    .nav * { box-sizing: border-box; }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: inherit; font-size: inherit; line-height: inherit; }
+    .nav-logo-text { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; display: flex; align-items: center; }
+    .nav-logo-foray { color: #0D7377; }
+    .nav-logo-protocol { color: #F7F9FA; font-weight: 400; }
+    .nav-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: #E6A817; color: #1A1D21; border-radius: 4px; font-weight: 600; line-height: 1; display: inline-block; vertical-align: middle; font-family: inherit; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-link { color: #94A3A8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; font-family: inherit; line-height: 1; }
+    .nav-link:hover, .nav-link.active { color: #14B8B8; }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; align-items: center; width: 40px; height: 40px; background: transparent; border: none; cursor: pointer; z-index: 1001; padding: 8px; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #F7F9FA; margin: 3px 0; transition: all 0.3s ease; border-radius: 2px; }
+    .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .nav-mobile-menu.active { opacity: 1; visibility: visible; }
+    .nav-mobile-menu .nav-link { font-size: 1.5rem; font-weight: 500; color: #F7F9FA; line-height: 1; }
+    .nav-mobile-menu .nav-link:hover { color: #14B8B8; }
+    @media (max-width: 768px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .nav-mobile-menu { display: flex; } }
+    /* === END BULLETPROOF NAV CSS === */
+    
+    
+    
+    
+    
+    
+    
+    
+    /* Hamburger Menu */
+    
+    
+    
+    /* Mobile Menu Overlay */
+    
+    
+    @media (max-width: 768px) {
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 30px 20px;
+      background: rgba(111, 81, 229, 0.1);
+      border-radius: 12px;
+      border: 1px solid rgba(111, 81, 229, 0.3);
+    }
+
+    h1 {
+      color: #9d84f7;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px rgba(111, 81, 229, 0.5);
+    }
+
+    .subtitle {
+      color: #b0b0b0;
+      font-size: 1.1em;
+      margin-bottom: 5px;
+    }
+
+    .powered-by {
+      color: #808080;
+      font-size: 0.9em;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(111, 81, 229, 0.2);
+    }
+
+    .powered-by strong {
+      color: #9d84f7;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 900px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: rgba(30, 30, 46, 0.8);
+      border: 1px solid rgba(111, 81, 229, 0.3);
+      border-radius: 12px;
+      padding: 25px;
+    }
+
+    .panel h2 {
+      color: #9d84f7;
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon {
+      font-size: 1.2em;
+    }
+
+    label {
+      display: block;
+      color: #b0b0b0;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 200px;
+      padding: 15px;
+      background: rgba(22, 33, 62, 0.6);
+      border: 1px solid rgba(111, 81, 229, 0.4);
+      border-radius: 8px;
+      color: #e0e0e0;
+      font-size: 1em;
+      font-family: inherit;
+      resize: vertical;
+      transition: all 0.3s ease;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #9d84f7;
+      box-shadow: 0 0 0 3px rgba(111, 81, 229, 0.2);
+    }
+
+    textarea::placeholder {
+      color: #606060;
+    }
+
+    .examples {
+      margin-top: 15px;
+      padding: 15px;
+      background: rgba(111, 81, 229, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(111, 81, 229, 0.2);
+    }
+
+    .examples h3 {
+      color: #9d84f7;
+      font-size: 0.95em;
+      margin-bottom: 10px;
+    }
+
+    .example-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .example-btn {
+      padding: 6px 12px;
+      background: rgba(111, 81, 229, 0.2);
+      border: 1px solid rgba(111, 81, 229, 0.4);
+      border-radius: 6px;
+      color: #b0b0b0;
+      cursor: pointer;
+      font-size: 0.85em;
+      transition: all 0.2s ease;
+    }
+
+    .example-btn:hover {
+      background: rgba(111, 81, 229, 0.3);
+      color: #9d84f7;
+      border-color: #9d84f7;
+    }
+
+    .analyze-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #6f51e5 0%, #9d84f7 100%);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      box-shadow: 0 4px 15px rgba(111, 81, 229, 0.3);
+    }
+
+    .analyze-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(111, 81, 229, 0.4);
+    }
+
+    .analyze-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      color: #9d84f7;
+    }
+
+    .loading.active {
+      display: block;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(111, 81, 229, 0.2);
+      border-top-color: #9d84f7;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .results {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .results.active {
+      display: block;
+    }
+
+    .result-section {
+      margin-bottom: 25px;
+      padding: 20px;
+      background: rgba(22, 33, 62, 0.4);
+      border-left: 4px solid #9d84f7;
+      border-radius: 8px;
+    }
+
+    .result-section h3 {
+      color: #9d84f7;
+      font-size: 1.3em;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .result-section p, .result-section ul {
+      color: #d0d0d0;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .result-section ul {
+      padding-left: 25px;
+    }
+
+    .result-section li {
+      margin-bottom: 8px;
+    }
+
+    .highlight {
+      color: #9d84f7;
+      font-weight: 600;
+    }
+
+    .component-box {
+      background: rgba(111, 81, 229, 0.1);
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 10px;
+      border: 1px solid rgba(111, 81, 229, 0.2);
+    }
+
+    .component-box h4 {
+      color: #9d84f7;
+      font-size: 1em;
+      margin-bottom: 8px;
+    }
+
+    .compliance-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .compliance-tag {
+      padding: 5px 12px;
+      background: rgba(111, 81, 229, 0.2);
+      border: 1px solid rgba(111, 81, 229, 0.4);
+      border-radius: 20px;
+      font-size: 0.85em;
+      color: #9d84f7;
+    }
+
+    .error {
+      display: none;
+      padding: 15px;
+      background: rgba(220, 53, 69, 0.1);
+      border: 1px solid rgba(220, 53, 69, 0.4);
+      border-radius: 8px;
+      color: #ff6b6b;
+      margin-top: 15px;
+    }
+
+    .error.active {
+      display: block;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding: 30px;
+      color: #808080;
+      border-top: 1px solid rgba(111, 81, 229, 0.2);
+    }
+
+    footer a {
+      color: #9d84f7;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: #b8a0ff;
+    }
+
+    .info-box {
+      background: rgba(0, 123, 255, 0.1);
+      border: 1px solid rgba(0, 123, 255, 0.3);
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .info-box p {
+      color: #b0c4de;
+      font-size: 0.9em;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-text">
+        <span class="nav-logo-foray">FORAY</span> <span class="nav-logo-protocol">Protocol</span>
+      </span>
+      <span class="nav-badge">v4.1</span>
+    </a>
+    <div class="nav-links">
+      <a href="demo.html" class="nav-link">Demo</a>
+      <a href="docs.html" class="nav-link">Documentation</a>
+      <a href="examples.html" class="nav-link">Examples</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
+    </div>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+  
+  <!-- Mobile Menu -->
+  <div class="nav-mobile-menu" id="mobileMenu">
+    <a href="demo.html" class="nav-link" onclick="closeMobileMenu()">Demo</a>
+    <a href="docs.html" class="nav-link" onclick="closeMobileMenu()">Documentation</a>
+    <a href="examples.html" class="nav-link" onclick="closeMobileMenu()">Examples</a>
+    <a href="about.html" class="nav-link" onclick="closeMobileMenu()">About</a>
+    <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank" onclick="closeMobileMenu()">GitHub</a>
+  </div>
+
+  <div class="container">
+    <header>
+      <h1>FORAY Business Use Case Analyzer</h1>
+      <p class="subtitle">Discover how FORAY Protocol can transform your business audit infrastructure</p>
+      <p class="powered-by">Powered by <strong>Kaspa Blockchain</strong> + <strong>Claude AI</strong></p>
+    </header>
+
+    <div class="main-grid">
+      <div class="panel">
+        <h2>Describe Your Business</h2>
+        
+        <label for="businessDescription">Tell us about your company, industry, and key transactions:</label>
+        <textarea 
+          id="businessDescription" 
+          placeholder="Example: We're a mid-sized defense contractor manufacturing precision components for military aircraft. We manage complex supply chains with multiple tier-1 and tier-2 suppliers, track labor hours against government contracts, and need to maintain DCAA compliance for cost accounting..."
+        ></textarea>
+
+        <div class="examples">
+          <h3>Quick Examples:</h3>
+          <div class="example-buttons">
+            <button class="example-btn" data-example="defense">Defense Contractor</button>
+            <button class="example-btn" data-example="finance">Financial Services</button>
+            <button class="example-btn" data-example="energy">Energy Company</button>
+            <button class="example-btn" data-example="manufacturing">Manufacturing</button>
+            <button class="example-btn" data-example="pharma">Pharmaceutical</button>
+            <button class="example-btn" data-example="logistics">Logistics/Supply Chain</button>
+          </div>
+        </div>
+
+        <button class="analyze-btn" id="analyzeBtn">
+          Analyze My Business with FORAY
+        </button>
+
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p>Analyzing your business and mapping FORAY applications...</p>
+        </div>
+
+        <div class="error" id="error"></div>
+      </div>
+
+      <div class="panel">
+        <h2>FORAY Analysis Results</h2>
+        
+        <div class="info-box">
+          <p><strong>How it works:</strong> Our AI analyzes your business description, identifies key transaction types, and explains how FORAY's 4-component architecture (Arrangements, Accruals, Anticipations, Actions) creates tamper-evident audit trails while protecting your sensitive data.</p>
+        </div>
+
+        <div class="results" id="results">
+          <!-- Results populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p><strong>FORAY Protocol</strong> - Privacy-Preserving Blockchain Audit Infrastructure</p>
+      <p>Kaspathon 2026 Submission | Real-Time Data Track</p>
+      <p style="margin-top: 15px;">
+        <strong>Contact:</strong> Marvin Percival | 
+        <a href="mailto:marvinp@dunin7.com">marvinp@dunin7.com</a> | 
+        <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a>
+      </p>
+      <p style="margin-top: 10px; font-size: 0.85em;">
+        Copyright &copy; 2026 Marvin Percival. All rights reserved.
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // Example business descriptions
+    const examples = {
+      defense: "We're a mid-sized defense contractor manufacturing precision components for military aircraft. We manage complex supply chains with multiple tier-1 and tier-2 suppliers, track labor hours against government contracts, and need to maintain DCAA compliance for cost accounting. Our biggest challenges are documenting indirect cost allocations, proving timekeeping accuracy, and managing material traceability for sensitive components.",
+      
+      finance: "We're a regional investment bank specializing in structured products and derivatives trading. We execute hundreds of FX trades daily, manage RMBS securitizations, and provide repo financing to institutional clients. We need SOX 404 compliance, Basel III capital adequacy reporting, and Dodd-Frank swap data repository submissions. Our main pain points are cross-system reconciliation and audit trail integrity.",
+      
+      energy: "We're a renewable energy developer operating solar farms across North Africa with power sales into European markets. We manage long-term PPAs with utilities, track REC generation and trading, handle cross-border settlements in multiple currencies, and coordinate with transmission operators. We need FERC compliance, project finance covenant tracking, and sovereign guarantee verification.",
+      
+      manufacturing: "We manufacture industrial pumps and valves for oil & gas applications. We manage multi-level BOMs with specialized metallurgy, track work orders through our job shop, allocate labor and overhead costs, and maintain ISO 9001 quality certifications. Our challenges include cost variance analysis, supplier quality tracking, and transfer pricing documentation for our Mexican subsidiary.",
+      
+      pharma: "We're a pharmaceutical manufacturer producing generic drugs under contract for major brands. We maintain FDA cGMP compliance, track batch genealogy from raw materials through finished goods, manage complex royalty calculations, and coordinate with contract testing laboratories. Our key needs are 21 CFR Part 11 compliance, lot traceability for recalls, and clinical trial cost tracking.",
+      
+      logistics: "We operate a third-party logistics network providing warehousing and distribution services across 12 facilities. We manage inventory for 200+ clients, track freight movements across multiple carriers, handle customs documentation for international shipments, and process complex billing with tiered rate structures. Our pain points are proof of custody, invoice disputes, and regulatory compliance for hazmat shipments."
+    };
+
+    // Event listeners
+    document.querySelectorAll('.example-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const example = btn.dataset.example;
+        document.getElementById('businessDescription').value = examples[example];
+      });
+    });
+
+    document.getElementById('analyzeBtn').addEventListener('click', analyzeBusinessAI);
+
+    async function analyzeBusinessAI() {
+      const description = document.getElementById('businessDescription').value.trim();
+      
+      if (!description) {
+        showError('Please describe your business first.');
+        return;
+      }
+
+      // UI updates
+      document.getElementById('analyzeBtn').disabled = true;
+      document.getElementById('loading').classList.add('active');
+      document.getElementById('results').classList.remove('active');
+      document.getElementById('error').classList.remove('active');
+
+      try {
+        // Call proxy server which forwards to backend
+        const response = await fetch('http://localhost:3002/api/analyze-business', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            businessDescription: description
+          })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || `Request failed: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const analysisHTML = data.analysis || '';
+
+        displayResults(analysisHTML);
+
+      } catch (error) {
+        console.error('Analysis error:', error);
+        showError(`Analysis failed: ${error.message}. Please try again.`);
+      } finally {
+        document.getElementById('analyzeBtn').disabled = false;
+        document.getElementById('loading').classList.remove('active');
+      }
+    }
+
+    function displayResults(html) {
+      const resultsDiv = document.getElementById('results');
+      
+      // Wrap raw content in proper styling
+      const styledHTML = `
+        <div class="result-section">
+          ${html}
+        </div>
+      `;
+      
+      resultsDiv.innerHTML = styledHTML;
+      resultsDiv.classList.add('active');
+      
+      // Scroll to results
+      resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function showError(message) {
+      const errorDiv = document.getElementById('error');
+      errorDiv.textContent = message;
+      errorDiv.classList.add('active');
+    }
+    
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+      const hamburger = document.querySelector('.nav-hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    }
+    
+    function closeMobileMenu() {
+      const hamburger = document.querySelector('.nav-hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeMobileMenu();
+    });
+  </script>
+</body>
+</html>
