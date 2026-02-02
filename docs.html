@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <!--
   File: docs.html
-  Version: 4.1.5
+  Version: 4.1.6
   Created: 2026-01-29T08:15:00Z
-  Modified: 2026-02-02T19:00:00Z
+  Modified: 2026-02-02T19:45:00Z
   Author: Marvin Percival
   Email: marvinp@dunin7.com
   GitHub: DUNIN7/foray-kaspathon
   
   FORAY Protocol Documentation Page
   Change Log:
+    v4.1.6 (2026-02-02): Added sidebar links to specification.html and integration-guide.html
+                          Added inline callouts linking to full Specification and Integration Guide
     v4.1.5 (2026-02-02): Fixed character encoding corruption (-> replacing single quotes)
                          Restored all CSS font-family declarations (6 instances)
                          Restored all JS string literals (3 instances)
@@ -404,12 +406,14 @@
         <a href="#kaspa" class="sidebar-link">Kaspa Integration</a>
         <a href="#privacy" class="sidebar-link">Privacy Architecture</a>
         <a href="#attestations" class="sidebar-link">Attestations</a>
+        <a href="specification.html" class="sidebar-link">Full Specification &rarr;</a>
       </div>
       
       <div class="sidebar-section">
         <div class="sidebar-title">Integration</div>
         <a href="#quickbooks" class="sidebar-link">QuickBooks</a>
         <a href="#erp" class="sidebar-link">ERP Systems</a>
+        <a href="integration-guide.html" class="sidebar-link">Full Integration Guide &rarr;</a>
       </div>
     </aside>
 
@@ -654,6 +658,11 @@
   }
 }</pre></code>
       </div>
+
+      <p>
+        For the complete field definitions, component structures, validation rules, and migration guide, 
+        see the <a href="specification.html">full v4.1 Specification</a>.
+      </p>
 
       <h2 id="kaspa">Kaspa Integration</h2>
       <p>
@@ -939,6 +948,11 @@
       <p>
         FORAY adapters are available or planned for SAP, Oracle, NetSuite, and Salesforce. 
         Contact us for enterprise integration support.
+      </p>
+
+      <p>
+        For detailed ERP-specific audit gap analysis, adapter architecture, privacy levels, and 
+        batch vs. real-time strategies, see the <a href="integration-guide.html">full Integration Guide</a>.
       </p>
 
       <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(125, 211, 214, 0.1); text-align: center; color: var(--gray-400); font-size: 0.9rem;">

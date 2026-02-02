@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<!--
+  File: specification.html
+  Version: 1.0.0
+  Created: 2026-02-02T19:30:00Z
+  Modified: 2026-02-02T19:30:00Z
+  Author: Marvin Percival
+  Email: marvinp@dunin7.com
+  GitHub: DUNIN7/foray-kaspathon
+  
+  FORAY Protocol v4.1 Technical Specification (Web Version)
+  Derived from: FORAY_Protocol_v4_1_Specification.md
+  
+  Change Log:
+    v1.0.0 (2026-02-02): Initial web version of the specification
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Specification - FORAY Protocol v4.1</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta name="description" content="FORAY Protocol v4.1 Technical Specification - schema definitions, component structures, validation rules, and migration guide.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-teal: #0D7377;
+      --secondary-navy: #1B365D;
+      --accent-cyan: #14B8B8;
+      --highlight-mint: #7DD3D6;
+      --action-amber: #E6A817;
+      --text-dark: #1A1D21;
+      --text-light: #F7F9FA;
+      --bg-dark: #1A1D21;
+      --gray-600: #636E72;
+      --gray-400: #94A3A8;
+      --gray-200: #E5E9EB;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+    
+    .font-mono { font-family: 'IBM Plex Mono', monospace; }
+
+    /* === BULLETPROOF NAV CSS v4.0 - FULLY SELF-CONTAINED === */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
+    .nav * { box-sizing: border-box; }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: inherit; font-size: inherit; line-height: inherit; }
+    .nav-logo-text { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; display: flex; align-items: center; }
+    .nav-logo-foray { color: #0D7377; }
+    .nav-logo-protocol { color: #F7F9FA; font-weight: 400; }
+    .nav-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: #E6A817; color: #1A1D21; border-radius: 4px; font-weight: 600; line-height: 1; display: inline-block; vertical-align: middle; font-family: inherit; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-link { color: #94A3A8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; font-family: inherit; line-height: 1; }
+    .nav-link:hover, .nav-link.active { color: #14B8B8; }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; align-items: center; width: 40px; height: 40px; background: transparent; border: none; cursor: pointer; z-index: 1001; padding: 8px; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #F7F9FA; margin: 3px 0; transition: all 0.3s ease; border-radius: 2px; }
+    .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .nav-mobile-menu.active { opacity: 1; visibility: visible; }
+    .nav-mobile-menu .nav-link { font-size: 1.5rem; font-weight: 500; color: #F7F9FA; line-height: 1; }
+    .nav-mobile-menu .nav-link:hover { color: #14B8B8; }
+    @media (max-width: 768px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .nav-mobile-menu { display: flex; } }
+    /* === END BULLETPROOF NAV CSS === */
+    
+    /* Layout */
+    .docs-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+      padding-top: 73px;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      position: sticky;
+      top: 73px;
+      height: calc(100vh - 73px);
+      overflow-y: auto;
+      padding: 2rem;
+      border-right: 1px solid rgba(125, 211, 214, 0.1);
+      background: rgba(27, 54, 93, 0.05);
+    }
+    
+    .sidebar-section { margin-bottom: 2rem; }
+    .sidebar-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 0.75rem;
+    }
+    
+    .sidebar-link {
+      display: block;
+      padding: 0.5rem 0;
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+      padding-left: 0.75rem;
+      margin-left: -0.75rem;
+    }
+    .sidebar-link:hover {
+      color: var(--accent-cyan);
+      border-left-color: var(--accent-cyan);
+    }
+    
+    /* Content */
+    .docs-content {
+      padding: 3rem 4rem;
+      max-width: 900px;
+    }
+    
+    .docs-content h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+      scroll-margin-top: 100px;
+    }
+    
+    .docs-content h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(125, 211, 214, 0.1);
+      color: var(--accent-cyan);
+      scroll-margin-top: 100px;
+    }
+    
+    .docs-content h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-light);
+      scroll-margin-top: 100px;
+    }
+    
+    .docs-content p { color: var(--gray-400); margin-bottom: 1rem; }
+    .docs-content a { color: var(--accent-cyan); text-decoration: none; }
+    .docs-content a:hover { text-decoration: underline; }
+    
+    .docs-content ul, .docs-content ol {
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+      color: var(--gray-400);
+    }
+    .docs-content li { margin-bottom: 0.5rem; }
+    
+    /* Code blocks */
+    .code-block {
+      background: rgba(26, 29, 33, 0.8);
+      border: 1px solid rgba(125, 211, 214, 0.1);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+    }
+    
+    .code-block code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    
+    code {
+      font-family: 'IBM Plex Mono', monospace;
+      background: rgba(20, 184, 184, 0.1);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85em;
+      color: var(--accent-cyan);
+    }
+    
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+    }
+    
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(125, 211, 214, 0.1);
+    }
+    
+    th {
+      background: rgba(27, 54, 93, 0.2);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--gray-400);
+    }
+    
+    td { color: var(--text-light); font-size: 0.9rem; }
+    
+    /* Info boxes */
+    .info-box {
+      padding: 1.25rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+    .info-box.note {
+      background: rgba(20, 184, 184, 0.1);
+      border-left: 4px solid var(--accent-cyan);
+    }
+    .info-box.warning {
+      background: rgba(230, 168, 23, 0.1);
+      border-left: 4px solid var(--action-amber);
+    }
+    .info-box.important {
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 4px solid #EF4444;
+    }
+    .info-box-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .info-box.note .info-box-title { color: var(--accent-cyan); }
+    .info-box.warning .info-box-title { color: var(--action-amber); }
+    .info-box.important .info-box-title { color: #EF4444; }
+    .info-box p { margin-bottom: 0; color: var(--text-light); font-size: 0.9rem; }
+    
+    /* Component badges */
+    .component-badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .component-badge.arrangement { background: rgba(13, 115, 119, 0.2); color: #0D7377; }
+    .component-badge.accrual { background: rgba(230, 168, 23, 0.2); color: #E6A817; }
+    .component-badge.anticipation { background: rgba(139, 92, 246, 0.2); color: #8B5CF6; }
+    .component-badge.action { background: rgba(16, 185, 129, 0.2); color: #10B981; }
+
+    /* Version label */
+    .version-label {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(13, 115, 119, 0.2);
+      color: var(--accent-cyan);
+      margin-bottom: 1rem;
+    }
+    
+    /* Breaking change marker */
+    .breaking {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: rgba(239, 68, 68, 0.15);
+      color: #EF4444;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+    
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .docs-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .docs-content { padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-text">
+        <span class="nav-logo-foray">FORAY</span> <span class="nav-logo-protocol">Protocol</span>
+      </span>
+      <span class="nav-badge">v4.1</span>
+    </a>
+    <div class="nav-links">
+      <a href="demo.html" class="nav-link">Demo</a>
+      <a href="docs.html" class="nav-link">Documentation</a>
+      <a href="examples.html" class="nav-link">Examples</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
+    </div>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+  
+  <div class="nav-mobile-menu" id="mobileMenu">
+    <a href="demo.html" class="nav-link" onclick="closeMobileMenu()">Demo</a>
+    <a href="docs.html" class="nav-link" onclick="closeMobileMenu()">Documentation</a>
+    <a href="examples.html" class="nav-link" onclick="closeMobileMenu()">Examples</a>
+    <a href="about.html" class="nav-link" onclick="closeMobileMenu()">About</a>
+    <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank" onclick="closeMobileMenu()">GitHub</a>
+  </div>
+
+  <div class="docs-layout">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Overview</div>
+        <a href="#top" class="sidebar-link">Specification Home</a>
+        <a href="#document-control" class="sidebar-link">Document Control</a>
+        <a href="#whats-new" class="sidebar-link">What's New in v4.1</a>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Schema</div>
+        <a href="#top-level-schema" class="sidebar-link">Top-Level Schema</a>
+        <a href="#field-definitions" class="sidebar-link">Field Definitions</a>
+        <a href="#component-combinations" class="sidebar-link">Component Combinations</a>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Components</div>
+        <a href="#arrangements" class="sidebar-link">Arrangements</a>
+        <a href="#accruals" class="sidebar-link">Accruals</a>
+        <a href="#anticipations" class="sidebar-link">Anticipations</a>
+        <a href="#actions" class="sidebar-link">Actions</a>
+        <a href="#allocations" class="sidebar-link">Allocations</a>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Validation &amp; Migration</div>
+        <a href="#validation" class="sidebar-link">Validation Rules</a>
+        <a href="#migration" class="sidebar-link">Migration (v4.0 &rarr; v4.1)</a>
+        <a href="#attestations" class="sidebar-link">Attestations</a>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Related</div>
+        <a href="docs.html" class="sidebar-link">&larr; Documentation</a>
+        <a href="integration-guide.html" class="sidebar-link">Integration Guide</a>
+        <a href="examples.html" class="sidebar-link">Examples</a>
+      </div>
+    </aside>
+
+    <main class="docs-content">
+      <span class="version-label">v4.1 &mdash; DRAFT Under Review</span>
+      <h1 id="top">FORAY Protocol Specification</h1>
+      <p>
+        This document defines the FORAY Protocol v4.1 transaction schema, component structures, 
+        validation rules, and migration path from v4.0. It is the authoritative reference for 
+        implementers building FORAY-compatible systems.
+      </p>
+      
+      <div class="info-box note">
+        <div class="info-box-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          Source Document
+        </div>
+        <p>This page is derived from <a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Protocol_v4_1_Specification.md" target="_blank">FORAY_Protocol_v4_1_Specification.md</a> in the GitHub repository.</p>
+      </div>
+
+      <h2 id="document-control">Document Control</h2>
+      <table>
+        <thead>
+          <tr><th>Property</th><th>Value</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Version</td><td><strong>4.1</strong></td></tr>
+          <tr><td>Status</td><td>DRAFT &mdash; Under Review</td></tr>
+          <tr><td>Previous Version</td><td>4.0</td></tr>
+          <tr><td>Created</td><td>January 25, 2026</td></tr>
+          <tr><td>Author</td><td>Marvin Percival</td></tr>
+          <tr><td>Classification</td><td>Technical Specification</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Version History</h3>
+      <table>
+        <thead>
+          <tr><th>Version</th><th>Date</th><th>Summary</th><th>Breaking</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1.0</td><td>Jan 2026</td><td>Initial protocol with 4-component model</td><td>N/A</td></tr>
+          <tr><td>2.0</td><td>Jan 2026</td><td>Added privacy layers, ERP adapters</td><td>No</td></tr>
+          <tr><td>3.0</td><td>Jan 2026</td><td>Compressed keys, tier-based storage, encrypted envelope</td><td>Yes</td></tr>
+          <tr><td>4.0</td><td>Jan 2026</td><td>foray_core/audit_data separation, 3-layer architecture</td><td>Yes</td></tr>
+          <tr><td><strong>4.1</strong></td><td>Jan 2026</td><td><strong>Flexible entry points, many-to-many references</strong></td><td><strong>Yes</strong></td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="whats-new">What's New in v4.1</h2>
+      <table>
+        <thead>
+          <tr><th>Change</th><th>v4.0</th><th>v4.1</th><th>Impact</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Arrangements requirement</td>
+            <td>Required</td>
+            <td>Optional</td>
+            <td>Action-only or Accrual-only transactions now valid</td>
+          </tr>
+          <tr>
+            <td>Component references</td>
+            <td>Singular (<code>_ref</code>)</td>
+            <td>Array (<code>_refs[]</code>)</td>
+            <td>Many-to-many relationship support</td>
+          </tr>
+          <tr>
+            <td>Minimum components</td>
+            <td>At least 1 Arrangement</td>
+            <td>At least 1 of any type</td>
+            <td>Greater transaction flexibility</td>
+          </tr>
+          <tr>
+            <td>Entry points</td>
+            <td>Arrangements only</td>
+            <td>Any component type</td>
+            <td>Cash receipts, adjusting entries supported</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Design Rationale</h3>
+      <p>
+        <strong>Flexible Entry Points:</strong> v4.0 required Arrangements as DAG roots, forcing 
+        artificial parent creation for transactions without natural arrangements such as walk-in 
+        cash receipts, petty cash, and adjusting journal entries. v4.1 allows any component type 
+        as the transaction entry point.
+      </p>
+      <p>
+        <strong>Many-to-Many References:</strong> v4.0 used singular reference fields, but real 
+        transactions often have many-to-many relationships: one payment clearing multiple invoices, 
+        one invoice covering multiple contracts, or RMBS waterfall distributions across multiple 
+        tranches. v4.1 replaces singular <code>_ref</code> fields with <code>_refs[]</code> arrays.
+      </p>
+
+      <h2 id="top-level-schema">Top-Level Schema</h2>
+      <div class="code-block">
+        <code><pre>{
+  "transaction_id": "DOMAIN_YYYY_QN_DESCRIPTOR",
+  "schema_version": "4.1",
+  "timestamp": "ISO-8601",
+
+  "foray_core": {
+    "entity": "entity_name",
+    "entity_hash": "sha256:...",
+    "transaction_type": "type_code",
+    "total_value": 0.00,
+    "currency": "USD",
+    "status": "active|completed|reversed",
+    "compliance_flags": ["SOX_404", "DCAA", "..."]
+  },
+
+  "component_hashes": {
+    "arrangements": "sha256:...",
+    "accruals": "sha256:...",
+    "anticipations": "sha256:...",
+    "actions": "sha256:..."
+  },
+
+  "arrangements": [],
+  "accruals": [],
+  "anticipations": [],
+  "actions": [],
+
+  "merkle_root": "sha256:...",
+
+  "blockchain_anchor": {
+    "kaspa_tx_id": "kaspa:qr...",
+    "block_height": 0,
+    "confirmation_time_ms": 0,
+    "anchored_at": "ISO-8601"
+  },
+
+  "audit_data_anchor": {
+    "audit_data_hash": "sha256:...",
+    "audit_profile": "standard|dcaa_full|big4|minimal",
+    "storage_locations": [...]
+  },
+
+  "privacy_metadata": {...}
+}</pre></code>
+      </div>
+
+      <h2 id="field-definitions">Field Definitions</h2>
+      <table>
+        <thead>
+          <tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>transaction_id</code></td><td>string</td><td>Yes</td><td>Unique identifier (format: DOMAIN_YYYY_QN_DESCRIPTOR)</td></tr>
+          <tr><td><code>schema_version</code></td><td>string</td><td>Yes</td><td>Protocol version (<code>"4.1"</code>)</td></tr>
+          <tr><td><code>timestamp</code></td><td>ISO-8601</td><td>Yes</td><td>Transaction creation timestamp</td></tr>
+          <tr><td><code>foray_core</code></td><td>object</td><td>Yes</td><td>Core transaction metadata</td></tr>
+          <tr><td><code>component_hashes</code></td><td>object</td><td>Yes</td><td>SHA-256 hash of each component array</td></tr>
+          <tr><td><code>arrangements</code></td><td>array</td><td>No <span class="breaking">CHANGED</span></td><td>Arrangement components (was required in v4.0)</td></tr>
+          <tr><td><code>accruals</code></td><td>array</td><td>No</td><td>Accrual components</td></tr>
+          <tr><td><code>anticipations</code></td><td>array</td><td>No</td><td>Anticipation components</td></tr>
+          <tr><td><code>actions</code></td><td>array</td><td>No</td><td>Action components</td></tr>
+          <tr><td><code>merkle_root</code></td><td>string</td><td>Yes</td><td>Root hash of all component hashes</td></tr>
+          <tr><td><code>blockchain_anchor</code></td><td>object</td><td>Yes</td><td>Kaspa on-chain anchoring details</td></tr>
+          <tr><td><code>audit_data_anchor</code></td><td>object</td><td>No</td><td>Reference to off-chain audit data</td></tr>
+          <tr><td><code>privacy_metadata</code></td><td>object</td><td>No</td><td>Privacy and obfuscation settings</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box warning">
+        <div class="info-box-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"/>
+          </svg>
+          Breaking Change: Component Requirement
+        </div>
+        <p><strong>v4.0:</strong> <code>arrangements.length &gt;= 1</code><br>
+        <strong>v4.1:</strong> <code>arrangements.length + accruals.length + anticipations.length + actions.length &gt;= 1</code><br>
+        At least one component of any type must be present.</p>
+      </div>
+
+      <h2 id="component-combinations">Valid Component Combinations</h2>
+      <table>
+        <thead>
+          <tr><th>Pattern</th><th>Components</th><th>Use Case</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Full Lifecycle</td><td>ARR + ACC + ANT + ACT</td><td>Complete transaction (invoice + payment)</td></tr>
+          <tr><td>Commitment Only</td><td>ARR</td><td>Contract signed, no activity yet</td></tr>
+          <tr><td>Recognition Only</td><td>ACC</td><td>Adjusting entry, depreciation</td></tr>
+          <tr><td>Settlement Only</td><td>ACT</td><td>Immediate cash transaction</td></tr>
+          <tr><td>Expectation Chain</td><td>ARR + ANT</td><td>Future obligation recorded</td></tr>
+          <tr><td>Immediate Recognition</td><td>ACC + ACT</td><td>POS transaction</td></tr>
+          <tr><td>Deferred Settlement</td><td>ARR + ACC + ANT</td><td>Accrued but not yet settled</td></tr>
+          <tr><td>Consolidated Payment</td><td>ACT + [ANT, ANT, ANT]</td><td>Batch payment run</td></tr>
+          <tr><td>Waterfall Distribution</td><td>ACT + [ANT&times;n]</td><td>Structured finance (RMBS)</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Entry Points</h3>
+      <table>
+        <thead>
+          <tr><th>Entry Point</th><th>Valid When</th><th>Typical Use Cases</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="component-badge arrangement">Arrangement</span></td><td>Transaction has contractual basis</td><td>Contracts, agreements, orders</td></tr>
+          <tr><td><span class="component-badge accrual">Accrual</span></td><td>Recognition without prior arrangement</td><td>Adjusting entries, estimates</td></tr>
+          <tr><td><span class="component-badge anticipation">Anticipation</span></td><td>Future expectation without arrangement/accrual</td><td>Contingent liabilities (rare)</td></tr>
+          <tr><td><span class="component-badge action">Action</span></td><td>Immediate settlement, no prior components</td><td>Cash receipts, tips, donations</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Dependency Rules</h3>
+      <div class="code-block">
+        <code><pre>Arrangements:   No upstream references (entry points)
+                dependencies: []
+
+Accruals:       Zero or more Arrangements
+                arrangement_refs: [] | ["ARR_1"] | ["ARR_1", "ARR_2", ...]
+
+Anticipations:  Zero or more Accruals, and/or Arrangements
+                accrual_refs: [] | ["ACC_1"] | ["ACC_1", "ACC_2", ...]
+                arrangement_refs: [] | ["ARR_1"] | ["ARR_1", "ARR_2", ...]
+
+Actions:        Zero or more Anticipations, Accruals, and/or Arrangements
+                anticipation_refs: [] | ["ANT_1"] | ["ANT_1", "ANT_2", ...]
+                accrual_refs: [] | ["ACC_1"] | ["ACC_1", "ACC_2", ...]
+                arrangement_refs: [] | ["ARR_1"] | ["ARR_1", "ARR_2", ...]</pre></code>
+      </div>
+
+      <h2 id="arrangements">Arrangements</h2>
+      <p>
+        Arrangements represent the contractual foundation &mdash; the "what we agreed to." They define 
+        parties, terms, and obligations. Arrangements have no upstream references and serve as natural 
+        entry points for most transactions.
+      </p>
+      <div class="code-block">
+        <code><pre>{
+  "id": "ARR_DESCRIPTIVE_ID",
+  "foray_core": {
+    "type": "arrangement_type",
+    "effective_date": "ISO-8601",
+    "parties": [
+      {
+        "role": "party_role",
+        "name": "Party Name",
+        "party_id_hash": "sha256:...",
+        "jurisdiction": "US"
+      }
+    ],
+    "description": "Arrangement description",
+    "total_value": 0.00,
+    "currency": "USD",
+    "terms": { "...arrangement_specific_terms..." },
+    "legal_documentation": ["Doc1", "Doc2"],
+    "dependencies": []
+  }
+}</pre></code>
+      </div>
+
+      <h2 id="accruals">Accruals</h2>
+      <p>
+        Accruals represent formulas applied against asset flows &mdash; the "how amounts are computed." 
+        They capture calculations such as interest (P &times; r &times; t), depreciation, overhead allocation, 
+        and valuations.
+      </p>
+      <div class="code-block">
+        <code><pre>{
+  "id": "ACC_DESCRIPTIVE_ID",
+  "foray_core": {
+    "arrangement_refs": ["ARR_ID_1", "ARR_ID_2"],
+    "type": "accrual_type",
+    "description": "Accrual description",
+    "computation_method": "Calculated|Valuation|FixedAmount|Estimated",
+    "formula_id": "sha256:formula_hash",
+    "inputs": { "input_name": "value" },
+    "output": 0.00,
+    "currency": "USD",
+    "accounting_entry": {
+      "debit": {"account": "account_code", "amount": 0.00},
+      "credit": {"account": "account_code", "amount": 0.00}
+    }
+  }
+}</pre></code>
+      </div>
+      <div class="info-box warning">
+        <div class="info-box-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"/>
+          </svg>
+          Breaking Change
+        </div>
+        <p><code>arrangement_ref</code> (string) &rarr; <code>arrangement_refs</code> (array).<br>
+        Migration: <code>"ARR_ID"</code> becomes <code>["ARR_ID"]</code>. Empty arrays allowed for entry-point accruals.</p>
+      </div>
+
+      <h2 id="anticipations">Anticipations</h2>
+      <p>
+        Anticipations represent expected future flows &mdash; the "what we expect to happen." They can 
+        reference both Accruals and Arrangements directly.
+      </p>
+      <div class="code-block">
+        <code><pre>{
+  "id": "ANT_DESCRIPTIVE_ID",
+  "foray_core": {
+    "accrual_refs": ["ACC_ID_1", "ACC_ID_2"],
+    "arrangement_refs": ["ARR_ID_1"],
+    "type": "anticipation_type",
+    "description": "Anticipation description",
+    "expected_amount": 0.00,
+    "currency": "USD",
+    "expected_date": "ISO-8601",
+    "probability_factor": 0.95
+  }
+}</pre></code>
+      </div>
+
+      <h2 id="actions">Actions</h2>
+      <p>
+        Actions represent actual asset transfers &mdash; the "what actually moved." They record 
+        settlements, payments, deliveries, and other concrete movements. In v4.1, Actions can reference 
+        any upstream component type and include detailed allocation tracking.
+      </p>
+      <div class="code-block">
+        <code><pre>{
+  "id": "ACT_DESCRIPTIVE_ID",
+  "foray_core": {
+    "anticipation_refs": ["ANT_ID_1"],
+    "accrual_refs": ["ACC_ID_1", "ACC_ID_2"],
+    "arrangement_refs": ["ARR_ID_1"],
+    "type": "action_type",
+    "description": "Action description",
+    "amount": 0.00,
+    "currency": "USD",
+    "executed_at": "ISO-8601",
+    "payment_method": "wire|ach|check|cash|crypto",
+    "allocations": [
+      {
+        "ref": "ACC_ID_1",
+        "ref_type": "accrual",
+        "amount": 0.00,
+        "currency": "USD",
+        "allocation_type": "full|partial|overpayment"
+      }
+    ]
+  }
+}</pre></code>
+      </div>
+
+      <h2 id="allocations">Allocation Tracking</h2>
+      <p>
+        New in v4.1, the <code>allocations</code> array within Actions explicitly tracks how a single 
+        settlement maps to multiple upstream references. This eliminates the manual reconciliation 
+        burden that auditors face with batch payments and consolidated settlements.
+      </p>
+      <table>
+        <thead>
+          <tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>ref</code></td><td>string</td><td>Yes</td><td>Component ID being settled</td></tr>
+          <tr><td><code>ref_type</code></td><td>enum</td><td>Yes</td><td><code>anticipation</code>, <code>accrual</code>, or <code>arrangement</code></td></tr>
+          <tr><td><code>amount</code></td><td>number</td><td>Yes</td><td>Amount allocated to this reference</td></tr>
+          <tr><td><code>currency</code></td><td>string</td><td>Yes</td><td>Currency code (ISO 4217)</td></tr>
+          <tr><td><code>allocation_type</code></td><td>enum</td><td>No</td><td><code>full</code>, <code>partial</code>, or <code>overpayment</code></td></tr>
+          <tr><td><code>remaining_balance</code></td><td>number</td><td>No</td><td>Outstanding balance after allocation</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="validation">Validation Rules</h2>
+      <h3>Structural Validation</h3>
+      <ol>
+        <li>At least one component array must contain at least one element</li>
+        <li>All component IDs must be unique within the transaction</li>
+        <li>All <code>_refs[]</code> arrays must contain valid IDs that exist within the transaction</li>
+        <li><code>merkle_root</code> must match the computed root of all <code>component_hashes</code></li>
+        <li>Each <code>component_hashes</code> entry must match the SHA-256 of its component array</li>
+      </ol>
+      
+      <h3>Reference Validation</h3>
+      <ol>
+        <li>Arrangement refs must point to IDs prefixed with <code>ARR_</code></li>
+        <li>Accrual refs must point to IDs prefixed with <code>ACC_</code></li>
+        <li>Anticipation refs must point to IDs prefixed with <code>ANT_</code></li>
+        <li>No circular references allowed</li>
+        <li>Allocation amounts must sum to the Action's total amount (with tolerance for rounding)</li>
+      </ol>
+
+      <h3>Naming Convention</h3>
+      <table>
+        <thead>
+          <tr><th>Component</th><th>ID Prefix</th><th>Example</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Arrangement</td><td><code>ARR_</code></td><td><code>ARR_MSA_VENDOR_2024</code></td></tr>
+          <tr><td>Accrual</td><td><code>ACC_</code></td><td><code>ACC_INV_2026_001</code></td></tr>
+          <tr><td>Anticipation</td><td><code>ANT_</code></td><td><code>ANT_PAY_BATCH_001</code></td></tr>
+          <tr><td>Action</td><td><code>ACT_</code></td><td><code>ACT_WIRE_2026_001</code></td></tr>
+          <tr><td>Attestation</td><td><code>ATT_</code></td><td><code>ATT_LAB_ANALYSIS_001</code></td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="migration">Migration (v4.0 &rarr; v4.1)</h2>
+      <p>
+        V4.1 systems <strong>must</strong> accept v4.0 transactions by auto-converting singular refs to arrays. 
+        V4.0 systems <em>may</em> reject v4.1 transactions containing multiple refs.
+      </p>
+      
+      <h3>Reference Field Migration</h3>
+      <table>
+        <thead>
+          <tr><th>Component</th><th>v4.0 Field</th><th>v4.1 Field</th><th>Change</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Accrual</td><td><code>arrangement_ref</code></td><td><code>arrangement_refs</code></td><td>string &rarr; array</td></tr>
+          <tr><td>Anticipation</td><td><code>accrual_ref</code></td><td><code>accrual_refs</code></td><td>string &rarr; array</td></tr>
+          <tr><td>Anticipation</td><td>N/A</td><td><code>arrangement_refs</code></td><td>New field</td></tr>
+          <tr><td>Action</td><td><code>anticipation_ref</code></td><td><code>anticipation_refs</code></td><td>string &rarr; array</td></tr>
+          <tr><td>Action</td><td>N/A</td><td><code>accrual_refs</code></td><td>New field</td></tr>
+          <tr><td>Action</td><td>N/A</td><td><code>arrangement_refs</code></td><td>New field</td></tr>
+          <tr><td>Action</td><td>N/A</td><td><code>allocations</code></td><td>New field</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="attestations">Attestations Extension (Optional)</h2>
+      <p>
+        The core 4A model captures what organizations claim happened. The optional Attestations extension 
+        records who verified those claims, providing accountability infrastructure for supply chain 
+        provenance, regulatory compliance, and quality certification use cases.
+      </p>
+      
+      <table>
+        <thead>
+          <tr><th>Type</th><th>Use Case</th><th>Example</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>certification</code></td><td>Formal certification by authorized body</td><td>UMF certification, ISO compliance</td></tr>
+          <tr><td><code>inspection</code></td><td>Physical examination by qualified inspector</td><td>Customs inspection, quality check</td></tr>
+          <tr><td><code>analysis</code></td><td>Laboratory or technical analysis</td><td>Spectroscopic fingerprint, MGO analysis</td></tr>
+          <tr><td><code>audit_opinion</code></td><td>Professional auditor's assessment</td><td>Financial audit, compliance review</td></tr>
+          <tr><td><code>verification</code></td><td>Confirmation of facts or events</td><td>Delivery confirmation, payment verification</td></tr>
+          <tr><td><code>oracle</code></td><td>Automated/sensor-based attestation</td><td>IoT readings, GPS coordinates</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        For the complete attestation trust model, see the 
+        <a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Attestation_Trust_Model.md" target="_blank">Attestation Trust Model</a> document.
+      </p>
+
+      <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(125, 211, 214, 0.1); text-align: center; color: var(--gray-400); font-size: 0.9rem;">
+        <p>&copy; 2026 Marvin Percival. All rights reserved.</p>
+        <p style="margin-top: 0.5rem;">
+          <a href="about.html#license">License</a> &middot; 
+          <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a>
+        </p>
+      </div>
+    </main>
+  </div>
+  
+  <script>
+    function toggleMobileMenu() {
+      const hamburger = document.querySelector('.nav-hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    }
+    function closeMobileMenu() {
+      const hamburger = document.querySelector('.nav-hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeMobileMenu();
+    });
+  </script>
+</body>
+</html>

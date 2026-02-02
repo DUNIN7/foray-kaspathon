@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<!--
+  File: integration-guide.html
+  Version: 1.0.0
+  Created: 2026-02-02T19:30:00Z
+  Modified: 2026-02-02T19:30:00Z
+  Author: Marvin Percival
+  Email: marvinp@dunin7.com
+  GitHub: DUNIN7/foray-kaspathon
+  
+  FORAY Protocol Integration Guide (Web Version)
+  Derived from: foray-erp-comparison.md, FORAY_QuickBooks_Integration.md,
+                FORAY_Salesforce_Integration.md, SAP_FORAY_Transaction_Mapping.md
+  
+  Change Log:
+    v1.0.0 (2026-02-02): Initial web version of the integration guide
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Integration Guide - FORAY Protocol</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta name="description" content="FORAY Protocol Integration Guide - ERP integration patterns for SAP, Oracle, QuickBooks, Salesforce, and NetSuite.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-teal: #0D7377;
+      --secondary-navy: #1B365D;
+      --accent-cyan: #14B8B8;
+      --highlight-mint: #7DD3D6;
+      --action-amber: #E6A817;
+      --text-dark: #1A1D21;
+      --text-light: #F7F9FA;
+      --bg-dark: #1A1D21;
+      --gray-600: #636E72;
+      --gray-400: #94A3A8;
+      --gray-200: #E5E9EB;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+    
+    .font-mono { font-family: 'IBM Plex Mono', monospace; }
+
+    /* === BULLETPROOF NAV CSS v4.0 - FULLY SELF-CONTAINED === */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
+    .nav * { box-sizing: border-box; }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: inherit; font-size: inherit; line-height: inherit; }
+    .nav-logo-text { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; display: flex; align-items: center; }
+    .nav-logo-foray { color: #0D7377; }
+    .nav-logo-protocol { color: #F7F9FA; font-weight: 400; }
+    .nav-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: #E6A817; color: #1A1D21; border-radius: 4px; font-weight: 600; line-height: 1; display: inline-block; vertical-align: middle; font-family: inherit; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-link { color: #94A3A8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; font-family: inherit; line-height: 1; }
+    .nav-link:hover, .nav-link.active { color: #14B8B8; }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; align-items: center; width: 40px; height: 40px; background: transparent; border: none; cursor: pointer; z-index: 1001; padding: 8px; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #F7F9FA; margin: 3px 0; transition: all 0.3s ease; border-radius: 2px; }
+    .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .nav-mobile-menu.active { opacity: 1; visibility: visible; }
+    .nav-mobile-menu .nav-link { font-size: 1.5rem; font-weight: 500; color: #F7F9FA; line-height: 1; }
+    .nav-mobile-menu .nav-link:hover { color: #14B8B8; }
+    @media (max-width: 768px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .nav-mobile-menu { display: flex; } }
+    /* === END BULLETPROOF NAV CSS === */
+    
+    /* Layout */
+    .docs-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+      padding-top: 73px;
+    }
+    
+    .sidebar {
+      position: sticky;
+      top: 73px;
+      height: calc(100vh - 73px);
+      overflow-y: auto;
+      padding: 2rem;
+      border-right: 1px solid rgba(125, 211, 214, 0.1);
+      background: rgba(27, 54, 93, 0.05);
+    }
+    .sidebar-section { margin-bottom: 2rem; }
+    .sidebar-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 0.75rem;
+    }
+    .sidebar-link {
+      display: block;
+      padding: 0.5rem 0;
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+      padding-left: 0.75rem;
+      margin-left: -0.75rem;
+    }
+    .sidebar-link:hover {
+      color: var(--accent-cyan);
+      border-left-color: var(--accent-cyan);
+    }
+    
+    .docs-content {
+      padding: 3rem 4rem;
+      max-width: 900px;
+    }
+    
+    .docs-content h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+      scroll-margin-top: 100px;
+    }
+    .docs-content h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(125, 211, 214, 0.1);
+      color: var(--accent-cyan);
+      scroll-margin-top: 100px;
+    }
+    .docs-content h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-light);
+      scroll-margin-top: 100px;
+    }
+    .docs-content p { color: var(--gray-400); margin-bottom: 1rem; }
+    .docs-content a { color: var(--accent-cyan); text-decoration: none; }
+    .docs-content a:hover { text-decoration: underline; }
+    .docs-content ul, .docs-content ol {
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+      color: var(--gray-400);
+    }
+    .docs-content li { margin-bottom: 0.5rem; }
+    
+    .code-block {
+      background: rgba(26, 29, 33, 0.8);
+      border: 1px solid rgba(125, 211, 214, 0.1);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+    }
+    .code-block code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    code {
+      font-family: 'IBM Plex Mono', monospace;
+      background: rgba(20, 184, 184, 0.1);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85em;
+      color: var(--accent-cyan);
+    }
+    
+    table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+    th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid rgba(125, 211, 214, 0.1); }
+    th {
+      background: rgba(27, 54, 93, 0.2);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--gray-400);
+    }
+    td { color: var(--text-light); font-size: 0.9rem; }
+    
+    .info-box {
+      padding: 1.25rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+    .info-box.note {
+      background: rgba(20, 184, 184, 0.1);
+      border-left: 4px solid var(--accent-cyan);
+    }
+    .info-box.warning {
+      background: rgba(230, 168, 23, 0.1);
+      border-left: 4px solid var(--action-amber);
+    }
+    .info-box.important {
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 4px solid #EF4444;
+    }
+    .info-box-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .info-box.note .info-box-title { color: var(--accent-cyan); }
+    .info-box.warning .info-box-title { color: var(--action-amber); }
+    .info-box.important .info-box-title { color: #EF4444; }
+    .info-box p { margin-bottom: 0; color: var(--text-light); font-size: 0.9rem; }
+    
+    /* ERP logo badges */
+    .erp-badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .erp-badge.sap { background: rgba(0, 102, 153, 0.2); color: #0099CC; }
+    .erp-badge.oracle { background: rgba(255, 0, 0, 0.12); color: #FF6666; }
+    .erp-badge.qb { background: rgba(44, 160, 44, 0.2); color: #2CA02C; }
+    .erp-badge.sf { background: rgba(0, 160, 224, 0.2); color: #00A0E0; }
+    .erp-badge.netsuite { background: rgba(139, 92, 246, 0.2); color: #8B5CF6; }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .docs-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .docs-content { padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-text">
+        <span class="nav-logo-foray">FORAY</span> <span class="nav-logo-protocol">Protocol</span>
+      </span>
+      <span class="nav-badge">v4.1</span>
+    </a>
+    <div class="nav-links">
+      <a href="demo.html" class="nav-link">Demo</a>
+      <a href="docs.html" class="nav-link">Documentation</a>
+      <a href="examples.html" class="nav-link">Examples</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
+    </div>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+  
+  <div class="nav-mobile-menu" id="mobileMenu">
+    <a href="demo.html" class="nav-link" onclick="closeMobileMenu()">Demo</a>
+    <a href="docs.html" class="nav-link" onclick="closeMobileMenu()">Documentation</a>
+    <a href="examples.html" class="nav-link" onclick="closeMobileMenu()">Examples</a>
+    <a href="about.html" class="nav-link" onclick="closeMobileMenu()">About</a>
+    <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank" onclick="closeMobileMenu()">GitHub</a>
+  </div>
+
+  <div class="docs-layout">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Overview</div>
+        <a href="#top" class="sidebar-link">Integration Guide</a>
+        <a href="#why-foray" class="sidebar-link">Why FORAY + ERP</a>
+        <a href="#pattern" class="sidebar-link">Integration Pattern</a>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">ERP Systems</div>
+        <a href="#sap" class="sidebar-link">SAP S/4HANA</a>
+        <a href="#oracle" class="sidebar-link">Oracle EBS / Cloud</a>
+        <a href="#quickbooks" class="sidebar-link">QuickBooks</a>
+        <a href="#salesforce" class="sidebar-link">Salesforce</a>
+        <a href="#netsuite" class="sidebar-link">NetSuite</a>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Implementation</div>
+        <a href="#adapter-architecture" class="sidebar-link">Adapter Architecture</a>
+        <a href="#privacy-levels" class="sidebar-link">Privacy Levels</a>
+        <a href="#batch-vs-realtime" class="sidebar-link">Batch vs. Real-Time</a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">Related</div>
+        <a href="docs.html" class="sidebar-link">&larr; Documentation</a>
+        <a href="specification.html" class="sidebar-link">Specification</a>
+        <a href="examples.html" class="sidebar-link">Examples</a>
+      </div>
+    </aside>
+
+    <main class="docs-content">
+      <h1 id="top">Integration Guide</h1>
+      <p>
+        FORAY Protocol is designed to work alongside existing enterprise systems, not replace them. 
+        This guide covers the integration architecture, ERP-specific adapter patterns, and implementation 
+        strategies for connecting your systems to FORAY's tamper-evident audit infrastructure.
+      </p>
+
+      <h2 id="why-foray">Why FORAY + ERP</h2>
+      <p>
+        Every major ERP claims comprehensive audit trails. They are all telling the truth &mdash; and missing the point.
+        Native ERP audit capabilities answer: <em>"What changed, when, and by whom?"</em>
+        FORAY answers: <em>"Can you prove it to someone who doesn't trust your systems?"</em>
+      </p>
+      <p>
+        This is the difference between internal record-keeping and external proof. All ERP audit systems share 
+        a fundamental limitation: the same administrators who could commit fraud can alter the audit trail that 
+        would detect it. FORAY solves this by anchoring cryptographic proof to an external, tamper-evident ledger 
+        that no internal actor can alter.
+      </p>
+      
+      <table>
+        <thead>
+          <tr><th>Capability</th><th>ERP Native</th><th>FORAY Addition</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Record changes</td><td>Yes</td><td>Yes</td></tr>
+          <tr><td>Timestamp events</td><td>Yes</td><td>Yes</td></tr>
+          <tr><td>Identify users</td><td>Yes</td><td>Yes (hashed)</td></tr>
+          <tr><td>Survive admin tampering</td><td>No</td><td><strong>Yes</strong></td></tr>
+          <tr><td>Prove to external parties</td><td>No</td><td><strong>Yes</strong></td></tr>
+          <tr><td>Cross-system unified trail</td><td>No</td><td><strong>Yes</strong></td></tr>
+          <tr><td>Privacy-preserving verification</td><td>No</td><td><strong>Yes</strong></td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="pattern">Integration Pattern</h2>
+      <p>
+        The universal FORAY integration pattern follows five steps, regardless of source system:
+      </p>
+      <ol>
+        <li><strong>Extract</strong> &mdash; Pull transaction data from ERP via API, webhook, or scheduled export</li>
+        <li><strong>Transform</strong> &mdash; Map to FORAY's 4-component model (Arrangements, Accruals, Anticipations, Actions)</li>
+        <li><strong>Hash</strong> &mdash; Generate component hashes, compute merkle root, apply privacy obfuscation</li>
+        <li><strong>Anchor</strong> &mdash; Submit merkle root to Kaspa blockchain</li>
+        <li><strong>Store</strong> &mdash; Archive full transaction JSON with blockchain anchor reference</li>
+      </ol>
+      
+      <div class="code-block">
+        <code><pre>Source System (SAP, Oracle, QuickBooks, Salesforce, ...)
+         |
+         v
+    FORAY Adapter (extracts + transforms)
+         |
+         v
+    FORAY JSON (4A components + hashes)
+         |
+         v
+    Kaspa Blockchain (merkle root anchored)
+         |
+         v
+    Archive (full JSON + anchor reference)</pre></code>
+      </div>
+
+      <div class="info-box note">
+        <div class="info-box-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          Non-Disruptive Design
+        </div>
+        <p>FORAY adapters <strong>read</strong> from your ERP &mdash; they never modify source system data. No ERP configuration changes are required for basic integration.</p>
+      </div>
+
+      <h2 id="sap">SAP S/4HANA</h2>
+      <h3>Native Audit Capabilities</h3>
+      <p>
+        SAP offers extensive audit functionality including Change Documents (CDHDR/CDPOS), Table Logging (SE13), 
+        Security Audit Log (SM21), Business Transaction Events, GRC Access Control, and HANA Audit Policies.
+      </p>
+      
+      <h3>The Audit Gap</h3>
+      <table>
+        <thead>
+          <tr><th>SAP Capability</th><th>Limitation</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>CDHDR tables</td><td>Basis admins with S_TABU_DIS can modify directly</td></tr>
+          <tr><td>Table logging</td><td>Can be disabled by authorized users</td></tr>
+          <tr><td>Audit policies</td><td>Stored in same database as transactions</td></tr>
+          <tr><td>GRC controls</td><td>Monitors access, not data integrity</td></tr>
+          <tr><td>Archiving</td><td>Archived data can be deleted per retention policy</td></tr>
+        </tbody>
+      </table>
+
+      <h3>FORAY + SAP Integration</h3>
+      <table>
+        <thead>
+          <tr><th>SAP Module</th><th>FORAY Mapping</th><th>Integration Point</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>SD (Sales &amp; Distribution)</td><td>Full 4A lifecycle</td><td>IDoc extraction</td></tr>
+          <tr><td>FI (Financial Accounting)</td><td>Accruals + Actions</td><td>BAPI/RFC calls</td></tr>
+          <tr><td>MM (Materials Management)</td><td>Arrangements + Actions</td><td>Purchase order events</td></tr>
+          <tr><td>CS (Customer Service)</td><td>Warranty lifecycle</td><td>Service order triggers</td></tr>
+          <tr><td>QM (Quality Management)</td><td>Attestations</td><td>Inspection lot results</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="oracle">Oracle EBS / Cloud</h2>
+      <h3>The Audit Gap</h3>
+      <table>
+        <thead>
+          <tr><th>Oracle Capability</th><th>Limitation</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>FND_LOG_MESSAGES</td><td>DBA can truncate or drop</td></tr>
+          <tr><td>Audit trail tables</td><td>Same database, same admin access</td></tr>
+          <tr><td>Flashback queries</td><td>Limited by UNDO retention period</td></tr>
+          <tr><td>Oracle Vault</td><td>Still vulnerable to the vault admin</td></tr>
+        </tbody>
+      </table>
+      
+      <h3>FORAY + Oracle Integration</h3>
+      <p>
+        Oracle integration uses the same adapter pattern. For Oracle EBS, extract via Concurrent Programs 
+        or REST APIs. For Oracle Cloud, use the BI Publisher extract or FBDI integration.
+        The adapter maps Receivables (AR), Payables (AP), General Ledger (GL), and Order Management 
+        transactions to the FORAY 4A model.
+      </p>
+
+      <h2 id="quickbooks">QuickBooks</h2>
+      <p>
+        FORAY provides adapters for QuickBooks Online at three implementation levels, designed for 
+        small-to-mid-size businesses that need audit-grade transaction records without enterprise-scale complexity.
+      </p>
+      
+      <table>
+        <thead>
+          <tr><th>Level</th><th>Fields</th><th>Use Case</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Essential</td><td>Core audit data only</td><td>Minimal payload, basic compliance</td></tr>
+          <tr><td>Standard</td><td>+ Business context</td><td>Balanced payload and detail</td></tr>
+          <tr><td>Comprehensive</td><td>+ Full audit trail</td><td>Big 4 audit requirements</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Invoice Lifecycle Mapping</h3>
+      <div class="code-block">
+        <code><pre>QuickBooks Invoice Lifecycle:
+  Create Invoice &rarr; Send to Customer &rarr; Payment Expected &rarr; Payment Received
+
+FORAY Mapping:
+  Arrangement:   Invoice created (parties, terms, line items)
+  Accrual:       Revenue recognized (quantity &times; price - discounts + tax)
+  Anticipation:  Payment due date, amount expected
+  Action:        Payment received (actual date, amount, method)</pre></code>
+      </div>
+
+      <p>
+        See the <a href="examples.html">Examples page</a> for working QuickBooks integration samples, 
+        and the <a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/quickbooks-adapter.js" target="_blank">quickbooks-adapter.js</a> source code.
+      </p>
+
+      <h2 id="salesforce">Salesforce</h2>
+      <p>
+        Salesforce integration covers Opportunities, Quotes, Orders, and Cases. Each Salesforce object 
+        lifecycle maps naturally to the 4A model, with probability-weighted revenue recognition for 
+        ASC 606 compliance.
+      </p>
+      
+      <h3>Object Lifecycle Mapping</h3>
+      <table>
+        <thead>
+          <tr><th>Salesforce Object</th><th>Arrangement</th><th>Accrual</th><th>Anticipation</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Opportunity</td>
+            <td>Created</td>
+            <td>Revenue forecast</td>
+            <td>Close date</td>
+            <td>Closed Won</td>
+          </tr>
+          <tr>
+            <td>Quote</td>
+            <td>Prepared</td>
+            <td>Total calculated</td>
+            <td>Expiration</td>
+            <td>Accepted</td>
+          </tr>
+          <tr>
+            <td>Order</td>
+            <td>Placed</td>
+            <td>Revenue recognized</td>
+            <td>Fulfillment</td>
+            <td>Activated</td>
+          </tr>
+          <tr>
+            <td>Case</td>
+            <td>Opened</td>
+            <td>Effort estimate</td>
+            <td>SLA deadline</td>
+            <td>Resolved</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Cross-System Reconciliation</h3>
+      <p>
+        FORAY enables automatic cross-system reconciliation between Salesforce and QuickBooks by 
+        linking Salesforce Quotes to QuickBooks Invoices via shared transaction hashes. No manual 
+        matching required &mdash; the cryptographic proof establishes the linkage.
+      </p>
+      <p>
+        See the <a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/salesforce-adapter.js" target="_blank">salesforce-adapter.js</a> source code for the full implementation.
+      </p>
+
+      <h2 id="netsuite">NetSuite</h2>
+      <p>
+        NetSuite integration follows the same adapter pattern. SuiteScript workflows trigger FORAY 
+        transaction generation on key events: invoice creation, payment receipt, journal entry posting, 
+        and inventory transfers. The adapter maps NetSuite's native transaction types to the FORAY 4A model.
+      </p>
+      <table>
+        <thead>
+          <tr><th>NetSuite Transaction</th><th>FORAY Mapping</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Sales Order</td><td>Arrangement (terms) + Anticipation (fulfillment)</td></tr>
+          <tr><td>Invoice</td><td>Accrual (revenue recognition)</td></tr>
+          <tr><td>Customer Payment</td><td>Action (settlement)</td></tr>
+          <tr><td>Journal Entry</td><td>Accrual (adjusting entry)</td></tr>
+          <tr><td>Inventory Transfer</td><td>Action (asset movement)</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="adapter-architecture">Adapter Architecture</h2>
+      <p>
+        Every FORAY adapter follows the same three-phase architecture, regardless of source system:
+      </p>
+      <div class="code-block">
+        <code><pre>Phase 1: Extract
+  - Connect to source system API (REST, SOAP, BAPI, etc.)
+  - Pull transaction data with all relevant fields
+  - Handle pagination for batch operations
+
+Phase 2: Transform
+  - Map source fields to FORAY 4A components
+  - Apply privacy obfuscation (hash parties, round amounts)
+  - Generate component hashes (SHA-256)
+  - Compute merkle root
+
+Phase 3: Anchor
+  - Submit merkle root to Kaspa blockchain
+  - Receive transaction ID and block confirmation
+  - Store full FORAY JSON with anchor reference
+  - Return confirmation to source system (optional)</pre></code>
+      </div>
+
+      <h2 id="privacy-levels">Privacy Levels</h2>
+      <p>
+        FORAY adapters support configurable privacy levels to match data sensitivity requirements:
+      </p>
+      <table>
+        <thead>
+          <tr><th>Level</th><th>Party Names</th><th>Amounts</th><th>Dates</th><th>Use Case</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Standard</td><td>SHA-256 hashed</td><td>Rounded to $100</td><td>Preserved</td><td>Most SMB transactions</td></tr>
+          <tr><td>High</td><td>SHA-256 hashed</td><td>Rounded to $1,000 + noise</td><td>Preserved</td><td>Sensitive industries</td></tr>
+          <tr><td>Defense-grade</td><td>SHA-256 hashed</td><td>Hash only (no value exposed)</td><td>Preserved</td><td>Classified / DCAA</td></tr>
+        </tbody>
+      </table>
+      
+      <div class="info-box warning">
+        <div class="info-box-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"/>
+          </svg>
+          Privacy vs. Auditability
+        </div>
+        <p>Higher privacy levels reduce the information available for audit verification. Choose the minimum privacy level that meets your regulatory requirements. Standard privacy is sufficient for most use cases.</p>
+      </div>
+
+      <h2 id="batch-vs-realtime">Batch vs. Real-Time Anchoring</h2>
+      <table>
+        <thead>
+          <tr><th>Scenario</th><th>Strategy</th><th>Latency</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>High-value individual transactions</td><td>Real-time (immediate anchoring)</td><td>&lt; 2 seconds</td></tr>
+          <tr><td>Routine daily transactions</td><td>Batch (end-of-day)</td><td>Hours</td></tr>
+          <tr><td>Month-end adjustments</td><td>Batch (period close)</td><td>End of period</td></tr>
+          <tr><td>Regulatory filings</td><td>Real-time (regulatory timing)</td><td>&lt; 2 seconds</td></tr>
+          <tr><td>High-volume POS</td><td>Micro-batch (every 15 minutes)</td><td>Minutes</td></tr>
+        </tbody>
+      </table>
+      
+      <p>
+        Kaspa's sub-second block times and minimal transaction costs (approximately $0.0001 per anchor) 
+        make real-time anchoring economically feasible even for high-volume enterprises.
+      </p>
+
+      <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(125, 211, 214, 0.1); text-align: center; color: var(--gray-400); font-size: 0.9rem;">
+        <p>&copy; 2026 Marvin Percival. All rights reserved.</p>
+        <p style="margin-top: 0.5rem;">
+          <a href="about.html#license">License</a> &middot; 
+          <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a>
+        </p>
+      </div>
+    </main>
+  </div>
+  
+  <script>
+    function toggleMobileMenu() {
+      const hamburger = document.querySelector('.nav-hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    }
+    function closeMobileMenu() {
+      const hamburger = document.querySelector('.nav-hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeMobileMenu();
+    });
+  </script>
+</body>
+</html>
