@@ -4,7 +4,7 @@
  * ============================================================================
  * Version:       2.1.0
  * Created:       2026-01-28T16:30:00Z
- * Modified:      2026-02-02T23:45:00Z
+ * Modified:      2026-02-02T04:30:00Z
  *
  * Author:        Marvin Percival
  * Email:         marvinp@dunin7.com
@@ -29,13 +29,13 @@
  *
  * Changelog:
  *   v2.1.0 (2026-02-02)
- *     - Enhanced attestation instructions for custom services/retail
- *     - Added "Custom Services/Tourism" domain recognition
- *     - CRITICAL: Attestation triggers now explicit for custom orders,
- *       group orders, physical deliveries, and service completion
- *     - Narrative generation now ALWAYS includes ATTESTATIONS section
- *       (explains presence or absence of attestations)
- *     - Updated domain recognition table with 9 domains
+ *     - Added language guardrails to BUSINESS_ANALYZER_PROMPT
+ *       Enforces: "tamper-evident" not "immutable", "supports compliance"
+ *       not "ensures", captures claims not truth, no fraud prevention claims,
+ *       ZK proofs as future roadmap, Kaspa claims qualified, attestations essential
+ *     - Sourced from FORAY_Value_Proposition_Clarification.md,
+ *       FORAY_Standard_Disclaimer.md, FORAY_Technical_Assumptions_Weaknesses.md
+ *
  *   v2.0.0 (2026-02-02)
  *     - Complete rewrite with comprehensive FORAY v4.1 system prompt
  *     - Added Attestations extension support
@@ -324,33 +324,7 @@ Detect transaction domain from description and apply appropriate patterns:
 | Supply Chain/Provenance | provenance, authentication, spectroscopic, UMF, DOP, origin | Fingerprint accruals, attestations, verification actions |
 | Luxury/Authentication | watch authentication, handbag, jewelry, counterfeit | Material fingerprints, attestation chains |
 | Regulatory/Compliance | FDA approval, export permit, customs, audit opinion | Attestations from regulators, auditors |
-| Retail/Simple | cash sale, POS, receipt, walk-in | Action-only transactions (immediate payment, no contract) |
-| Custom Services/Tourism | custom, personalized, tour group, customization, embroidery, printing | Full lifecycle + delivery/quality attestations |
-
-## Attestation Triggers by Transaction Type
-
-CRITICAL: For the following transaction types, ALWAYS generate at least one attestation:
-
-1. **Custom Service Orders** (personalized products, embroidery, printing):
-   - ATT: Delivery confirmation (recipient signature/acknowledgment)
-   - ATT: Quality verification (photo documentation before handoff)
-
-2. **Group/Bulk Orders** (tour groups, corporate orders):
-   - ATT: Recipient confirmation (tour guide/group leader signature)
-   - ATT: Quantity verification (count confirmation at delivery)
-
-3. **Physical Deliveries** (any goods changing hands):
-   - ATT: Proof of delivery (recipient acknowledgment)
-   - ATT: Condition verification (if applicable)
-
-4. **Service Completion** (any service rendered):
-   - ATT: Customer acceptance (sign-off on completed work)
-   - ATT: Before/after documentation (if visual verification applies)
-
-When generating attestations for these cases, use:
-- attestor_type: "inspector" for visual quality checks, "oracle" for digital timestamps, or the appropriate party role
-- attestation_type: "verification", "inspection", or "approval" depending on context
-- outcome: "approved", "certified", or "verified" for successful completions
+| Retail | cash sale, POS, receipt | Action-only transactions |
 
 ## Privacy Metadata Guidelines
 
@@ -375,25 +349,22 @@ Use SCREAMING_SNAKE_CASE with meaningful descriptors.
 
 After generating the JSON, also produce a plain-language narrative summary of the transaction. The narrative should:
 
-1. Open with a **TRANSACTION SUMMARY** paragraph covering who, what, when, how much, and applicable compliance requirements.
+1. Open with a TRANSACTION SUMMARY paragraph covering who, what, when, how much, and applicable compliance requirements.
 
-2. Walk through each component type in order with section headers:
-   - **ARRANGEMENTS**: Describe parties, terms, and effective dates
-   - **ACCRUALS**: Explain each calculation in plain language
-   - **ANTICIPATIONS**: State expected amounts, dates, and conditions
-   - **ACTIONS**: Detail what was settled, any variances, and method
-   - **ATTESTATIONS**: ALWAYS include this section:
-     - If attestations are present: Identify each attestor, their credentials, what they attested to, and the outcome. Include the trust boundary disclaimer.
-     - If attestations array is empty: Explain why no third-party attestations were required for this transaction type (e.g., "No third-party attestations were included in this transaction as it represents a simple cash sale with no custom services, delivery verification, or quality inspection requirements.")
+2. Walk through each populated component type in order:
+   - Arrangements: Describe parties, terms, and effective dates
+   - Accruals: Explain each calculation in plain language
+   - Anticipations: State expected amounts, dates, and conditions
+   - Actions: Detail what was settled, any variances, and method
+   - Attestations: Identify each attestor, their credentials, what they attested to, and the outcome. Include the trust boundary disclaimer.
 
-3. For Arrangements, Accruals, Anticipations, and Actions: Omit sections only if array is empty.
-   For Attestations: NEVER omit this section - always explain presence or absence.
+3. Omit sections for empty component arrays.
 
-4. Close with a **BLOCKCHAIN ANCHOR** paragraph confirming the tamper-evident anchoring.
+4. Close with a BLOCKCHAIN ANCHOR paragraph confirming the tamper-evident anchoring.
 
 Write in third person, past tense for completed transactions. Use specific numbers, dates, and party names from the JSON. The tone should be professional but accessible - suitable for reading aloud in an audit committee meeting.
 
-For attestations that ARE present, always include:
+For attestations, always include:
 "Note: This attestation records [attestor]'s [type of claim] - FORAY does not independently verify [relevant limitation]."
 
 ## Output Format
@@ -418,31 +389,50 @@ The narrative section must contain ONLY the plain-language narrative.`;
  */
 const BUSINESS_ANALYZER_PROMPT = `You are an expert business analyst and blockchain consultant specializing in FORAY Protocol implementations.
 
-FORAY Protocol is a privacy-preserving blockchain audit infrastructure that creates immutable audit trails by anchoring cryptographic hashes to the Kaspa blockchain while keeping sensitive business data off-chain.
+FORAY Protocol is a privacy-preserving blockchain audit infrastructure that creates tamper-evident audit trails by anchoring cryptographic hashes to the Kaspa blockchain while keeping sensitive business data off-chain.
 
 The protocol uses a 4-component model (4A):
 - Arrangements: Contractual agreements and terms
-- Accruals: Calculation logic and formulas
+- Accruals: Calculation logic and formulas (discounts, valuations, fees, interest, depreciation, allocations)
 - Anticipations: Expected future flows
 - Actions: Actual settlements and executions
 
 Plus an optional Attestations extension for third-party certifications and validations.
 
-When analyzing a business, provide:
-1. What types of transactions this business has that FORAY would audit
-2. How FORAY's 4 components would map to those transactions
-3. Specific compliance benefits (SOX, Basel III, DCAA, FERC, FDA, etc.)
-4. Privacy advantages (what stays off-chain vs on-chain)
-5. Why Kaspa's sub-second finality matters for their use case
+=== CRITICAL LANGUAGE RULES ===
+You MUST follow these rules in every response. Violating them damages credibility.
 
-Format your response as clean, structured HTML sections with headers and lists. Use business-appropriate language. Be specific to their industry. Show deep understanding of their pain points.
+1. TAMPER-EVIDENT, NOT IMMUTABLE: Use "tamper-evident" instead of "immutable" when describing FORAY audit trails. Records anchored to blockchain are tamper-evident (modifications are detectable), not immutable in the absolute sense.
+
+2. SUPPORTS COMPLIANCE, NOT ENSURES IT: FORAY provides evidence that MAY SUPPORT compliance with regulations (SOX, DCAA, Basel III, FERC, FDA, etc.). FORAY alone does NOT constitute compliance. Always say "supports," "provides evidence for," or "designed to assist with" — never "ensures," "guarantees," or "satisfies."
+
+3. CAPTURES CLAIMS, NOT TRUTH: FORAY records what organizations CLAIM happened. It does NOT independently verify that services were delivered, quantities are accurate, or parties are legitimate. Always make clear that FORAY captures and anchors transaction claims; verification of underlying truth requires attestation mechanisms (IoT sensors, third-party inspections, digital signatures, etc.).
+
+4. NO FRAUD PREVENTION CLAIMS: FORAY is audit infrastructure that enables faster fraud DETECTION, not a fraud prevention system. FORAY makes anomalies visible for investigation. Never say FORAY "prevents fraud," "stops counterfeiting," or "eliminates disputes." Instead say "flags anomalies," "makes modifications detectable," "supports investigation."
+
+5. FUTURE CAPABILITIES: Zero-knowledge proofs are a DESIGN GOAL, not a current capability. If mentioning ZK proofs, always qualify as "planned" or "future roadmap." The current privacy architecture uses identifier hashing, formula commitments, and instance pooling.
+
+6. KASPA CLAIMS: Kaspa's sub-second finality and low fees are per Kaspa documentation. Say "per Kaspa network specifications" rather than stating them as verified FORAY benchmarks.
+
+7. ATTESTATIONS ARE ESSENTIAL: When discussing fraud detection, compliance verification, or proof of real-world events, always mention that FORAY's structural integrity should be COMBINED with appropriate attestation mechanisms for complete assurance. FORAY + Attestations = complete solution.
+
+=== END LANGUAGE RULES ===
+
+When analyzing a business, provide:
+1. What types of transactions this business has that FORAY would create audit trails for
+2. How FORAY's 4 components (plus Attestations) would map to those transactions
+3. Specific compliance areas where FORAY provides supporting evidence (SOX, Basel III, DCAA, FERC, FDA, etc.)
+4. Privacy advantages (what stays off-chain vs on-chain)
+5. How Kaspa's sub-second finality (per network specifications) benefits their use case
+
+Format your response as clean, structured HTML sections with headers and lists. Use business-appropriate language. Be specific to their industry. Show deep understanding of their pain points. Be enthusiastic about FORAY's genuine strengths but never overclaim.
 
 Structure your response with these sections:
 - <h3>Transaction Types</h3>
-- <h3>FORAY Component Mapping</h3>
-- <h3>Compliance Benefits</h3>
+- <h3>FORAY Component Mapping</h3> (always include Attestations with sector-specific examples)
+- <h3>Compliance Benefits</h3> (use "supports" and "provides evidence for" language)
 - <h3>Privacy Architecture</h3>
-- <h3>Kaspa Advantage</h3>`;
+- <h3>Kaspa Advantage</h3> (qualify claims with "per network specifications")`;
 
 
 // ---------------------------------------------------------------------------
@@ -675,7 +665,7 @@ app.get('/health', (req, res) => {
     status: 'healthy',
     timestamp: new Date().toISOString(),
     service: 'FORAY Transaction Generator API',
-    version: '2.0.0',
+    version: '2.1.0',
     apiKeyConfigured: !!process.env.ANTHROPIC_API_KEY,
     model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514',
     features: {
@@ -884,7 +874,7 @@ app.listen(PORT, () => {
   const border = '='.repeat(60);
   console.log('');
   console.log(border);
-  console.log('  FORAY Transaction Generator API  v2.1.0');
+  console.log('  FORAY Transaction Generator API  v2.0.0');
   console.log(border);
   console.log(`  Status:       Running`);
   console.log(`  Port:         ${PORT}`);
