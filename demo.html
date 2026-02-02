@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FORAY Transaction Generator</title>
@@ -9,9 +18,9 @@
     ============================================================================
     FORAY Protocol Transaction Generator
     ============================================================================
-    Version:       3.6.0
+    Version:       3.7.0
     Created:       2025-01-28T16:30:00Z
-    Modified:      2026-02-01T03:30:00Z
+    Modified:      2026-02-02T22:00:00Z
     
     Author:        Marvin Percival
     Email:         marvinp@dunin7.com
@@ -21,6 +30,9 @@
     Copyright (c) 2026 Marvin Percival. All rights reserved.
     
     Changelog:
+      v3.7.0 (2026-02-02)
+        - Added Google Analytics 4 tracking snippet
+
       v3.6.0 (2026-02-01)
         - Changed Olive Oil example to Manuka Honey (UMF certified)
         - Updated reference key mapping for manukaHoneyProvenance

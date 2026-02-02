@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.4.1
+Version:       2.5.0
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-02T19:30:00Z
+Modified:      2026-02-02T22:00:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,11 +15,10 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
-  v2.4.1 (2026-02-02)
-    - Fixed footer: Specification now links to specification.html (new standalone page)
-    - Fixed footer: Integration Guide now links to integration-guide.html (new standalone page)
-    - Removed redundant GitHub link from Connect column (already in Resources)
-  
+  v2.5.0 (2026-02-02)
+    - Fixed page title: "Immutable" -> "Tamper-Evident" (missed in v2.3.0 content review)
+    - Added Google Analytics 4 tracking snippet (GA_MEASUREMENT_ID placeholder)
+
   v2.4.0 (2026-02-01)
     - Added Attestations component to 4A model section
     - Updated title to "The 4A Model + Attestations"
@@ -58,9 +57,18 @@ Changelog:
 -->
 <html lang="en">
 <head>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FORAY Protocol - Immutable Audit Infrastructure for Enterprise</title>
+  <title>FORAY Protocol - Tamper-Evident Audit Infrastructure for Enterprise</title>
   <meta name="description" content="Privacy-preserving blockchain audit trails for enterprise transactions. Built for Kaspathon 2026.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   
@@ -1176,12 +1184,13 @@ Changelog:
       <div class="footer-links">
         <h4>Resources</h4>
         <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a>
-        <a href="specification.html">Specification</a>
-        <a href="integration-guide.html">Integration Guide</a>
+        <a href="docs.html#specification">Specification</a>
+        <a href="docs.html#integration">Integration Guide</a>
       </div>
       
       <div class="footer-links">
         <h4>Connect</h4>
+        <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a>
         <a href="mailto:marvinp@dunin7.com">marvinp@dunin7.com</a>
       </div>
     </div>

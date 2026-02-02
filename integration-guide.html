@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <!--
   File: integration-guide.html
-  Version: 1.0.0
+  Version: 1.1.0
   Created: 2026-02-02T19:30:00Z
-  Modified: 2026-02-02T19:30:00Z
+  Modified: 2026-02-02T22:00:00Z
   Author: Marvin Percival
   Email: marvinp@dunin7.com
   GitHub: DUNIN7/foray-kaspathon
@@ -13,10 +13,20 @@
                 FORAY_Salesforce_Integration.md, SAP_FORAY_Transaction_Mapping.md
   
   Change Log:
+    v1.1.0 (2026-02-02): Added Google Analytics 4 tracking snippet
     v1.0.0 (2026-02-02): Initial web version of the integration guide
 -->
 <html lang="en">
 <head>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Integration Guide - FORAY Protocol</title>
