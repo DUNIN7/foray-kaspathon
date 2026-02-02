@@ -25,7 +25,7 @@ All ERP audit systems share a fatal flaw:
 
 No ERP vendor can solve this because **the audit trail lives inside the system it's auditing**.
 
-FORAY solves this by anchoring cryptographic proof to an **external, immutable ledger** that no internal actor can alterâ€”not the DBA, not the CFO, not the CEO.
+FORAY solves this by anchoring cryptographic proof to an **external, tamper-evident ledger** that no internal actor can alterâ€”not the DBA, not the CFO, not the CEO.
 
 ---
 
@@ -89,7 +89,7 @@ SAP Basis Admin + S_TABU_DIS authorization =
 
 ### SAP-Specific FORAY Benefits
 
-1. **SOX 404 Compliance:** Immutable evidence of control effectiveness
+1. **SOX 404 Compliance:** Tamper-evident evidence of control effectiveness
 2. **Transfer Pricing Defense:** Prove allocation methods weren't changed retroactively
 3. **Intercompany Automation:** Cross-entity reconciliation via hashed transaction IDs
 4. **HANA Migration Proof:** Verify data integrity during S/4HANA transitions
@@ -138,7 +138,7 @@ Oracle DBA + SYSDBA privilege =
 ### Oracle-Specific FORAY Benefits
 
 1. **Fusion Cloud Confidence:** Third-party proof independent of Oracle infrastructure
-2. **EBS to Cloud Migration:** Immutable record during transition
+2. **EBS to Cloud Migration:** Tamper-evident record during transition
 3. **Multi-Org Consolidation:** Single audit trail across legal entities
 4. **Revenue Recognition (ASC 606):** Prove timing of revenue events
 
@@ -163,7 +163,7 @@ Microsoft provides audit features:
 | Database logging | Tenant admins can disable |
 | Audit history | Stored in Dataverse (same platform) |
 | Azure Monitor | Logs can be deleted with proper permissions |
-| Compliance Manager | Assessment tool, not immutable proof |
+| Compliance Manager | Assessment tool, not tamper-evident anchored proof |
 | Retention policies | Data deleted per policy (including audit) |
 
 **The Vulnerability:**
@@ -181,14 +181,14 @@ Dynamics 365 Global Admin + Azure subscription owner =
 |----------|----------------|------------------|
 | Admin disables logging | Gap in audit trail | **Blockchain proves gap existed** |
 | Tenant migration | Trust Microsoft process | **Hash verification across tenants** |
-| Multi-subsidiary audit | Per-entity audit logs | **Unified immutable trail** |
+| Multi-subsidiary audit | Per-entity audit logs | **Unified tamper-evident trail** |
 | Third-party attestation | SOC 2 reports (periodic) | **Real-time cryptographic proof** |
 
 ### Dynamics-Specific FORAY Benefits
 
 1. **Multi-Cloud Confidence:** Proof independent of Microsoft infrastructure
 2. **Business Central Integration:** SMB-grade transactions with enterprise-grade proof
-3. **Power Platform Governance:** Immutable record of low-code app transactions
+3. **Power Platform Governance:** Tamper-evident record of low-code app transactions
 4. **Teams/Dataverse Audit:** Cross-platform transaction integrity
 
 ---
@@ -230,15 +230,15 @@ Salesforce Org Admin + Shield access =
 | Scenario | Salesforce Alone | Salesforce + FORAY |
 |----------|------------------|-------------------|
 | Deal desk approval chain | Field history (18 months) | **Permanent blockchain proof** |
-| CPQ pricing integrity | Configuration audit | **Immutable price calculation record** |
+| CPQ pricing integrity | Configuration audit | **Tamper-evident price calculation record** |
 | Revenue recognition timing | Opportunity stage history | **Cryptographic timestamp proof** |
 | Platform outage | Audit unavailable | **Blockchain always accessible** |
 
 ### Salesforce-Specific FORAY Benefits
 
-1. **Revenue Cloud Integration:** Immutable record of billing events
+1. **Revenue Cloud Integration:** Tamper-evident record of billing events
 2. **CPQ Pricing Audit:** Prove pricing formulas weren't manipulated
-3. **Contract Lifecycle:** Permanent record beyond Salesforce retention
+3. **Contract Lifecycle:** Tamper-evident record beyond Salesforce retention
 4. **Multi-Cloud CRM:** Unified audit across Salesforce + ERP
 
 ---
@@ -323,7 +323,7 @@ Costpoint DBA + SQL Server access =
 | Scenario | Costpoint Alone | Costpoint + FORAY |
 |----------|-----------------|-------------------|
 | DCAA audit | 18-month review of Costpoint data | **Instant blockchain verification** |
-| Indirect rate dispute | Historical allocations questioned | **Immutable proof of methodology** |
+| Indirect rate dispute | Historical allocations questioned | **Tamper-evident proof of methodology** |
 | Program cost crossover | Difficult to prove isolation | **Cryptographic program separation** |
 | Contractor acquisition | Full Costpoint forensic review | **Blockchain-anchored integrity proof** |
 
@@ -344,11 +344,11 @@ Costpoint DBA + SQL Server access =
 
 ### For CIOs / CTOs:
 
-> "FORAY doesn't replace your audit infrastructure. It anchors it to an immutable external ledger, transforming your audit logs from 'records you keep' into 'proofs no one can dispute.'"
+> "FORAY doesn't replace your audit infrastructure. It anchors it to a tamper-evident external ledger, transforming your audit logs from 'records you keep' into 'records that are cryptographically difficult to alter undetected.'"
 
 ### For Boards / Audit Committees:
 
-> "After the next Enron, prosecutors will ask: 'Could your executives have altered the audit trail?' With FORAY, your answer is: 'Mathematically impossible.'"
+> "After the next Enron, prosecutors will ask: 'Could your executives have altered the audit trail?' With FORAY, your answer is: 'Any alteration would be cryptographically detectable.'"
 
 ---
 
@@ -359,7 +359,7 @@ Costpoint DBA + SQL Server access =
 | **SAP** | Comprehensive field-level tracking | **External immutability, cross-system unification** |
 | **Oracle** | Deep database auditing | **Independence from Oracle infrastructure** |
 | **Dynamics** | Cloud-native logging | **Third-party proof beyond Microsoft** |
-| **Salesforce** | CRM activity tracking | **Permanent record beyond retention limits** |
+| **Salesforce** | CRM activity tracking | **Tamper-evident record beyond retention limits** |
 | **QuickBooks** | Basic change logging | **Enterprise-grade proof for SMBs** |
 | **Costpoint** | DCAA-ready reporting | **Cryptographic proof for defense audits** |
 

@@ -1,6 +1,23 @@
-# FORAY Protocol - Data Field Risk Assessment & Threat Analysis
+<!--
+  File: FORAY_Data_Field_Risk_Assessment.md
+  Version: 3.0
+  Created: 2026-01-20T00:00:00Z
+  Modified: 2026-02-02T14:00:00Z
+  Author: Marvin Percival
+  Email: marvinp@dunin7.com
+  GitHub: DUNIN7/foray-kaspathon
 
-**Version 2.0 | January 2026**
+  Change Log:
+    v3.0 (2026-02-02): Aligned privacy architecture to current 3-layer + ZK-ready model;
+                        removed outdated 8-layer defense stack references; updated attack
+                        complexity analysis; terminology corrections (tamper-evident)
+    v2.0 (2026-01-25): Added integration mappings, computational distribution, expanded threat vectors
+    v1.0 (2026-01-20): Initial analysis
+-->
+
+# FORAY Protocol — Data Field Risk Assessment & Threat Analysis
+
+**Version 3.0 | February 2, 2026**
 
 ## 1. Executive Summary
 
@@ -47,9 +64,9 @@ This document provides a comprehensive analysis of FORAY Protocol data fields, a
 | Field | Purpose in FORAY | Risk | Protection Method | On-Chain / Off-Chain |
 |-------|------------------|:----:|-------------------|---------------------|
 | **type** | `Calculated | Valuation | FixedAmount` - Accrual classification | **2** | Minimal protection needed (generic classification) | On-chain |
-| **salted_formula_id** | `Hash(formula + entity_salt + nonce)`. Identifies calculation logic | **9** | Multi-layer: Salting + FPE + Instance Pools + Polymorphism + Chaff | On-chain (salted hash); Off-chain (formula definition, salt, mappings) |
-| **encrypted_inputs{}** | `Enc(value)` for each formula variable (P, r, t, etc.) | **8** | AES-256-GCM encryption; variable polymorphism; input chaff | On-chain (encrypted blobs); Off-chain (decryption keys) |
-| **encrypted_output** | `Enc(result)`. The calculated result of formula execution | **8** | AES-256-GCM; differential privacy noise; output chaff | On-chain (encrypted); Off-chain (decryption keys) |
+| **salted_formula_id** | `Hash(formula + entity_salt + nonce)`. Identifies calculation logic | **9** | 3-layer privacy architecture: Identifier Hashing + Formula Commitments + Instance Pooling (ZK-ready) | On-chain (salted hash); Off-chain (formula definition, salt, mappings) |
+| **encrypted_inputs{}** | `Enc(value)` for each formula variable (P, r, t, etc.) | **8** | AES-256-GCM encryption; per-transaction nonces; instance pooling | On-chain (encrypted blobs); Off-chain (decryption keys) |
+| **encrypted_output** | `Enc(result)`. The calculated result of formula execution | **8** | AES-256-GCM; amount obfuscation (rounding + noise); instance pooling | On-chain (encrypted); Off-chain (decryption keys) |
 | **zk_proof** | `Proof(output = formula(inputs))`. Zero-knowledge correctness proof | **1** | Groth16/PLONK proofs reveal nothing about formula | On-chain |
 | **asset_id** (Valuation type) | Hash of asset being valued (for market valuations) | **6** | Salted hash with nonce | On-chain (hash); Off-chain (asset master) |
 | **date** (Valuation type) | ISO8601 valuation date | **3** | Temporal bucketing if sensitive | On-chain |
@@ -96,14 +113,14 @@ This document provides a comprehensive analysis of FORAY Protocol data fields, a
 | **flows[].asset_id** | Hash of transferred asset | **6** | Salted hash; consistent with Anticipation refs | On-chain (hash); Off-chain (asset master) |
 | **flows[].from** | Hash of actual source party | **7** | Salted party hash; Salt Registry rotation | On-chain (hash); Off-chain (mapping) |
 | **flows[].to** | Hash of actual destination party | **7** | Salted party hash; Salt Registry rotation | On-chain (hash); Off-chain (mapping) |
-| **flows[].amount** | u64 actual transferred amount | **8** | Amount obfuscation; differential privacy; encryption | On-chain (obfuscated); Off-chain (actual) |
+| **flows[].amount** | u64 actual transferred amount | **8** | Amount obfuscation (rounding + noise); encryption; instance pooling | On-chain (obfuscated); Off-chain (actual) |
 | **flows[].timestamp** | ISO8601 past datetime of actual transfer | **4** | Temporal jitter; batch anchoring | On-chain |
 | **deps[]** | Hash refs to Anticipation(s) or Accrual(s) | **5** | Opaque references; multi-layer indirection | On-chain |
 
 #### Why These Fields Exist:
 - **flows[].asset_id/from/to**: Documents actual settlement for audit trail completeness
 - **flows[].amount**: Records actual value for reconciliation against Anticipations
-- **flows[].timestamp**: Provides immutable proof of when transfer occurred
+- **flows[].timestamp**: Provides tamper-evident proof of when transfer occurred
 - **deps[]**: Enables matching of actual vs expected for variance analysis
 
 ### 3.5 Registry Fields (On-Chain Audit Service)
@@ -115,20 +132,18 @@ This document provides a comprehensive analysis of FORAY Protocol data fields, a
 | **Condition Registry entries** | Pre-commitments to contingent terms | **7** | Encrypted condition logic; oracle validation | On-chain (commitments); Off-chain (condition definitions) |
 | **Oracle Registry entries** | Trusted data source registrations | **3** | Public key commitments; reputation tracking | On-chain |
 
-## 4. Protection Methods - The 8-Layer Defense Stack
+## 4. Protection Methods — 3-Layer Privacy Architecture (ZK-Ready)
 
-FORAY employs a defense-in-depth architecture with 8 independent privacy layers:
+FORAY employs a 3-layer privacy architecture with a fourth layer reserved for future zero-knowledge capabilities when Kaspa supports on-chain ZK verification:
 
 | # | Defense Layer | Mechanism | Attack Prevention | Computation Location |
 |:-:|---------------|-----------|-------------------|---------------------|
-| 1 | **Salted Formula IDs** | Per-entity unique salts: `H(H(F) + salt + nonce)` | Cross-entity formula linkage; business profiling | Off-chain (salt generation); On-chain (hash storage) |
-| 2 | **Multi-Layer Indirection** | Fragment + Permutation + Transaction separation | Metadata correlation; single-point decryption | On-chain (3 separate tx types); Off-chain (key management) |
-| 3 | **Instance Pools** | 5-10 formula representations; random selection | Usage frequency analysis; formula identification | Off-chain (pool management); On-chain (multiple anchors) |
-| 4 | **Fragment-Permute-Encode** | Formula split into n fragments; permuted storage | Formula structure observation; reconstruction | Off-chain (fragmentation); On-chain (encrypted fragments) |
-| 5 | **Variable Polymorphism** | P, r, t + capital, margin, span (semantic variants) | Variable name fingerprinting; formula type inference | Off-chain (name mapping); On-chain (polymorphic names) |
-| 6 | **Computational Chaff** | Fake operations alongside real: 2^n combinations | Operation relevance identification | Off-chain (chaff generation); On-chain (indistinguishable ops) |
-| 7 | **Property Chaff** | Fake inputs/outputs: C(n,k) combinations | Transaction fingerprinting; input/output analysis | Off-chain (chaff generation); On-chain (extra properties) |
-| 8 | **Differential Privacy** | Statistical noise (=0.1); value quantization | Statistical inference; exact value determination | Off-chain (noise addition); On-chain (noisy values) |
+| 1 | **Identifier Hashing** | Per-entity unique salts: `H(H(F) + salt + nonce)` | Cross-entity formula linkage; business profiling; rainbow table attacks | Off-chain (salt generation); On-chain (hash storage) |
+| 2 | **Formula Commitments** | Hash-based registry with salted formula IDs and versioned definitions | Formula reverse-engineering; business logic inference; metadata correlation | On-chain (salted hash commitments); Off-chain (formula definitions, salt mappings) |
+| 3 | **Instance Pooling** | 5–10 formula representations per entity; random selection per transaction | Usage frequency analysis; formula identification; statistical fingerprinting | Off-chain (pool management); On-chain (multiple anchored representations) |
+| 4 | **Zero-Knowledge *(Future)*** | ZK-SNARKs/STARKs for on-chain proof verification | Full formula disclosure; input/output correlation | Planned when Kaspa supports on-chain ZK |
+
+> **Note:** Early design documents described an 8-layer defense stack including Fragment-Permute-Encode, variable polymorphism, computational chaff, property chaff, and differential privacy. These concepts were consolidated into the current 3-layer architecture during v4.0 specification, which achieves equivalent protection with better implementation simplicity and performance. The ZK-ready design preserves extensibility for future enhancements.
 
 ### Computational Distribution Summary
 
@@ -137,9 +152,8 @@ FORAY employs a defense-in-depth architecture with 8 independent privacy layers:
 | Formula execution | Off-chain | Complex computation; proprietary logic |
 | Encryption (AES-256-GCM) | Off-chain | Keys remain in enterprise HSM |
 | Hash computation | Off-chain | Salts added before submission |
-| ZK proof generation | Off-chain | Computationally intensive (5-30 sec) |
-| Fragmentation/permutation | Off-chain | SDK handles before submission |
-| Chaff generation | Off-chain | Random generation in SDK |
+| Instance pool management | Off-chain | SDK selects representation per transaction |
+| ZK proof generation | Off-chain | Computationally intensive (5–30 sec) |
 | Transaction anchoring | On-chain | Only hashes/commitments stored |
 | Merkle root checkpoints | On-chain | Registry integrity verification |
 | ZK proof verification | On-chain or Auditor | Fast verification (<100ms) |
@@ -167,7 +181,7 @@ FORAY employs a defense-in-depth architecture with 8 independent privacy layers:
 ### 5.3 Cryptographic Attacks
 
 | Attack Vector | Description | Target Fields | FORAY Defense | Residual Risk |
-| **Quantum Decryption** | Break AES-256 encryption using Shor's/Grover's algorithms | encrypted_inputs, encrypted_output | Even with broken encryption: combinatorial complexity (chaff, fragmentation) requires months | Low - defense-in-depth provides post-quantum protection |
+| **Quantum Decryption** | Break AES-256 encryption using Shor's/Grover's algorithms | encrypted_inputs, encrypted_output | Even with broken encryption: multiple independent privacy layers require separate attacks | Low — defense-in-depth through architectural separation |
 | **Rainbow Table** | Precompute hashes for common values to reverse hash lookups | All hashed fields | Per-entity salts; nonces; double-hashing prevents precomputation | Minimal - salting defeats precomputation |
 | **Brute Force** | Exhaustively try all possible input combinations | encrypted_inputs | 256-bit hash space; C(n,k) chaff combinations = computationally infeasible | Minimal |
 | **Known Plaintext** | Use known transaction details to derive encryption keys | encrypted_inputs, encrypted_output | Unique keys per transaction; HSM key management | Low - requires key compromise |
@@ -175,8 +189,8 @@ FORAY employs a defense-in-depth architecture with 8 independent privacy layers:
 ### 5.4 Inference Attacks
 
 | Attack Vector | Description | Target Fields | FORAY Defense | Residual Risk |
-| **Statistical Regression** | Analyze input/output pairs to derive formula: I = P  x  r  x  t | encrypted_inputs, encrypted_output | Differential privacy noise; property chaff; encrypted values | Medium - requires many samples; noise degrades accuracy |
-| **Input Distribution Analysis** | Derive formula from statistical distribution of inputs/outputs | All Accrual fields | Input quantization buckets; output rounding; chaff properties | Medium - statistical patterns may emerge over time |
+| **Statistical Regression** | Analyze input/output pairs to derive formula: I = P × r × t | encrypted_inputs, encrypted_output | Amount obfuscation (rounding + noise); encrypted values; instance pooling | Medium — requires many samples; obfuscation degrades accuracy |
+| **Input Distribution Analysis** | Derive formula from statistical distribution of inputs/outputs | All Accrual fields | Amount obfuscation; output rounding; instance pooling | Medium — statistical patterns may emerge over time |
 | **Side-Channel (Timing)** | Observe ERP+FORAY submission patterns; execution timing | All fields (timing metadata) | Constant-time operations; batch submissions; temporal jitter | Low - requires network observation |
 | **Metadata Correlation** | Correlate FORAY transactions with ERP events, public filings | timestamp, deps[] | Delayed anchoring; batch processing; decoy transactions | Medium - external correlation possible |
 
@@ -184,30 +198,29 @@ FORAY employs a defense-in-depth architecture with 8 independent privacy layers:
 
 | Attack Vector | Description | Target | FORAY Defense | Residual Risk |
 | **Key Compromise** | Obtain decryption keys through breach or insider | Off-chain key storage | HSM protection; multi-signature requirements; role-based access | Medium - key management is critical |
-| **Registry Corruption** | Modify Salt/Formula Registry mappings | On-chain registries | Blockchain immutability; Merkle checkpoints; cryptographic commitments | Minimal - immutable by design |
+| **Registry Corruption** | Modify Salt/Formula Registry mappings | On-chain registries | Blockchain tamper-evidence; Merkle checkpoints; cryptographic commitments | Minimal — tamper-evident by design |
 | **SDK Tampering** | Modify SDK to leak data or weaken encryption | FORAY SDK | Code signing; reproducible builds; open-source audit | Low with proper DevSecOps |
 | **Oracle Compromise** | Provide false valuations through compromised oracle | oracle_ref, oracle_signature | Oracle Registry reputation; multi-oracle consensus; stake slashing | Medium - oracle trust is external |
 
 ## 6. Combined Attack Complexity Analysis
 
-With all 8 defense layers enabled, an attacker faces multiplicative complexity:
+With all 3 privacy layers active, an attacker faces compounding complexity:
 
 | Layer Combination | Complexity Added | Estimated Attack Time |
-| Salting alone | Cross-entity unlinkability | Hours (if entity identified via side-channel) |
-| + Encryption | AES-256 breaking required | Centuries (classical); Minutes (quantum) |
-| + FPE Fragmentation | C(n,k) fragment combinations (~30,000) | Days (with automation at 1000/sec) |
-| + Multi-Layer Indirection | Graph traversal + multiple decryptions | Weeks (requires correlating separate tx) |
-| + Instance Pools (5-10) | N x  encryption breaking; correlation analysis | Months |
-| + Variable Polymorphism | Semantic analysis required | Additional weeks |
-| + Chaff (Computational + Property) | 2^ops  x  C(inputs,k)  x  C(outputs,1) combinations | Years |
-| **All Layers Combined** | **5.8  x  10^11 combinations (standard config)** | **6-12 months; $2M-$5M; <15% success** |
+| Identifier Hashing alone | Cross-entity unlinkability | Hours (if entity identified via side-channel) |
+| + Encryption (AES-256-GCM) | Breaking encryption required | Centuries (classical); reduced with quantum |
+| + Formula Commitments | Must reverse salted hashes to identify logic | Weeks (requires correlating separate transactions) |
+| + Instance Pooling (5–10 per entity) | N × hash breaking; statistical correlation analysis | Months |
+| **All Layers Combined** | **Multiplicative complexity across layers** | **Significant cost; multiple independent barriers** |
+
+> **Note:** Specific attack cost and probability estimates (e.g., "$2M–$5M" or "<15% success") appeared in earlier documentation but have not been formally verified. The architecture provides multiple independent defense layers; formal security proofs remain a planned future work item.
 
 ### Attack Cost Analysis by Adversary
 
-| Adversary | Likely Attack Strategy | Estimated Cost | Success Probability |
-| **Competitor ($100K)** | Transaction clustering + timing correlation | $50K-$100K | <5% (limited to volume inference) |
-| **Nation-State (quantum)** | Full cryptanalysis + statistical inference | $2M-$5M | <15% after 6-12 months |
-| **Insider (key access)** | Direct key compromise | Variable | High for specific transactions; detected via audit logs |
+| Adversary | Likely Attack Strategy | Primary Defense | Residual Risk |
+| **Competitor** | Transaction clustering + timing correlation | Salted identifiers; instance pooling | Low — limited to volume inference |
+| **Nation-State** | Cryptanalysis + statistical inference | Multiple independent layers; encryption | Low — requires sustained effort across all layers |
+| **Insider (key access)** | Direct key compromise | HSM protection; role-based access; audit logging | Medium — key management is critical dependency |
 
 ## 7. Recommendations by Data Sensitivity
 
@@ -229,8 +242,8 @@ With all 8 defense layers enabled, an attacker faces multiplicative complexity:
 
 #### +-++ Risk 8 (High): `parties[]`, `encrypted_inputs`, `encrypted_output`, `flows[].quantity`, `flows[].amount`
 - Enable salted hashing with mandatory rotation (annual minimum)
-- Use differential privacy (=0.1 or lower)
-- Implement property chaff (minimum 4 fake properties)
+- Use amount obfuscation (rounding + noise) appropriate to sensitivity
+- Enable instance pooling (minimum 5 representations)
 - Store decryption keys in HSM
 
 #### +-++ Risk 7 (High): `primary_flow.from/to`, `tx_type_id`, `flows[].condition`, `flows[].from/to`
@@ -306,18 +319,25 @@ These fields require maximum protection and represent the highest value targets 
 - **Computation**: Complex operations performed off-chain; only results anchored on-chain
 
 ### Attack Resilience
-Even a nation-state adversary with quantum computing capabilities faces:
-- 6-12 months of sustained analysis
-- $2M-$5M in computational costs
-- Less than 15% success probability
+The 3-layer architecture creates multiple independent barriers. An adversary must overcome each layer independently, creating compounding difficulty:
+- Identifier hashing prevents cross-entity correlation without salt compromise
+- Formula commitments prevent business logic inference without registry access
+- Instance pooling prevents statistical fingerprinting without sustained multi-transaction analysis
 
-This makes competitive intelligence attacks economically irrational for all but the most determined and well-funded adversaries, achieving the FORAY design goal of making attacks "not worth the effort."
+The combined architecture is designed to make competitive intelligence attacks economically irrational for most adversaries. Formal security proofs and specific attack cost quantification remain planned future work items.
+
+## Contact
+
+- **Author:** Marvin Percival
+- **Email:** marvinp@dunin7.com
+- **GitHub:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
 
 ## Document History
 
 | Version | Date | Changes |
 | 1.0 | January 2026 | Initial analysis |
 | 2.0 | January 2026 | Added integration mappings, computational distribution, expanded threat vectors |
+| 3.0 | February 2, 2026 | Aligned to 3-layer privacy architecture (ZK-ready); removed outdated 8-layer references; corrected forbidden claims; terminology updates |
 
 **See Also:**
 - [FORAY_Technical_Assumptions_Weaknesses.md](./FORAY_Technical_Assumptions_Weaknesses.md)

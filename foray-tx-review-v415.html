@@ -3431,7 +3431,7 @@ Auto loans are heavily regulated. This FORAY transaction captures compliance wit
 ## Why This Matters
 
 ### For Lenders
-- Immutable record of loan terms and payment history
+- Tamper-evident record of loan terms and payment history
 - Proof of regulatory disclosures provided
 - Defense against borrower disputes
 
@@ -3611,7 +3611,7 @@ This transaction carries heavy compliance flags:
 - **Basel III**: Capital requirements for securitization exposures
 - **IFRS 9**: Expected credit loss accounting
 
-FORAY doesn't replace regulatory filings, but provides an immutable audit trail that supports them.
+FORAY doesn't replace regulatory filings, but provides a tamper-evident audit trail that supports them.
 
 ---
 
@@ -4244,7 +4244,7 @@ For public companies, depreciation controls are SOX-critical:
 - Depreciation calculated accurately
 - Book/tax differences tracked
 
-FORAY provides the immutable audit trail that supports these controls.
+FORAY provides a tamper-evident audit trail that supports these controls.
 
 ---
 
@@ -5246,7 +5246,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         accruals: "Laboratory analysis from IANZ-accredited Analytica Laboratories. MGO: 514mg/kg, Leptosperin: 185mg/kg, DNA-verified monofloral Manuka. Formula-based UMF grade calculation confirmed at 15+. This scientific testing creates the basis for certification claims.",
         anticipations: "TWO EXPECTED OUTCOMES: (1) UMF certification issuance upon passing lab analysis, (2) MPI export approval enabling international sales. Both anticipations reference the lab analysis accrual as their trigger condition.",
         actions: "UMF certificate issuance action recording certificate number UMF-BATCH-2026-00847 with QR verification URL. This completes the internal certification before export approval.",
-        attestations: "THREE-TIER ATTESTATION CHAIN demonstrating trust hierarchy: (1) ATT_LAB_ANALYSIS: Analytica Labs (IANZ/ISO 17025 accredited) attests to chemical analysis results, (2) ATT_UMF_CERTIFICATION: UMF Honey Association (NZ trademark owner) certifies UMF 15+ grade based on lab attestation, (3) ATT_MPI_EXPORT: Ministry for Primary Industries (NZ government) approves export to China, UK, USA, Japan based on UMF certification. Each attestation references its predecessor â€” creating an immutable chain of trust from lab bench to export dock."
+        attestations: "THREE-TIER ATTESTATION CHAIN demonstrating trust hierarchy: (1) ATT_LAB_ANALYSIS: Analytica Labs (IANZ/ISO 17025 accredited) attests to chemical analysis results, (2) ATT_UMF_CERTIFICATION: UMF Honey Association (NZ trademark owner) certifies UMF 15+ grade based on lab attestation, (3) ATT_MPI_EXPORT: Ministry for Primary Industries (NZ government) approves export to China, UK, USA, Japan based on UMF certification. Each attestation references its predecessor â€” creating a tamper-evident chain of trust from lab bench to export dock."
       }
     };
 
@@ -6659,7 +6659,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                       {/* Introduction */}
                       <div className="p-4 rounded-lg" style={{ backgroundColor: `${forayColors.primaryTeal}10` }}>
                         <p className="text-sm" style={{ color: forayColors.secondaryNavy }}>
-                          <strong>FORAY Protocol</strong> creates immutable, tamper-proof audit trails of your ERP transactions that regulators, auditors, and forensic investigators can trustâ€”without exposing your competitive secrets. Each version adds capabilities while maintaining backward compatibility.
+                          <strong>FORAY Protocol</strong> creates tamper-evident audit trails of your ERP transactions that regulators, auditors, and forensic investigators can trustâ€”without exposing your competitive secrets. Each version adds capabilities while maintaining backward compatibility.
                         </p>
                       </div>
                       
@@ -6849,7 +6849,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                           {/* Overview */}
                           <div className="p-4 rounded-lg" style={{ backgroundColor: `${forayColors.primaryTeal}10` }}>
                             <p className="text-sm" style={{ color: forayColors.secondaryNavy }}>
-                              <strong>How It Works:</strong> FORAY transactions are anchored to the Kaspa blockchain to create an immutable, timestamped proof of existence. The Kaspa transaction ID serves as cryptographic evidence that your FORAY transaction existed at a specific point in time.
+                              <strong>How It Works:</strong> FORAY transactions are anchored to the Kaspa blockchain to create a tamper-evident, timestamped proof of existence. The Kaspa transaction ID serves as cryptographic evidence that your FORAY transaction existed at a specific point in time.
                             </p>
                           </div>
                           
@@ -7227,7 +7227,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     </div>
                     
                     <p className="text-sm mb-4" style={{ color: forayColors.gray600 }}>
-                      You are about to anchor this FORAY transaction to <strong>{currentNetwork.name}</strong>. This action creates a permanent, immutable record that cannot be modified or deleted.
+                      You are about to anchor this FORAY transaction to <strong>{currentNetwork.name}</strong>. This action creates a tamper-evident record anchored to blockchain that is designed to resist modification.
                     </p>
                     
                     {!currentNetwork.isTestnet && (
@@ -7279,7 +7279,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                 <div className="bg-white rounded-xl shadow-2xl p-8 text-center">
                   <div className="animate-spin w-12 h-12 border-4 rounded-full mx-auto mb-4" style={{ borderColor: `${forayColors.primaryTeal}30`, borderTopColor: forayColors.primaryTeal }}></div>
                   <h2 className="text-xl font-bold mb-2" style={{ color: forayColors.secondaryNavy }}>Anchoring to {currentNetwork.name}...</h2>
-                  <p className="text-sm" style={{ color: forayColors.gray600 }}>Creating immutable blockchain record</p>
+                  <p className="text-sm" style={{ color: forayColors.gray600 }}>Creating tamper-evident blockchain record</p>
                   <p className="text-xs mt-2" style={{ color: forayColors.gray600 }}>Expected confirmation: ~{Math.round(1000 / currentNetwork.bps)}ms</p>
                 </div>
               </div>

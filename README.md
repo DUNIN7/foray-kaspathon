@@ -76,7 +76,7 @@ This maps to how businesses actually operate--from contract to cash.
 2. Paste any FORAY JSON (examples in `/examples`)
 3. Click "Connect Wallet" (requires [KasWare](https://kasware.xyz))
 4. Review the transaction structure
-5. Click "Anchor to Kaspa" to create an immutable proof
+5. Click "Anchor to Kaspa" to create a tamper-evident proof
 
 ### Example: Detect Tampering
 

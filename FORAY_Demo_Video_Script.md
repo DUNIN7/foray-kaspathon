@@ -31,7 +31,7 @@
 **[SCREEN: Transition to Transaction Review Tool - empty state]**
 
 **VOICEOVER:**
-> "Introducing FORAY Protocol+-+a new standard for enterprise transaction audit trails, anchored to the Kaspa blockchain for real-time, immutable proof of existence."
+> "Introducing FORAY Protocol+-+a new standard for enterprise transaction audit trails, anchored to the Kaspa blockchain for real-time, tamper-evident proof of existence."
 
 ### SCENE 2: The Problem (0:30 - 1:00)
 
@@ -108,7 +108,7 @@
 **[SCREEN: Return to Batch Payment sample]**
 
 **VOICEOVER:**
-> "Now let's anchor this transaction to the Kaspa blockchain for immutable proof."
+> "Now let's anchor this transaction to the Kaspa blockchain for tamper-evident proof."
 
 **[ACTION: Click "Connect Wallet" button]**
 

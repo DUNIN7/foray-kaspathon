@@ -1,9 +1,25 @@
+<!--
+  File: FORAY_Technical_Assumptions_Weaknesses.md
+  Version: 3.0
+  Created: 2026-01-20T00:00:00Z
+  Modified: 2026-02-02T14:30:00Z
+  Author: Marvin Percival
+  Email: marvinp@dunin7.com
+  GitHub: DUNIN7/foray-kaspathon
+
+  Change Log:
+    v3.0 (2026-02-02): Aligned privacy assumptions to 3-layer architecture; removed
+                        outdated 8-layer references; corrected forbidden claims
+    v2.0 (2026-01-25): Added resolution status, corrected documents
+    v1.0 (2026-01-20): Initial analysis
+-->
+
 # FORAY Protocol: Technical Assumptions & Potential Weaknesses
 
 ## Critical Self-Assessment of Generated Documentation
 
-**Document Version:** 2.0  
-**Last Updated:** January 2026  
+**Document Version:** 3.0  
+**Last Updated:** February 2, 2026  
 **Purpose:** Transparency document identifying assumptions and limitations
 
 > **DISCLAIMER:** See [FORAY_Standard_Disclaimer.md](./FORAY_Standard_Disclaimer.md) for important legal and technical disclaimers.
@@ -52,13 +68,13 @@ This document provides a critical self-assessment identifying:
 
 | ID | Assumption | Risk If Wrong | Validation Status |
 |----|------------|---------------|-------------------|
-| A3.1 | 8 privacy layers are independent | Combined protection reduced | âš ï¸ Unproven |
-| A3.2 | Chaff indistinguishable from real data | Pattern analysis possible | âš ï¸ Unproven |
-| A3.3 | Variable polymorphism prevents inference | Semantic analysis risk | âš ï¸ Unproven |
-| A3.4 | Instance pool provides unlinkability | Timing analysis risk | âš ï¸ Pool size undefined |
-| A3.5 | Differential privacy epsilon is sufficient | Privacy failure | âš ï¸ Values unspecified |
+| A3.1 | 3 privacy layers are independent | Combined protection reduced | âš ï¸  Unproven — requires formal analysis |
+| A3.2 | Salted hashes prevent cross-entity correlation | Side-channel linkage possible | âš ï¸  Depends on salt management practices |
+| A3.3 | Formula commitments prevent logic inference | Metadata correlation risk | âš ï¸  Requires registry access controls |
+| A3.4 | Instance pool provides unlinkability | Timing analysis risk | âš ï¸  Pool size undefined for production |
+| A3.5 | Amount obfuscation sufficient for sensitivity level | Value inference possible | âš ï¸  Rounding thresholds unspecified per industry |
 
-**Mitigation:** Conduct formal security analysis. Define minimum pool sizes. Specify epsilon values for different use cases.
+**Mitigation:** Conduct formal security analysis. Define minimum pool sizes per use case. Specify obfuscation thresholds for different industries and sensitivity levels.
 
 ---
 
@@ -204,12 +220,19 @@ Organizations evaluating FORAY should review this document to understand the cur
 
 ---
 
+## Contact
+
+- **Author:** Marvin Percival
+- **Email:** marvinp@dunin7.com
+- **GitHub:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
+
 ## Document History
 
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | January 2026 | Initial analysis |
 | 2.0 | January 2026 | Added resolution status, corrected documents |
+| 3.0 | February 2, 2026 | Aligned to 3-layer privacy architecture; corrected forbidden claims |
 
 ---
 

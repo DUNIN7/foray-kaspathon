@@ -6,7 +6,7 @@
 
 ## Executive Summary
 
-FORAY Protocol provides a privacy-preserving audit infrastructure designed for enterprise transaction recording on blockchain. For defense contractors operating under rigorous government oversight, FORAY offers a framework for creating immutable, verifiable audit trails that satisfy DCAA requirements while protecting proprietary cost structures, technical approaches, and competitive positioning.
+FORAY Protocol provides a privacy-preserving audit infrastructure designed for enterprise transaction recording on blockchain. For defense contractors operating under rigorous government oversight, FORAY offers a framework for creating tamper-evident, verifiable audit trails that satisfy DCAA requirements while protecting proprietary cost structures, technical approaches, and competitive positioning.
 
 This document outlines how FORAY addresses the unique compliance challenges facing defense contractors.
 
@@ -38,7 +38,7 @@ DCAA audits often become disputes about what happened and when. FORAY eliminates
 | Traditional Defense | FORAY-Enabled |
 |--------------------|---------------|
 | "Our records show..." | "The blockchain anchor proves..." |
-| Reconstruct from multiple systems | Single immutable source of truth |
+| Reconstruct from multiple systems | Single tamper-evident source of truth |
 | Auditor questions record integrity | Integrity is mathematically verified |
 | Months to respond to audit requests | Real-time anchor verification |
 
@@ -68,7 +68,7 @@ The most audited transaction in defense contracting:
 | 3 | Charge posts to contract |
 | 4 | Anchor created |
 
-**Immutable proof of:**
+**Tamper-evident proof of:**
 - Who charged
 - When charged
 - What contract
@@ -118,7 +118,7 @@ Forward pricing audits challenge proposed indirect rates. FORAY helps:
 
 | Audit Challenge | FORAY Response |
 |-----------------|----------------|
-| "Your historical rates don't support projection" | Anchored historical data is immutable |
+| "Your historical rates don't support projection" | Anchored historical data is tamper-evident |
 | "We can't verify your base data" | Base computations anchored at period-end |
 | "Your allocation changed mid-year" | Anchors prove when changes occurred |
 
@@ -207,7 +207,7 @@ FORAY supports DFARS requirements:
 | DFARS Clause | FORAY Support |
 |--------------|---------------|
 | 252.215-7002 - Cost estimating | Anchor basis of estimate data |
-| 252.242-7006 - Accounting system | Immutable audit trail |
+| 252.242-7006 - Accounting system | Tamper-evident audit trail |
 | 252.234-7002 - EVMS | Anchor earned value computations |
 | 252.204-7012 - Cyber | Hash-only anchoring protects CUI |
 

@@ -46,7 +46,7 @@ The peer review correctly identified these limitations:
 | **Attestor competence** | A laboratory's certification is only as reliable as the laboratory |
 | **Data accuracy at source** | "Garbage in, garbage out"â€”FORAY trusts validated source system data |
 
-**This is not a weakness to hideâ€”it is a boundary to understand.** Every audit system shares these limitations. FORAY's contribution is making the claims immutable and the claimants accountable.
+**This is not a weakness to hideâ€”it is a boundary to understand.** Every audit system shares these limitations. FORAY's contribution is making the recorded claims tamper-evident and the claimants accountable.
 
 ---
 
@@ -110,7 +110,7 @@ These transactions record *claims about external reality* made by identified par
 
 **Trust Model:** FORAY anchors a *chain of attestations*, not independent truth. The value depends entirely on trusting the attestors.
 
-**FORAY Value:** Creates an immutable record of who claimed what, whenâ€”enabling accountability and dispute resolution.
+**FORAY Value:** Creates a tamper-evident record of who claimed what, whenâ€”enabling accountability and dispute resolution.
 
 ---
 
@@ -141,7 +141,7 @@ For provenance and authentication use cases, FORAY records a chain of attestatio
 â”‚                          â–¼                                      â”‚
 â”‚              "These three parties made                          â”‚
 â”‚               these claims on this date,                        â”‚
-â”‚               and the record is immutable"                      â”‚
+â”‚               and the record is tamper-evident"                      â”‚
 â”‚                                                                 â”‚
 â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
@@ -149,7 +149,7 @@ For provenance and authentication use cases, FORAY records a chain of attestatio
 ### What This Enables
 
 1. **Accountability:** If the oil is later found to be from Tunisia, the attestation record identifies who made false claims
-2. **Dispute Resolution:** Immutable timestamp proves claims were made before any dispute arose
+2. **Dispute Resolution:** Tamper-evident timestamp supports claims were made before any dispute arose
 3. **Audit Trail:** Regulators can trace the complete chain of custody and certification
 4. **Fraud Deterrence:** Knowing claims are permanently recorded discourages false attestations
 
@@ -281,7 +281,7 @@ The peer reviewer stated: *"Without attestation/assertion, your audit trail is j
 **Our response:** The Attestations extension transforms "he said, she said" into:
 - **Who** said it (identified, credentialed attestor)
 - **What** they said (specific claims with evidence hashes)
-- **When** they said it (immutable timestamp)
+- **When** they said it (tamper-evident timestamp)
 - **What authority** they have to say it (attestor credentials)
 - **Permanent accountability** (attestations cannot be deleted or altered)
 
@@ -293,7 +293,7 @@ FORAY excels at both transaction types, but users must understand the distinctio
 - For **system-of-record transactions**, FORAY provides external proof of internal facts
 - For **attestation transactions**, FORAY provides accountability infrastructureâ€”the claims are only as reliable as the parties making them
 
-This transparency strengthens rather than weakens FORAY's value proposition: honest attestors benefit from immutable proof of their claims, while dishonest attestors face permanent, traceable evidence of their fraud.
+This transparency strengthens rather than weakens FORAY's value proposition: honest attestors benefit from tamper-evident proof of their claims, while dishonest attestors face tamper-evident, traceable evidence of their fraud.
 
 ---
 

@@ -6,7 +6,7 @@
 
 ## Executive Summary
 
-FORAY Protocol provides a privacy-preserving audit infrastructure that creates immutable, verifiable transaction records on blockchain. For audit and advisory firms, FORAY represents both a tool for more efficient engagements and a potential new service line as clients adopt blockchain-anchored audit trails.
+FORAY Protocol provides a privacy-preserving audit infrastructure that creates tamper-evident, verifiable transaction records on blockchain. For audit and advisory firms, FORAY represents both a tool for more efficient engagements and a potential new service line as clients adopt blockchain-anchored audit trails.
 
 This document outlines how FORAY transforms audit workflows and creates advisory opportunities.
 
@@ -35,7 +35,7 @@ Traditional audit relies on client-provided data that *could* have been altered.
 
 | Traditional Audit | FORAY-Enabled Audit |
 |-------------------|---------------------|
-| Trust client's records | Verify against immutable blockchain anchor |
+| Trust client's records | Verify against tamper-evident blockchain anchor |
 | Sample-based testing | Comprehensive verification economically feasible |
 | Point-in-time confirmation | Continuous assurance possible |
 | Request â†’ Wait â†’ Receive | Real-time access to anchored data |
@@ -46,7 +46,7 @@ Traditional audit relies on client-provided data that *could* have been altered.
 FORAY can anchor cryptographic fingerprints of transactions at the moment they occur:
 
 ```
-Transaction Created â†’ Hash Computed â†’ Anchored to Kaspa â†’ Immutable Proof
+Transaction Created â†’ Hash Computed â†’ Anchored to Kaspa â†’ Tamper-Evident Proof
         â†“                                                        â†“
    Client's System                                    Public Blockchain
    (can be altered)                                   (cannot be altered)
@@ -106,7 +106,7 @@ The client provides a Merkle proof covering only those fields. The auditor verif
 | Audit Procedure | Traditional | FORAY-Enabled | Improvement |
 |-----------------|-------------|---------------|-------------|
 | Completeness testing | Sample + extrapolate | Full population hash verification | Higher confidence |
-| Cutoff testing | Request records around period-end | Timestamp anchors are immutable | Conclusive |
+| Cutoff testing | Request records around period-end | Timestamp anchors are tamper-evident | Conclusive |
 | Existence/Occurrence | Confirmations, site visits | Blockchain anchor = third-party proof | Faster |
 | Valuation | Recalculate client formulas | Verify formula hash unchanged | Less rework |
 | Rights & Obligations | Legal document review | Contract terms anchored at signing | Pre-verified |
@@ -159,7 +159,7 @@ New attestation engagements:
 ### 4. Dispute Resolution Support
 
 Litigation and forensic services:
-- Immutable evidence for transaction timing
+- Tamper-evident records for transaction timing
 - Third-party verification of record integrity
 - Expert witness on blockchain audit trails
 
@@ -174,7 +174,7 @@ FORAY supports, rather than replaces, existing audit standards:
 | ISA 500 (Audit Evidence) | Blockchain anchor = external evidence source |
 | ISA 505 (Confirmations) | Anchor can substitute for some confirmations |
 | ISA 520 (Analytical Procedures) | Full population data enables better analytics |
-| PCAOB AS 2301 (Audit Responses) | Immutable records reduce assessed risk |
+| PCAOB AS 2301 (Audit Responses) | Tamper-evident records reduce assessed risk |
 | SOC 1/2 | FORAY controls as part of system description |
 
 ---

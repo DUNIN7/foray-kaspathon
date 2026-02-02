@@ -1,3 +1,11 @@
+<!--
+  File: FORAY_Government_Engagement_Action_Plan.md
+  Modified: 2026-02-02T15:00:00Z
+  Author: Marvin Percival
+  Note: Terminology corrected - "fraud prevention" -> "fraud detection support"
+        FORAY enables fraud detection through structured audit trails, not prevention.
+-->
+
 # FORAY Protocol: Government Engagement Action Plan
 
 ## Document Control
@@ -14,7 +22,7 @@
 
 ## Executive Summary
 
-This document provides step-by-step guidance for executing four strategic recommendations to position FORAY Protocol as a government fraud prevention solution, leveraging the Minnesota fraud crisis as a catalyst event.
+This document provides step-by-step guidance for executing four strategic recommendations to position FORAY Protocol as a government fraud detection support solution, leveraging the Minnesota fraud crisis as a catalyst event.
 
 ---
 
@@ -53,7 +61,7 @@ Treasury's FIT office is actively piloting blockchain for federal grant manageme
 
 1. **Executive Summary** (1 page)
    - FORAY as semantic layer for Treasury's blockchain infrastructure
-   - Minnesota fraud prevention use case
+   - Minnesota fraud detection support use case
    - Key differentiators: 4A model, selective disclosure, cross-system audit
 
 2. **Technical Alignment** (2 pages)
@@ -83,7 +91,7 @@ Treasury's FIT office is actively piloting blockchain for federal grant manageme
 **Email Template:**
 
 ```
-Subject: Blockchain Transaction Semantics for Grant Fraud Prevention - FORAY Protocol
+Subject: Blockchain Transaction Semantics for Grant Fraud Detection Support - FORAY Protocol
 
 Dear FIT Team,
 
@@ -136,7 +144,7 @@ https://github.com/DUNIN7/foray-kaspathon
 
 ### Why This Matters
 
-Minnesota is under federal pressure to demonstrate fraud prevention. The state has:
+Minnesota is under federal pressure to demonstrate fraud detection support. The state has:
 - $185M annual federal child care funding currently frozen
 - Active Legislative Auditor investigations
 - Bipartisan legislative support for anti-fraud measures
@@ -238,7 +246,7 @@ PRIVACY PROTECTIONS:
 **Approach 1: Public Testimony**
 
 Monitor for hearings on:
-- Fraud prevention measures
+- Fraud detection support measures
 - Technology modernization
 - Grant program oversight
 
@@ -257,7 +265,7 @@ Identify legislators with:
 **Sample Outreach:**
 
 ```
-Subject: Blockchain Audit Technology for Grant Fraud Prevention
+Subject: Blockchain Audit Technology for Grant Fraud Detection Support
 
 Dear [Legislator],
 
@@ -266,7 +274,7 @@ an open-source technology solution that could help prevent future fraud while
 protecting beneficiary privacy.
 
 FORAY Protocol is a blockchain-agnostic audit trail standard that:
-- Creates immutable records of grant transactions as they occur
+- Creates tamper-evident records of grant transactions as they occur
 - Prevents retroactive document alteration (addresses "deleted data" concerns)
 - Protects beneficiary privacy through selective disclosure
 - Integrates with existing state financial systems
@@ -307,7 +315,7 @@ The House Oversight Committee is actively investigating Minnesota fraud with sch
 **Create 2-page brief for Congressional staff:**
 
 ```
-TECHNOLOGY SOLUTIONS FOR FEDERAL GRANT FRAUD PREVENTION
+TECHNOLOGY SOLUTIONS FOR FEDERAL GRANT FRAUD DETECTION
 
 THE PROBLEM:
 - Minnesota fraud estimated at $9 billion across 14 programs
@@ -315,7 +323,7 @@ THE PROBLEM:
 - Audit trails can be deleted by insiders
 - Detection occurs 12-18 months after fraud
 
-THE SOLUTION: Blockchain-Based Immutable Audit Trails
+THE SOLUTION: Blockchain-Based Tamper-Evident Audit Trails
 - Transactions anchored to external blockchain as they occur
 - Cannot be altered or deleted, even by system administrators
 - Real-time anomaly detection vs. periodic audits
@@ -356,11 +364,11 @@ Contact: Marvin Percival, marvinp@dunin7.com
 **Prepare for:**
 - 30-minute briefing
 - Non-technical audience
-- Focus on "how it prevents fraud" not "how blockchain works"
+- Focus on "how it supports fraud detection" not "how blockchain works"
 - Live demo if technology available
 
 **Key messages:**
-1. Fraud prevention, not just detection
+1. Fraud detection support through structured audit trails
 2. Open source (no vendor lock-in)
 3. Privacy-preserving (protects beneficiaries)
 4. Complements existing systems (not replacement)
@@ -408,7 +416,7 @@ Your blockchain investment + FORAY =
 FORAY works with:
 - Hyperledger Fabric (permissioned enterprise)
 - Public blockchains (Kaspa, Ethereum, etc.)
-- AWS QLDB (managed immutable ledger)
+- AWS QLDB (managed tamper-evident ledger)
 - Traditional databases + hash verification
 ```
 
@@ -429,7 +437,7 @@ FORAY works with:
 
 1. **Search for relevant topics:**
    - SBIR.gov topic search
-   - Keywords: "audit," "blockchain," "financial management," "fraud prevention"
+   - Keywords: "audit," "blockchain," "financial management," "fraud detection support"
 
 2. **Identify matching agencies:**
    - Treasury
