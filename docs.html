@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <!--
   File: docs.html
-  Version: 4.1.4
+  Version: 4.1.5
   Created: 2026-01-29T08:15:00Z
-  Modified: 2026-02-02T17:00:00Z
+  Modified: 2026-02-02T19:00:00Z
   Author: Marvin Percival
   Email: marvinp@dunin7.com
   GitHub: DUNIN7/foray-kaspathon
   
   FORAY Protocol Documentation Page
   Change Log:
+    v4.1.5 (2026-02-02): Fixed character encoding corruption (-> replacing single quotes)
+                         Restored all CSS font-family declarations (6 instances)
+                         Restored all JS string literals (3 instances)
     v4.1.4 (2026-02-02): Added infographic link (sidebar + Visual Overview box)
                          Added Attestations Extension section (sidebar + full content)
                          Added Google Chrome requirement to Demo Mode box
@@ -59,17 +62,17 @@
     html { scroll-behavior: smooth; }
     
     body {
-      font-family: -> IBM Plex Sans', -apple-system, sans-serif;
+      font-family: 'IBM Plex Sans', -apple-system, sans-serif;
       background: var(--bg-dark);
       color: var(--text-light);
       line-height: 1.7;
     }
     
-    .font-mono { font-family: -> IBM Plex Mono', monospace; }
+    .font-mono { font-family: 'IBM Plex Mono', monospace; }
     
     /* Navigation */
         /* === BULLETPROOF NAV CSS v4.0 - FULLY SELF-CONTAINED === */
-    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: -> IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
     .nav * { box-sizing: border-box; }
     .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: inherit; font-size: inherit; line-height: inherit; }
     .nav-logo-text { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; display: flex; align-items: center; }
@@ -84,7 +87,7 @@
     .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
     .nav-hamburger.active span:nth-child(2) { opacity: 0; }
     .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
-    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: -> IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
     .nav-mobile-menu.active { opacity: 1; visibility: visible; }
     .nav-mobile-menu .nav-link { font-size: 1.5rem; font-weight: 500; color: #F7F9FA; line-height: 1; }
     .nav-mobile-menu .nav-link:hover { color: #14B8B8; }
@@ -218,14 +221,14 @@
     }
     
     .code-block code {
-      font-family: -> IBM Plex Mono', monospace;
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 0.85rem;
       color: var(--text-light);
       line-height: 1.6;
     }
     
     code {
-      font-family: -> IBM Plex Mono', monospace;
+      font-family: 'IBM Plex Mono', monospace;
       background: rgba(20, 184, 184, 0.1);
       padding: 0.15rem 0.4rem;
       border-radius: 4px;
@@ -955,7 +958,7 @@
       const mobileMenu = document.getElementById('mobileMenu');
       hamburger.classList.toggle('active');
       mobileMenu.classList.toggle('active');
-      document.body.style.overflow = mobileMenu.classList.contains('active') ? -> hidden' : -> ';
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
     }
     
     function closeMobileMenu() {
@@ -963,11 +966,11 @@
       const mobileMenu = document.getElementById('mobileMenu');
       hamburger.classList.remove('active');
       mobileMenu.classList.remove('active');
-      document.body.style.overflow = -> ';
+      document.body.style.overflow = '';
     }
     
     document.addEventListener('keydown', function(e) {
-      if (e.key === -> Escape') closeMobileMenu();
+      if (e.key === 'Escape') closeMobileMenu();
     });
   </script>
 </body>
