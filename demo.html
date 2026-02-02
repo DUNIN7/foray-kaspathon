@@ -62,19 +62,19 @@
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: -> IBM Plex Sans', -apple-system, BlinkMacSystemFont, -> Segoe UI', Roboto, sans-serif;
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(to bottom right, #F7F9FA, #E8F4F5);
             min-height: 100vh;
             padding-top: 44px;
         }
 
         .font-mono {
-            font-family: -> IBM Plex Mono', monospace;
+            font-family: 'IBM Plex Mono', monospace;
         }
 
         /* Site Navigation - Unified with Hamburger Menu */
         /* === BULLETPROOF NAV CSS v4.0 - FULLY SELF-CONTAINED === */
-    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: -> IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
     .nav * { box-sizing: border-box; }
     .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: inherit; font-size: inherit; line-height: inherit; }
     .nav-logo-text { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; display: flex; align-items: center; }
@@ -89,7 +89,7 @@
     .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
     .nav-hamburger.active span:nth-child(2) { opacity: 0; }
     .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
-    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: -> IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
     .nav-mobile-menu.active { opacity: 1; visibility: visible; }
     .nav-mobile-menu .nav-link { font-size: 1.5rem; font-weight: 500; color: #F7F9FA; line-height: 1; }
     .nav-mobile-menu .nav-link:hover { color: #14B8B8; }
@@ -281,7 +281,7 @@
             cursor: pointer;
             transition: all 0.2s;
             text-align: center;
-            font-family: -> IBM Plex Sans', sans-serif;
+            font-family: 'IBM Plex Sans', sans-serif;
             font-size: 0.8125rem;
             font-weight: 500;
             color: var(--secondary-navy);
@@ -328,7 +328,7 @@
             border: 2px solid #E8F4F5;
             border-radius: 0.5rem;
             font-size: 0.9375rem;
-            font-family: -> IBM Plex Sans', sans-serif;
+            font-family: 'IBM Plex Sans', sans-serif;
             transition: border-color 0.2s;
             background-color: #FFFFFF;
         }
@@ -392,7 +392,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            font-family: -> IBM Plex Sans', sans-serif;
+            font-family: 'IBM Plex Sans', sans-serif;
         }
 
         .btn-primary {
@@ -515,7 +515,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            font-family: -> IBM Plex Sans', sans-serif;
+            font-family: 'IBM Plex Sans', sans-serif;
         }
 
         .modal-btn-review {
@@ -584,7 +584,7 @@
 
         .json-container pre {
             color: var(--text-light);
-            font-family: -> IBM Plex Mono', monospace;
+            font-family: 'IBM Plex Mono', monospace;
             font-size: 0.8125rem;
             line-height: 1.5;
             margin: 0;
@@ -854,65 +854,65 @@
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Configuration - Update this to point to your API server
-        const API_ENDPOINT = -> http://localhost:3001/api/generate-foray';
-        // For Cloudflare Tunnel: const API_ENDPOINT = -> https://your-tunnel-url.com/api/generate-foray';
+        const API_ENDPOINT = 'http://localhost:3001/api/generate-foray';
+        // For Cloudflare Tunnel: const API_ENDPOINT = 'https://your-tunnel-url.com/api/generate-foray';
 
         let currentTransaction = null;
 
         // Reference examples data URLs (will load from review page samples)
-        const REVIEW_PAGE_URL = -> foray-tx-review-v41.html';
+        const REVIEW_PAGE_URL = 'foray-tx-review-v41.html';
 
         // Template data for custom generation
         const templates = {
             payroll: {
-                name: -> Payroll Entry',
-                description: -> Monthly payroll processing for employee John Doe. Gross salary $5,000 with federal tax withholding $750, state tax $250, Social Security $310, and Medicare $72.50. Net pay of $3,617.50 paid on January 31, 2025. Employee ID: EMP-1001.'
+                name: 'Payroll Entry',
+                description: 'Monthly payroll processing for employee John Doe. Gross salary $5,000 with federal tax withholding $750, state tax $250, Social Security $310, and Medicare $72.50. Net pay of $3,617.50 paid on January 31, 2025. Employee ID: EMP-1001.'
             },
             equipment: {
-                name: -> Equipment Purchase',
-                description: -> Purchase of industrial CNC machine from TechEquip Corp for $125,000. Down payment of $25,000 on January 15, 2025. Remaining $100,000 financed over 60 months at 5.5% APR with monthly payment of $1,910.83 starting February 15, 2025. Expected useful life 10 years with straight-line depreciation.'
+                name: 'Equipment Purchase',
+                description: 'Purchase of industrial CNC machine from TechEquip Corp for $125,000. Down payment of $25,000 on January 15, 2025. Remaining $100,000 financed over 60 months at 5.5% APR with monthly payment of $1,910.83 starting February 15, 2025. Expected useful life 10 years with straight-line depreciation.'
             },
             fx: {
-                name: -> FX Spot Trade',
-                description: -> Foreign exchange spot trade executed on January 27, 2025. Sell 1,000,000 USD and buy 146,500,000 JPY at spot rate 146.50. Settlement date T+2 on January 29, 2025. Counterparty: Global Bank Tokyo. Trade reference: FX-2025-0127-001.'
+                name: 'FX Spot Trade',
+                description: 'Foreign exchange spot trade executed on January 27, 2025. Sell 1,000,000 USD and buy 146,500,000 JPY at spot rate 146.50. Settlement date T+2 on January 29, 2025. Counterparty: Global Bank Tokyo. Trade reference: FX-2025-0127-001.'
             },
             subscription: {
-                name: -> Subscription Revenue',
-                description: -> Annual software subscription from Acme Corporation. Contract value $50,000 for 12-month term starting February 1, 2025. Payment received in advance on January 20, 2025. Revenue recognized monthly at $4,166.67. Contract includes quarterly performance reviews and automatic renewal clause.'
+                name: 'Subscription Revenue',
+                description: 'Annual software subscription from Acme Corporation. Contract value $50,000 for 12-month term starting February 1, 2025. Payment received in advance on January 20, 2025. Revenue recognized monthly at $4,166.67. Contract includes quarterly performance reviews and automatic renewal clause.'
             },
             inventory: {
-                name: -> Inventory Adjustment',
-                description: -> Physical inventory count conducted on January 26, 2025. Product SKU-5589 shows book quantity 500 units at $45.00 per unit. Physical count reveals 475 units. Shortage of 25 units valued at $1,125 due to warehouse damage during forklift operations. Location: Warehouse Zone C-14.'
+                name: 'Inventory Adjustment',
+                description: 'Physical inventory count conducted on January 26, 2025. Product SKU-5589 shows book quantity 500 units at $45.00 per unit. Physical count reveals 475 units. Shortage of 25 units valued at $1,125 due to warehouse damage during forklift operations. Location: Warehouse Zone C-14.'
             },
             supplyChain: {
-                name: -> Supply Chain Provenance',
-                description: -> Product origin and authenticity verification for batch LOT-2026-001. Producer: Tuscan Olive Cooperative (Italy). Product: Extra Virgin Olive Oil, 2,500 liters from Chianti Hills harvest November 2025. Laboratory analysis confirms DOP certification requirements: free acidity 0.28%, peroxide value 8.5 meq/kg, polyphenols 285 mg/kg. Certifier: Consorzio DOP Toscano. Batch valued at EUR 125,000 for wholesale distribution.'
+                name: 'Supply Chain Provenance',
+                description: 'Product origin and authenticity verification for batch LOT-2026-001. Producer: Tuscan Olive Cooperative (Italy). Product: Extra Virgin Olive Oil, 2,500 liters from Chianti Hills harvest November 2025. Laboratory analysis confirms DOP certification requirements: free acidity 0.28%, peroxide value 8.5 meq/kg, polyphenols 285 mg/kg. Certifier: Consorzio DOP Toscano. Batch valued at EUR 125,000 for wholesale distribution.'
             }
         };
 
         // Reference example keys map to review page sample keys
         const referenceKeys = {
-            batchPayment: -> batchPayment',
-            cashSale: -> cashSale',
-            depreciation: -> depreciation',
-            autoLoan: -> autoLoan',
-            energyPPA: -> energyPPA',
-            manufacturing: -> manufacturing',
-            salesforce: -> salesforceOpportunity',
-            manukaHoney: -> manukaHoneyProvenance',
-            luxuryWatch: -> luxuryWatchAuth'
+            batchPayment: 'batchPayment',
+            cashSale: 'cashSale',
+            depreciation: 'depreciation',
+            autoLoan: 'autoLoan',
+            energyPPA: 'energyPPA',
+            manufacturing: 'manufacturing',
+            salesforce: 'salesforceOpportunity',
+            manukaHoney: 'manukaHoneyProvenance',
+            luxuryWatch: 'luxuryWatchAuth'
         };
 
         // Welcome banner
         function dismissWelcome() {
-            document.getElementById('welcomeBanner').style.display = -> none';
-            sessionStorage.setItem('foray_welcome_dismissed', -> true');
+            document.getElementById('welcomeBanner').style.display = 'none';
+            sessionStorage.setItem('foray_welcome_dismissed', 'true');
         }
 
-        if (sessionStorage.getItem('foray_welcome_dismissed') === -> true') {
+        if (sessionStorage.getItem('foray_welcome_dismissed') === 'true') {
             document.addEventListener('DOMContentLoaded', () => {
                 const banner = document.getElementById('welcomeBanner');
-                if (banner) banner.style.display = -> none';
+                if (banner) banner.style.display = 'none';
             });
         }
 
@@ -937,8 +937,8 @@
         }
 
         function clearForm() {
-            document.getElementById('customTxName').value = -> ';
-            document.getElementById('customTxDescription').value = -> ';
+            document.getElementById('customTxName').value = '';
+            document.getElementById('customTxDescription').value = '';
             document.getElementById('sampleSelect').selectedIndex = 0;
         }
 
@@ -961,9 +961,9 @@
         async function generateFromAI(transactionName, transactionDescription) {
             try {
                 const response = await fetch(API_ENDPOINT, {
-                    method: -> POST',
+                    method: 'POST',
                     headers: {
-                        -> Content-Type': -> application/json',
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         transactionName,
@@ -1017,7 +1017,7 @@
                 </div>
             `;
 
-            modalActions.style.display = -> none';
+            modalActions.style.display = 'none';
             modal.classList.add('active');
         }
 
@@ -1038,7 +1038,7 @@
                 </div>
             `;
 
-            modalActions.style.display = -> flex';
+            modalActions.style.display = 'flex';
             modal.classList.add('active');
         }
 
@@ -1062,7 +1062,7 @@
                 </div>
             `;
 
-            modalActions.style.display = -> none';
+            modalActions.style.display = 'none';
         }
 
         function closeModal() {
@@ -1081,8 +1081,8 @@
         function downloadJSON() {
             const txId = currentTransaction.transaction_id || 
                          currentTransaction.transaction_metadata?.transaction_id || 
-                         -> transaction';
-            const blob = new Blob([JSON.stringify(currentTransaction, null, 2)], { type: -> application/json' });
+                         'transaction';
+            const blob = new Blob([JSON.stringify(currentTransaction, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;

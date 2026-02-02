@@ -20,22 +20,22 @@ const crypto = require('crypto');
 class ValidationError extends Error {
   constructor(message, field) {
     super(message);
-    this.name = -> ValidationError';
+    this.name = 'ValidationError';
     this.field = field;
   }
 }
 
 // Configuration validation
 function validateConfig(config) {
-  if (!config || typeof config !== -> object') {
-    throw new ValidationError('Configuration object is required', -> config');
+  if (!config || typeof config !== 'object') {
+    throw new ValidationError('Configuration object is required', 'config');
   }
   
-  const validPrivacyLevels = ['minimal', -> standard', -> high', -> defense'];
+  const validPrivacyLevels = ['minimal', 'standard', 'high', 'defense'];
   if (config.privacyLevel && !validPrivacyLevels.includes(config.privacyLevel)) {
     throw new ValidationError(
-      `Invalid privacy level: ${config.privacyLevel}. Valid options: ${validPrivacyLevels.join(', -> )}`,
-      -> privacyLevel'
+      `Invalid privacy level: ${config.privacyLevel}. Valid options: ${validPrivacyLevels.join(', ')}`,
+      'privacyLevel'
     );
   }
   
@@ -44,42 +44,42 @@ function validateConfig(config) {
 
 // Salesforce object validation
 function validateSalesforceObject(obj, objectType) {
-  if (!obj || typeof obj !== -> object') {
+  if (!obj || typeof obj !== 'object') {
     throw new ValidationError(`${objectType} object is required`, objectType);
   }
   
   if (!obj.Id) {
-    throw new ValidationError(`${objectType} must have Id field`, -> Id');
+    throw new ValidationError(`${objectType} must have Id field`, 'Id');
   }
   
   // Type-specific validation
   switch (objectType) {
-    case -> Opportunity':
+    case 'Opportunity':
       if (obj.Amount !== undefined && obj.Amount !== null) {
-        if (typeof obj.Amount !== -> number' || isNaN(obj.Amount)) {
-          throw new ValidationError('Opportunity Amount must be a valid number', -> Amount');
+        if (typeof obj.Amount !== 'number' || isNaN(obj.Amount)) {
+          throw new ValidationError('Opportunity Amount must be a valid number', 'Amount');
         }
       }
       if (obj.Probability !== undefined) {
-        if (typeof obj.Probability !== -> number' || obj.Probability < 0 || obj.Probability > 100) {
-          throw new ValidationError('Opportunity Probability must be between 0 and 100', -> Probability');
+        if (typeof obj.Probability !== 'number' || obj.Probability < 0 || obj.Probability > 100) {
+          throw new ValidationError('Opportunity Probability must be between 0 and 100', 'Probability');
         }
       }
       break;
       
-    case -> Quote':
-      if (obj.GrandTotal !== undefined && typeof obj.GrandTotal !== -> number') {
-        throw new ValidationError('Quote GrandTotal must be a number', -> GrandTotal');
+    case 'Quote':
+      if (obj.GrandTotal !== undefined && typeof obj.GrandTotal !== 'number') {
+        throw new ValidationError('Quote GrandTotal must be a number', 'GrandTotal');
       }
       break;
       
-    case -> Order':
-      if (obj.TotalAmount !== undefined && typeof obj.TotalAmount !== -> number') {
-        throw new ValidationError('Order TotalAmount must be a number', -> TotalAmount');
+    case 'Order':
+      if (obj.TotalAmount !== undefined && typeof obj.TotalAmount !== 'number') {
+        throw new ValidationError('Order TotalAmount must be a number', 'TotalAmount');
       }
       break;
       
-    case -> Case':
+    case 'Case':
       // Cases don't require monetary amounts
       break;
   }
@@ -92,8 +92,8 @@ class SalesforceAdapter {
     validateConfig(config);
     
     this.foray = new ForaySDK(config.forayConfig || {});
-    this.salesforceInstanceUrl = config.salesforceInstanceUrl || -> https://your-instance.salesforce.com';
-    this.privacyLevel = config.privacyLevel || -> standard';
+    this.salesforceInstanceUrl = config.salesforceInstanceUrl || 'https://your-instance.salesforce.com';
+    this.privacyLevel = config.privacyLevel || 'standard';
     this.entitySalt = config.entitySalt || crypto.randomBytes(32).toString('hex');
     
     // Configuration with defaults
@@ -110,21 +110,21 @@ class SalesforceAdapter {
     
     // Salesforce object type mappings
     this.objectTypeMap = {
-      -> Opportunity': -> sales-opportunity',
-      -> Quote': -> sales-quote',
-      -> Contract': -> sales-contract',
-      -> Order': -> sales-order',
-      -> Case': -> customer-case',
-      -> Account': -> customer-account',
-      -> Lead': -> sales-lead',
-      -> Contact': -> customer-contact'
+      'Opportunity': 'sales-opportunity',
+      'Quote': 'sales-quote',
+      'Contract': 'sales-contract',
+      'Order': 'sales-order',
+      'Case': 'customer-case',
+      'Account': 'customer-account',
+      'Lead': 'sales-lead',
+      'Contact': 'customer-contact'
     };
   }
 
   /**
    * Logging helper
    */
-  _log(message, level = -> info') {
+  _log(message, level = 'info') {
     if (this.config.enableLogging) {
       const timestamp = new Date().toISOString();
       console.log(`[${timestamp}] [SALESFORCE-FORAY] [${level.toUpperCase()}] ${message}`);
@@ -142,7 +142,7 @@ class SalesforceAdapter {
         return await operation();
       } catch (error) {
         lastError = error;
-        this._log(`${operationName} failed (attempt ${attempt}/${this.config.retryAttempts}): ${error.message}`, -> warn');
+        this._log(`${operationName} failed (attempt ${attempt}/${this.config.retryAttempts}): ${error.message}`, 'warn');
         
         if (attempt < this.config.retryAttempts) {
           await new Promise(resolve => setTimeout(resolve, this.config.retryDelayMs * attempt));
@@ -195,21 +195,21 @@ class SalesforceAdapter {
    */
   obfuscateAmount(amount) {
     if (amount === null || amount === undefined) return null;
-    if (typeof amount !== -> number' || isNaN(amount)) return null;
+    if (typeof amount !== 'number' || isNaN(amount)) return null;
     
     switch (this.privacyLevel) {
-      case -> minimal':
+      case 'minimal':
         return amount;
       
-      case -> standard':
+      case 'standard':
         return Math.round(amount / 1000) * 1000;
       
-      case -> high':
+      case 'high':
         const rounded = Math.round(amount / 10000) * 10000;
         const noise = (Math.random() - 0.5) * 5000;
         return rounded + noise;
       
-      case -> defense':
+      case 'defense':
         return crypto
           .createHash('sha256')
           .update(`${this.entitySalt}:${amount}`)
@@ -224,15 +224,15 @@ class SalesforceAdapter {
    * Convert Salesforce Opportunity to FORAY transaction
    */
   async opportunityToForay(opportunity) {
-    validateSalesforceObject(opportunity, -> Opportunity');
+    validateSalesforceObject(opportunity, 'Opportunity');
     await this._enforceRateLimit();
     
     this._log(`Converting Opportunity ${opportunity.Id} to FORAY`);
     
     return await this._withRetry(async () => {
-      const opportunityId = this.hashIdentifier(opportunity.Id, -> opportunity');
-      const accountId = this.hashIdentifier(opportunity.AccountId, -> account');
-      const ownerId = this.hashIdentifier(opportunity.OwnerId, -> user');
+      const opportunityId = this.hashIdentifier(opportunity.Id, 'opportunity');
+      const accountId = this.hashIdentifier(opportunity.AccountId, 'account');
+      const ownerId = this.hashIdentifier(opportunity.OwnerId, 'user');
       
       // Arrangement: Opportunity created, parties identified
       const arrangement = this.foray.createArrangement({
@@ -247,11 +247,11 @@ class SalesforceAdapter {
         effective_date: opportunity.CreatedDate,
         metadata: {
           salesforce_id: opportunityId,
-          object_type: -> Opportunity'
+          object_type: 'Opportunity'
         }
       });
 
-      // Accrual: Revenue recognition based on Amount  x  Probability
+      // Accrual: Revenue recognition based on Amount &times; Probability
       const amount = opportunity.Amount || 0;
       const probability = opportunity.Probability || 0;
       
@@ -261,7 +261,7 @@ class SalesforceAdapter {
         inputs: {
           amount: this.obfuscateAmount(amount),
           probability: probability,
-          currency: this.hashValue(opportunity.CurrencyIsoCode || -> USD')
+          currency: this.hashValue(opportunity.CurrencyIsoCode || 'USD')
         },
         outputs: {
           expected_revenue: this.obfuscateAmount(amount * (probability / 100)),
@@ -281,7 +281,7 @@ class SalesforceAdapter {
         expected_amount: this.obfuscateAmount(amount),
         conditions: [
           {
-            type: -> stage_progression',
+            type: 'stage_progression',
             value: this.hashValue('Closed Won'),
             probability: probability / 100
           }
@@ -294,12 +294,12 @@ class SalesforceAdapter {
 
       // Action: Only created when Opportunity is Closed Won
       let action = null;
-      if (opportunity.StageName === -> Closed Won' && opportunity.IsClosed) {
+      if (opportunity.StageName === 'Closed Won' && opportunity.IsClosed) {
         action = this.foray.createAction({
           anticipation_hash: anticipation.hash,
           actual_date: opportunity.CloseDate,
           actual_amount: this.obfuscateAmount(amount),
-          settlement_type: -> opportunity_won',
+          settlement_type: 'opportunity_won',
           proof: {
             stage: this.hashValue('Closed Won'),
             is_won: opportunity.IsWon,
@@ -310,7 +310,7 @@ class SalesforceAdapter {
 
       return {
         transaction_id: opportunityId,
-        salesforce_object: -> Opportunity',
+        salesforce_object: 'Opportunity',
         salesforce_id: opportunity.Id,
         foray_components: {
           arrangement,
@@ -325,26 +325,26 @@ class SalesforceAdapter {
         },
         privacy_metadata: {
           privacy_level: this.privacyLevel,
-          hashed_fields: ['Id', -> AccountId', -> OwnerId', -> StageName', -> Type', -> LeadSource'],
-          obfuscated_amounts: ['Amount', -> expected_revenue', -> risk_adjusted_value']
+          hashed_fields: ['Id', 'AccountId', 'OwnerId', 'StageName', 'Type', 'LeadSource'],
+          obfuscated_amounts: ['Amount', 'expected_revenue', 'risk_adjusted_value']
         }
       };
-    }, -> opportunityToForay');
+    }, 'opportunityToForay');
   }
 
   /**
    * Convert Salesforce Quote to FORAY transaction
    */
   async quoteToForay(quote) {
-    validateSalesforceObject(quote, -> Quote');
+    validateSalesforceObject(quote, 'Quote');
     await this._enforceRateLimit();
     
     this._log(`Converting Quote ${quote.Id} to FORAY`);
     
     return await this._withRetry(async () => {
-      const quoteId = this.hashIdentifier(quote.Id, -> quote');
-      const opportunityId = this.hashIdentifier(quote.OpportunityId, -> opportunity');
-      const accountId = this.hashIdentifier(quote.AccountId, -> account');
+      const quoteId = this.hashIdentifier(quote.Id, 'quote');
+      const opportunityId = this.hashIdentifier(quote.OpportunityId, 'opportunity');
+      const accountId = this.hashIdentifier(quote.AccountId, 'account');
 
       const arrangement = this.foray.createArrangement({
         parties: [accountId, this.entitySalt].filter(Boolean),
@@ -383,20 +383,20 @@ class SalesforceAdapter {
         expected_amount: this.obfuscateAmount(quote.GrandTotal || 0),
         conditions: [
           {
-            type: -> quote_acceptance',
+            type: 'quote_acceptance',
             value: this.hashValue('Accepted'),
-            probability: quote.Status === -> Presented' ? 0.5 : 0.1
+            probability: quote.Status === 'Presented' ? 0.5 : 0.1
           }
         ]
       });
 
       let action = null;
-      if (quote.Status === -> Accepted') {
+      if (quote.Status === 'Accepted') {
         action = this.foray.createAction({
           anticipation_hash: anticipation.hash,
           actual_date: quote.LastModifiedDate,
           actual_amount: this.obfuscateAmount(quote.GrandTotal || 0),
-          settlement_type: -> quote_accepted',
+          settlement_type: 'quote_accepted',
           proof: {
             status: this.hashValue('Accepted')
           }
@@ -405,26 +405,26 @@ class SalesforceAdapter {
 
       return {
         transaction_id: quoteId,
-        salesforce_object: -> Quote',
+        salesforce_object: 'Quote',
         salesforce_id: quote.Id,
         foray_components: { arrangement, accrual, anticipation, action },
         privacy_metadata: { privacy_level: this.privacyLevel }
       };
-    }, -> quoteToForay');
+    }, 'quoteToForay');
   }
 
   /**
    * Convert Salesforce Order to FORAY transaction
    */
   async orderToForay(order) {
-    validateSalesforceObject(order, -> Order');
+    validateSalesforceObject(order, 'Order');
     await this._enforceRateLimit();
     
     this._log(`Converting Order ${order.Id} to FORAY`);
     
     return await this._withRetry(async () => {
-      const orderId = this.hashIdentifier(order.Id, -> order');
-      const accountId = this.hashIdentifier(order.AccountId, -> account');
+      const orderId = this.hashIdentifier(order.Id, 'order');
+      const accountId = this.hashIdentifier(order.AccountId, 'account');
 
       const arrangement = this.foray.createArrangement({
         parties: [accountId, this.entitySalt].filter(Boolean),
@@ -458,20 +458,20 @@ class SalesforceAdapter {
         expected_amount: this.obfuscateAmount(order.TotalAmount || 0),
         conditions: [
           {
-            type: -> order_activated',
+            type: 'order_activated',
             value: this.hashValue('Activated'),
-            probability: order.Status === -> Draft' ? 0.8 : 1.0
+            probability: order.Status === 'Draft' ? 0.8 : 1.0
           }
         ]
       });
 
       let action = null;
-      if (order.Status === -> Activated') {
+      if (order.Status === 'Activated') {
         action = this.foray.createAction({
           anticipation_hash: anticipation.hash,
           actual_date: order.ActivatedDate,
           actual_amount: this.obfuscateAmount(order.TotalAmount || 0),
-          settlement_type: -> order_activated',
+          settlement_type: 'order_activated',
           proof: {
             status: this.hashValue('Activated')
           }
@@ -480,12 +480,12 @@ class SalesforceAdapter {
 
       return {
         transaction_id: orderId,
-        salesforce_object: -> Order',
+        salesforce_object: 'Order',
         salesforce_id: order.Id,
         foray_components: { arrangement, accrual, anticipation, action },
         privacy_metadata: { privacy_level: this.privacyLevel }
       };
-    }, -> orderToForay');
+    }, 'orderToForay');
   }
 
   /**
@@ -493,15 +493,15 @@ class SalesforceAdapter {
    * NOTE: Cases do not have monetary amounts - Accrual represents effort estimation
    */
   async caseToForay(caseObj) {
-    validateSalesforceObject(caseObj, -> Case');
+    validateSalesforceObject(caseObj, 'Case');
     await this._enforceRateLimit();
     
     this._log(`Converting Case ${caseObj.Id} to FORAY`);
     
     return await this._withRetry(async () => {
-      const caseId = this.hashIdentifier(caseObj.Id, -> case');
-      const accountId = this.hashIdentifier(caseObj.AccountId, -> account');
-      const contactId = this.hashIdentifier(caseObj.ContactId, -> contact');
+      const caseId = this.hashIdentifier(caseObj.Id, 'case');
+      const accountId = this.hashIdentifier(caseObj.AccountId, 'account');
+      const contactId = this.hashIdentifier(caseObj.ContactId, 'contact');
 
       const arrangement = this.foray.createArrangement({
         parties: [accountId, contactId, this.entitySalt].filter(Boolean),
@@ -538,7 +538,7 @@ class SalesforceAdapter {
         },
         calculation_date: caseObj.CreatedDate,
         metadata: {
-          note: -> Estimated values based on priority heuristics, not Salesforce data'
+          note: 'Estimated values based on priority heuristics, not Salesforce data'
         }
       });
 
@@ -548,7 +548,7 @@ class SalesforceAdapter {
         expected_amount: null, // Cases don't have monetary settlement
         conditions: [
           {
-            type: -> case_resolved',
+            type: 'case_resolved',
             value: this.hashValue('Closed'),
             probability: this._getResolutionProbability(caseObj)
           }
@@ -564,7 +564,7 @@ class SalesforceAdapter {
           anticipation_hash: anticipation.hash,
           actual_date: caseObj.ClosedDate,
           actual_amount: null,
-          settlement_type: -> case_closed',
+          settlement_type: 'case_closed',
           proof: {
             status: this.hashValue(caseObj.Status),
             reason: this.hashValue(caseObj.Reason)
@@ -574,26 +574,26 @@ class SalesforceAdapter {
 
       return {
         transaction_id: caseId,
-        salesforce_object: -> Case',
+        salesforce_object: 'Case',
         salesforce_id: caseObj.Id,
         foray_components: { arrangement, accrual, anticipation, action },
         privacy_metadata: { privacy_level: this.privacyLevel }
       };
-    }, -> caseToForay');
+    }, 'caseToForay');
   }
 
   /**
    * Convert Salesforce Account to FORAY (NEW in v2.0)
    */
   async accountToForay(account) {
-    validateSalesforceObject(account, -> Account');
+    validateSalesforceObject(account, 'Account');
     await this._enforceRateLimit();
     
     this._log(`Converting Account ${account.Id} to FORAY`);
     
     return await this._withRetry(async () => {
-      const accountId = this.hashIdentifier(account.Id, -> account');
-      const ownerId = this.hashIdentifier(account.OwnerId, -> user');
+      const accountId = this.hashIdentifier(account.Id, 'account');
+      const ownerId = this.hashIdentifier(account.OwnerId, 'user');
 
       const arrangement = this.foray.createArrangement({
         parties: [accountId, ownerId].filter(Boolean),
@@ -626,26 +626,26 @@ class SalesforceAdapter {
 
       return {
         transaction_id: accountId,
-        salesforce_object: -> Account',
+        salesforce_object: 'Account',
         salesforce_id: account.Id,
         foray_components: { arrangement, accrual, anticipation: null, action: null },
         privacy_metadata: { privacy_level: this.privacyLevel }
       };
-    }, -> accountToForay');
+    }, 'accountToForay');
   }
 
   /**
    * Convert Salesforce Lead to FORAY (NEW in v2.0)
    */
   async leadToForay(lead) {
-    validateSalesforceObject(lead, -> Lead');
+    validateSalesforceObject(lead, 'Lead');
     await this._enforceRateLimit();
     
     this._log(`Converting Lead ${lead.Id} to FORAY`);
     
     return await this._withRetry(async () => {
-      const leadId = this.hashIdentifier(lead.Id, -> lead');
-      const ownerId = this.hashIdentifier(lead.OwnerId, -> user');
+      const leadId = this.hashIdentifier(lead.Id, 'lead');
+      const ownerId = this.hashIdentifier(lead.OwnerId, 'user');
 
       const arrangement = this.foray.createArrangement({
         parties: [leadId, ownerId].filter(Boolean),
@@ -667,23 +667,23 @@ class SalesforceAdapter {
         action = this.foray.createAction({
           arrangement_hash: arrangement.hash,
           actual_date: lead.ConvertedDate,
-          settlement_type: -> lead_converted',
+          settlement_type: 'lead_converted',
           proof: {
-            converted_account: this.hashIdentifier(lead.ConvertedAccountId, -> account'),
-            converted_contact: this.hashIdentifier(lead.ConvertedContactId, -> contact'),
-            converted_opportunity: this.hashIdentifier(lead.ConvertedOpportunityId, -> opportunity')
+            converted_account: this.hashIdentifier(lead.ConvertedAccountId, 'account'),
+            converted_contact: this.hashIdentifier(lead.ConvertedContactId, 'contact'),
+            converted_opportunity: this.hashIdentifier(lead.ConvertedOpportunityId, 'opportunity')
           }
         });
       }
 
       return {
         transaction_id: leadId,
-        salesforce_object: -> Lead',
+        salesforce_object: 'Lead',
         salesforce_id: lead.Id,
         foray_components: { arrangement, accrual: null, anticipation: null, action },
         privacy_metadata: { privacy_level: this.privacyLevel }
       };
-    }, -> leadToForay');
+    }, 'leadToForay');
   }
 
   /**
@@ -691,23 +691,23 @@ class SalesforceAdapter {
    */
   async batchProcess(records, objectType) {
     if (!Array.isArray(records)) {
-      throw new ValidationError('records must be an array', -> records');
+      throw new ValidationError('records must be an array', 'records');
     }
     
-    const validTypes = ['Opportunity', -> Quote', -> Order', -> Case', -> Account', -> Lead'];
+    const validTypes = ['Opportunity', 'Quote', 'Order', 'Case', 'Account', 'Lead'];
     if (!validTypes.includes(objectType)) {
-      throw new ValidationError(`Invalid objectType: ${objectType}. Valid types: ${validTypes.join(', -> )}`, -> objectType');
+      throw new ValidationError(`Invalid objectType: ${objectType}. Valid types: ${validTypes.join(', ')}`, 'objectType');
     }
 
     this._log(`Batch processing ${records.length} ${objectType}(s)...`);
     
     const converterMap = {
-      -> Opportunity': this.opportunityToForay.bind(this),
-      -> Quote': this.quoteToForay.bind(this),
-      -> Order': this.orderToForay.bind(this),
-      -> Case': this.caseToForay.bind(this),
-      -> Account': this.accountToForay.bind(this),
-      -> Lead': this.leadToForay.bind(this)
+      'Opportunity': this.opportunityToForay.bind(this),
+      'Quote': this.quoteToForay.bind(this),
+      'Order': this.orderToForay.bind(this),
+      'Case': this.caseToForay.bind(this),
+      'Account': this.accountToForay.bind(this),
+      'Lead': this.leadToForay.bind(this)
     };
 
     const converter = converterMap[objectType];
@@ -726,7 +726,7 @@ class SalesforceAdapter {
           ...transaction
         });
       } catch (error) {
-        this._log(`Error processing ${objectType} at index ${i}: ${error.message}`, -> error');
+        this._log(`Error processing ${objectType} at index ${i}: ${error.message}`, 'error');
         errors.push({
           index: i,
           success: false,
@@ -764,12 +764,12 @@ class SalesforceAdapter {
   }
 
   _getPriorityWeight(priority) {
-    const weights = { -> High': 3, -> Medium': 2, -> Low': 1 };
+    const weights = { 'High': 3, 'Medium': 2, 'Low': 1 };
     return weights[priority] || 1;
   }
 
   _getSLAHours(priority) {
-    const sla = { -> High': 4, -> Medium': 24, -> Low': 72 };
+    const sla = { 'High': 4, 'Medium': 24, 'Low': 72 };
     return sla[priority] || 24;
   }
 
@@ -782,7 +782,7 @@ class SalesforceAdapter {
   }
 
   _calculateEstimatedEffort(caseObj) {
-    const baseHours = { -> High': 8, -> Medium': 4, -> Low': 2 };
+    const baseHours = { 'High': 8, 'Medium': 4, 'Low': 2 };
     return baseHours[caseObj.Priority] || 2;
   }
 
