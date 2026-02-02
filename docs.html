@@ -11,6 +11,8 @@
   FORAY Protocol Documentation Page
   Change Log:
     v4.1.4 (2026-02-02): Added infographic link (sidebar + Visual Overview box)
+                         Added Attestations Extension section (sidebar + full content)
+                         Added Google Chrome requirement to Demo Mode box
                          Fixed multiplication sign mojibake
     v4.1.3 (2026-01-31): Content review - "immutable" to "tamper-evident"
                          Content review - removed "complete" overclaim
@@ -398,6 +400,7 @@
         <a href="#schema" class="sidebar-link">JSON Schema</a>
         <a href="#kaspa" class="sidebar-link">Kaspa Integration</a>
         <a href="#privacy" class="sidebar-link">Privacy Architecture</a>
+        <a href="#attestations" class="sidebar-link">Attestations</a>
       </div>
       
       <div class="sidebar-section">
@@ -694,7 +697,7 @@
           </svg>
           Demo Mode
         </div>
-        <p>The demo connects to <strong>Kaspa Testnet-10 only</strong>. Ensure your KasWare wallet is configured for Testnet before anchoring.</p>
+        <p>The demo connects to <strong>Kaspa Testnet-10 only</strong> and <strong>requires Google Chrome</strong> &mdash; the KasWare wallet extension is only available for Chrome-based browsers. Ensure your KasWare wallet is configured for Testnet before anchoring.</p>
       </div>
 
       <h2 id="privacy">Privacy Architecture</h2>
@@ -740,6 +743,146 @@
         Privacy metadata scales proportionally to data sensitivity. High-sensitivity transactions 
         may use 7-15 obfuscated formulas and 5-10 instance pools, while low-sensitivity 
         transactions require minimal protection.
+      </p>
+
+      <h2 id="attestations">Attestations Extension</h2>
+      <p>
+        The core 4A model captures <em>what organizations claim happened</em>. The optional 
+        Attestations extension records <em>who verified those claims</em> &mdash; providing 
+        accountability infrastructure for use cases requiring third-party validation.
+      </p>
+
+      <div class="info-box warning">
+        <div class="info-box-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"/>
+          </svg>
+          Claims vs. Truth
+        </div>
+        <p>FORAY proves that a party made a specific claim at a specific time. It does <strong>not</strong> independently verify that the claim is true. Attestations make claimants <em>accountable</em>, not claims <em>accurate</em>.</p>
+      </div>
+
+      <h3>What FORAY Proves</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Temporal proof</td>
+            <td>A specific claim was recorded at a specific point in time</td>
+          </tr>
+          <tr>
+            <td>Integrity proof</td>
+            <td>The recorded data has not been altered since anchoring</td>
+          </tr>
+          <tr>
+            <td>Consistency proof</td>
+            <td>Multiple parties can verify they hold identical records</td>
+          </tr>
+          <tr>
+            <td>Sequence proof</td>
+            <td>Events occurred in a verifiable order</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>What FORAY Does NOT Prove</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Limitation</th>
+            <th>Explanation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Truth of claims</td>
+            <td>FORAY anchors assertions, not facts</td>
+          </tr>
+          <tr>
+            <td>Physical reality</td>
+            <td>Digital records cannot independently verify physical world states</td>
+          </tr>
+          <tr>
+            <td>Attestor competence</td>
+            <td>A certification is only as reliable as the certifying party</td>
+          </tr>
+          <tr>
+            <td>Data accuracy at source</td>
+            <td>FORAY trusts validated source system data</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Attestation Types</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Use Case</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>certification</code></td>
+            <td>Formal certification by authorized body</td>
+            <td>UMF certification, ISO compliance</td>
+          </tr>
+          <tr>
+            <td><code>inspection</code></td>
+            <td>Physical examination by qualified inspector</td>
+            <td>Customs inspection, quality check</td>
+          </tr>
+          <tr>
+            <td><code>analysis</code></td>
+            <td>Laboratory or technical analysis</td>
+            <td>Spectroscopic fingerprint, MGO analysis</td>
+          </tr>
+          <tr>
+            <td><code>audit_opinion</code></td>
+            <td>Professional auditor's assessment</td>
+            <td>Financial audit, compliance review</td>
+          </tr>
+          <tr>
+            <td><code>verification</code></td>
+            <td>Confirmation of facts or events</td>
+            <td>Delivery confirmation, payment verification</td>
+          </tr>
+          <tr>
+            <td><code>oracle</code></td>
+            <td>Automated/sensor-based attestation</td>
+            <td>IoT readings, GPS coordinates, timestamps</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Structure</h3>
+      <div class="code-block">
+        <code><pre>{
+  "id": "ATT_INSPECTION_001",
+  "foray_core": {
+    "attestor": "Quality Inspectors Ltd",
+    "attestor_hash": "sha256:...",
+    "attestor_type": "inspection_body",
+    "attestor_credentials": ["ISO_17020", "UKAS_Accredited"],
+    "subject_refs": ["ACT_DELIVERY_001", "ACC_INV_2026_001"],
+    "attestation_type": "inspection",
+    "attestation_date": "2026-01-15T14:30:00Z",
+    "outcome": "certified",
+    "evidence_hash": "sha256:...",
+    "evidence_location": "off-chain"
+  }
+}</pre></code>
+      </div>
+
+      <p>
+        For the complete attestation trust model, validation rules, and attestation chain patterns, 
+        see the <a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Attestation_Trust_Model.md">Attestation Trust Model</a> document.
       </p>
 
       <h2 id="quickbooks">QuickBooks Integration</h2>
