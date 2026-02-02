@@ -231,24 +231,24 @@ Rather than all-or-nothing, implement **tiered wallet management** as an optiona
 ```javascript
 const foray = new ForaySDK({
   // Tier 1: Standard (default)
-  walletStrategy: 'single',
+  walletStrategy: -> single',
 
   // Tier 2: Enhanced
-  walletStrategy: 'rotating_pool',
+  walletStrategy: -> rotating_pool',
   walletPoolConfig: {
     poolSize: 50,
     transactionsPerWallet: 100,
-    rotationPolicy: 'transaction_count', // or 'time_based', 'random'
+    rotationPolicy: -> transaction_count', // or -> time_based', -> random'
     alertOnLowPool: true,
     lowPoolThreshold: 10
   },
 
   // Tier 3: Maximum
-  walletStrategy: 'per_transaction',
+  walletStrategy: -> per_transaction',
   perTransactionConfig: {
     hdDerivationPath: "m/44'/111111'/0'/0/",
-    fundingSource: 'external', // Requires manual funding
-    mixingIntegration: 'manual' // Future: 'coinjoin', 'atomic_swap'
+    fundingSource: -> external', // Requires manual funding
+    mixingIntegration: -> manual' // Future: -> coinjoin', -> atomic_swap'
   }
 });
 ```

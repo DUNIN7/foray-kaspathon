@@ -11,7 +11,7 @@ License text copyright (c) 2017 MariaDB Corporation Ab, All Rights Reserved.
 |-----------|-------|
 | **Licensor** | Marvin Percival |
 | **Licensed Work** | FORAY Protocol v4.1 |
-| **Copyright** | Â© 2026 Marvin Percival |
+| **Copyright** | (c) 2026 Marvin Percival |
 | **Additional Use Grant** | None |
 | **Change Date** | January 25, 2030 |
 | **Change License** | Apache License, Version 2.0 |

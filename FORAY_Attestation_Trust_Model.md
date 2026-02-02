@@ -13,7 +13,7 @@
 
 During rigorous peer review of the FORAY Protocol, a fundamental concern was raised:
 
-> *"The most glaring omission: Assertions (or Attestations). Business transactions aren't just dataâ€”they're claims about reality that may be disputed, fraudulent, mistaken, or contested by regulators. Without attestation/assertion, your audit trail is just 'he said, she said' with cryptographic wrapping."*
+> *"The most glaring omission: Assertions (or Attestations). Business transactions aren't just data--they're claims about reality that may be disputed, fraudulent, mistaken, or contested by regulators. Without attestation/assertion, your audit trail is just -> he said, she said' with cryptographic wrapping."*
 
 This document directly addresses that concern by:
 1. Clearly defining what FORAY proves and does not prove
@@ -24,7 +24,7 @@ This document directly addresses that concern by:
 
 ## Understanding What FORAY Proves
 
-FORAY Protocol creates tamper-evident audit trails by anchoring cryptographic hashes to the Kaspa blockchain. It is essential to understand precisely what this provesâ€”and what it does not.
+FORAY Protocol creates tamper-evident audit trails by anchoring cryptographic hashes to the Kaspa blockchain. It is essential to understand precisely what this proves--and what it does not.
 
 ### What FORAY Proves
 
@@ -41,12 +41,12 @@ The peer review correctly identified these limitations:
 
 | Limitation | Explanation |
 |------------|-------------|
-| **Truth of claims** | FORAY anchors *assertions*, not *facts*â€”if a party claims "this honey is authentic Manuka from New Zealand," FORAY proves they made that claim, not that it's true |
+| **Truth of claims** | FORAY anchors *assertions*, not *facts*--if a party claims "this honey is authentic Manuka from New Zealand," FORAY proves they made that claim, not that it's true |
 | **Physical reality** | Digital records cannot independently verify physical world states |
 | **Attestor competence** | A laboratory's certification is only as reliable as the laboratory |
-| **Data accuracy at source** | "Garbage in, garbage out"â€”FORAY trusts validated source system data |
+| **Data accuracy at source** | "Garbage in, garbage out"--FORAY trusts validated source system data |
 
-**This is not a weakness to hideâ€”it is a boundary to understand.** Every audit system shares these limitations. FORAY's contribution is making the recorded claims tamper-evident and the claimants accountable.
+**This is not a weakness to hide--it is a boundary to understand.** Every audit system shares these limitations. FORAY's contribution is making the recorded claims tamper-evident and the claimants accountable.
 
 ---
 
@@ -96,7 +96,7 @@ These transactions record events within authoritative business systems where the
 
 **Trust Model:** The ERP/financial system is authoritative. When QuickBooks records a payment, the payment occurred. FORAY anchors this fact with external, tamper-evident proof.
 
-**FORAY Value:** Proves the record existed at a point in time and hasn't been alteredâ€”even by system administrators.
+**FORAY Value:** Proves the record existed at a point in time and hasn't been altered--even by system administrators.
 
 ### Type 2: Attestation Transactions
 
@@ -110,7 +110,7 @@ These transactions record *claims about external reality* made by identified par
 
 **Trust Model:** FORAY anchors a *chain of attestations*, not independent truth. The value depends entirely on trusting the attestors.
 
-**FORAY Value:** Creates a tamper-evident record of who claimed what, whenâ€”enabling accountability and dispute resolution.
+**FORAY Value:** Creates a tamper-evident record of who claimed what, when--enabling accountability and dispute resolution.
 
 ---
 
@@ -119,31 +119,31 @@ These transactions record *claims about external reality* made by identified par
 For provenance and authentication use cases, FORAY records a chain of attestations:
 
 ```
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚                    ATTESTATION CHAIN                            â”‚
-â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
-â”‚                                                                 â”‚
-â”‚  [Producer]          [Certifier]           [Laboratory]         â”‚
-â”‚      â”‚                   â”‚                      â”‚               â”‚
-â”‚      â–¼                   â–¼                      â–¼               â”‚
-â”‚  "I harvested       "This meets UMF        "MGO analysis       â”‚
-â”‚   this honey in      certification          confirms authentic  â”‚
-â”‚   New Zealand"       standards"             Manuka profile"     â”‚
-â”‚      â”‚                   â”‚                      â”‚               â”‚
-â”‚      â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜               â”‚
-â”‚                          â”‚                                      â”‚
-â”‚                          â–¼                                      â”‚
-â”‚              â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”                          â”‚
-â”‚              â”‚   FORAY Transaction   â”‚                          â”‚
-â”‚              â”‚   (anchored to Kaspa) â”‚                          â”‚
-â”‚              â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜                          â”‚
-â”‚                          â”‚                                      â”‚
-â”‚                          â–¼                                      â”‚
-â”‚              "These three parties made                          â”‚
-â”‚               these claims on this date,                        â”‚
-â”‚               and the record is tamper-evident"                      â”‚
-â”‚                                                                 â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
++-----------------------------------------------------------------+
+|                    ATTESTATION CHAIN                            |
++-----------------------------------------------------------------+
+|                                                                 |
+|  [Producer]          [Certifier]           [Laboratory]         |
+|      |                   |                      |               |
+|      v                   v                      v               |
+|  "I harvested       "This meets UMF        "MGO analysis       |
+|   this honey in      certification          confirms authentic  |
+|   New Zealand"       standards"             Manuka profile"     |
+|      |                   |                      |               |
+|      --------------------+----------------------+               |
+|                          |                                      |
+|                          v                                      |
+|              +-----------------------+                          |
+|              |   FORAY Transaction   |                          |
+|              |   (anchored to Kaspa) |                          |
+|              ------------------------+                          |
+|                          |                                      |
+|                          v                                      |
+|              "These three parties made                          |
+|               these claims on this date,                        |
+|               and the record is tamper-evident"                      |
+|                                                                 |
+------------------------------------------------------------------+
 ```
 
 ### What This Enables
@@ -226,7 +226,7 @@ While FORAY cannot independently verify physical reality, several mechanisms str
 
 ### 1. Identified Attestors
 
-All attestors in FORAY transactions are identified parties (though their identities may be hashed for privacy). This creates accountabilityâ€”false attestations have consequences.
+All attestors in FORAY transactions are identified parties (though their identities may be hashed for privacy). This creates accountability--false attestations have consequences.
 
 ```json
 "parties": [
@@ -247,11 +247,11 @@ For certain products, physical properties can serve as unforgeable identifiers:
 - Metallurgical signatures (luxury watches, jewelry)
 - DNA markers (agricultural products)
 
-When available, these create a bridge between digital records and physical realityâ€”though measurement accuracy still depends on trusted equipment and operators.
+When available, these create a bridge between digital records and physical reality--though measurement accuracy still depends on trusted equipment and operators.
 
 ### 4. Oracle Integration (Future)
 
-FORAY's architecture supports integration with trusted oraclesâ€”automated systems that can attest to measurable conditions (temperature, location, timestamps) with reduced human intervention.
+FORAY's architecture supports integration with trusted oracles--automated systems that can attest to measurable conditions (temperature, location, timestamps) with reduced human intervention.
 
 ---
 
@@ -276,7 +276,7 @@ For provenance and authentication use cases, FORAY implementations should clearl
 
 ### Addressing the Peer Review Concern
 
-The peer reviewer stated: *"Without attestation/assertion, your audit trail is just 'he said, she said' with cryptographic wrapping."*
+The peer reviewer stated: *"Without attestation/assertion, your audit trail is just -> he said, she said' with cryptographic wrapping."*
 
 **Our response:** The Attestations extension transforms "he said, she said" into:
 - **Who** said it (identified, credentialed attestor)
@@ -285,13 +285,13 @@ The peer reviewer stated: *"Without attestation/assertion, your audit trail is j
 - **What authority** they have to say it (attestor credentials)
 - **Permanent accountability** (attestations cannot be deleted or altered)
 
-This doesn't make claims *true*â€”but it makes claimants *accountable*. That's the difference between a verbal promise and a signed, notarized document. FORAY provides the blockchain equivalent of notarization for business attestations.
+This doesn't make claims *true*--but it makes claimants *accountable*. That's the difference between a verbal promise and a signed, notarized document. FORAY provides the blockchain equivalent of notarization for business attestations.
 
 ### The Honest Value Proposition
 
 FORAY excels at both transaction types, but users must understand the distinction:
 - For **system-of-record transactions**, FORAY provides external proof of internal facts
-- For **attestation transactions**, FORAY provides accountability infrastructureâ€”the claims are only as reliable as the parties making them
+- For **attestation transactions**, FORAY provides accountability infrastructure--the claims are only as reliable as the parties making them
 
 This transparency strengthens rather than weakens FORAY's value proposition: honest attestors benefit from tamper-evident proof of their claims, while dishonest attestors face tamper-evident, traceable evidence of their fraud.
 

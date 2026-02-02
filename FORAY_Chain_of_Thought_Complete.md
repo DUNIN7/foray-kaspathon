@@ -461,7 +461,7 @@ Corrected: "5% of revenue lost to fraud" (ACFE source)
 ```javascript
 // Test: Can competitor infer exact revenue?
 const amounts = [247538, 251234, 248921, 250000];
-const obfuscated = amounts.map(a => obfuscateAmount(a, 'standard'));
+const obfuscated = amounts.map(a => obfuscateAmount(a, -> standard'));
 // Result: [248000, 251000, 249000, 250000]
 
 // Inference attempt:
@@ -537,7 +537,7 @@ foray-{system}-demo/
 class SystemAdapter {
   constructor(config) {
     this.foray = new ForaySDK(config.forayConfig);
-    this.privacyLevel = config.privacyLevel || 'standard';
+    this.privacyLevel = config.privacyLevel || -> standard';
     this.entitySalt = config.entitySalt || crypto.randomBytes(32);
   }
 

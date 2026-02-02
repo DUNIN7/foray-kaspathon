@@ -21,7 +21,7 @@ Modern audits face compounding pressures:
 | Increasing transaction volumes | More sampling, higher risk of material misstatement |
 | Complex financial instruments | Specialized expertise, longer verification cycles |
 | Global operations | Multi-jurisdiction coordination, time zone delays |
-| Regulatory expansion | SOX, IFRS 9, CECL, Basel IV â€” more to verify |
+| Regulatory expansion | SOX, IFRS 9, CECL, Basel IV -- more to verify |
 | Fee pressure | Clients demand efficiency without quality compromise |
 | Fraud sophistication | Harder to detect manipulation of digital records |
 
@@ -38,7 +38,7 @@ Traditional audit relies on client-provided data that *could* have been altered.
 | Trust client's records | Verify against tamper-evident blockchain anchor |
 | Sample-based testing | Comprehensive verification economically feasible |
 | Point-in-time confirmation | Continuous assurance possible |
-| Request â†’ Wait â†’ Receive | Real-time access to anchored data |
+| Request -> Wait -> Receive | Real-time access to anchored data |
 | Reconstruct transaction history | History is pre-verified |
 
 ### What Gets Anchored
@@ -46,8 +46,8 @@ Traditional audit relies on client-provided data that *could* have been altered.
 FORAY can anchor cryptographic fingerprints of transactions at the moment they occur:
 
 ```
-Transaction Created â†’ Hash Computed â†’ Anchored to Kaspa â†’ Tamper-Evident Proof
-        â†“                                                        â†“
+Transaction Created -> Hash Computed -> Anchored to Kaspa -> Tamper-Evident Proof
+        v                                                        v
    Client's System                                    Public Blockchain
    (can be altered)                                   (cannot be altered)
 ```
@@ -152,9 +152,9 @@ Move from annual audit to ongoing verification:
 ### 3. Blockchain Attestation
 
 New attestation engagements:
-- "FORAY Implementation Attestation" â€” client's system correctly anchors transactions
-- "Anchor Integrity Report" â€” all material transactions were anchored
-- "Selective Disclosure Verification" â€” specific assertions verified against anchors
+- "FORAY Implementation Attestation" -- client's system correctly anchors transactions
+- "Anchor Integrity Report" -- all material transactions were anchored
+- "Selective Disclosure Verification" -- specific assertions verified against anchors
 
 ### 4. Dispute Resolution Support
 
@@ -184,18 +184,18 @@ FORAY supports, rather than replaces, existing audit standards:
 The FORAY repository includes examples relevant to audit:
 
 **Complex Instruments:**
-- `rmbs-transaction-v3.json` â€” Securitization with waterfall
-- `fx-spot-usdjpy-v41.json` â€” Foreign exchange settlement
-- `overnight-repo-v41.json` â€” Secured financing
+- `rmbs-transaction-v3.json` -- Securitization with waterfall
+- `fx-spot-usdjpy-v41.json` -- Foreign exchange settlement
+- `overnight-repo-v41.json` -- Secured financing
 
 **Routine Transactions:**
-- `batch-payment-v41.json` â€” AP batch with allocations
-- `cash-sale-v41.json` â€” POS transaction
-- `depreciation-v41.json` â€” Adjusting entry
+- `batch-payment-v41.json` -- AP batch with allocations
+- `cash-sale-v41.json` -- POS transaction
+- `depreciation-v41.json` -- Adjusting entry
 
 **Industry-Specific:**
-- `energy-solar-ppa-morocco-spain-v3.json` â€” Cross-border PPA
-- `manufacturing-work-order-v41.json` â€” Production costing
+- `energy-solar-ppa-morocco-spain-v3.json` -- Cross-border PPA
+- `manufacturing-work-order-v41.json` -- Production costing
 
 Each demonstrates FORAY's 4-component structure mapping to audit-relevant assertions.
 
@@ -224,7 +224,7 @@ Firms that wait may find themselves learning while competitors are earning.
 
 ## About FORAY Protocol
 
-FORAY (derived from "4A" â€” the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's immutability benefits without privacy compromise.
+FORAY (derived from "4A" -- the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's immutability benefits without privacy compromise.
 
 **Key Resources:**
 - Protocol Specification: `FORAY_Protocol_v4_1_Specification.md`
@@ -241,8 +241,8 @@ FORAY (derived from "4A" â€” the four components) is an open protocol desig
 
 ---
 
-*FORAY Protocol â€” Transparent audits, protected secrets, powered by Kaspa.*
+*FORAY Protocol -- Transparent audits, protected secrets, powered by Kaspa.*
 
 ---
 
-**Copyright Â© 2026 Marvin Percival. All rights reserved.**
+**Copyright (c) 2026 Marvin Percival. All rights reserved.**

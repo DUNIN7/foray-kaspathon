@@ -25,7 +25,7 @@
       - Attestations display: attestor info, credentials, subject refs, 
         validity periods, evidence hashes, and type-specific details
       - Added Shield and Award icons for attestation visuals
-      - Added 'attestations' to expandedSections state
+      - Added -> attestations' to expandedSections state
       - Updated scrollToComponent to handle ATT_ prefixes
       - Added attestation color (#8B5CF6 purple) to RefBadge
       - Updated DependencyGraph to recognize attestation refs
@@ -70,8 +70,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'IBM Plex Sans', sans-serif; }
-    .font-mono { font-family: 'IBM Plex Mono', monospace; }
+    body { font-family: -> IBM Plex Sans', sans-serif; }
+    .font-mono { font-family: -> IBM Plex Mono', monospace; }
     
     /* Fast tooltips */
     [data-tooltip] {
@@ -94,7 +94,7 @@
       animation: tooltipFadeIn 0.3s ease-out;
     }
     [data-tooltip]:hover::before {
-      content: '';
+      content: -> ';
       position: absolute;
       bottom: 100%;
       left: 50%;
@@ -121,7 +121,7 @@
     }
     
     /* === BULLETPROOF NAV CSS v4.0 - FULLY SELF-CONTAINED === */
-    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: -> IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
     .nav * { box-sizing: border-box; }
     .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: inherit; font-size: inherit; line-height: inherit; }
     .nav-logo-text { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; display: flex; align-items: center; }
@@ -136,7 +136,7 @@
     .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
     .nav-hamburger.active span:nth-child(2) { opacity: 0; }
     .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
-    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: -> IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
     .nav-mobile-menu.active { opacity: 1; visibility: visible; }
     .nav-mobile-menu .nav-link { font-size: 1.5rem; font-weight: 500; color: #F7F9FA; line-height: 1; }
     .nav-mobile-menu .nav-link:hover { color: #14B8B8; }
@@ -182,7 +182,7 @@
       const mobileMenu = document.getElementById('mobileMenu');
       hamburger.classList.toggle('active');
       mobileMenu.classList.toggle('active');
-      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? -> hidden' : -> ';
     }
     
     function closeMobileMenu() {
@@ -190,11 +190,11 @@
       const mobileMenu = document.getElementById('mobileMenu');
       hamburger.classList.remove('active');
       mobileMenu.classList.remove('active');
-      document.body.style.overflow = '';
+      document.body.style.overflow = -> ';
     }
     
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeMobileMenu();
+      if (e.key === -> Escape') closeMobileMenu();
     });
   </script>
   
@@ -205,20 +205,20 @@
 
     // FORAY Brand Colors
     const forayColors = {
-      primaryTeal: '#0D7377',
-      secondaryNavy: '#1B365D',
-      accentCyan: '#14B8B8',
-      highlightMint: '#7DD3D6',
-      actionAmber: '#E6A817',
-      textDark: '#1A1D21',
-      textLight: '#F7F9FA',
-      bgLight: '#F7F9FA',
-      bgDark: '#1A1D21',
-      gray600: '#636E72',
-      gray400: '#94A3A8',
-      successGreen: '#10B981',
-      warningOrange: '#F59E0B',
-      errorRed: '#EF4444'
+      primaryTeal: -> #0D7377',
+      secondaryNavy: -> #1B365D',
+      accentCyan: -> #14B8B8',
+      highlightMint: -> #7DD3D6',
+      actionAmber: -> #E6A817',
+      textDark: -> #1A1D21',
+      textLight: -> #F7F9FA',
+      bgLight: -> #F7F9FA',
+      bgDark: -> #1A1D21',
+      gray600: -> #636E72',
+      gray400: -> #94A3A8',
+      successGreen: -> #10B981',
+      warningOrange: -> #F59E0B',
+      errorRed: -> #EF4444'
     };
 
     // Icons as SVG components
@@ -406,13 +406,13 @@
         v41.schema_version = v41.foray_version;
       }
       
-      const version = v41.schema_version || v41._v || '3.0';
-      v41.schema_version = '4.1';
+      const version = v41.schema_version || v41._v || -> 3.0';
+      v41.schema_version = -> 4.1';
       
       // Generate merkle_root if missing
       if (!v41.merkle_root) {
-        v41.merkle_root = 'sha256:' + Array.from({length: 16}, () => 
-          Math.floor(Math.random() * 16).toString(16)).join('') + '...';
+        v41.merkle_root = -> sha256:' + Array.from({length: 16}, () => 
+          Math.floor(Math.random() * 16).toString(16)).join('') + -> ...';
       }
       
       // ============================================================
@@ -423,18 +423,18 @@
       const normalizeParties = (parties) => {
         if (!parties || !Array.isArray(parties)) return [];
         return parties.map((party, idx) => {
-          if (typeof party === 'string') {
+          if (typeof party === -> string') {
             // Convert string to object with role based on index or ID pattern
-            const role = party.includes('employer') ? 'employer' :
-                        party.includes('employee') ? 'employee' :
-                        party.includes('lender') ? 'lender' :
-                        party.includes('borrower') ? 'borrower' :
-                        party.includes('buyer') ? 'buyer' :
-                        party.includes('seller') ? 'seller' :
-                        party.includes('vendor') ? 'vendor' :
-                        party.includes('tax') || party.includes('authority') ? 'authority' :
-                        party.includes('admin') ? 'administrator' :
-                        idx === 0 ? 'party_1' : `party_${idx + 1}`;
+            const role = party.includes('employer') ? -> employer' :
+                        party.includes('employee') ? -> employee' :
+                        party.includes('lender') ? -> lender' :
+                        party.includes('borrower') ? -> borrower' :
+                        party.includes('buyer') ? -> buyer' :
+                        party.includes('seller') ? -> seller' :
+                        party.includes('vendor') ? -> vendor' :
+                        party.includes('tax') || party.includes('authority') ? -> authority' :
+                        party.includes('admin') ? -> administrator' :
+                        idx === 0 ? -> party_1' : `party_${idx + 1}`;
             return { role, name: party };
           }
           return party; // Already an object
@@ -457,13 +457,13 @@
         return {
           id,
           foray_core: {
-            type: rest.type || rest.arrangement_type || 'unknown',
+            type: rest.type || rest.arrangement_type || -> unknown',
             effective_date: rest.effective_date,
             parties: normalizeParties(rest.parties),
             terms: rest.terms || {},
             description: rest.description,
             total_value: rest.total_value,
-            currency: rest.currency || 'USD',
+            currency: rest.currency || -> USD',
             ...rest
           }
         };
@@ -509,13 +509,13 @@
         return {
           id,
           foray_core: {
-            type: rest.type || rest.accrual_type || 'unknown',
+            type: rest.type || rest.accrual_type || -> unknown',
             arrangement_refs,
             description: rest.description || rest.formula_description,
-            computation_method: rest.computation_method || (rest.formula_hash ? 'Calculated' : 'FixedAmount'),
+            computation_method: rest.computation_method || (rest.formula_hash ? -> Calculated' : -> FixedAmount'),
             formula_id: rest.formula_id || (rest.formula_hash ? `sha256:${rest.formula_hash}` : null),
             output: rest.output ?? rest.accrued_amount ?? rest.amount,
-            currency: rest.currency || 'USD',
+            currency: rest.currency || -> USD',
             accrual_date: rest.accrual_date,
             ...rest
           }
@@ -556,12 +556,12 @@
         return {
           id,
           foray_core: {
-            type: rest.type || rest.anticipation_type || 'unknown',
+            type: rest.type || rest.anticipation_type || -> unknown',
             arrangement_refs,
             accrual_refs,
             description: rest.description || rest.purpose,
             expected_amount: rest.expected_amount ?? rest.amount,
-            currency: rest.currency || 'USD',
+            currency: rest.currency || -> USD',
             expected_date: rest.expected_date,
             probability_factor: rest.probability_factor ?? 1.0,
             from_party: rest.from_party,
@@ -611,15 +611,15 @@
         return {
           id,
           foray_core: {
-            type: rest.type || rest.action_type || 'unknown',
+            type: rest.type || rest.action_type || -> unknown',
             arrangement_refs,
             anticipation_refs,
             accrual_refs,
             description: rest.description || rest.purpose,
             amount_settled: rest.amount_settled ?? rest.amount,
-            currency: rest.currency || 'USD',
+            currency: rest.currency || -> USD',
             settlement_date: rest.settlement_date || rest.timestamp,
-            settlement_status: rest.settlement_status || 'completed',
+            settlement_status: rest.settlement_status || -> completed',
             payment_method: rest.payment_method,
             from_party: rest.from_party,
             to_party: rest.to_party,
@@ -644,12 +644,12 @@
         }
         
         v41.foray_core = {
-          entity: v41.entity || v41.e || 'Unknown',
+          entity: v41.entity || v41.e || -> Unknown',
           entity_hash: v41.entity_hash || null,
-          transaction_type: v41.transaction_type || v41.ty || 'unknown',
+          transaction_type: v41.transaction_type || v41.ty || -> unknown',
           total_value: totalValue,
-          currency: v41.currency || v41.cu || 'USD',
-          status: v41.status || 'active',
+          currency: v41.currency || v41.cu || -> USD',
+          status: v41.status || -> active',
           compliance_flags: v41.compliance_flags || v41.rc || []
         };
       }
@@ -694,27 +694,27 @@
       const validateRefs = (refs, componentId, refType) => {
         for (const ref of refs || []) {
           if (!allIds.has(ref)) {
-            errors.push(`${componentId}: Referenced ${refType} '${ref}' does not exist`);
+            errors.push(`${componentId}: Referenced ${refType} -> ${ref}' does not exist`);
           }
         }
       };
       
       for (const acc of transaction.accruals || []) {
         const core = acc.foray_core || acc;
-        validateRefs(core.arrangement_refs, acc.id, 'arrangement');
+        validateRefs(core.arrangement_refs, acc.id, -> arrangement');
       }
       
       for (const ant of transaction.anticipations || []) {
         const core = ant.foray_core || ant;
-        validateRefs(core.accrual_refs, ant.id, 'accrual');
-        validateRefs(core.arrangement_refs, ant.id, 'arrangement');
+        validateRefs(core.accrual_refs, ant.id, -> accrual');
+        validateRefs(core.arrangement_refs, ant.id, -> arrangement');
       }
       
       for (const act of transaction.actions || []) {
         const core = act.foray_core || act;
-        validateRefs(core.anticipation_refs, act.id, 'anticipation');
-        validateRefs(core.accrual_refs, act.id, 'accrual');
-        validateRefs(core.arrangement_refs, act.id, 'arrangement');
+        validateRefs(core.anticipation_refs, act.id, -> anticipation');
+        validateRefs(core.accrual_refs, act.id, -> accrual');
+        validateRefs(core.arrangement_refs, act.id, -> arrangement');
         
         if (core.allocations?.length > 0) {
           const sum = core.allocations.reduce((acc, a) => acc + (a.amount || 0), 0);
@@ -728,15 +728,15 @@
       // Validate attestation subject_refs
       for (const att of transaction.attestations || []) {
         const core = att.foray_core || att;
-        validateRefs(core.subject_refs, att.id, 'subject');
-        validateRefs(core.dependencies, att.id, 'dependency');
+        validateRefs(core.subject_refs, att.id, -> subject');
+        validateRefs(core.dependencies, att.id, -> dependency');
       }
       
       let entryPointType = null;
-      if (transaction.arrangements?.length > 0) entryPointType = 'arrangement';
-      else if (transaction.accruals?.length > 0) entryPointType = 'accrual';
-      else if (transaction.anticipations?.length > 0) entryPointType = 'anticipation';
-      else if (transaction.actions?.length > 0) entryPointType = 'action';
+      if (transaction.arrangements?.length > 0) entryPointType = -> arrangement';
+      else if (transaction.accruals?.length > 0) entryPointType = -> accrual';
+      else if (transaction.anticipations?.length > 0) entryPointType = -> anticipation';
+      else if (transaction.actions?.length > 0) entryPointType = -> action';
       
       return {
         valid: errors.length === 0,
@@ -754,11 +754,11 @@
     }
 
     // Shared Components
-    const Card = ({ children, className = '', style = {}, id }) => (
+    const Card = ({ children, className = -> ', style = {}, id }) => (
       <div 
         id={id}
         className={`rounded-xl shadow-sm p-6 ${className}`}
-        style={{ backgroundColor: 'white', border: `1px solid ${forayColors.gray400}20`, ...style }}
+        style={{ backgroundColor: -> white', border: `1px solid ${forayColors.gray400}20`, ...style }}
       >
         {children}
       </div>
@@ -768,7 +768,7 @@
       <div 
         className="w-full flex items-center justify-between p-4 rounded-lg transition-colors"
         style={{ 
-          backgroundColor: isExpanded ? `${forayColors.primaryTeal}10` : 'transparent',
+          backgroundColor: isExpanded ? `${forayColors.primaryTeal}10` : -> transparent',
           border: `1px solid ${isExpanded ? forayColors.primaryTeal : forayColors.gray400}40`
         }}
       >
@@ -802,24 +802,24 @@
     const KeyValue = ({ label, value, mono = false }) => (
       <div className="flex justify-between items-center py-2 border-b" style={{ borderColor: `${forayColors.gray400}30` }}>
         <span className="text-sm" style={{ color: forayColors.gray600 }}>{label}</span>
-        <span className={`text-sm font-medium ${mono ? 'font-mono' : ''}`} style={{ color: forayColors.textDark }}>
-          {value ?? 'N/A'}
+        <span className={`text-sm font-medium ${mono ? -> font-mono' : -> '}`} style={{ color: forayColors.textDark }}>
+          {value ?? -> N/A'}
         </span>
       </div>
     );
 
     const StatusBadge = ({ status }) => {
       const statusColors = {
-        active: { bg: '#dbeafe', text: '#1d4ed8' },
-        completed: { bg: '#d1fae5', text: '#047857' },
-        pending: { bg: '#fef3c7', text: '#b45309' },
-        failed: { bg: '#fee2e2', text: '#b91c1c' },
-        reversed: { bg: '#f3e8ff', text: '#7c3aed' }
+        active: { bg: -> #dbeafe', text: -> #1d4ed8' },
+        completed: { bg: -> #d1fae5', text: -> #047857' },
+        pending: { bg: -> #fef3c7', text: -> #b45309' },
+        failed: { bg: -> #fee2e2', text: -> #b91c1c' },
+        reversed: { bg: -> #f3e8ff', text: -> #7c3aed' }
       };
       const colors = statusColors[status?.toLowerCase()] || statusColors.active;
       return (
         <span className="px-3 py-1 text-xs font-medium rounded-full" style={{ backgroundColor: colors.bg, color: colors.text }}>
-          {status || 'Unknown'}
+          {status || -> Unknown'}
         </span>
       );
     };
@@ -830,7 +830,7 @@
         accrual: forayColors.accentCyan,
         anticipation: forayColors.actionAmber,
         action: forayColors.successGreen,
-        attestation: '#8B5CF6'  // Purple for attestations
+        attestation: -> #8B5CF6'  // Purple for attestations
       };
       const color = typeColors[refType] || forayColors.gray600;
       
@@ -868,10 +868,10 @@
       );
     };
 
-    const AllocationsDisplay = ({ allocations, currency = 'USD', onNavigate }) => {
+    const AllocationsDisplay = ({ allocations, currency = -> USD', onNavigate }) => {
       if (!allocations || allocations.length === 0) return null;
       
-      const formatCurrency = (amount) => new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount || 0);
+      const formatCurrency = (amount) => new Intl.NumberFormat('en-US', { style: -> currency', currency }).format(amount || 0);
       const total = allocations.reduce((sum, a) => sum + (a.amount || 0), 0);
       
       return (
@@ -882,12 +882,12 @@
           </div>
           <div className="space-y-2">
             {allocations.map((alloc, idx) => (
-              <div key={idx} className="flex items-center justify-between p-2 rounded" style={{ backgroundColor: 'white' }}>
+              <div key={idx} className="flex items-center justify-between p-2 rounded" style={{ backgroundColor: -> white' }}>
                 <div className="flex items-center gap-2">
                   <ArrowRight className="w-3 h-3" style={{ color: forayColors.gray400 }} />
                   <RefBadge refId={alloc.ref} refType={alloc.ref_type} onNavigate={onNavigate} />
                   {alloc.allocation_type && (
-                    <span className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: alloc.allocation_type === 'full' ? '#d1fae5' : '#fef3c7', color: alloc.allocation_type === 'full' ? '#047857' : '#b45309' }}>
+                    <span className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: alloc.allocation_type === -> full' ? -> #d1fae5' : -> #fef3c7', color: alloc.allocation_type === -> full' ? -> #047857' : -> #b45309' }}>
                       {alloc.allocation_type}
                     </span>
                   )}
@@ -916,11 +916,11 @@
           <p className="text-xs font-medium mb-2" style={{ color: forayColors.gray600 }}>Dependencies</p>
           <div className="flex flex-wrap gap-1.5">
             {dependencies.map((dep, idx) => {
-              let refType = 'arrangement';
-              if (dep.startsWith('ACC_')) refType = 'accrual';
-              else if (dep.startsWith('ANT_')) refType = 'anticipation';
-              else if (dep.startsWith('ACT_')) refType = 'action';
-              else if (dep.startsWith('ATT_')) refType = 'attestation';
+              let refType = -> arrangement';
+              if (dep.startsWith('ACC_')) refType = -> accrual';
+              else if (dep.startsWith('ANT_')) refType = -> anticipation';
+              else if (dep.startsWith('ACT_')) refType = -> action';
+              else if (dep.startsWith('ATT_')) refType = -> attestation';
               return <RefBadge key={idx} refId={dep} refType={refType} onNavigate={onNavigate} />;
             })}
           </div>
@@ -935,10 +935,10 @@
           <p className="text-xs font-medium mb-2" style={{ color: forayColors.gray600 }}>{title}</p>
           <div className="rounded border" style={{ borderColor: `${forayColors.gray400}30` }}>
             {Object.entries(obj).map(([key, value], idx) => (
-              <div key={idx} className="flex justify-between p-2 text-sm" style={{ borderBottom: idx < Object.entries(obj).length - 1 ? `1px solid ${forayColors.gray400}20` : 'none', backgroundColor: idx % 2 === 0 ? 'white' : forayColors.bgLight }}>
-                <span style={{ color: forayColors.gray600 }}>{key.replace(/_/g, ' ')}</span>
+              <div key={idx} className="flex justify-between p-2 text-sm" style={{ borderBottom: idx < Object.entries(obj).length - 1 ? `1px solid ${forayColors.gray400}20` : -> none', backgroundColor: idx % 2 === 0 ? -> white' : forayColors.bgLight }}>
+                <span style={{ color: forayColors.gray600 }}>{key.replace(/_/g, ->  -> )}</span>
                 <span className="font-medium font-mono text-xs" style={{ color: forayColors.textDark }}>
-                  {typeof value === 'object' ? JSON.stringify(value) : String(value)}
+                  {typeof value === -> object' ? JSON.stringify(value) : String(value)}
                 </span>
               </div>
             ))}
@@ -3008,7 +3008,7 @@
     // Sample Narratives - Full Markdown content for each sample
     const sampleNarratives = {
       batchPayment: {
-        title: 'Batch Payment: Multi-Invoice Clearing',
+        title: -> Batch Payment: Multi-Invoice Clearing',
         content: `
 # Batch Payment: Multi-Invoice Clearing
 
@@ -3113,7 +3113,7 @@ Load \`batch-payment-v41.json\` in the Transaction Review tool to see:
 `
       },
       cashSale: {
-        title: 'Cash Sale: Action-Only Transaction',
+        title: -> Cash Sale: Action-Only Transaction',
         content: `
 # Cash Sale: Action-Only Transaction
 
@@ -3249,7 +3249,7 @@ Load \`cash-sale-v41.json\` in the Transaction Review tool to see:
 `
       },
       autoLoan: {
-        title: 'Auto Loan: Full 4-Component Chain',
+        title: -> Auto Loan: Full 4-Component Chain',
         content: `
 # Auto Loan: Full 4-Component Chain
 
@@ -3462,7 +3462,7 @@ Load \`auto-loan-v41.json\` in the Transaction Review tool to see:
 `
       },
       rmbsWaterfall: {
-        title: 'RMBS Waterfall: Securitization Distribution',
+        title: -> RMBS Waterfall: Securitization Distribution',
         content: `
 # RMBS Waterfall: Securitization Distribution
 
@@ -3650,7 +3650,7 @@ Load \`rmbs-waterfall-v41.json\` in the Transaction Review tool to see:
 `
       },
       energyPPA: {
-        title: 'Energy PPA: Solar Power Purchase Agreement',
+        title: -> Energy PPA: Solar Power Purchase Agreement',
         content: `
 # Energy PPA: Solar Power Purchase Agreement
 
@@ -3855,7 +3855,7 @@ Load \`energy-ppa-v41.json\` in the Transaction Review tool to see:
 `
       },
       manufacturingWO: {
-        title: 'Manufacturing Work Order: BOM and Cost Allocation',
+        title: -> Manufacturing Work Order: BOM and Cost Allocation',
         content: `
 # Manufacturing Work Order: BOM and Cost Allocation
 
@@ -4089,7 +4089,7 @@ Load \`manufacturing-v41.json\` in the Transaction Review tool to see:
 `
       },
       depreciationEntry: {
-        title: 'Depreciation Entry: Accrual-Only Transaction',
+        title: -> Depreciation Entry: Accrual-Only Transaction',
         content: `
 # Depreciation Entry: Accrual-Only Transaction
 
@@ -4292,7 +4292,7 @@ Load \`depreciation-entry-v41.json\` in the Transaction Review tool to see:
 `
       },
       fxSpot: {
-        title: 'FX Spot Trade: Multi-Currency Settlement',
+        title: -> FX Spot Trade: Multi-Currency Settlement',
         content: `
 # FX Spot Trade: Multi-Currency Settlement
 
@@ -4502,7 +4502,7 @@ Load \`fx-spot-v41.json\` in the Transaction Review tool to see:
 `
       },
       overnightRepo: {
-        title: 'Overnight Repo: Collateral and SOFR',
+        title: -> Overnight Repo: Collateral and SOFR',
         content: `
 # Overnight Repo: Collateral and SOFR
 
@@ -4754,7 +4754,7 @@ Load \`overnight-repo-v41.json\` in the Transaction Review tool to see:
 `
       },
       salesforceOpp: {
-        title: 'Salesforce Opportunity: CRM Integration',
+        title: -> Salesforce Opportunity: CRM Integration',
         content: `
 # Salesforce Opportunity: CRM Integration
 
@@ -5240,7 +5240,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         arrangements: "Salesforce Opportunity with RECORD IDs: Opportunity 006Dn..., Account 001Dn..., Contact 003Dn..., Quote 0Q0Dn.... Three products: 3-year license ($225K), implementation ($45K), training ($15K). Links CRM to financial record.",
         accruals: "ASC 606 REVENUE RECOGNITION: (1) Subscription: $225K recognized over 36 months ($2,419/month pro-rata), (2) Implementation: $45K recognized at milestones (30% = $13.5K at kickoff), (3) Training: $15K recognized immediately upon delivery. Plus AR invoice accrual of $135K.",
         anticipations: "Expected payment within 30 days with 2% EARLY PAYMENT DISCOUNT option. This creates variance potential &mdash; customer may pay $135K (full) or $132.3K (with discount).",
-        actions: "Payment received: Customer took early discount, paid $132,300. VARIANCE captured: Expected $135K, Actual $132.3K, Difference -$2,700 with explanation 'Early payment discount taken.'"
+        actions: "Payment received: Customer took early discount, paid $132,300. VARIANCE captured: Expected $135K, Actual $132.3K, Difference -$2,700 with explanation -> Early payment discount taken.'"
       },
       manukaHoneyProvenance: {
         arrangements: "TWO ARRANGEMENTS establishing authenticity chain: (1) UMF License Agreement with UMFHA (NZ official certifier), (2) Batch Production Record defining 500kg of UMF 15+ Manuka Honey with hive locations, harvest dates, and raw honey analysis. Forms the foundation for all certifications.",
@@ -5253,22 +5253,22 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
 
     // Network Configuration
     const KASPA_NETWORKS = {
-      'testnet-10': {
-        id: 'testnet-10',
-        name: 'Testnet 10',
-        description: 'Stable testnet mirroring mainnet (1 BPS)',
-        rpcUrl: 'https://api-tn10.kaspa.org',
-        explorerUrl: 'https://explorer-tn10.kaspa.org',
-        faucetUrl: 'https://faucet-tn10.kaspa.org',
+      -> testnet-10': {
+        id: -> testnet-10',
+        name: -> Testnet 10',
+        description: -> Stable testnet mirroring mainnet (1 BPS)',
+        rpcUrl: -> https://api-tn10.kaspa.org',
+        explorerUrl: -> https://explorer-tn10.kaspa.org',
+        faucetUrl: -> https://faucet-tn10.kaspa.org',
         isTestnet: true,
         bps: 1
       },
-      'mainnet': {
-        id: 'mainnet',
-        name: 'Mainnet',
-        description: 'Production network (Real KAS)',
-        rpcUrl: 'https://api.kaspa.org',
-        explorerUrl: 'https://explorer.kaspa.org',
+      -> mainnet': {
+        id: -> mainnet',
+        name: -> Mainnet',
+        description: -> Production network (Real KAS)',
+        rpcUrl: -> https://api.kaspa.org',
+        explorerUrl: -> https://explorer.kaspa.org',
         faucetUrl: null,
         isTestnet: false,
         bps: 10
@@ -5287,7 +5287,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
       const [showJsonModal, setShowJsonModal] = useState(false);
       const [showNarrativeModal, setShowNarrativeModal] = useState(false);
       const [showNarrativeSummaryModal, setShowNarrativeSummaryModal] = useState(false);
-      const [showComponentTip, setShowComponentTip] = useState(null); // 'arrangements', 'accruals', 'anticipations', 'actions'
+      const [showComponentTip, setShowComponentTip] = useState(null); // -> arrangements', -> accruals', -> anticipations', -> actions'
       const [expandDone, setExpandDone] = useState(false);
       const [currentSampleKey, setCurrentSampleKey] = useState(null);
       const [showAnchorConfirm, setShowAnchorConfirm] = useState(false);
@@ -5322,7 +5322,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         if (passedTransaction) {
           try {
             const parsed = JSON.parse(passedTransaction);
-            const origVersion = parsed.schema_version || parsed.foray_version || parsed._v || '3.0';
+            const origVersion = parsed.schema_version || parsed.foray_version || parsed._v || -> 3.0';
             setOriginalVersion(origVersion);
             const migrated = migrateToV41(parsed);
             const validation = validateV41Transaction(migrated);
@@ -5345,7 +5345,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
           setJsonInput(JSON.stringify(sample.data, null, 2));
           setCurrentSampleKey(sampleToLoad);
           // Auto-parse
-          const origVersion = sample.data.schema_version || '4.1';
+          const origVersion = sample.data.schema_version || -> 4.1';
           setOriginalVersion(origVersion);
           const migrated = migrateToV41(sample.data);
           const validation = validateV41Transaction(migrated);
@@ -5369,12 +5369,12 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         setTimeout(() => {
           const el = document.getElementById(`component-${componentId}`);
           if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.scrollIntoView({ behavior: -> smooth', block: -> center' });
             // Flash highlight effect
-            el.style.transition = 'box-shadow 0.3s ease';
+            el.style.transition = -> box-shadow 0.3s ease';
             el.style.boxShadow = `0 0 0 3px ${forayColors.actionAmber}`;
             setTimeout(() => {
-              el.style.boxShadow = 'none';
+              el.style.boxShadow = -> none';
             }, 2000);
           }
         }, 150);
@@ -5385,7 +5385,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
 
       // Handle network change
       const handleNetworkChange = (networkId) => {
-        if (networkId === 'mainnet' && selectedNetwork !== 'mainnet') {
+        if (networkId === -> mainnet' && selectedNetwork !== -> mainnet') {
           setPendingNetworkSwitch(networkId);
           setShowMainnetWarning(true);
           setShowNetworkDropdown(false);
@@ -5410,13 +5410,13 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
 
       // Check if KasWare wallet is available
       const isKasWareAvailable = () => {
-        return typeof window !== 'undefined' && window.kasware;
+        return typeof window !== -> undefined' && window.kasware;
       };
 
       // Get KasWare network name for our network ID
       const getKasWareNetworkName = (networkId) => {
-        if (networkId === 'mainnet') return 'mainnet';
-        return 'testnet'; // KasWare uses 'testnet' for all testnets
+        if (networkId === -> mainnet') return -> mainnet';
+        return -> testnet'; // KasWare uses -> testnet' for all testnets
       };
 
       // Connect to KasWare wallet
@@ -5438,18 +5438,18 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
             const expectedNetwork = getKasWareNetworkName(selectedNetwork);
             
             // KasWare returns network as string or number depending on version
-            const isTestnet = walletNetwork === 'testnet' || walletNetwork === 1;
-            const isMainnet = walletNetwork === 'mainnet' || walletNetwork === 0;
+            const isTestnet = walletNetwork === -> testnet' || walletNetwork === 1;
+            const isMainnet = walletNetwork === -> mainnet' || walletNetwork === 0;
             
-            if (selectedNetwork === 'mainnet' && !isMainnet) {
+            if (selectedNetwork === -> mainnet' && !isMainnet) {
               alert('Note: Your KasWare wallet is on Testnet. Please switch to Mainnet in KasWare settings if you want to anchor to Mainnet.');
-            } else if (selectedNetwork !== 'mainnet' && !isTestnet) {
+            } else if (selectedNetwork !== -> mainnet' && !isTestnet) {
               alert('Note: Your KasWare wallet is on Mainnet. Please switch to Testnet in KasWare settings for testing.');
             }
           }
         } catch (err) {
           console.error('Wallet connection error:', err);
-          alert('Failed to connect wallet: ' + (err.message || 'Unknown error'));
+          alert('Failed to connect wallet: ->  + (err.message || -> Unknown error'));
         }
       };
 
@@ -5473,7 +5473,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         const data = encoder.encode(dataString);
         const hashBuffer = await crypto.subtle.digest('SHA-256', data);
         const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, -> 0')).join('');
         return hashHex;
       };
 
@@ -5514,7 +5514,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
           // Extract the transaction ID - KasWare returns complex object
           // Response structure: {id: "txhash", inputs: [...], outputs: [...], ...}
           let txId;
-          if (typeof txResponse === 'string') {
+          if (typeof txResponse === -> string') {
             // If it's already a string, check if it's JSON
             try {
               const parsed = JSON.parse(txResponse);
@@ -5522,7 +5522,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
             } catch {
               txId = txResponse;
             }
-          } else if (typeof txResponse === 'object') {
+          } else if (typeof txResponse === -> object') {
             // Direct object - extract the id field
             txId = txResponse.id || txResponse.txid || txResponse.transactionId;
             if (!txId) {
@@ -5542,8 +5542,8 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
             timestamp: new Date().toISOString(),
             kaspa: {
               transaction_id: txId,
-              block_height: 'Pending confirmation',
-              block_hash: 'Pending confirmation',
+              block_height: -> Pending confirmation',
+              block_hash: -> Pending confirmation',
               confirmations: 0,
               confirmation_time_ms: confirmationTime,
               explorer_url: `${currentNetwork.explorerUrl}/txs/${txId}`
@@ -5552,9 +5552,9 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
               transaction_id: transactionData.transaction_id,
               schema_version: transactionData.schema_version,
               merkle_root: `sha256:${merkleRoot.substring(0, 32)}...`,
-              entity: transactionData.foray_core?.entity || 'Unknown Entity',
+              entity: transactionData.foray_core?.entity || -> Unknown Entity',
               total_value: transactionData.foray_core?.total_value || 0,
-              currency: transactionData.foray_core?.currency || 'USD',
+              currency: transactionData.foray_core?.currency || -> USD',
               component_summary: {
                 arrangements: transactionData.arrangements?.length || 0,
                 accruals: transactionData.accruals?.length || 0,
@@ -5571,7 +5571,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
 
         } catch (err) {
           console.error('Anchoring error:', err);
-          alert('Anchoring failed: ' + (err.message || 'Unknown error') + '\n\nMake sure you have enough test KAS in your wallet.');
+          alert('Anchoring failed: ->  + (err.message || -> Unknown error') + -> \n\nMake sure you have enough test KAS in your wallet.');
         } finally {
           setIsAnchoring(false);
         }
@@ -5602,7 +5602,7 @@ Schema Version: ${anchorResult.foray.schema_version}
 Merkle Root: ${anchorResult.foray.merkle_root}
 Entity: ${anchorResult.foray.entity}
 Total Value: ${anchorResult.foray.total_value} ${anchorResult.foray.currency}
-Components: ${anchorResult.foray.component_summary.arrangements} Arrangements, ${anchorResult.foray.component_summary.accruals} Accruals, ${anchorResult.foray.component_summary.anticipations} Anticipations, ${anchorResult.foray.component_summary.actions} Actions${anchorResult.foray.component_summary.attestations > 0 ? `, ${anchorResult.foray.component_summary.attestations} Attestations` : ''}
+Components: ${anchorResult.foray.component_summary.arrangements} Arrangements, ${anchorResult.foray.component_summary.accruals} Accruals, ${anchorResult.foray.component_summary.anticipations} Anticipations, ${anchorResult.foray.component_summary.actions} Actions${anchorResult.foray.component_summary.attestations > 0 ? `, ${anchorResult.foray.component_summary.attestations} Attestations` : -> '}
 
 Network: ${anchorResult.network}
 Anchored By: ${anchorResult.anchored_by}`;
@@ -5611,15 +5611,15 @@ Anchored By: ${anchorResult.anchored_by}`;
         alert('Anchor details copied to clipboard!');
       };
 
-      const formatCurrency = (amount, currency = 'USD') => {
-        return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount || 0);
+      const formatCurrency = (amount, currency = -> USD') => {
+        return new Intl.NumberFormat('en-US', { style: -> currency', currency }).format(amount || 0);
       };
 
       const parseJSON = () => {
         try {
           setParseError(null);
           const parsed = JSON.parse(jsonInput);
-          const origVersion = parsed.schema_version || parsed._v || '3.0';
+          const origVersion = parsed.schema_version || parsed._v || -> 3.0';
           setOriginalVersion(origVersion);
           const migrated = migrateToV41(parsed);
           const validation = validateV41Transaction(migrated);
@@ -5643,7 +5643,7 @@ Anchored By: ${anchorResult.anchored_by}`;
 
       const clearTransaction = () => {
         // Navigate to the Generator page instead of just clearing
-        window.location.href = 'demo.html';
+        window.location.href = -> demo.html';
       };
 
       const resetToInput = () => {
@@ -5691,11 +5691,11 @@ Anchored By: ${anchorResult.anchored_by}`;
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
                   <h1 className="text-3xl font-bold">
-                    <span style={{ color: forayColors.primaryTeal }}>FORAY</span>{' '}
-                    <span style={{ color: forayColors.highlightMint }}>Protocol</span>{' '}
+                    <span style={{ color: forayColors.primaryTeal }}>FORAY</span>{' -> }
+                    <span style={{ color: forayColors.highlightMint }}>Protocol</span>{' -> }
                     <span style={{ color: forayColors.secondaryNavy }}>Transaction Review</span>
                   </h1>
-                  <span className="px-2 py-1 text-xs font-bold rounded" style={{ backgroundColor: forayColors.actionAmber, color: 'white' }}>v4.1</span>
+                  <span className="px-2 py-1 text-xs font-bold rounded" style={{ backgroundColor: forayColors.actionAmber, color: -> white' }}>v4.1</span>
                 </div>
                 
                 {/* Network & Wallet Controls */}
@@ -5706,45 +5706,45 @@ Anchored By: ${anchorResult.anchored_by}`;
                       onClick={() => setShowNetworkDropdown(!showNetworkDropdown)}
                       className="px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-2"
                       style={{ 
-                        backgroundColor: '#F3E8FF',
-                        color: '#7C3AED',
-                        border: '1px solid #C4B5FD'
+                        backgroundColor: -> #F3E8FF',
+                        color: -> #7C3AED',
+                        border: -> 1px solid #C4B5FD'
                       }}
                     >
                       <GitBranch className="w-4 h-4" />
                       {currentNetwork.name}
-                      {currentNetwork.isTestnet && <span className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: '#7C3AED', color: 'white' }}>TEST</span>}
-                      {!currentNetwork.isTestnet && <span className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: forayColors.errorRed, color: 'white' }}>LIVE</span>}
-                      <ChevronDown className="w-3 h-3" style={{ transform: showNetworkDropdown ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
+                      {currentNetwork.isTestnet && <span className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: -> #7C3AED', color: -> white' }}>TEST</span>}
+                      {!currentNetwork.isTestnet && <span className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: forayColors.errorRed, color: -> white' }}>LIVE</span>}
+                      <ChevronDown className="w-3 h-3" style={{ transform: showNetworkDropdown ? -> rotate(180deg)' : -> rotate(0deg)', transition: -> transform 0.2s' }} />
                     </button>
                     {showNetworkDropdown && (
-                      <div className="absolute top-full right-0 mt-2 w-72 bg-white rounded-lg shadow-lg border z-50" style={{ borderColor: '#C4B5FD' }}>
-                        <div className="p-2 border-b text-xs font-medium" style={{ borderColor: '#C4B5FD', color: '#7C3AED' }}>
+                      <div className="absolute top-full right-0 mt-2 w-72 bg-white rounded-lg shadow-lg border z-50" style={{ borderColor: -> #C4B5FD' }}>
+                        <div className="p-2 border-b text-xs font-medium" style={{ borderColor: -> #C4B5FD', color: -> #7C3AED' }}>
                           Select Kaspa Network
                         </div>
                         {Object.values(KASPA_NETWORKS).map((network) => (
                           <button
                             key={network.id}
-                            onClick={() => network.id !== 'mainnet' && handleNetworkChange(network.id)}
-                            disabled={network.id === 'mainnet'}
-                            className={`w-full text-left px-4 py-3 flex items-center justify-between ${network.id === 'mainnet' ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-50 cursor-pointer'}`}
-                            style={{ backgroundColor: selectedNetwork === network.id ? '#F3E8FF' : 'transparent' }}
-                            data-tooltip={network.id === 'mainnet' ? 'Disabled for Kaspathon demo' : null}
+                            onClick={() => network.id !== -> mainnet' && handleNetworkChange(network.id)}
+                            disabled={network.id === -> mainnet'}
+                            className={`w-full text-left px-4 py-3 flex items-center justify-between ${network.id === -> mainnet' ? -> opacity-50 cursor-not-allowed' : -> hover:bg-purple-50 cursor-pointer'}`}
+                            style={{ backgroundColor: selectedNetwork === network.id ? -> #F3E8FF' : -> transparent' }}
+                            data-tooltip={network.id === -> mainnet' ? -> Disabled for Kaspathon demo' : null}
                           >
                             <div>
                               <div className="flex items-center gap-2">
-                                <p className="font-medium" style={{ color: network.id === 'mainnet' ? forayColors.gray400 : '#7C3AED' }}>{network.name}</p>
+                                <p className="font-medium" style={{ color: network.id === -> mainnet' ? forayColors.gray400 : -> #7C3AED' }}>{network.name}</p>
                                 {network.isTestnet ? (
-                                  <span className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: '#EDE9FE', color: '#7C3AED' }}>Testnet</span>
+                                  <span className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: -> #EDE9FE', color: -> #7C3AED' }}>Testnet</span>
                                 ) : (
                                   <span className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: `${forayColors.gray400}20`, color: forayColors.gray400 }}>Mainnet</span>
                                 )}
-                                {network.id === 'mainnet' && (
+                                {network.id === -> mainnet' && (
                                   <span className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: `${forayColors.gray400}20`, color: forayColors.gray600 }}>Demo</span>
                                 )}
                               </div>
-                              <p className="text-xs mt-0.5" style={{ color: network.id === 'mainnet' ? forayColors.gray400 : forayColors.gray600 }}>
-                                {network.id === 'mainnet' ? 'Disabled for Kaspathon demo' : network.description}
+                              <p className="text-xs mt-0.5" style={{ color: network.id === -> mainnet' ? forayColors.gray400 : forayColors.gray600 }}>
+                                {network.id === -> mainnet' ? -> Disabled for Kaspathon demo' : network.description}
                               </p>
                             </div>
                             {selectedNetwork === network.id && (
@@ -5753,13 +5753,13 @@ Anchored By: ${anchorResult.anchored_by}`;
                           </button>
                         ))}
                         {currentNetwork.faucetUrl && (
-                          <div className="p-3 border-t" style={{ borderColor: '#C4B5FD' }}>
+                          <div className="p-3 border-t" style={{ borderColor: -> #C4B5FD' }}>
                             <a 
                               href={currentNetwork.faucetUrl} 
                               target="_blank" 
                               rel="noopener noreferrer"
                               className="text-xs flex items-center gap-1"
-                              style={{ color: '#7C3AED' }}
+                              style={{ color: -> #7C3AED' }}
                             >
                               <DollarSign className="w-3 h-3" /> Get free test KAS from faucet &rarr;
                             </a>
@@ -5774,7 +5774,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     <button 
                       onClick={connectWallet}
                       className="px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2"
-                      style={{ backgroundColor: forayColors.secondaryNavy, color: 'white' }}
+                      style={{ backgroundColor: forayColors.secondaryNavy, color: -> white' }}
                     >
                       <Wallet className="w-5 h-5" />
                       Connect Wallet
@@ -5819,7 +5819,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                 />
                 
                 {parseError && (
-                  <div className="mt-3 p-3 rounded-lg flex items-center gap-2" style={{ backgroundColor: '#fee2e2', color: '#b91c1c' }}>
+                  <div className="mt-3 p-3 rounded-lg flex items-center gap-2" style={{ backgroundColor: -> #fee2e2', color: -> #b91c1c' }}>
                     <AlertCircle className="w-4 h-4" />
                     <span className="text-sm">{parseError}</span>
                   </div>
@@ -5872,7 +5872,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                       <button onClick={clearTransaction} className="px-2.5 py-1.5 text-xs rounded flex items-center gap-1.5" style={{ backgroundColor: forayColors.bgLight, color: forayColors.gray600, border: `1px solid ${forayColors.gray400}` }}>
                         <ArrowLeft className="w-3.5 h-3.5" /> Create Another
                       </button>
-                      <button onClick={handlePrint} className="px-2.5 py-1.5 text-xs rounded flex items-center gap-1.5" style={{ backgroundColor: forayColors.secondaryNavy, color: 'white' }}>
+                      <button onClick={handlePrint} className="px-2.5 py-1.5 text-xs rounded flex items-center gap-1.5" style={{ backgroundColor: forayColors.secondaryNavy, color: -> white' }}>
                         <Printer className="w-3.5 h-3.5" /> Print/PDF
                       </button>
                       <button onClick={() => setShowNotes(true)} className="px-2.5 py-1.5 text-xs rounded flex items-center gap-1.5" style={{ backgroundColor: forayColors.highlightMint, color: forayColors.secondaryNavy }}>
@@ -5892,10 +5892,10 @@ Anchored By: ${anchorResult.anchored_by}`;
                         className="px-2.5 py-1.5 text-xs rounded flex items-center gap-1.5" 
                         style={{ 
                           backgroundColor: walletConnected ? forayColors.secondaryNavy : forayColors.gray400, 
-                          color: 'white',
-                          cursor: walletConnected ? 'pointer' : 'not-allowed'
+                          color: -> white',
+                          cursor: walletConnected ? -> pointer' : -> not-allowed'
                         }}
-                        data-tooltip={walletConnected ? 'Anchor to blockchain' : 'Connect wallet first'}
+                        data-tooltip={walletConnected ? -> Anchor to blockchain' : -> Connect wallet first'}
                       >
                         <Link2 className="w-3.5 h-3.5" /> Anchor
                       </button>
@@ -5922,24 +5922,24 @@ Anchored By: ${anchorResult.anchored_by}`;
                         <span className="font-bold" style={{ color: forayColors.successGreen }}>{validationResult.componentCounts.actions}</span>
                       </div>
                       {validationResult.componentCounts.attestations > 0 && (
-                        <div className="flex items-center gap-2 px-3 py-1.5 rounded" style={{ backgroundColor: '#8B5CF610' }}>
+                        <div className="flex items-center gap-2 px-3 py-1.5 rounded" style={{ backgroundColor: -> #8B5CF610' }}>
                           <span className="text-sm" style={{ color: forayColors.gray600 }}>Attestations:</span>
-                          <span className="font-bold" style={{ color: '#8B5CF6' }}>{validationResult.componentCounts.attestations}</span>
+                          <span className="font-bold" style={{ color: -> #8B5CF6' }}>{validationResult.componentCounts.attestations}</span>
                         </div>
                       )}
                       {validationResult.entryPointType && (
-                        <div className="flex items-center gap-2 px-3 py-1.5 rounded" style={{ backgroundColor: '#f3e8ff' }}>
+                        <div className="flex items-center gap-2 px-3 py-1.5 rounded" style={{ backgroundColor: -> #f3e8ff' }}>
                           <span className="text-sm" style={{ color: forayColors.gray600 }}>Entry Point:</span>
-                          <span className="font-bold capitalize" style={{ color: '#7c3aed' }}>{validationResult.entryPointType}</span>
+                          <span className="font-bold capitalize" style={{ color: -> #7c3aed' }}>{validationResult.entryPointType}</span>
                         </div>
                       )}
                     </div>
                   )}
                   
                   {validationResult?.errors?.length > 0 && (
-                    <div className="mt-4 p-3 rounded-lg" style={{ backgroundColor: '#fee2e2' }}>
-                      <p className="font-medium text-sm mb-2" style={{ color: '#b91c1c' }}>Validation Errors:</p>
-                      <ul className="text-sm space-y-1" style={{ color: '#b91c1c' }}>
+                    <div className="mt-4 p-3 rounded-lg" style={{ backgroundColor: -> #fee2e2' }}>
+                      <p className="font-medium text-sm mb-2" style={{ color: -> #b91c1c' }}>Validation Errors:</p>
+                      <ul className="text-sm space-y-1" style={{ color: -> #b91c1c' }}>
                         {validationResult.errors.map((err, idx) => <li key={idx}>&bull; {err}</li>)}
                       </ul>
                     </div>
@@ -6001,7 +6001,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                           className="px-3 py-1.5 text-xs rounded-lg flex items-center gap-1.5 no-print"
                           style={{ 
                             backgroundColor: expandDone ? forayColors.successGreen : forayColors.primaryTeal,
-                            color: 'white'
+                            color: -> white'
                           }}
                           
                         >
@@ -6034,7 +6034,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                           <KeyValue label="Schema Version" value={transactionData.schema_version} />
                         </div>
                         <div>
-                          <KeyValue label="Merkle Root" value={transactionData.merkle_root?.substring(0, 24) + '...'} mono />
+                          <KeyValue label="Merkle Root" value={transactionData.merkle_root?.substring(0, 24) + -> ...'} mono />
                         </div>
                       </div>
                     </Card>
@@ -6050,7 +6050,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div>
                             <KeyValue label="Entity" value={transactionData.foray_core.entity} />
-                            <KeyValue label="Entity Hash" value={transactionData.foray_core.entity_hash?.substring(0, 20) + '...'} mono />
+                            <KeyValue label="Entity Hash" value={transactionData.foray_core.entity_hash?.substring(0, 20) + -> ...'} mono />
                             <KeyValue label="Transaction Type" value={transactionData.foray_core.transaction_type} />
                           </div>
                           <div>
@@ -6085,11 +6085,11 @@ Anchored By: ${anchorResult.anchored_by}`;
                       <Card className="mt-2">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div>
-                            <KeyValue label="Kaspa TX ID" value={transactionData.blockchain_anchor.kaspa_tx_id?.substring(0, 30) + '...'} mono />
+                            <KeyValue label="Kaspa TX ID" value={transactionData.blockchain_anchor.kaspa_tx_id?.substring(0, 30) + -> ...'} mono />
                             <KeyValue label="Block Height" value={transactionData.blockchain_anchor.block_height?.toLocaleString()} />
                           </div>
                           <div>
-                            <KeyValue label="Confirmation Time" value={`${transactionData.blockchain_anchor.confirmation_time_ms || 'N/A'} ms`} />
+                            <KeyValue label="Confirmation Time" value={`${transactionData.blockchain_anchor.confirmation_time_ms || -> N/A'} ms`} />
                             <KeyValue label="Anchored At" value={transactionData.blockchain_anchor.anchored_at} />
                           </div>
                         </div>
@@ -6111,12 +6111,12 @@ Anchored By: ${anchorResult.anchored_by}`;
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            setShowComponentTip(showComponentTip === 'arrangements' ? null : 'arrangements');
+                            setShowComponentTip(showComponentTip === -> arrangements' ? null : -> arrangements');
                           }}
                           className="p-1.5 rounded-lg no-print"
                           style={{ 
-                            backgroundColor: showComponentTip === 'arrangements' ? forayColors.primaryTeal : 'transparent',
-                            color: showComponentTip === 'arrangements' ? 'white' : forayColors.primaryTeal
+                            backgroundColor: showComponentTip === -> arrangements' ? forayColors.primaryTeal : -> transparent',
+                            color: showComponentTip === -> arrangements' ? -> white' : forayColors.primaryTeal
                           }}
                           data-tooltip="About Arrangements in this sample"
                         >
@@ -6124,7 +6124,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                         </button>
                       )}
                     />
-                    {showComponentTip === 'arrangements' && currentSampleKey && componentTips[currentSampleKey]?.arrangements && (
+                    {showComponentTip === -> arrangements' && currentSampleKey && componentTips[currentSampleKey]?.arrangements && (
                       <div className="mt-2 p-4 rounded-lg border-l-4 no-print" style={{ backgroundColor: `${forayColors.primaryTeal}08`, borderColor: forayColors.primaryTeal }}>
                         <div className="flex items-start gap-3">
                           <Info className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: forayColors.primaryTeal }} />
@@ -6170,7 +6170,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                                   </div>
                                 </div>
                               )}
-                              {renderObjectAsTable(core.terms, 'Terms')}
+                              {renderObjectAsTable(core.terms, -> Terms')}
                               <DependencyGraph dependencies={core.dependencies} onNavigate={scrollToComponent} />
                             </Card>
                           );
@@ -6193,12 +6193,12 @@ Anchored By: ${anchorResult.anchored_by}`;
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            setShowComponentTip(showComponentTip === 'accruals' ? null : 'accruals');
+                            setShowComponentTip(showComponentTip === -> accruals' ? null : -> accruals');
                           }}
                           className="p-1.5 rounded-lg no-print"
                           style={{ 
-                            backgroundColor: showComponentTip === 'accruals' ? forayColors.accentCyan : 'transparent',
-                            color: showComponentTip === 'accruals' ? 'white' : forayColors.accentCyan
+                            backgroundColor: showComponentTip === -> accruals' ? forayColors.accentCyan : -> transparent',
+                            color: showComponentTip === -> accruals' ? -> white' : forayColors.accentCyan
                           }}
                           data-tooltip="About Accruals in this sample"
                         >
@@ -6206,7 +6206,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                         </button>
                       )}
                     />
-                    {showComponentTip === 'accruals' && currentSampleKey && componentTips[currentSampleKey]?.accruals && (
+                    {showComponentTip === -> accruals' && currentSampleKey && componentTips[currentSampleKey]?.accruals && (
                       <div className="mt-2 p-4 rounded-lg border-l-4 no-print" style={{ backgroundColor: `${forayColors.accentCyan}08`, borderColor: forayColors.accentCyan }}>
                         <div className="flex items-start gap-3">
                           <Info className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: forayColors.accentCyan }} />
@@ -6227,7 +6227,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                                 <div className="flex items-center gap-3">
                                   <span className="px-3 py-1 text-sm font-mono rounded" style={{ backgroundColor: `${forayColors.accentCyan}15`, color: forayColors.accentCyan }}>{acc.id}</span>
                                   <span className="text-sm font-medium" style={{ color: forayColors.secondaryNavy }}>{core.type}</span>
-                                  {core.computation_method && <span className="px-2 py-0.5 text-xs rounded" style={{ backgroundColor: '#f3e8ff', color: '#7c3aed' }}>{core.computation_method}</span>}
+                                  {core.computation_method && <span className="px-2 py-0.5 text-xs rounded" style={{ backgroundColor: -> #f3e8ff', color: -> #7c3aed' }}>{core.computation_method}</span>}
                                 </div>
                               </div>
                               <ReferencesDisplay refs={core.arrangement_refs} refType="arrangement" label="Arrangement References" onNavigate={scrollToComponent} />
@@ -6242,20 +6242,20 @@ Anchored By: ${anchorResult.anchored_by}`;
                                 <div className="mt-4 p-3 rounded" style={{ backgroundColor: forayColors.bgLight }}>
                                   <p className="text-xs font-medium mb-2" style={{ color: forayColors.gray600 }}>Accounting Entry</p>
                                   <div className="grid grid-cols-2 gap-4">
-                                    <div className="p-2 rounded" style={{ backgroundColor: '#fef3c7' }}>
-                                      <p className="text-xs" style={{ color: '#b45309' }}>Debit</p>
+                                    <div className="p-2 rounded" style={{ backgroundColor: -> #fef3c7' }}>
+                                      <p className="text-xs" style={{ color: -> #b45309' }}>Debit</p>
                                       <p className="font-medium text-sm">{core.accounting_entry.debit?.account}</p>
                                       <p className="font-mono">{formatCurrency(core.accounting_entry.debit?.amount)}</p>
                                     </div>
-                                    <div className="p-2 rounded" style={{ backgroundColor: '#d1fae5' }}>
-                                      <p className="text-xs" style={{ color: '#047857' }}>Credit</p>
+                                    <div className="p-2 rounded" style={{ backgroundColor: -> #d1fae5' }}>
+                                      <p className="text-xs" style={{ color: -> #047857' }}>Credit</p>
                                       <p className="font-medium text-sm">{core.accounting_entry.credit?.account}</p>
                                       <p className="font-mono">{formatCurrency(core.accounting_entry.credit?.amount)}</p>
                                     </div>
                                   </div>
                                 </div>
                               )}
-                              {renderObjectAsTable(core.inputs, 'Computation Inputs')}
+                              {renderObjectAsTable(core.inputs, -> Computation Inputs')}
                               <DependencyGraph dependencies={core.dependencies} onNavigate={scrollToComponent} />
                             </Card>
                           );
@@ -6278,12 +6278,12 @@ Anchored By: ${anchorResult.anchored_by}`;
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            setShowComponentTip(showComponentTip === 'anticipations' ? null : 'anticipations');
+                            setShowComponentTip(showComponentTip === -> anticipations' ? null : -> anticipations');
                           }}
                           className="p-1.5 rounded-lg no-print"
                           style={{ 
-                            backgroundColor: showComponentTip === 'anticipations' ? forayColors.actionAmber : 'transparent',
-                            color: showComponentTip === 'anticipations' ? 'white' : forayColors.actionAmber
+                            backgroundColor: showComponentTip === -> anticipations' ? forayColors.actionAmber : -> transparent',
+                            color: showComponentTip === -> anticipations' ? -> white' : forayColors.actionAmber
                           }}
                           data-tooltip="About Anticipations in this sample"
                         >
@@ -6291,7 +6291,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                         </button>
                       )}
                     />
-                    {showComponentTip === 'anticipations' && currentSampleKey && componentTips[currentSampleKey]?.anticipations && (
+                    {showComponentTip === -> anticipations' && currentSampleKey && componentTips[currentSampleKey]?.anticipations && (
                       <div className="mt-2 p-4 rounded-lg border-l-4 no-print" style={{ backgroundColor: `${forayColors.actionAmber}08`, borderColor: forayColors.actionAmber }}>
                         <div className="flex items-start gap-3">
                           <Info className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: forayColors.actionAmber }} />
@@ -6313,7 +6313,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                                   <span className="px-3 py-1 text-sm font-mono rounded" style={{ backgroundColor: `${forayColors.actionAmber}15`, color: forayColors.actionAmber }}>{ant.id}</span>
                                   <span className="text-sm font-medium" style={{ color: forayColors.secondaryNavy }}>{core.type}</span>
                                   {core.probability_factor !== undefined && (
-                                    <span className="px-2 py-0.5 text-xs rounded" style={{ backgroundColor: core.probability_factor >= 0.9 ? '#d1fae5' : '#fef3c7', color: core.probability_factor >= 0.9 ? '#047857' : '#b45309' }}>
+                                    <span className="px-2 py-0.5 text-xs rounded" style={{ backgroundColor: core.probability_factor >= 0.9 ? -> #d1fae5' : -> #fef3c7', color: core.probability_factor >= 0.9 ? -> #047857' : -> #b45309' }}>
                                       {(core.probability_factor * 100).toFixed(0)}% probability
                                     </span>
                                   )}
@@ -6329,7 +6329,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                                   {core.expected_date && <p className="text-xs mt-1" style={{ color: forayColors.gray600 }}>Expected: {new Date(core.expected_date).toLocaleDateString()}</p>}
                                 </div>
                               )}
-                              {renderObjectAsTable(core.assumptions, 'Assumptions')}
+                              {renderObjectAsTable(core.assumptions, -> Assumptions')}
                               <DependencyGraph dependencies={core.dependencies} onNavigate={scrollToComponent} />
                             </Card>
                           );
@@ -6352,12 +6352,12 @@ Anchored By: ${anchorResult.anchored_by}`;
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            setShowComponentTip(showComponentTip === 'actions' ? null : 'actions');
+                            setShowComponentTip(showComponentTip === -> actions' ? null : -> actions');
                           }}
                           className="p-1.5 rounded-lg no-print"
                           style={{ 
-                            backgroundColor: showComponentTip === 'actions' ? forayColors.successGreen : 'transparent',
-                            color: showComponentTip === 'actions' ? 'white' : forayColors.successGreen
+                            backgroundColor: showComponentTip === -> actions' ? forayColors.successGreen : -> transparent',
+                            color: showComponentTip === -> actions' ? -> white' : forayColors.successGreen
                           }}
                           data-tooltip="About Actions in this sample"
                         >
@@ -6365,7 +6365,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                         </button>
                       )}
                     />
-                    {showComponentTip === 'actions' && currentSampleKey && componentTips[currentSampleKey]?.actions && (
+                    {showComponentTip === -> actions' && currentSampleKey && componentTips[currentSampleKey]?.actions && (
                       <div className="mt-2 p-4 rounded-lg border-l-4 no-print" style={{ backgroundColor: `${forayColors.successGreen}08`, borderColor: forayColors.successGreen }}>
                         <div className="flex items-start gap-3">
                           <Info className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: forayColors.successGreen }} />
@@ -6395,10 +6395,10 @@ Anchored By: ${anchorResult.anchored_by}`;
                               <ReferencesDisplay refs={core.arrangement_refs} refType="arrangement" label="Arrangement References" onNavigate={scrollToComponent} />
                               {core.description && <p className="text-sm mb-4" style={{ color: forayColors.gray600 }}>{core.description}</p>}
                               {core.amount_settled !== undefined && (
-                                <div className="p-3 rounded mb-4" style={{ backgroundColor: '#d1fae5' }}>
-                                  <p className="text-xs" style={{ color: '#047857' }}>Amount Settled</p>
-                                  <p className="text-xl font-bold" style={{ color: '#047857' }}>{formatCurrency(core.amount_settled, core.currency)}</p>
-                                  {core.payment_method && <p className="text-xs mt-1" style={{ color: '#047857' }}>Method: {core.payment_method.toUpperCase()}</p>}
+                                <div className="p-3 rounded mb-4" style={{ backgroundColor: -> #d1fae5' }}>
+                                  <p className="text-xs" style={{ color: -> #047857' }}>Amount Settled</p>
+                                  <p className="text-xl font-bold" style={{ color: -> #047857' }}>{formatCurrency(core.amount_settled, core.currency)}</p>
+                                  {core.payment_method && <p className="text-xs mt-1" style={{ color: -> #047857' }}>Method: {core.payment_method.toUpperCase()}</p>}
                                 </div>
                               )}
                               {core.counterparty && (
@@ -6409,8 +6409,8 @@ Anchored By: ${anchorResult.anchored_by}`;
                               )}
                               <AllocationsDisplay allocations={core.allocations} currency={core.currency} onNavigate={scrollToComponent} />
                               {core.variance && (
-                                <div className="mt-4 p-3 rounded" style={{ backgroundColor: '#fef3c7' }}>
-                                  <p className="text-xs font-medium mb-2" style={{ color: '#b45309' }}>Variance Analysis</p>
+                                <div className="mt-4 p-3 rounded" style={{ backgroundColor: -> #fef3c7' }}>
+                                  <p className="text-xs font-medium mb-2" style={{ color: -> #b45309' }}>Variance Analysis</p>
                                   <div className="grid grid-cols-3 gap-3 text-sm">
                                     <div>
                                       <p className="text-xs" style={{ color: forayColors.gray600 }}>Expected</p>
@@ -6422,16 +6422,16 @@ Anchored By: ${anchorResult.anchored_by}`;
                                     </div>
                                     <div>
                                       <p className="text-xs" style={{ color: forayColors.gray600 }}>Difference</p>
-                                      <p className="font-mono font-medium" style={{ color: core.variance.difference >= 0 ? '#047857' : '#b91c1c' }}>
-                                        {core.variance.difference >= 0 ? '+' : ''}{formatCurrency(core.variance.difference)}
+                                      <p className="font-mono font-medium" style={{ color: core.variance.difference >= 0 ? -> #047857' : -> #b91c1c' }}>
+                                        {core.variance.difference >= 0 ? -> +' : -> '}{formatCurrency(core.variance.difference)}
                                       </p>
                                     </div>
                                   </div>
-                                  {core.variance.explanation && <p className="mt-2 text-xs" style={{ color: '#b45309' }}>{core.variance.explanation}</p>}
+                                  {core.variance.explanation && <p className="mt-2 text-xs" style={{ color: -> #b45309' }}>{core.variance.explanation}</p>}
                                 </div>
                               )}
-                              {renderObjectAsTable(core.details, 'Details')}
-                              {renderObjectAsTable(core.breakdown, 'Breakdown')}
+                              {renderObjectAsTable(core.details, -> Details')}
+                              {renderObjectAsTable(core.breakdown, -> Breakdown')}
                               <DependencyGraph dependencies={core.dependencies} onNavigate={scrollToComponent} />
                             </Card>
                           );
@@ -6455,12 +6455,12 @@ Anchored By: ${anchorResult.anchored_by}`;
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            setShowComponentTip(showComponentTip === 'attestations' ? null : 'attestations');
+                            setShowComponentTip(showComponentTip === -> attestations' ? null : -> attestations');
                           }}
                           className="p-1.5 rounded-lg no-print"
                           style={{ 
-                            backgroundColor: showComponentTip === 'attestations' ? '#8B5CF6' : 'transparent',
-                            color: showComponentTip === 'attestations' ? 'white' : '#8B5CF6'
+                            backgroundColor: showComponentTip === -> attestations' ? -> #8B5CF6' : -> transparent',
+                            color: showComponentTip === -> attestations' ? -> white' : -> #8B5CF6'
                           }}
                           data-tooltip="About Attestations in this sample"
                         >
@@ -6468,10 +6468,10 @@ Anchored By: ${anchorResult.anchored_by}`;
                         </button>
                       )}
                     />
-                    {showComponentTip === 'attestations' && currentSampleKey && componentTips[currentSampleKey]?.attestations && (
-                      <div className="mt-2 p-4 rounded-lg border-l-4 no-print" style={{ backgroundColor: '#8B5CF608', borderColor: '#8B5CF6' }}>
+                    {showComponentTip === -> attestations' && currentSampleKey && componentTips[currentSampleKey]?.attestations && (
+                      <div className="mt-2 p-4 rounded-lg border-l-4 no-print" style={{ backgroundColor: -> #8B5CF608', borderColor: -> #8B5CF6' }}>
                         <div className="flex items-start gap-3">
-                          <Info className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: '#8B5CF6' }} />
+                          <Info className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: -> #8B5CF6' }} />
                           <div>
                             <p className="text-sm font-semibold mb-1" style={{ color: forayColors.secondaryNavy }}>About Attestations in this sample</p>
                             <p className="text-sm" style={{ color: forayColors.gray600 }}>{componentTips[currentSampleKey].attestations}</p>
@@ -6484,12 +6484,12 @@ Anchored By: ${anchorResult.anchored_by}`;
                         {transactionData.attestations.map((att, idx) => {
                           const core = getForayCore(att);
                           const outcomeColors = {
-                            certified: { bg: '#d1fae5', text: '#047857' },
-                            approved: { bg: '#dbeafe', text: '#1d4ed8' },
-                            verified: { bg: '#e0e7ff', text: '#4338ca' },
-                            rejected: { bg: '#fee2e2', text: '#b91c1c' },
-                            pending: { bg: '#fef3c7', text: '#b45309' },
-                            expired: { bg: '#f3f4f6', text: '#6b7280' }
+                            certified: { bg: -> #d1fae5', text: -> #047857' },
+                            approved: { bg: -> #dbeafe', text: -> #1d4ed8' },
+                            verified: { bg: -> #e0e7ff', text: -> #4338ca' },
+                            rejected: { bg: -> #fee2e2', text: -> #b91c1c' },
+                            pending: { bg: -> #fef3c7', text: -> #b45309' },
+                            expired: { bg: -> #f3f4f6', text: -> #6b7280' }
                           };
                           const outcomeStyle = outcomeColors[core.outcome?.toLowerCase()] || outcomeColors.pending;
                           
@@ -6497,7 +6497,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                             <Card key={idx} id={`component-${att.id}`}>
                               <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-3">
-                                  <span className="px-3 py-1 text-sm font-mono rounded" style={{ backgroundColor: '#8B5CF615', color: '#8B5CF6' }}>{att.id}</span>
+                                  <span className="px-3 py-1 text-sm font-mono rounded" style={{ backgroundColor: -> #8B5CF615', color: -> #8B5CF6' }}>{att.id}</span>
                                   <span className="text-sm font-medium" style={{ color: forayColors.secondaryNavy }}>{core.attestation_type}</span>
                                   <span className="px-2 py-0.5 text-xs rounded capitalize" style={{ backgroundColor: outcomeStyle.bg, color: outcomeStyle.text }}>{core.outcome}</span>
                                 </div>
@@ -6507,9 +6507,9 @@ Anchored By: ${anchorResult.anchored_by}`;
                               </div>
                               
                               {/* Attestor Info */}
-                              <div className="p-3 rounded-lg mb-4" style={{ backgroundColor: '#8B5CF610' }}>
+                              <div className="p-3 rounded-lg mb-4" style={{ backgroundColor: -> #8B5CF610' }}>
                                 <div className="flex items-center gap-2 mb-2">
-                                  <Award className="w-4 h-4" style={{ color: '#8B5CF6' }} />
+                                  <Award className="w-4 h-4" style={{ color: -> #8B5CF6' }} />
                                   <span className="text-sm font-semibold" style={{ color: forayColors.secondaryNavy }}>Attestor</span>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -6519,7 +6519,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                                   </div>
                                   <div>
                                     <p className="text-xs" style={{ color: forayColors.gray600 }}>Type</p>
-                                    <p className="text-sm font-medium capitalize" style={{ color: forayColors.textDark }}>{core.attestor_type?.replace(/_/g, ' ')}</p>
+                                    <p className="text-sm font-medium capitalize" style={{ color: forayColors.textDark }}>{core.attestor_type?.replace(/_/g, ->  -> )}</p>
                                   </div>
                                 </div>
                                 {core.attestor_credentials?.length > 0 && (
@@ -6527,8 +6527,8 @@ Anchored By: ${anchorResult.anchored_by}`;
                                     <p className="text-xs mb-1" style={{ color: forayColors.gray600 }}>Credentials</p>
                                     <div className="flex flex-wrap gap-1">
                                       {core.attestor_credentials.map((cred, cIdx) => (
-                                        <span key={cIdx} className="px-2 py-0.5 text-xs rounded" style={{ backgroundColor: '#f3e8ff', color: '#7c3aed' }}>
-                                          {cred.replace(/_/g, ' ')}
+                                        <span key={cIdx} className="px-2 py-0.5 text-xs rounded" style={{ backgroundColor: -> #f3e8ff', color: -> #7c3aed' }}>
+                                          {cred.replace(/_/g, ->  -> )}
                                         </span>
                                       ))}
                                     </div>
@@ -6542,11 +6542,11 @@ Anchored By: ${anchorResult.anchored_by}`;
                                   <p className="text-xs font-medium mb-1.5" style={{ color: forayColors.gray600 }}>Subject References ({core.subject_refs.length})</p>
                                   <div className="flex flex-wrap gap-1.5">
                                     {core.subject_refs.map((ref, rIdx) => {
-                                      let refType = 'arrangement';
-                                      if (ref.startsWith('ACC_')) refType = 'accrual';
-                                      else if (ref.startsWith('ANT_')) refType = 'anticipation';
-                                      else if (ref.startsWith('ACT_')) refType = 'action';
-                                      else if (ref.startsWith('ATT_')) refType = 'attestation';
+                                      let refType = -> arrangement';
+                                      if (ref.startsWith('ACC_')) refType = -> accrual';
+                                      else if (ref.startsWith('ANT_')) refType = -> anticipation';
+                                      else if (ref.startsWith('ACT_')) refType = -> action';
+                                      else if (ref.startsWith('ATT_')) refType = -> attestation';
                                       return <RefBadge key={rIdx} refId={ref} refType={refType} onNavigate={scrollToComponent} />;
                                     })}
                                   </div>
@@ -6571,8 +6571,8 @@ Anchored By: ${anchorResult.anchored_by}`;
                                   <div className="p-2 rounded text-sm" style={{ backgroundColor: forayColors.bgLight }}>
                                     <div className="flex justify-between items-center">
                                       <span className="font-mono text-xs" style={{ color: forayColors.textDark }}>{core.evidence_hash}</span>
-                                      <span className="px-2 py-0.5 text-xs rounded" style={{ backgroundColor: core.evidence_location === 'on-chain' ? '#d1fae5' : '#fef3c7', color: core.evidence_location === 'on-chain' ? '#047857' : '#b45309' }}>
-                                        {core.evidence_location || 'off-chain'}
+                                      <span className="px-2 py-0.5 text-xs rounded" style={{ backgroundColor: core.evidence_location === -> on-chain' ? -> #d1fae5' : -> #fef3c7', color: core.evidence_location === -> on-chain' ? -> #047857' : -> #b45309' }}>
+                                        {core.evidence_location || -> off-chain'}
                                       </span>
                                     </div>
                                   </div>
@@ -6580,9 +6580,9 @@ Anchored By: ${anchorResult.anchored_by}`;
                               )}
                               
                               {/* Attestation-specific details */}
-                              {renderObjectAsTable(core.analysis_summary, 'Analysis Summary')}
-                              {renderObjectAsTable(core.certificate_details, 'Certificate Details')}
-                              {renderObjectAsTable(core.export_details, 'Export Details')}
+                              {renderObjectAsTable(core.analysis_summary, -> Analysis Summary')}
+                              {renderObjectAsTable(core.certificate_details, -> Certificate Details')}
+                              {renderObjectAsTable(core.export_details, -> Export Details')}
                               
                               <DependencyGraph dependencies={core.dependencies} onNavigate={scrollToComponent} />
                             </Card>
@@ -6606,8 +6606,8 @@ Anchored By: ${anchorResult.anchored_by}`;
                             <KeyValue label="Attack Complexity" value={transactionData.privacy_metadata.attack_complexity} />
                           </div>
                         </div>
-                        <div className="mt-4 p-3 rounded" style={{ backgroundColor: '#f3e5f5', borderLeft: '4px solid #6a1b9a' }}>
-                          <p className="text-xs" style={{ color: '#6a1b9a' }}>
+                        <div className="mt-4 p-3 rounded" style={{ backgroundColor: -> #f3e5f5', borderLeft: -> 4px solid #6a1b9a' }}>
+                          <p className="text-xs" style={{ color: -> #6a1b9a' }}>
                             <strong>Privacy Protection:</strong> Sensitive formulas are protected using salted identifiers and instance pooling, enabling hash-based verification without exposing proprietary business logic. Full auditability is maintained while protecting competitive intelligence.
                           </p>
                         </div>
@@ -6621,7 +6621,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                   <button 
                     onClick={allExpanded ? collapseAll : expandAll} 
                     className="px-3 py-1.5 text-xs rounded flex items-center gap-1.5" 
-                    style={{ backgroundColor: forayColors.primaryTeal, color: 'white' }}
+                    style={{ backgroundColor: forayColors.primaryTeal, color: -> white' }}
                   >
                     {allExpanded ? (
                       <>
@@ -6650,7 +6650,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                       <X className="w-5 h-5" style={{ color: forayColors.gray600 }} />
                     </button>
                   </div>
-                  <div className="p-6 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 100px)' }}>
+                  <div className="p-6 overflow-y-auto" style={{ maxHeight: -> calc(90vh - 100px)' }}>
                     <div className="space-y-6">
                       
                       {/* Introduction */}
@@ -6668,7 +6668,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                           <div className="px-4 py-3 flex items-center gap-3" style={{ backgroundColor: forayColors.bgLight }}>
                             <span className="px-2 py-1 text-xs font-bold rounded bg-gray-500 text-white">v1.0</span>
                             <span className="font-semibold" style={{ color: forayColors.secondaryNavy }}>Foundation</span>
-                            <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: '#e5e7eb', color: '#6b7280' }}>Legacy</span>
+                            <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: -> #e5e7eb', color: -> #6b7280' }}>Legacy</span>
                           </div>
                           <div className="p-4">
                             <p className="text-sm mb-3" style={{ color: forayColors.gray600 }}>
@@ -6699,7 +6699,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>SAP, QuickBooks adapters</span></div>
                               <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>Selective disclosure</span></div>
                             </div>
-                            <div className="mt-3 p-2 rounded text-xs" style={{ backgroundColor: '#dbeafe', color: '#1e40af' }}>
+                            <div className="mt-3 p-2 rounded text-xs" style={{ backgroundColor: -> #dbeafe', color: -> #1e40af' }}>
                               <strong>Best for:</strong> Organizations needing ERP integration with basic privacy controls
                             </div>
                           </div>
@@ -6710,7 +6710,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                           <div className="px-4 py-3 flex items-center gap-3" style={{ backgroundColor: forayColors.bgLight }}>
                             <span className="px-2 py-1 text-xs font-bold rounded bg-purple-500 text-white">v3.0</span>
                             <span className="font-semibold" style={{ color: forayColors.secondaryNavy }}>Storage & Encryption</span>
-                            <span className="text-xs px-2 py-0.5 rounded cursor-help" style={{ backgroundColor: '#fef3c7', color: '#b45309' }} data-tooltip="Breaking change - not backward compatible">Breaking</span>
+                            <span className="text-xs px-2 py-0.5 rounded cursor-help" style={{ backgroundColor: -> #fef3c7', color: -> #b45309' }} data-tooltip="Breaking change - not backward compatible">Breaking</span>
                           </div>
                           <div className="p-4">
                             <p className="text-sm mb-3" style={{ color: forayColors.gray600 }}>
@@ -6722,7 +6722,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>Encrypted envelope</span></div>
                               <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>Instance pooling for privacy</span></div>
                             </div>
-                            <div className="mt-3 p-2 rounded text-xs" style={{ backgroundColor: '#f3e8ff', color: '#7c3aed' }}>
+                            <div className="mt-3 p-2 rounded text-xs" style={{ backgroundColor: -> #f3e8ff', color: -> #7c3aed' }}>
                               <strong>Best for:</strong> Enterprises with high-volume transactions needing cost optimization
                             </div>
                           </div>
@@ -6733,7 +6733,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                           <div className="px-4 py-3 flex items-center gap-3" style={{ backgroundColor: forayColors.bgLight }}>
                             <span className="px-2 py-1 text-xs font-bold rounded bg-orange-500 text-white">v4.0</span>
                             <span className="font-semibold" style={{ color: forayColors.secondaryNavy }}>Enterprise Compliance</span>
-                            <span className="text-xs px-2 py-0.5 rounded cursor-help" style={{ backgroundColor: '#fef3c7', color: '#b45309' }} data-tooltip="Breaking change - not backward compatible">Breaking</span>
+                            <span className="text-xs px-2 py-0.5 rounded cursor-help" style={{ backgroundColor: -> #fef3c7', color: -> #b45309' }} data-tooltip="Breaking change - not backward compatible">Breaking</span>
                           </div>
                           <div className="p-4">
                             <p className="text-sm mb-3" style={{ color: forayColors.gray600 }}>
@@ -6745,7 +6745,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>Sealed archive specification</span></div>
                               <div className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color: forayColors.successGreen }} /><span>~85% audit completeness</span></div>
                             </div>
-                            <div className="mt-3 p-2 rounded text-xs" style={{ backgroundColor: '#ffedd5', color: '#c2410c' }}>
+                            <div className="mt-3 p-2 rounded text-xs" style={{ backgroundColor: -> #ffedd5', color: -> #c2410c' }}>
                               <strong>Best for:</strong> Regulated industries requiring full audit trail with Big 4 / SOX compliance
                             </div>
                           </div>
@@ -6756,8 +6756,8 @@ Anchored By: ${anchorResult.anchored_by}`;
                           <div className="px-4 py-3 flex items-center gap-3" style={{ backgroundColor: `${forayColors.primaryTeal}20` }}>
                             <span className="px-2 py-1 text-xs font-bold rounded text-white" style={{ backgroundColor: forayColors.primaryTeal }}>v4.1</span>
                             <span className="font-semibold" style={{ color: forayColors.secondaryNavy }}>Flexible Modeling</span>
-                            <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: forayColors.primaryTeal, color: 'white' }}>Current</span>
-                            <span className="text-xs px-2 py-0.5 rounded cursor-help" style={{ backgroundColor: '#fef3c7', color: '#b45309' }} data-tooltip="Breaking change - auto-migrates older formats">Breaking</span>
+                            <span className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: forayColors.primaryTeal, color: -> white' }}>Current</span>
+                            <span className="text-xs px-2 py-0.5 rounded cursor-help" style={{ backgroundColor: -> #fef3c7', color: -> #b45309' }} data-tooltip="Breaking change - auto-migrates older formats">Breaking</span>
                           </div>
                           <div className="p-4">
                             <p className="text-sm mb-3" style={{ color: forayColors.gray600 }}>
@@ -6830,8 +6830,8 @@ Anchored By: ${anchorResult.anchored_by}`;
                         <h3 className="font-semibold mb-3" style={{ color: forayColors.secondaryNavy }}>When to Use Each Version</h3>
                         <div className="space-y-2 text-sm">
                           <p><strong style={{ color: forayColors.primaryTeal }}>v4.1 (Recommended):</strong> Most new implementations, especially if you have batch payments, cash sales, adjusting entries, or structured finance.</p>
-                          <p><strong style={{ color: '#f97316' }}>v4.0:</strong> If you need maximum audit completeness but don't require many-to-many relationships.</p>
-                          <p><strong style={{ color: '#8b5cf6' }}>v3.0:</strong> Simpler implementations where storage cost optimization is the priority.</p>
+                          <p><strong style={{ color: -> #f97316' }}>v4.0:</strong> If you need maximum audit completeness but don't require many-to-many relationships.</p>
+                          <p><strong style={{ color: -> #8b5cf6' }}>v3.0:</strong> Simpler implementations where storage cost optimization is the priority.</p>
                         </div>
                       </div>
                       
@@ -6855,19 +6855,19 @@ Anchored By: ${anchorResult.anchored_by}`;
                             <h4 className="font-medium mb-3" style={{ color: forayColors.secondaryNavy }}>Technical Approach</h4>
                             <div className="space-y-3 text-sm" style={{ color: forayColors.gray600 }}>
                               <div className="flex gap-3">
-                                <span className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: forayColors.primaryTeal, color: 'white' }}>1</span>
+                                <span className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: forayColors.primaryTeal, color: -> white' }}>1</span>
                                 <div>
                                   <strong>Hash Computation:</strong> A SHA-256 hash of your complete FORAY transaction JSON is computed locally in your browser.
                                 </div>
                               </div>
                               <div className="flex gap-3">
-                                <span className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: forayColors.primaryTeal, color: 'white' }}>2</span>
+                                <span className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: forayColors.primaryTeal, color: -> white' }}>2</span>
                                 <div>
                                   <strong>Blockchain Transaction:</strong> A Kaspa transaction (0.2 KAS) is submitted to create an on-chain timestamp. The amount satisfies KIP-9 storage mass requirements. The transaction is sent to your own wallet address, so funds are not lost.
                                 </div>
                               </div>
                               <div className="flex gap-3">
-                                <span className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: forayColors.primaryTeal, color: 'white' }}>3</span>
+                                <span className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: forayColors.primaryTeal, color: -> white' }}>3</span>
                                 <div>
                                   <strong>Proof Linkage:</strong> The Kaspa Transaction ID is linked to your FORAY transaction hash. This creates an unbreakable chain: <code className="px-1 rounded" style={{ backgroundColor: forayColors.bgLight }}>Kaspa TX ID &rarr; FORAY Hash &rarr; Original Transaction</code>
                                 </div>
@@ -6903,7 +6903,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                           
                           {/* Demo Mode Notice */}
                           <div className="p-4 rounded-lg" style={{ backgroundColor: `${forayColors.actionAmber}15` }}>
-                            <h4 className="font-medium mb-2 flex items-center gap-2" style={{ color: '#b45309' }}>
+                            <h4 className="font-medium mb-2 flex items-center gap-2" style={{ color: -> #b45309' }}>
                               <AlertCircle className="w-4 h-4" /> Transaction Review Demo Mode
                             </h4>
                             <p className="text-sm" style={{ color: forayColors.gray600 }}>
@@ -6915,7 +6915,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               <li>&bull; <strong>Test Funds Required:</strong> Get free test KAS from the faucet (link in network dropdown)</li>
                               <li>&bull; <strong>No FORAY Data in TX:</strong> The FORAY data itself is NOT embedded in the blockchain transaction&mdash;only the timestamp proof is on-chain</li>
                             </ul>
-                            <p className="text-xs mt-3" style={{ color: '#b45309' }}>
+                            <p className="text-xs mt-3" style={{ color: -> #b45309' }}>
                               <strong>Note:</strong> In production, you would store the Kaspa TX ID alongside your FORAY transaction in your audit system. The hash links them cryptographically.
                             </p>
                           </div>
@@ -6950,7 +6950,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                             <div>
                               <h4 className="font-medium mb-1" style={{ color: forayColors.secondaryNavy }}>KasWare Wallet Required</h4>
                               <p className="text-sm" style={{ color: forayColors.gray600 }}>
-                                To anchor transactions, install the <a href="https://kasware.xyz" target="_blank" rel="noopener noreferrer" style={{ color: forayColors.primaryTeal, textDecoration: 'underline' }}>KasWare browser extension</a>. 
+                                To anchor transactions, install the <a href="https://kasware.xyz" target="_blank" rel="noopener noreferrer" style={{ color: forayColors.primaryTeal, textDecoration: -> underline' }}>KasWare browser extension</a>. 
                                 Switch to Testnet in wallet settings and get free test KAS from the faucet.
                               </p>
                             </div>
@@ -6972,7 +6972,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     <div className="flex items-center gap-3">
                       <FileText className="w-6 h-6" style={{ color: forayColors.primaryTeal }} />
                       <h2 className="text-xl font-bold" style={{ color: forayColors.secondaryNavy }}>Transaction JSON</h2>
-                      <span className="px-2 py-1 text-xs font-bold rounded" style={{ backgroundColor: forayColors.primaryTeal, color: 'white' }}>v{transactionData.schema_version}</span>
+                      <span className="px-2 py-1 text-xs font-bold rounded" style={{ backgroundColor: forayColors.primaryTeal, color: -> white' }}>v{transactionData.schema_version}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <button 
@@ -6987,7 +6987,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                       </button>
                     </div>
                   </div>
-                  <div className="p-6 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 100px)' }}>
+                  <div className="p-6 overflow-y-auto" style={{ maxHeight: -> calc(90vh - 100px)' }}>
                     <pre className="text-xs font-mono p-4 rounded-lg overflow-x-auto" style={{ backgroundColor: forayColors.bgLight, color: forayColors.textDark }}>
                       {JSON.stringify(transactionData, null, 2)}
                     </pre>
@@ -7029,16 +7029,16 @@ Anchored By: ${anchorResult.anchored_by}`;
                       </button>
                     </div>
                   </div>
-                  <div className="p-6 overflow-y-auto" style={{ maxHeight: 'calc(80vh - 100px)' }}>
+                  <div className="p-6 overflow-y-auto" style={{ maxHeight: -> calc(80vh - 100px)' }}>
                     <div className="prose prose-sm max-w-none">
                       {sampleNarrativeSummaries[currentSampleKey].content.split('\n').map((line, idx) => {
-                        if (line.startsWith('## ')) return <h2 key={idx} className="text-xl font-semibold mt-4 mb-3" style={{ color: forayColors.primaryTeal }}>{line.slice(3)}</h2>;
+                        if (line.startsWith('## -> )) return <h2 key={idx} className="text-xl font-semibold mt-4 mb-3" style={{ color: forayColors.primaryTeal }}>{line.slice(3)}</h2>;
                         if (line.startsWith('**') && line.endsWith('**')) return <p key={idx} className="font-semibold mt-3 mb-1" style={{ color: forayColors.secondaryNavy }}>{line.slice(2, -2)}</p>;
                         if (line.startsWith('- **')) {
                           const match = line.match(/- \*\*(.+?)\*\*:(.+)/);
                           if (match) return <p key={idx} className="text-sm ml-4 mb-1" style={{ color: forayColors.gray600 }}><strong>{match[1]}:</strong>{match[2]}</p>;
                         }
-                        if (line.startsWith('- ')) return <p key={idx} className="text-sm ml-4 mb-1" style={{ color: forayColors.gray600 }}>&bull; {line.slice(2)}</p>;
+                        if (line.startsWith('- -> )) return <p key={idx} className="text-sm ml-4 mb-1" style={{ color: forayColors.gray600 }}>&bull; {line.slice(2)}</p>;
                         if (line.includes('**')) {
                           const parts = line.split(/\*\*(.*?)\*\*/g);
                           return <p key={idx} className="text-sm mb-2" style={{ color: forayColors.gray600 }}>{parts.map((part, pidx) => pidx % 2 === 1 ? <strong key={pidx}>{part}</strong> : part)}</p>;
@@ -7047,7 +7047,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                           const parts = line.split(/\`(.*?)\`/g);
                           return <p key={idx} className="text-sm mb-2" style={{ color: forayColors.gray600 }}>{parts.map((part, pidx) => pidx % 2 === 1 ? <code key={pidx} className="px-1 py-0.5 rounded text-xs" style={{ backgroundColor: forayColors.bgLight, color: forayColors.primaryTeal }}>{part}</code> : part)}</p>;
                         }
-                        if (line.trim() === '') return <div key={idx} className="h-2" />;
+                        if (line.trim() === -> ') return <div key={idx} className="h-2" />;
                         return <p key={idx} className="text-sm mb-2" style={{ color: forayColors.gray600 }}>{line}</p>;
                       })}
                     </div>
@@ -7089,16 +7089,16 @@ Anchored By: ${anchorResult.anchored_by}`;
                       </button>
                     </div>
                   </div>
-                  <div className="p-6 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 100px)' }}>
+                  <div className="p-6 overflow-y-auto" style={{ maxHeight: -> calc(90vh - 100px)' }}>
                     <div className="prose prose-sm max-w-none">
                       {sampleNarratives[currentSampleKey].content.split('\n').map((line, idx) => {
                         // Handle headers
-                        if (line.startsWith('# ')) return <h1 key={idx} className="text-2xl font-bold mt-6 mb-4" style={{ color: forayColors.secondaryNavy }}>{line.slice(2)}</h1>;
-                        if (line.startsWith('## ')) return <h2 key={idx} className="text-xl font-semibold mt-6 mb-3" style={{ color: forayColors.primaryTeal }}>{line.slice(3)}</h2>;
-                        if (line.startsWith('### ')) return <h3 key={idx} className="text-lg font-medium mt-4 mb-2" style={{ color: forayColors.secondaryNavy }}>{line.slice(4)}</h3>;
+                        if (line.startsWith('# -> )) return <h1 key={idx} className="text-2xl font-bold mt-6 mb-4" style={{ color: forayColors.secondaryNavy }}>{line.slice(2)}</h1>;
+                        if (line.startsWith('## -> )) return <h2 key={idx} className="text-xl font-semibold mt-6 mb-3" style={{ color: forayColors.primaryTeal }}>{line.slice(3)}</h2>;
+                        if (line.startsWith('### -> )) return <h3 key={idx} className="text-lg font-medium mt-4 mb-2" style={{ color: forayColors.secondaryNavy }}>{line.slice(4)}</h3>;
                         
                         // Handle horizontal rules
-                        if (line.startsWith('---')) return <hr key={idx} className="my-6" style={{ borderColor: forayColors.gray400 + '40' }} />;
+                        if (line.startsWith('---')) return <hr key={idx} className="my-6" style={{ borderColor: forayColors.gray400 + -> 40' }} />;
                         
                         // Handle code blocks
                         if (line.startsWith('\`\`\`')) return null;
@@ -7108,7 +7108,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                           const cells = line.split('|').filter(c => c.trim());
                           if (line.includes('---')) return null; // Skip table separator
                           return (
-                            <div key={idx} className="flex gap-4 py-1 text-sm font-mono" style={{ backgroundColor: forayColors.bgLight, padding: '4px 8px', marginBottom: '2px' }}>
+                            <div key={idx} className="flex gap-4 py-1 text-sm font-mono" style={{ backgroundColor: forayColors.bgLight, padding: -> 4px 8px', marginBottom: -> 2px' }}>
                               {cells.map((cell, cidx) => (
                                 <span key={cidx} style={{ flex: 1, color: forayColors.textDark }}>{cell.trim()}</span>
                               ))}
@@ -7117,7 +7117,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                         }
                         
                         // Handle bullet points
-                        if (line.startsWith('- ')) return <li key={idx} className="text-sm ml-4 mb-1" style={{ color: forayColors.gray600 }}>{line.slice(2)}</li>;
+                        if (line.startsWith('- -> )) return <li key={idx} className="text-sm ml-4 mb-1" style={{ color: forayColors.gray600 }}>{line.slice(2)}</li>;
                         
                         // Handle bold text
                         if (line.includes('**')) {
@@ -7142,7 +7142,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                         }
                         
                         // Empty lines
-                        if (line.trim() === '') return <div key={idx} className="h-2" />;
+                        if (line.trim() === -> ') return <div key={idx} className="h-2" />;
                         
                         // Regular paragraphs
                         return <p key={idx} className="text-sm mb-2" style={{ color: forayColors.gray600 }}>{line}</p>;
@@ -7217,9 +7217,9 @@ Anchored By: ${anchorResult.anchored_by}`;
                         {currentNetwork.name}
                       </span>
                       {currentNetwork.isTestnet ? (
-                        <span className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: forayColors.actionAmber, color: 'white' }}>TEST</span>
+                        <span className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: forayColors.actionAmber, color: -> white' }}>TEST</span>
                       ) : (
-                        <span className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: forayColors.errorRed, color: 'white' }}>REAL KAS</span>
+                        <span className="text-xs px-1.5 py-0.5 rounded" style={{ backgroundColor: forayColors.errorRed, color: -> white' }}>REAL KAS</span>
                       )}
                     </div>
                     
@@ -7236,7 +7236,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     )}
                     
                     <div className="p-3 rounded-lg mb-4" style={{ backgroundColor: `${forayColors.actionAmber}20` }}>
-                      <p className="text-xs font-medium" style={{ color: '#b45309' }}>
+                      <p className="text-xs font-medium" style={{ color: -> #b45309' }}>
                         &#x26A0;&#xFE0F; This action is <strong>permanent and irreversible</strong>. Ensure the transaction data is correct before proceeding.
                       </p>
                     </div>
@@ -7262,7 +7262,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                         className="flex-1 px-4 py-2.5 rounded-lg font-medium text-white"
                         style={{ backgroundColor: currentNetwork.isTestnet ? forayColors.secondaryNavy : forayColors.errorRed }}
                       >
-                        {currentNetwork.isTestnet ? 'Confirm & Anchor' : 'Anchor (Mainnet)'}
+                        {currentNetwork.isTestnet ? -> Confirm & Anchor' : -> Anchor (Mainnet)'}
                       </button>
                     </div>
                   </div>
@@ -7301,7 +7301,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     </button>
                   </div>
                   
-                  <div className="p-6 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 180px)' }}>
+                  <div className="p-6 overflow-y-auto" style={{ maxHeight: -> calc(90vh - 180px)' }}>
                     {/* Kaspa Blockchain Section */}
                     <div className="mb-6">
                       <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: forayColors.secondaryNavy }}>
@@ -7318,7 +7318,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                         </div>
                         <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
                           <span style={{ color: forayColors.gray600 }}>Block Hash:</span>
-                          <span className="font-mono text-xs truncate ml-4" style={{ color: forayColors.textDark, maxWidth: '300px' }}>{anchorResult.kaspa.block_hash}</span>
+                          <span className="font-mono text-xs truncate ml-4" style={{ color: forayColors.textDark, maxWidth: -> 300px' }}>{anchorResult.kaspa.block_hash}</span>
                         </div>
                         <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
                           <span style={{ color: forayColors.gray600 }}>Confirmations:</span>
@@ -7352,7 +7352,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                         </div>
                         <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
                           <span style={{ color: forayColors.gray600 }}>Schema Version:</span>
-                          <span className="px-2 py-0.5 text-xs font-bold rounded" style={{ backgroundColor: forayColors.primaryTeal, color: 'white' }}>v{anchorResult.foray.schema_version}</span>
+                          <span className="px-2 py-0.5 text-xs font-bold rounded" style={{ backgroundColor: forayColors.primaryTeal, color: -> white' }}>v{anchorResult.foray.schema_version}</span>
                         </div>
                         <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
                           <span style={{ color: forayColors.gray600 }}>Merkle Root:</span>
@@ -7372,7 +7372,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     {/* Component Summary */}
                     <div className="mb-6">
                       <h3 className="text-sm font-bold mb-3" style={{ color: forayColors.secondaryNavy }}>Components Anchored</h3>
-                      <div className={`grid gap-2 ${anchorResult.foray.component_summary.attestations > 0 ? 'grid-cols-5' : 'grid-cols-4'}`}>
+                      <div className={`grid gap-2 ${anchorResult.foray.component_summary.attestations > 0 ? -> grid-cols-5' : -> grid-cols-4'}`}>
                         <div className="p-3 rounded-lg text-center" style={{ backgroundColor: `${forayColors.primaryTeal}10` }}>
                           <p className="text-2xl font-bold" style={{ color: forayColors.primaryTeal }}>{anchorResult.foray.component_summary.arrangements}</p>
                           <p className="text-xs" style={{ color: forayColors.gray600 }}>Arrangements</p>
@@ -7390,8 +7390,8 @@ Anchored By: ${anchorResult.anchored_by}`;
                           <p className="text-xs" style={{ color: forayColors.gray600 }}>Actions</p>
                         </div>
                         {anchorResult.foray.component_summary.attestations > 0 && (
-                          <div className="p-3 rounded-lg text-center" style={{ backgroundColor: '#8B5CF610' }}>
-                            <p className="text-2xl font-bold" style={{ color: '#8B5CF6' }}>{anchorResult.foray.component_summary.attestations}</p>
+                          <div className="p-3 rounded-lg text-center" style={{ backgroundColor: -> #8B5CF610' }}>
+                            <p className="text-2xl font-bold" style={{ color: -> #8B5CF6' }}>{anchorResult.foray.component_summary.attestations}</p>
                             <p className="text-xs" style={{ color: forayColors.gray600 }}>Attestations</p>
                           </div>
                         )}
@@ -7418,7 +7418,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex-1 px-4 py-2.5 rounded-lg font-medium flex items-center justify-center gap-2"
-                      style={{ backgroundColor: forayColors.primaryTeal, color: 'white' }}
+                      style={{ backgroundColor: forayColors.primaryTeal, color: -> white' }}
                     >
                       <Link2 className="w-4 h-4" /> View on Explorer
                     </a>

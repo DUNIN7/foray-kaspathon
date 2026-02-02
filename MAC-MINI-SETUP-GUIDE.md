@@ -1,6 +1,6 @@
 # FORAY Backend Setup on Mac Mini - Complete Guide
 
-## âœ… What You'll Have When Done
+## [OK] What You'll Have When Done
 
 - FORAY backend running on your Mac Mini
 - Accessible from any device on your network (or internet)
@@ -9,20 +9,20 @@
 
 ---
 
-## ðŸ“‹ Prerequisites
+## [CLIPBOARD] Prerequisites
 
-- âœ… Mac Mini with macOS (any recent version)
-- âœ… Internet connection
-- âœ… Router access (for port forwarding if accessing from internet)
-- âœ… Anthropic API key (get from https://console.anthropic.com)
+- [OK] Mac Mini with macOS (any recent version)
+- [OK] Internet connection
+- [OK] Router access (for port forwarding if accessing from internet)
+- [OK] Anthropic API key (get from https://console.anthropic.com)
 
 ---
 
-## ðŸš€ Part 1: Install Node.js on Mac Mini
+## [ROCKET] Part 1: Install Node.js on Mac Mini
 
 ### Step 1: Install Homebrew (if not already installed)
 
-Open Terminal (Applications â†’ Utilities â†’ Terminal) and run:
+Open Terminal (Applications -> Utilities -> Terminal) and run:
 
 ```bash
 # Install Homebrew
@@ -30,7 +30,7 @@ Open Terminal (Applications â†’ Utilities â†’ Terminal) and run:
 
 # Follow the instructions it gives you to add Homebrew to your PATH
 # Usually something like:
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+echo -> eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 ```
 
@@ -41,13 +41,13 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 brew install node
 
 # Verify installation
-node --version    # Should show v20.x.x or similar
-npm --version     # Should show v10.x.x or similar
+node --version # Should show v20.x.x or similar
+npm --version # Should show v10.x.x or similar
 ```
 
 ---
 
-## ðŸ—‚ï¸ Part 2: Setup FORAY Backend
+## [FOLDER] Part 2: Setup FORAY Backend
 
 ### Step 3: Create Project Directory
 
@@ -124,19 +124,19 @@ npm start
 
 You should see:
 ```
-â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
-â•‘  FORAY Transaction Generator API                          â•‘
-â•‘  Status: Running                                          â•‘
-â•‘  Port: 3001                                               â•‘
-â•‘  API Key: âœ“ Configured                                    â•‘
-â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+=+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+| FORAY Transaction Generator API |
+| Status: Running |
+| Port: 3001 |
+| API Key: [CHECK] Configured |
+|++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
 
 Keep this terminal window open!
 
 ---
 
-## ðŸŒ Part 3: Find Your Mac Mini's IP Address
+## [DOOR] Part 3: Find Your Mac Mini's IP Address
 
 ### Step 7: Get Local IP Address
 
@@ -168,7 +168,7 @@ Should return:
 
 ---
 
-## ðŸ’» Part 4: Access from Other Devices (Same Network)
+## [COMPUTER] Part 4: Access from Other Devices (Same Network)
 
 ### Step 9: Test from Another Computer/Phone on Same Wi-Fi
 
@@ -193,12 +193,12 @@ REACT_APP_API_URL=http://192.168.1.150:3001
 **Option B: Direct in Code**
 In `foray-tx-review-with-backend.jsx`:
 ```javascript
-const API_BASE_URL = 'http://192.168.1.150:3001';  // Your Mac Mini's IP
+const API_BASE_URL = -> http://192.168.1.150:3001'; // Your Mac Mini's IP
 ```
 
 ---
 
-## ðŸŒ Part 5: Access from Internet (Optional)
+## [EYE] Part 5: Access from Internet (Optional)
 
 If you want to access from anywhere on the internet:
 
@@ -207,36 +207,36 @@ If you want to access from anywhere on the internet:
 #### Step 11: Setup Port Forwarding
 
 1. **Find your router's IP:**
-   ```bash
-   netstat -nr | grep default
-   ```
-   Usually `192.168.1.1` or `192.168.0.1`
+ ```bash
+ netstat -nr | grep default
+ ```
+ Usually `192.168.1.1` or `192.168.0.1`
 
 2. **Login to your router:**
-   - Open browser: `http://192.168.1.1`
-   - Login (check router label for password)
+ - Open browser: `http://192.168.1.1`
+ - Login (check router label for password)
 
 3. **Setup port forwarding:**
-   - Find "Port Forwarding" or "Virtual Server" section
-   - Add new rule:
-     - **Service Name:** FORAY API
-     - **External Port:** 3001
-     - **Internal IP:** 192.168.1.150 (your Mac Mini)
-     - **Internal Port:** 3001
-     - **Protocol:** TCP
-   - Save and apply
+ - Find "Port Forwarding" or "Virtual Server" section
+ - Add new rule:
+ - **Service Name:** FORAY API
+ - **External Port:** 3001
+ - **Internal IP:** 192.168.1.150 (your Mac Mini)
+ - **Internal Port:** 3001
+ - **Protocol:** TCP
+ - Save and apply
 
 4. **Find your public IP:**
-   ```bash
-   curl ifconfig.me
-   ```
-   Example output: `203.0.113.45`
+ ```bash
+ curl ifconfig.me
+ ```
+ Example output: `203.0.113.45`
 
 5. **Test external access:**
-   From phone (turn off Wi-Fi to use cellular):
-   ```
-   http://203.0.113.45:3001/health
-   ```
+ From phone (turn off Wi-Fi to use cellular):
+ ```
+ http://203.0.113.45:3001/health
+ ```
 
 ### Option B: Free Dynamic DNS (Better!)
 
@@ -245,34 +245,34 @@ Your public IP changes periodically. Use a free dynamic DNS service:
 #### Step 12: Setup No-IP (Free Dynamic DNS)
 
 1. **Create account at No-IP:**
-   - Go to: https://www.noip.com
-   - Sign up for free account
-   - Create hostname: `myforay.ddns.net` (or similar)
+ - Go to: https://www.noip.com
+ - Sign up for free account
+ - Create hostname: `myforay.ddns.net` (or similar)
 
 2. **Install No-IP DUC (Dynamic Update Client) on Mac:**
-   ```bash
-   # Download and install No-IP DUC for Mac
-   # Visit: https://www.noip.com/download
-   # Download "Mac OS X Dynamic Update Client"
-   # Install the .dmg file
-   ```
+ ```bash
+ # Download and install No-IP DUC for Mac
+ # Visit: https://www.noip.com/download
+ # Download "Mac OS X Dynamic Update Client"
+ # Install the .dmg file
+ ```
 
 3. **Configure No-IP DUC:**
-   - Open No-IP DUC app
-   - Login with your No-IP account
-   - Select your hostname
-   - It will automatically update your IP
+ - Open No-IP DUC app
+ - Login with your No-IP account
+ - Select your hostname
+ - It will automatically update your IP
 
 4. **Now you can access via:**
-   ```
-   http://myforay.ddns.net:3001/health
-   ```
+ ```
+ http://myforay.ddns.net:3001/health
+ ```
 
 This works even if your home IP changes!
 
 ---
 
-## ðŸ”’ Part 6: Keep Server Running 24/7
+## [KEY] Part 6: Keep Server Running 24/7
 
 ### Step 13: Install PM2 (Process Manager)
 
@@ -308,17 +308,17 @@ pm2 monit
 ```
 
 Now your server will:
-- âœ… Restart automatically if it crashes
-- âœ… Start automatically when Mac Mini boots
-- âœ… Run in the background (can close Terminal)
+- [OK] Restart automatically if it crashes
+- [OK] Start automatically when Mac Mini boots
+- [OK] Run in the background (can close Terminal)
 
 ---
 
-## ðŸ›¡ï¸ Part 7: Security (Important!)
+## [SHIELD] Part 7: Security (Important!)
 
 ### Step 15: Enable Mac Firewall
 
-1. **System Settings â†’ Network â†’ Firewall**
+1. **System Settings -> Network -> Firewall**
 2. Turn ON firewall
 3. Add exception for Node.js if prompted
 
@@ -328,17 +328,17 @@ Update your `server.js` to add authentication:
 
 ```javascript
 // Add this near the top after other requires
-const ADMIN_KEY = process.env.ADMIN_API_KEY || 'your-secret-key-here';
+const ADMIN_KEY = process.env.ADMIN_API_KEY || -> your-secret-key-here';
 
 // Add this middleware before routes
 app.use('/api/generate-foray', (req, res, next) => {
-  const apiKey = req.headers['x-api-key'];
-  
-  if (apiKey !== ADMIN_KEY) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-  
-  next();
+ const apiKey = req.headers['x-api-key'];
+ 
+ if (apiKey !== ADMIN_KEY) {
+ return res.status(401).json({ error: -> Unauthorized' });
+ }
+ 
+ next();
 });
 ```
 
@@ -350,15 +350,15 @@ ADMIN_API_KEY=make-this-a-long-random-string
 Now clients must send header:
 ```javascript
 fetch('http://192.168.1.150:3001/api/generate-foray', {
-  headers: {
-    'X-API-Key': 'your-secret-key-here'
-  }
+ headers: {
+ -> X-API-Key': -> your-secret-key-here'
+ }
 })
 ```
 
 ---
 
-## ðŸ“Š Part 8: Monitoring & Maintenance
+## [CHART] Part 8: Monitoring & Maintenance
 
 ### Useful PM2 Commands
 
@@ -407,7 +407,7 @@ df -h
 
 ---
 
-## ðŸ”§ Part 9: Troubleshooting
+## Part 9: Troubleshooting
 
 ### Problem: "Port 3001 already in use"
 
@@ -424,8 +424,8 @@ PORT=3002
 
 ### Problem: "Cannot connect from other devices"
 
-1. **Check firewall:** System Settings â†’ Network â†’ Firewall
-2. **Check Mac Mini is awake:** System Settings â†’ Energy Saver â†’ Prevent sleeping
+1. **Check firewall:** System Settings -> Network -> Firewall
+2. **Check Mac Mini is awake:** System Settings -> Energy Saver -> Prevent sleeping
 3. **Verify IP address:** `ifconfig | grep "inet "`
 4. **Test locally first:** `curl http://localhost:3001/health`
 
@@ -437,7 +437,7 @@ cat ~/foray-backend/.env
 
 # Make sure there are no spaces around =
 # CORRECT: ANTHROPIC_API_KEY=sk-ant-xxx
-# WRONG:   ANTHROPIC_API_KEY = sk-ant-xxx
+# WRONG: ANTHROPIC_API_KEY = sk-ant-xxx
 
 # Restart server
 pm2 restart foray-api
@@ -450,13 +450,13 @@ pm2 restart foray-api
 sudo pmset -a displaysleep 0 sleep 0 disksleep 0
 
 # Or use GUI:
-# System Settings â†’ Energy Saver â†’ 
-#   - Prevent computer from sleeping automatically: ON
+# System Settings -> Energy Saver -> 
+# - Prevent computer from sleeping automatically: ON
 ```
 
 ---
 
-## ðŸŒŸ Part 10: Making It Production-Ready
+## [MEDAL] Part 10: Making It Production-Ready
 
 ### Enable HTTPS (Optional - Advanced)
 
@@ -490,8 +490,8 @@ const https = require('https');
 const fs = require('fs');
 
 const options = {
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem')
+ key: fs.readFileSync('key.pem'),
+ cert: fs.readFileSync('cert.pem')
 };
 
 https.createServer(options, app).listen(3001);
@@ -531,7 +531,7 @@ Add line:
 
 ---
 
-## ðŸ“± Part 11: Access URLs Summary
+## [PHONE] Part 11: Access URLs Summary
 
 After setup, you can access your FORAY backend from:
 
@@ -561,7 +561,7 @@ https://foray.yourdomain.com/api/generate-foray
 
 ---
 
-## âœ… Final Checklist
+## [OK] Final Checklist
 
 - [ ] Node.js installed
 - [ ] FORAY backend files created
@@ -580,7 +580,7 @@ https://foray.yourdomain.com/api/generate-foray
 
 ---
 
-## ðŸŽ‰ You're Done!
+## [PARTY] You're Done!
 
 Your Mac Mini is now a FORAY backend server!
 
@@ -594,22 +594,22 @@ curl http://localhost:3001/health
 
 # Generate a transaction
 curl -X POST http://192.168.1.150:3001/api/generate-foray \
-  -H "Content-Type: application/json" \
-  -d '{
-    "transactionName": "Test Loan",
-    "transactionDescription": "A $50,000 loan at 5% interest for 12 months"
-  }'
+ -H "Content-Type: application/json" \
+ -d -> {
+ "transactionName": "Test Loan",
+ "transactionDescription": "A $50,000 loan at 5% interest for 12 months"
+ }'
 ```
 
 **Estimated Cost:**
-- Mac Mini: Already owned âœ…
+- Mac Mini: Already owned [OK]
 - Electricity: ~$2-5/month (Mac Mini is very efficient)
 - API Usage: ~$0.06 per transaction
-- Total: Very affordable! ðŸŽ¯
+- Total: Very affordable! [TARGET]
 
 ---
 
-## ðŸ“š Next Steps
+## Next Steps
 
 1. **Update your React frontend** to point to Mac Mini IP
 2. **Test transaction generation** from the web interface
@@ -621,7 +621,7 @@ curl -X POST http://192.168.1.150:3001/api/generate-foray \
 
 ---
 
-## ðŸ†˜ Quick Help Commands
+## [SOS] Quick Help Commands
 
 ```bash
 # Check if server is running
@@ -645,4 +645,4 @@ curl http://localhost:3001/health
 
 ---
 
-**You now have a professional FORAY backend running on your Mac Mini!** ðŸš€
+**You now have a professional FORAY backend running on your Mac Mini!** [ROCKET]

@@ -108,7 +108,7 @@
 
 1. **Source System Trust** +-+ FORAY trusts validated ERP data
 2. **4-Component Model** +-+ Arrangements +-++-+ Accruals +-++-+ Anticipations +-++-+ Actions
-3. **Tamper-Evident Anchoring** â€” Blockchain provides verifiable timestamps
+3. **Tamper-Evident Anchoring** -- Blockchain provides verifiable timestamps
 4. **Privacy Preservation** +-+ Hash-based verification without data exposure
 5. **Separation of Concerns** +-+ Core protocol separate from audit metadata
 6. **Layered Storage** +-+ Right data in right place at right cost
@@ -497,7 +497,7 @@ function validateTransaction(tx) {
 
   // Rule 2: Schema version must be 4.1
   if (tx.schema_version !== "4.1") {
-    errors.push("Schema version must be '4.1'");
+    errors.push("Schema version must be -> 4.1'");
   }
 
   // Rule 3: All referenced IDs must exist
@@ -506,7 +506,7 @@ function validateTransaction(tx) {
 
   for (const ref of allRefs) {
     if (!allIds.includes(ref)) {
-      errors.push(`Referenced ID '${ref}' does not exist`);
+      errors.push(`Referenced ID -> ${ref}' does not exist`);
     }
   }
 
@@ -560,14 +560,14 @@ function validateReferences(component, componentType) {
   const core = component.foray_core;
 
   switch (componentType) {
-    case 'arrangement':
+    case -> arrangement':
       // Arrangements have no upstream refs
       if (core.arrangement_refs?.length > 0) {
         errors.push("Arrangements cannot have arrangement_refs");
       }
       break;
 
-    case 'accrual':
+    case -> accrual':
       // Accruals can only ref Arrangements
       if (core.accrual_refs?.length > 0) {
         errors.push("Accruals cannot have accrual_refs");
@@ -577,14 +577,14 @@ function validateReferences(component, componentType) {
       }
       break;
 
-    case 'anticipation':
+    case -> anticipation':
       // Anticipations can ref Arrangements and Accruals
       if (core.anticipation_refs?.length > 0) {
         errors.push("Anticipations cannot have anticipation_refs");
       }
       break;
 
-    case 'action':
+    case -> action':
       // Actions can ref any upstream type
       // No restrictions
       break;
@@ -1229,28 +1229,28 @@ function downgradeToV40(v41Transaction) {
 
 ## 9.1 Overview
 
-The Attestations extension provides a fifth component type for transactions requiring third-party validation. This is **optional**â€”the core 4A model (Arrangements, Accruals, Anticipations, Actions) remains sufficient for most enterprise transactions.
+The Attestations extension provides a fifth component type for transactions requiring third-party validation. This is **optional**--the core 4A model (Arrangements, Accruals, Anticipations, Actions) remains sufficient for most enterprise transactions.
 
 ### When to Use Attestations
 
 | Transaction Type | Core 4A | Attestations Extension |
 |------------------|:-------:|:----------------------:|
-| Invoice payments | âœ“ | â€” |
-| Payroll processing | âœ“ | â€” |
-| Loan payments | âœ“ | â€” |
-| Manufacturing work orders | âœ“ | â€” |
-| Product provenance | âœ“ | âœ“ |
-| Luxury authentication | âœ“ | âœ“ |
-| Regulatory certifications | âœ“ | âœ“ |
-| Third-party inspections | âœ“ | âœ“ |
-| Audit sign-offs | âœ“ | âœ“ |
+| Invoice payments | [CHECK] | -- |
+| Payroll processing | [CHECK] | -- |
+| Loan payments | [CHECK] | -- |
+| Manufacturing work orders | [CHECK] | -- |
+| Product provenance | [CHECK] | [CHECK] |
+| Luxury authentication | [CHECK] | [CHECK] |
+| Regulatory certifications | [CHECK] | [CHECK] |
+| Third-party inspections | [CHECK] | [CHECK] |
+| Audit sign-offs | [CHECK] | [CHECK] |
 
 ### Design Rationale
 
 **Peer Review Concern:**
-> "Without attestation/assertion, your audit trail is just 'he said, she said' with cryptographic wrapping."
+> "Without attestation/assertion, your audit trail is just -> he said, she said' with cryptographic wrapping."
 
-**Response:** The Attestations extension records *who* made claims, *what* they claimed, *when* they claimed it, and *what credentials* they have. This creates accountability infrastructureâ€”claimants are permanently associated with their claims.
+**Response:** The Attestations extension records *who* made claims, *what* they claimed, *when* they claimed it, and *what credentials* they have. This creates accountability infrastructure--claimants are permanently associated with their claims.
 
 **Important Limitation:** Attestations record claims, not truth. FORAY proves that a party made a claim at a specific time; it does not independently verify that the claim is accurate.
 
@@ -1283,16 +1283,16 @@ The Attestations extension provides a fifth component type for transactions requ
 
 | Field | Type | Required | Description |
 |-------|------|:--------:|-------------|
-| `id` | string | âœ“ | Unique identifier, prefix `ATT_` |
-| `attestor` | string | âœ“ | Identity of the attesting party |
-| `attestor_hash` | string | âœ“ | Salted hash of attestor identity |
-| `attestor_type` | enum | âœ“ | Category of attestor |
+| `id` | string | [CHECK] | Unique identifier, prefix `ATT_` |
+| `attestor` | string | [CHECK] | Identity of the attesting party |
+| `attestor_hash` | string | [CHECK] | Salted hash of attestor identity |
+| `attestor_type` | enum | [CHECK] | Category of attestor |
 | `attestor_credentials` | array | | Qualifications giving attestation weight |
-| `subject_refs` | array | âœ“ | Component IDs this attestation validates |
-| `attestation_type` | enum | âœ“ | Type of attestation |
-| `attestation_date` | ISO-8601 | âœ“ | When attestation was made |
+| `subject_refs` | array | [CHECK] | Component IDs this attestation validates |
+| `attestation_type` | enum | [CHECK] | Type of attestation |
+| `attestation_date` | ISO-8601 | [CHECK] | When attestation was made |
 | `validity_period` | object | | Start/end dates if attestation expires |
-| `outcome` | enum | âœ“ | Result of attestation |
+| `outcome` | enum | [CHECK] | Result of attestation |
 | `evidence_hash` | string | | Hash of supporting documentation |
 | `evidence_location` | string | | Where evidence is stored |
 | `dependencies` | array | | Other attestations this depends on |
@@ -1336,11 +1336,11 @@ The Attestations extension provides a fifth component type for transactions requ
 Attestations can reference any other component type:
 
 ```
-Attestations â”€â”€referencesâ”€â”€â–º Arrangements
-Attestations â”€â”€referencesâ”€â”€â–º Accruals
-Attestations â”€â”€referencesâ”€â”€â–º Anticipations
-Attestations â”€â”€referencesâ”€â”€â–º Actions
-Attestations â”€â”€referencesâ”€â”€â–º Attestations (chains)
+Attestations --references---> Arrangements
+Attestations --references---> Accruals
+Attestations --references---> Anticipations
+Attestations --references---> Actions
+Attestations --references---> Attestations (chains)
 ```
 
 ### Attestation Chains
@@ -1349,11 +1349,11 @@ Attestations can reference other attestations to create validation chains:
 
 ```
 ATT_LAB_ANALYSIS_001 (Laboratory analyzes sample)
-         â”‚
-         â–¼
+         |
+         v
 ATT_CERTIFIER_REVIEW_001 (Certifier reviews lab results)
-         â”‚
-         â–¼
+         |
+         v
 ATT_FINAL_CERTIFICATION_001 (Final certification issued)
 ```
 

@@ -50,7 +50,7 @@ node examples/invoice-demo.js
 
 ```javascript
 const adapter = new QuickBooksForayAdapter({ 
-  privacyLevel: 'standard' // Options: minimal, standard, high, defense
+  privacyLevel: -> standard' // Options: minimal, standard, high, defense
 });
 ```
 
@@ -62,18 +62,18 @@ const adapter = new QuickBooksForayAdapter({
 const QuickBooksForayAdapter = require('./src/quickbooks-adapter');
 
 const adapter = new QuickBooksForayAdapter({
-  privacyLevel: 'standard',
+  privacyLevel: -> standard',
   retryAttempts: 3,
   enableLogging: true
 });
 
 const invoice = {
-  Id: 'INV-001',
-  DocNumber: '1001',
+  Id: -> INV-001',
+  DocNumber: -> 1001',
   TotalAmt: 1500.00,
-  CustomerRef: { name: 'Acme Corp', value: 'CUST-001' },
-  DueDate: '2026-02-15',
-  TxnDate: '2026-01-15',
+  CustomerRef: { name: -> Acme Corp', value: -> CUST-001' },
+  DueDate: -> 2026-02-15',
+  TxnDate: -> 2026-01-15',
   Balance: 1500.00 // Unpaid
 };
 
@@ -86,7 +86,7 @@ console.log(`Kaspa Hash: ${result.anchor.kaspaHash}`);
 
 ```javascript
 const invoices = [invoice1, invoice2, invoice3];
-const results = await adapter.batchProcess(invoices, 'Invoice');
+const results = await adapter.batchProcess(invoices, -> Invoice');
 
 console.log(`Total: ${results.total}`);
 console.log(`Succeeded: ${results.succeeded}`);
@@ -135,18 +135,18 @@ const adapter = new QuickBooksForayAdapter({
 | TotalAmt | Accrual | amount (obfuscated) |
 | Line items | Accrual | formula_inputs |
 | DueDate | Anticipation | expected_date |
-| Balance = 0 | Action | settlement_type: 'full_payment' |
+| Balance = 0 | Action | settlement_type: -> full_payment' |
 
 ### Credit Memo + FORAY (NEW v2.0)
 
 ```javascript
 const creditMemo = {
-  Id: 'CM-001',
-  DocNumber: 'CM-1001',
+  Id: -> CM-001',
+  DocNumber: -> CM-1001',
   TotalAmt: 200.00,
-  CustomerRef: { name: 'Acme Corp', value: 'CUST-001' },
-  LinkedTxn: [{ TxnId: 'INV-001', TxnType: 'Invoice' }],
-  TxnDate: '2026-01-20'
+  CustomerRef: { name: -> Acme Corp', value: -> CUST-001' },
+  LinkedTxn: [{ TxnId: -> INV-001', TxnType: -> Invoice' }],
+  TxnDate: -> 2026-01-20'
 };
 
 const result = await adapter.anchorCreditMemo(creditMemo);
@@ -157,13 +157,13 @@ const result = await adapter.anchorCreditMemo(creditMemo);
 
 ```javascript
 const journalEntry = {
-  Id: 'JE-001',
-  DocNumber: 'JE-1001',
+  Id: -> JE-001',
+  DocNumber: -> JE-1001',
   Line: [
-    { Amount: 1000, JournalEntryLineDetail: { PostingType: 'Debit' } },
-    { Amount: 1000, JournalEntryLineDetail: { PostingType: 'Credit' } }
+    { Amount: 1000, JournalEntryLineDetail: { PostingType: -> Debit' } },
+    { Amount: 1000, JournalEntryLineDetail: { PostingType: -> Credit' } }
   ],
-  TxnDate: '2026-01-31'
+  TxnDate: -> 2026-01-31'
 };
 
 const result = await adapter.anchorJournalEntry(journalEntry);
@@ -209,8 +209,8 @@ foray-quickbooks-demo/
 ```javascript
 const adapter = new QuickBooksForayAdapter({
   // Privacy
-  privacyLevel: 'standard',      // minimal, standard, high, defense
-  entitySalt: 'custom-salt',     // Optional: provide your own salt
+  privacyLevel: -> standard',      // minimal, standard, high, defense
+  entitySalt: -> custom-salt',     // Optional: provide your own salt
 
   // Error handling
   retryAttempts: 3,              // Number of retries on failure
@@ -224,7 +224,7 @@ const adapter = new QuickBooksForayAdapter({
 
   // FORAY SDK config
   foray: {
-    kaspaAddress: 'kaspa:...',
+    kaspaAddress: -> kaspa:...',
     enableMerkleProofs: true
   }
 });

@@ -25,7 +25,7 @@ Defense contractors face audit scrutiny unlike any other industry:
 | Unallowable cost identification | Mischarging risk, False Claims Act exposure |
 | Indirect rate computations | Complex allocations, audit disputes |
 
-DCAA auditors canÃ¢â‚¬â€and doÃ¢â‚¬â€question any transaction. The burden of proof falls on the contractor.
+DCAA auditors canEUR "and doEUR "question any transaction. The burden of proof falls on the contractor.
 
 ---
 
@@ -74,7 +74,7 @@ The most audited transaction in defense contracting:
 - What contract
 - Approval chain
 
-If questioned two years later, the anchor proves the charge was recorded at the time claimedÃ¢â‚¬â€not reconstructed for audit.
+If questioned two years later, the anchor proves the charge was recorded at the time claimedEUR "not reconstructed for audit.
 
 ---
 
@@ -149,7 +149,7 @@ FAR 31.205 defines unallowable costs. Contractors must identify them "at the tim
 | Risk: "You tagged it later" | Proof: "Anchor timestamp is at incurrence" |
 | Manual review for ICS | Pre-identified, pre-verified |
 
-The blockchain anchor proves when an unallowable cost was identifiedÃ¢â‚¬â€not when you said you identified it.
+The blockchain anchor proves when an unallowable cost was identifiedEUR "not when you said you identified it.
 
 ---
 
@@ -174,7 +174,7 @@ Defense contractors have unique sensitivity requirements:
 Prime contractors can require FORAY anchoring in subcontracts:
 
 ```
-Prime anchors subcontract Ã¢â€ â€™ Sub anchors invoices Ã¢â€ â€™ Prime verifies before payment
+Prime anchors subcontract  ->  Sub anchors invoices  ->  Prime verifies before payment
 ```
 
 Benefits:
@@ -196,7 +196,7 @@ The False Claims Act creates significant liability for billing errors. FORAY pro
 | Correction documentation | Adjustments anchored separately |
 | Segregation of costs | Allocation decisions anchored at incurrence |
 
-When every transaction is anchored at the time it occurs, "knowing" mischarging becomes much harder to allegeÃ¢â‚¬â€and easier to disprove.
+When every transaction is anchored at the time it occurs, "knowing" mischarging becomes much harder to allegeEUR "and easier to disprove.
 
 ---
 
@@ -217,12 +217,12 @@ FORAY supports DFARS requirements:
 
 The FORAY repository includes examples relevant to defense contractors:
 
-**`manufacturing-work-order-v41.json`** Ã¢â‚¬â€ Production work order with:
+**`manufacturing-work-order-v41.json`** EUR " Production work order with:
 - Direct material and labor allocation
 - Overhead absorption
 - Cost variance settlement
 
-**`batch-payment-v41.json`** Ã¢â‚¬â€ Payment processing with:
+**`batch-payment-v41.json`** EUR " Payment processing with:
 - Multiple invoice clearing
 - Allocation tracking
 - Approval documentation
@@ -246,7 +246,7 @@ FORAY can anchor transactions from:
 3. **Full:** Subcontractor flow-down, complete audit trail
 
 ### Audit Engagement
-Consider briefing your DCAA auditor on FORAY implementationÃ¢â‚¬â€they may welcome the improved audit evidence.
+Consider briefing your DCAA auditor on FORAY implementationEUR "they may welcome the improved audit evidence.
 
 ---
 
@@ -261,7 +261,7 @@ Consider briefing your DCAA auditor on FORAY implementationÃ¢â‚¬â€the
 
 ## About FORAY Protocol
 
-FORAY (derived from "4A" Ã¢â‚¬â€ the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's immutability benefits without privacy compromise.
+FORAY (derived from "4A" EUR " the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's immutability benefits without privacy compromise.
 
 **Key Resources:**
 - Protocol Specification: `FORAY_Protocol_v4_1_Specification.md`
@@ -278,8 +278,8 @@ FORAY (derived from "4A" Ã¢â‚¬â€ the four components) is an open prot
 
 ---
 
-*FORAY Protocol Ã¢â‚¬â€ Transparent audits, protected secrets, powered by Kaspa.*
+*FORAY Protocol EUR " Transparent audits, protected secrets, powered by Kaspa.*
 
 ---
 
-**Copyright Ã‚Â© 2026 Marvin Percival. All rights reserved.**
+**Copyright (c) 2026 Marvin Percival. All rights reserved.**

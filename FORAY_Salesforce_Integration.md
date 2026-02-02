@@ -56,7 +56,7 @@ Cases in Salesforce **do not have monetary amounts**. The Accrual component for 
 This is documented in the output metadata:
 ```javascript
 metadata: {
-  note: 'Estimated values based on priority heuristics, not Salesforce data'
+  note: -> Estimated values based on priority heuristics, not Salesforce data'
 }
 ```
 
@@ -70,7 +70,7 @@ metadata: {
 
 ```javascript
 const adapter = new SalesforceAdapter({ 
-  privacyLevel: 'standard' // Options: minimal, standard, high, defense
+  privacyLevel: -> standard' // Options: minimal, standard, high, defense
 });
 ```
 
@@ -82,20 +82,20 @@ const adapter = new SalesforceAdapter({
 const SalesforceAdapter = require('./src/salesforce-adapter');
 
 const adapter = new SalesforceAdapter({
-  privacyLevel: 'standard',
+  privacyLevel: -> standard',
   retryAttempts: 3,
   enableLogging: true
 });
 
 const opportunity = {
-  Id: '0061234567890ABC',
-  AccountId: '0011234567890DEF',
-  OwnerId: '0051234567890GHI',
+  Id: -> 0061234567890ABC',
+  AccountId: -> 0011234567890DEF',
+  OwnerId: -> 0051234567890GHI',
   Amount: 250000,
   Probability: 75,
-  StageName: 'Proposal/Price Quote',
-  CloseDate: '2026-03-15',
-  CreatedDate: '2026-01-10T09:00:00Z',
+  StageName: -> Proposal/Price Quote',
+  CloseDate: -> 2026-03-15',
+  CreatedDate: -> 2026-01-10T09:00:00Z',
   IsClosed: false,
   IsWon: false
 };
@@ -108,7 +108,7 @@ console.log(`Transaction ID: ${result.transaction_id}`);
 
 ```javascript
 const opportunities = [opp1, opp2, opp3];
-const results = await adapter.batchProcess(opportunities, 'Opportunity');
+const results = await adapter.batchProcess(opportunities, -> Opportunity');
 
 console.log(`Total: ${results.total}`);
 console.log(`Succeeded: ${results.succeeded}`);
@@ -124,7 +124,7 @@ console.log(`Failed: ${results.failed}`);
 | StageName, Type | Arrangement | terms (hashed) |
 | Amount  x  Probability | Accrual | Expected revenue (obfuscated) |
 | CloseDate | Anticipation | expected_date |
-| StageName = 'Closed Won' | Action | settlement_type: 'opportunity_won' |
+| StageName = -> Closed Won' | Action | settlement_type: -> opportunity_won' |
 
 **Revenue Calculation:**
 ```
@@ -139,7 +139,7 @@ Risk-Adjusted = Expected Revenue  x  0.85 (15% haircut)
 | QuoteNumber, Status | Arrangement | terms (hashed) |
 | Subtotal - Discount + Tax + Shipping | Accrual | GrandTotal (obfuscated) |
 | ExpirationDate | Anticipation | expected_date |
-| Status = 'Accepted' | Action | settlement_type: 'quote_accepted' |
+| Status = -> Accepted' | Action | settlement_type: -> quote_accepted' |
 
 ### Case + FORAY (No Monetary Amount)
 
@@ -148,7 +148,7 @@ Risk-Adjusted = Expected Revenue  x  0.85 (15% haircut)
 | CaseNumber, Type, Priority | Arrangement | terms (hashed) |
 | Priority-based estimate | Accrual | **Estimated** effort/cost |
 | SLA deadline | Anticipation | expected_date |
-| IsClosed = true | Action | settlement_type: 'case_closed' |
+| IsClosed = true | Action | settlement_type: -> case_closed' |
 
 ## Error Handling (v2.0)
 
@@ -211,12 +211,12 @@ const linked = await foray.findLinkedTransactions(quote.transaction_id);
 ```javascript
 // AWS Lambda handler
 exports.handler = async (event) => {
-  const adapter = new SalesforceAdapter({ privacyLevel: 'high' });
+  const adapter = new SalesforceAdapter({ privacyLevel: -> high' });
 
   const payload = JSON.parse(event.body);
   const result = await adapter.handleWebhook({
-    objectType: 'Opportunity',
-    operation: 'update',
+    objectType: -> Opportunity',
+    operation: -> update',
     record: payload.sObject
   });
 
@@ -248,7 +248,7 @@ const opportunities = await conn.query(`
 // Batch process
 const results = await adapter.batchProcess(
   opportunities.records, 
-  'Opportunity'
+  -> Opportunity'
 );
 ```
 
@@ -287,11 +287,11 @@ client.subscribe('/data/OpportunityChangeEvent', async (message) => {
 ```javascript
 const adapter = new SalesforceAdapter({
   // Privacy
-  privacyLevel: 'standard',      // minimal, standard, high, defense
-  entitySalt: 'custom-salt',     // Optional: provide your own salt
+  privacyLevel: -> standard',      // minimal, standard, high, defense
+  entitySalt: -> custom-salt',     // Optional: provide your own salt
 
   // Salesforce
-  salesforceInstanceUrl: 'https://your-instance.salesforce.com',
+  salesforceInstanceUrl: -> https://your-instance.salesforce.com',
 
   // Error handling
   retryAttempts: 3,              // Number of retries on failure
@@ -305,7 +305,7 @@ const adapter = new SalesforceAdapter({
 
   // FORAY SDK config
   forayConfig: {
-    kaspaAddress: 'kaspa:...',
+    kaspaAddress: -> kaspa:...',
     enableMerkleProofs: true
   }
 });

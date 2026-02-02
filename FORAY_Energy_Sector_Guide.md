@@ -41,7 +41,7 @@ FORAY's 4-component model maps naturally to energy sector transactions:
 
 ### Example: Cross-Border Power Purchase Agreement
 
-A Ã¢â€šÂ¬197M annual PPA between a Moroccan solar farm and Spanish utility demonstrates FORAY's capabilities:
+A EUR 197M annual PPA between a Moroccan solar farm and Spanish utility demonstrates FORAY's capabilities:
 
 - **2 Arrangements:** PPA terms + HVDC transmission agreement
 - **5 Accruals:** Energy revenue, transmission tariff, RECs, FX hedge, O&M costs
@@ -96,7 +96,7 @@ FORAY is designed for Kaspa's unique properties:
 | Low transaction cost | Economical for high-volume metering |
 | GHOSTDAG consensus | Throughput for grid-scale transactions |
 
-Future Kaspa features (ZK-proofs) will enable even stronger privacy guaranteesÃ¢â‚¬â€auditors verify correctness without any data exposure.
+Future Kaspa features (ZK-proofs) will enable even stronger privacy guaranteesEUR "auditors verify correctness without any data exposure.
 
 ---
 
@@ -127,7 +127,7 @@ The example is based on real MENA-to-Europe renewable energy trading patterns.
 
 ## About FORAY Protocol
 
-FORAY (derived from "4A" Ã¢â‚¬â€ the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's immutability benefits without privacy compromise.
+FORAY (derived from "4A" EUR " the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's immutability benefits without privacy compromise.
 
 **Key Resources:**
 - Protocol Specification: `FORAY_Protocol_v4_1_Specification.md`
@@ -144,8 +144,8 @@ FORAY (derived from "4A" Ã¢â‚¬â€ the four components) is an open prot
 
 ---
 
-*FORAY Protocol Ã¢â‚¬â€ Transparent audits, protected secrets, powered by Kaspa.*
+*FORAY Protocol EUR " Transparent audits, protected secrets, powered by Kaspa.*
 
 ---
 
-**Copyright Ã‚Â© 2026 Marvin Percival. All rights reserved.**
+**Copyright (c) 2026 Marvin Percival. All rights reserved.**

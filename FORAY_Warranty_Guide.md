@@ -123,7 +123,7 @@ Product recalls create additional warranty-like liabilities requiring:
 - Remediation tracking
 - Regulatory notification records
 
-**FORAY Pattern:** `RECOGNITION_ONLY` (when recall announced) â†’ `FULL_LIFECYCLE` (as remediation proceeds)
+**FORAY Pattern:** `RECOGNITION_ONLY` (when recall announced) -> `FULL_LIFECYCLE` (as remediation proceeds)
 
 ---
 
@@ -144,7 +144,7 @@ Warranty-related accruals typically use three computation methods:
 
 **Calculated** - Mathematical formula with fixed inputs
 ```
-Reserve = Units_Sold Ã— Claim_Rate Ã— Avg_Claim_Cost
+Reserve = Units_Sold  x  Claim_Rate  x  Avg_Claim_Cost
 ```
 
 **Valuation** - Oracle-based estimate requiring judgment
@@ -154,31 +154,31 @@ Reserve = Actuarial_Model_Output(historical_claims, product_age, usage_patterns)
 
 **Amortization** - Time-based recognition
 ```
-Monthly_Revenue = Total_Premium Ã— (Days_Elapsed / Total_Days)
+Monthly_Revenue = Total_Premium  x  (Days_Elapsed / Total_Days)
 ```
 
 ### 3.3 Dependency Flow
 
 ```
 PRODUCT SALE
-     â”‚
-     â–¼
-ARR_PRODUCT_SALE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-     â”‚                                                  â”‚
-     â–¼                                                  â”‚
-ARR_WARRANTY_TERMS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
-     â”‚                                               â”‚  â”‚
-     â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”           â”‚  â”‚
-     â–¼                                  â–¼           â”‚  â”‚
-ACC_WARRANTY_RESERVE        ACC_REVENUE_ALLOCATION  â”‚  â”‚
-     â”‚                              â”‚               â”‚  â”‚
-     â–¼                              â–¼               â”‚  â”‚
-ANT_EXPECTED_CLAIMS         ANT_REVENUE_RECOGNITION â”‚  â”‚
-     â”‚                              â”‚               â”‚  â”‚
-     â–¼                              â–¼               â”‚  â”‚
-ACT_CLAIM_PAYMENT           ACT_REVENUE_RELEASE â”€â”€â”€â”€â”˜  â”‚
-                                                        â”‚
-ACT_WARRANTY_EXPIRATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+     |
+     v
+ARR_PRODUCT_SALE --------------------------------------+
+     |                                                  |
+     v                                                  |
+ARR_WARRANTY_TERMS ---------------------------------+  |
+     |                                               |  |
+     +----------------------------------+           |  |
+     v                                  v           |  |
+ACC_WARRANTY_RESERVE        ACC_REVENUE_ALLOCATION  |  |
+     |                              |               |  |
+     v                              v               |  |
+ANT_EXPECTED_CLAIMS         ANT_REVENUE_RECOGNITION |  |
+     |                              |               |  |
+     v                              v               |  |
+ACT_CLAIM_PAYMENT           ACT_REVENUE_RELEASE ----+  |
+                                                        |
+ACT_WARRANTY_EXPIRATION --------------------------------+
 ```
 
 ### 3.4 Many-to-Many Relationships (v4.1)
@@ -226,11 +226,11 @@ FORAY v4.1's `_refs[]` arrays support these naturally:
 
 ```
 Transaction Flow:
-1. Arrangement: (Manufacturer â†’ Consumer, Product Sale + Warranty)
+1. Arrangement: (Manufacturer -> Consumer, Product Sale + Warranty)
 2. Accruals:
-   - Standard warranty reserve (Calculated: units Ã— failure_rate Ã— avg_cost)
+   - Standard warranty reserve (Calculated: units  x  failure_rate  x  avg_cost)
    - Extended warranty revenue allocation (Calculated: SSP methodology)
-   - Extended warranty cost accrual (Calculated: expected_claims Ã— cost_factor)
+   - Extended warranty cost accrual (Calculated: expected_claims  x  cost_factor)
 3. Anticipations:
    - Year 1 claims (monthly estimates)
    - Year 2 claims (extended warranty)
@@ -267,10 +267,10 @@ Transaction Flow:
    - ARR_POWERTRAIN_WARRANTY (5yr/60K)
    - ARR_DEALER_SERVICE_AGREEMENT
 2. Accruals:
-   - Per-vehicle reserve (Calculated: vehicle_class Ã— base_rate)
+   - Per-vehicle reserve (Calculated: vehicle_class  x  base_rate)
    - Campaign reserve (Valuation: engineering_estimate)
    - Dealer labor rates (FixedAmount: negotiated rates)
-   - Parts cost allocation (Calculated: BOM Ã— markup)
+   - Parts cost allocation (Calculated: BOM  x  markup)
 3. Anticipations:
    - Monthly claim run rate by vehicle age
    - Campaign cost projections
@@ -309,7 +309,7 @@ Transaction Flow:
 2. Accruals:
    - Component warranty reserve (Valuation: MTBF analysis)
    - Spares pool valuation (Valuation: demand forecast)
-   - Performance guarantee reserve (Calculated: penalty_exposure Ã— prob)
+   - Performance guarantee reserve (Calculated: penalty_exposure  x  prob)
 3. Anticipations:
    - Scheduled maintenance intervals
    - Expected component replacements
@@ -345,8 +345,8 @@ Transaction Flow:
    - ARR_SLA_TERMS (uptime guarantees)
    - ARR_SUPPORT_AGREEMENT (maintenance terms)
 2. Accruals:
-   - SLA credit reserve (Calculated: revenue Ã— credit_rate Ã— prob_breach)
-   - Bug fix cost accrual (Calculated: estimated_hours Ã— loaded_rate)
+   - SLA credit reserve (Calculated: revenue  x  credit_rate  x  prob_breach)
+   - Bug fix cost accrual (Calculated: estimated_hours  x  loaded_rate)
    - Support cost allocation (Amortization: over support period)
 3. Anticipations:
    - Monthly SLA measurement periods
@@ -377,7 +377,7 @@ Transaction Flow:
    - ARR_WARRANTY_TERMS (2-year standard)
    - ARR_SERVICE_CONTRACT (optional extended)
 2. Accruals:
-   - Warranty reserve (Calculated: device_class Ã— historical_rate)
+   - Warranty reserve (Calculated: device_class  x  historical_rate)
    - Calibration service cost (FixedAmount: per_service_cost)
    - Adverse event reserve (Valuation: risk_assessment)
 3. Anticipations:
@@ -415,7 +415,7 @@ Transaction Flow:
    - ARR_WARRANTY_TERMS (starts at commissioning)
    - ARR_PERFORMANCE_GUARANTEE (output specifications)
 2. Accruals:
-   - Equipment warranty reserve (Calculated: price Ã— reserve_rate)
+   - Equipment warranty reserve (Calculated: price  x  reserve_rate)
    - Performance shortfall reserve (Valuation: engineering_assessment)
    - Installation cost allocation
 3. Anticipations:
@@ -450,7 +450,7 @@ Transaction Flow:
    - ARR_TPA_AGREEMENT (third-party administrator)
 2. Accruals:
    - Protection plan revenue allocation
-   - Claims reserve (Calculated: premium Ã— loss_ratio)
+   - Claims reserve (Calculated: premium  x  loss_ratio)
    - TPA fee accrual
 3. Anticipations:
    - Monthly revenue recognition
@@ -483,7 +483,7 @@ Transaction Flow:
    - ARR_ESA (Extended Service Agreement)
 2. Accruals:
    - OEM warranty reserve (passthrough)
-   - Dealer warranty reserve (Calculated: unit Ã— dealer_rate)
+   - Dealer warranty reserve (Calculated: unit  x  dealer_rate)
    - ESA revenue allocation (Amortization: hours or time)
 3. Anticipations:
    - Scheduled service intervals (250hr, 500hr, etc.)
@@ -514,14 +514,14 @@ Warranty data contains competitively sensitive information:
 ### 5.2 FORAY Privacy Architecture for Warranties
 
 **Layer 1: Identifier Hashing**
-- Customer IDs â†’ SHA-256 hashes
-- Serial numbers â†’ Salted hashes (prevent rainbow tables)
-- VINs â†’ Industry-standard masking + hash
+- Customer IDs -> SHA-256 hashes
+- Serial numbers -> Salted hashes (prevent rainbow tables)
+- VINs -> Industry-standard masking + hash
 
 **Layer 2: Formula Commitments**
-- Reserve formulas â†’ `sha256:warranty_reserve_model_v2.3...`
-- Rate tables â†’ Encrypted lookup references
-- Actuarial assumptions â†’ Hashed parameter sets
+- Reserve formulas -> `sha256:warranty_reserve_model_v2.3...`
+- Rate tables -> Encrypted lookup references
+- Actuarial assumptions -> Hashed parameter sets
 
 **Layer 3: Instance Pooling**
 - Batch claims aggregated before anchoring
@@ -531,21 +531,21 @@ Warranty data contains competitively sensitive information:
 ### 5.3 Auditor Access Model
 
 ```
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚                    AUDITORS                         â”‚
-â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
-â”‚  Can See:                                           â”‚
-â”‚  - Transaction hashes (verify immutability)         â”‚
-â”‚  - Reserve totals (verify completeness)             â”‚
-â”‚  - Claim counts (verify reasonableness)             â”‚
-â”‚  - Formula structure (verify methodology)           â”‚
-â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
-â”‚  Cannot See (without explicit disclosure):          â”‚
-â”‚  - Failure rate percentages                         â”‚
-â”‚  - Cost-per-claim by product                        â”‚
-â”‚  - Competitor benchmarking data                     â”‚
-â”‚  - Supplier-specific defect rates                   â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
++-----------------------------------------------------+
+|                    AUDITORS                         |
++-----------------------------------------------------+
+|  Can See:                                           |
+|  - Transaction hashes (verify immutability)         |
+|  - Reserve totals (verify completeness)             |
+|  - Claim counts (verify reasonableness)             |
+|  - Formula structure (verify methodology)           |
++-----------------------------------------------------+
+|  Cannot See (without explicit disclosure):          |
+|  - Failure rate percentages                         |
+|  - Cost-per-claim by product                        |
+|  - Competitor benchmarking data                     |
+|  - Supplier-specific defect rates                   |
+------------------------------------------------------+
 ```
 
 ---
@@ -1088,12 +1088,12 @@ Warranty data contains competitively sensitive information:
 
 | ERP System | Warranty Module | FORAY Integration Point |
 |------------|-----------------|------------------------|
-| SAP | SD (Sales), CS (Service), QM (Quality) | IDoc extraction â†’ FORAY adapter |
-| Oracle EBS | Install Base, Service Contracts | API extraction â†’ FORAY adapter |
-| Microsoft D365 | Service Management | Dataverse events â†’ FORAY adapter |
-| NetSuite | Case Management, Item Records | SuiteScript â†’ FORAY API |
-| QuickBooks | Estimates, Sales Orders | Custom fields â†’ FORAY adapter |
-| Salesforce | Service Cloud, Entitlements | Apex triggers â†’ FORAY API |
+| SAP | SD (Sales), CS (Service), QM (Quality) | IDoc extraction -> FORAY adapter |
+| Oracle EBS | Install Base, Service Contracts | API extraction -> FORAY adapter |
+| Microsoft D365 | Service Management | Dataverse events -> FORAY adapter |
+| NetSuite | Case Management, Item Records | SuiteScript -> FORAY API |
+| QuickBooks | Estimates, Sales Orders | Custom fields -> FORAY adapter |
+| Salesforce | Service Cloud, Entitlements | Apex triggers -> FORAY API |
 
 ### 7.2 Warranty Event Triggers
 
@@ -1113,20 +1113,20 @@ For high-volume warranty operations:
 
 ```
 Daily Batch Jobs:
-â”œâ”€â”€ Reserve True-Up Job
-â”‚   â”œâ”€â”€ Pull month-to-date claims
-â”‚   â”œâ”€â”€ Recalculate reserve adequacy
-â”‚   â””â”€â”€ Generate adjustment accruals
-â”‚
-â”œâ”€â”€ Revenue Recognition Job (ESP)
-â”‚   â”œâ”€â”€ Identify contracts in coverage period
-â”‚   â”œâ”€â”€ Calculate daily/monthly recognition
-â”‚   â””â”€â”€ Generate revenue release actions
-â”‚
-â””â”€â”€ Claims Settlement Job
-    â”œâ”€â”€ Pull approved claims
-    â”œâ”€â”€ Generate payment actions
-    â””â”€â”€ Anchor batch to blockchain
++-- Reserve True-Up Job
+|   +-- Pull month-to-date claims
+|   +-- Recalculate reserve adequacy
+|   --- Generate adjustment accruals
+|
++-- Revenue Recognition Job (ESP)
+|   +-- Identify contracts in coverage period
+|   +-- Calculate daily/monthly recognition
+|   --- Generate revenue release actions
+|
+--- Claims Settlement Job
+    +-- Pull approved claims
+    +-- Generate payment actions
+    --- Anchor batch to blockchain
 ```
 
 ### 7.4 Real-Time vs. Batch Anchoring
@@ -1179,7 +1179,7 @@ Daily Batch Jobs:
 |--------|----------|-------------------|
 | **Calculated** | Deterministic formulas | `output = f(inputs)` |
 | **Valuation** | Expert judgment, oracles | `output = Oracle(model, inputs)` |
-| **Amortization** | Time-based recognition | `output = total Ã— (elapsed / total_period)` |
+| **Amortization** | Time-based recognition | `output = total  x  (elapsed / total_period)` |
 | **FixedAmount** | Contractual fixed costs | `output = contracted_amount` |
 
 ---
@@ -1193,7 +1193,7 @@ Daily Batch Jobs:
 | **ESP** | Extended Service Plan - separately purchased coverage |
 | **CPV** | Cost Per Vehicle - automotive warranty metric |
 | **Loss Ratio** | Claims paid / Premium earned (ESP profitability metric) |
-| **Bathtub Curve** | Failure rate pattern: early failures â†’ steady state â†’ wear-out |
+| **Bathtub Curve** | Failure rate pattern: early failures -> steady state -> wear-out |
 | **MTBF** | Mean Time Between Failures |
 | **TPA** | Third-Party Administrator (warranty claims processing) |
 

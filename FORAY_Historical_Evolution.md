@@ -1,18 +1,18 @@
 <!--
-  File: FORAY_Historical_Evolution.md
-  Version: 3.0
-  Created: 2026-01-18T00:00:00Z
-  Modified: 2026-02-02T14:30:00Z
-  Author: Marvin Percival
-  Email: marvinp@dunin7.com
-  GitHub: DUNIN7/foray-kaspathon
+ File: FORAY_Historical_Evolution.md
+ Version: 3.0
+ Created: 2026-01-18T00:00:00Z
+ Modified: 2026-02-02T14:30:00Z
+ Author: Marvin Percival
+ Email: marvinp@dunin7.com
+ GitHub: DUNIN7/foray-kaspathon
 
-  Change Log:
-    v3.0 (2026-02-02): Aligned privacy architecture to 3-layer model; removed forbidden
-                        claims (fraud prevention, mathematical impossibility, terminal state);
-                        corrected terminology throughout
-    v2.0 (2026-01-25): Added disclaimers, corrected claims
-    v1.0 (2026-01-18): Initial document
+ Change Log:
+ v3.0 (2026-02-02): Aligned privacy architecture to 3-layer model; removed forbidden
+ claims (fraud prevention, mathematical impossibility, terminal state);
+ corrected terminology throughout
+ v2.0 (2026-01-25): Added disclaimers, corrected claims
+ v1.0 (2026-01-18): Initial document
 -->
 
 # FORAY: The Evolution of Business Transactions from Barter to Blockchain
@@ -30,7 +30,7 @@
 
 ## Copyright Notice
 
-**Copyright Â© 2026 Marvin Percival. All Rights Reserved.**
+**Copyright (c) 2026 Marvin Percival. All Rights Reserved.**
 
 This document may be freely distributed for educational and research purposes with proper attribution. Commercial use or reproduction without explicit written permission is prohibited.
 
@@ -57,16 +57,16 @@ FORAY Protocol represents the next evolutionary step in a 5,000-year progression
 - Immediate settlement: Transaction complete when goods change hands
 
 **What it solved:**
-- âœ… **Trust through simultaneity** - Both parties exchange at once, no credit risk
-- âœ… **Transparency** - Both parties see exactly what they're getting
-- âœ… **Simplicity** - No intermediaries, no complex accounting
+- [OK] **Trust through simultaneity** - Both parties exchange at once, no credit risk
+- [OK] **Transparency** - Both parties see exactly what they're getting
+- [OK] **Simplicity** - No intermediaries, no complex accounting
 
 **Critical flaws:**
-- âŒ **Double coincidence of wants** - I need wheat AND you need sheep simultaneously
-- âŒ **Indivisibility** - Can't split a cow to buy half a bushel of grain
-- âŒ **No store of value** - Sheep die, grain rots, wealth can't be preserved
-- âŒ **Geographic limitation** - Must be physically present to trade
-- âŒ **No delayed settlement** - Can't separate agreement from delivery
+- [X] **Double coincidence of wants** - I need wheat AND you need sheep simultaneously
+- [X] **Indivisibility** - Can't split a cow to buy half a bushel of grain
+- [X] **No store of value** - Sheep die, grain rots, wealth can't be preserved
+- [X] **Geographic limitation** - Must be physically present to trade
+- [X] **No delayed settlement** - Can't separate agreement from delivery
 
 **Why this matters for FORAY:**
 Barter established the **fundamental transaction structure** that FORAY preserves:
@@ -85,16 +85,16 @@ Barter established the **fundamental transaction structure** that FORAY preserve
 - Money = universally accepted store of value
 
 **What it solved:**
-- âœ… **Eliminated double coincidence** - Money accepted by everyone
-- âœ… **Store of value** - Salt doesn't rot (much), can save wealth
-- âœ… **Unit of account** - All prices expressed in salt bars (standardization)
+- [OK] **Eliminated double coincidence** - Money accepted by everyone
+- [OK] **Store of value** - Salt doesn't rot (much), can save wealth
+- [OK] **Unit of account** - All prices expressed in salt bars (standardization)
 
 **Critical flaws:**
-- âŒ **Still bulky** - Hard to transport large wealth (wagon of salt bars)
-- âŒ **Quality variance** - Not all salt bars identical, disputes over value
-- âŒ **Still perishable** - Even salt degrades over time
-- âŒ **No credit mechanism** - Still requires immediate payment
-- âŒ **No record of transaction** - No proof payment occurred if lost/stolen
+- [X] **Still bulky** - Hard to transport large wealth (wagon of salt bars)
+- [X] **Quality variance** - Not all salt bars identical, disputes over value
+- [X] **Still perishable** - Even salt degrades over time
+- [X] **No credit mechanism** - Still requires immediate payment
+- [X] **No record of transaction** - No proof payment occurred if lost/stolen
 
 **Why this matters for FORAY:**
 Commodity money introduced **standardized units of value** (pricing formulas), which FORAY's **Accrual component** preserves through salted formula registries.
@@ -111,18 +111,18 @@ Commodity money introduced **standardized units of value** (pricing formulas), w
 - Coins circulate as universally accepted value
 
 **What it solved:**
-- âœ… **Portable wealth** - Gold is dense, high value per ounce
-- âœ… **Durable** - Gold doesn't corrode, lasts thousands of years
-- âœ… **Divisible** - Mint coins in multiple denominations
-- âœ… **Standardized** - Government mint guarantees weight/purity
-- âœ… **Fraud resistance** - Hard to counterfeit (requires metallurgy skills)
+- [OK] **Portable wealth** - Gold is dense, high value per ounce
+- [OK] **Durable** - Gold doesn't corrode, lasts thousands of years
+- [OK] **Divisible** - Mint coins in multiple denominations
+- [OK] **Standardized** - Government mint guarantees weight/purity
+- [OK] **Fraud resistance** - Hard to counterfeit (requires metallurgy skills)
 
 **Critical flaws:**
-- âŒ **Still physical** - Must transport gold for distant trade (risk of theft)
-- âŒ **Deflationary** - Fixed gold supply limits economic growth
-- âŒ **No credit mechanism** - Merchants need capital upfront to buy inventory
-- âŒ **No transaction record** - Cash transactions leave no audit trail
-- âŒ **Counterfeiting still possible** - "Clipping" coins, gold plating lead
+- [X] **Still physical** - Must transport gold for distant trade (risk of theft)
+- [X] **Deflationary** - Fixed gold supply limits economic growth
+- [X] **No credit mechanism** - Merchants need capital upfront to buy inventory
+- [X] **No transaction record** - Cash transactions leave no audit trail
+- [X] **Counterfeiting still possible** - "Clipping" coins, gold plating lead
 
 **Why this matters for FORAY:**
 Coinage introduced **trusted third-party guarantees** (government mints), analogous to FORAY's **on-chain registry commitments** that guarantee transaction integrity without revealing details.
@@ -141,27 +141,27 @@ Coinage introduced **trusted third-party guarantees** (government mints), analog
 **Example:**
 ```
 Merchant sells cloth on credit:
-  Debit: Accounts Receivable +100 florins (customer owes me)
-  Credit: Revenue +100 florins (I earned money)
+ Debit: Accounts Receivable +100 florins (customer owes me)
+ Credit: Revenue +100 florins (I earned money)
 
 Customer pays 30 days later:
-  Debit: Cash +100 florins (I received money)
-  Credit: Accounts Receivable -100 florins (customer no longer owes)
+ Debit: Cash +100 florins (I received money)
+ Credit: Accounts Receivable -100 florins (customer no longer owes)
 ```
 
 **What it solved:**
-- âœ… **Credit mechanism** - Can separate delivery from payment (trust + recordkeeping)
-- âœ… **Audit trail** - Ledgers prove what happened and when
-- âœ… **Error detection** - If Debits â‰  Credits, something's wrong
-- âœ… **Business intelligence** - Can calculate profit, track inventory, analyze performance
-- âœ… **Deferred settlement** - Trade now, settle later (enables complex supply chains)
+- [OK] **Credit mechanism** - Can separate delivery from payment (trust + recordkeeping)
+- [OK] **Audit trail** - Ledgers prove what happened and when
+- [OK] **Error detection** - If Debits != Credits, something's wrong
+- [OK] **Business intelligence** - Can calculate profit, track inventory, analyze performance
+- [OK] **Deferred settlement** - Trade now, settle later (enables complex supply chains)
 
 **Critical flaws:**
-- âŒ **Trust-based** - Ledgers can be altered retroactively (fraud)
-- âŒ **Single-party verification** - Only the bookkeeper knows the "truth"
-- âŒ **No standardization** - Each merchant uses own system, hard to reconcile
-- âŒ **Geographic silos** - Ledgers in Venice can't easily verify Florence's books
-- âŒ **Analog limitations** - Paper ledgers burn, get lost, degrade over time
+- [X] **Trust-based** - Ledgers can be altered retroactively (fraud)
+- [X] **Single-party verification** - Only the bookkeeper knows the "truth"
+- [X] **No standardization** - Each merchant uses own system, hard to reconcile
+- [X] **Geographic silos** - Ledgers in Venice can't easily verify Florence's books
+- [X] **Analog limitations** - Paper ledgers burn, get lost, degrade over time
 
 **Why this matters for FORAY:**
 Double-entry bookkeeping invented the **Accrual concept** (recognizing economic events before cash moves). FORAY's **4-component model** (Arrangement, Accrual, Anticipation, Action) is the blockchain evolution of double-entry:
@@ -183,23 +183,23 @@ Double-entry bookkeeping invented the **Accrual concept** (recognizing economic 
 - Reports generated instantly (balance sheet, P&L, cash flow)
 
 **What it solved:**
-- âœ… **Speed** - Instant transaction posting, no manual calculation
-- âœ… **Scale** - Handle millions of transactions per day
-- âœ… **Standardization** - GAAP/IFRS enforced in software logic
-- âœ… **Integration** - Connect sales, inventory, payroll, accounting in one system
-- âœ… **Auditability** - Query any transaction instantly, no digging through paper
-- âœ… **Geographic coordination** - Multiple offices use same ledger
+- [OK] **Speed** - Instant transaction posting, no manual calculation
+- [OK] **Scale** - Handle millions of transactions per day
+- [OK] **Standardization** - GAAP/IFRS enforced in software logic
+- [OK] **Integration** - Connect sales, inventory, payroll, accounting in one system
+- [OK] **Auditability** - Query any transaction instantly, no digging through paper
+- [OK] **Geographic coordination** - Multiple offices use same ledger
 
 **Critical flaws:**
-- âŒ **FATAL: Retroactive alteration** - Database admins can change historical records
-  - **Example:** Enron (2001) - Backdated transactions to hide losses
-  - **Example:** Wirecard (2020) - Falsified â‚¬1.9B in bank balances
-  - **Example:** FTX (2022) - Deleted transaction logs showing customer fund misuse
-- âŒ **Single point of failure** - Database corruption = total data loss
-- âŒ **Centralized trust** - Must trust company + IT staff + auditors
-- âŒ **No cross-company verification** - Each company's ERP is silo'd
-- âŒ **Audit sampling** - Too many transactions to verify all, auditors sample ~1%
-- âŒ **No immutability proof** - Can't prove data wasn't altered unless you watched continuously
+- [X] **FATAL: Retroactive alteration** - Database admins can change historical records
+ - **Example:** Enron (2001) - Backdated transactions to hide losses
+ - **Example:** Wirecard (2020) - Falsified EUR 1.9B in bank balances
+ - **Example:** FTX (2022) - Deleted transaction logs showing customer fund misuse
+- [X] **Single point of failure** - Database corruption = total data loss
+- [X] **Centralized trust** - Must trust company + IT staff + auditors
+- [X] **No cross-company verification** - Each company's ERP is silo'd
+- [X] **Audit sampling** - Too many transactions to verify all, auditors sample ~1%
+- [X] **No immutability proof** - Can't prove data wasn't altered unless you watched continuously
 
 **The Great Paradox Emerges:**
 Electronic systems are **fast, scalable, and efficient** BUT...
@@ -215,7 +215,7 @@ Auditors must **trust** that:
 - **Enron (2001):** $74B market cap destroyed, Arthur Andersen (Big 5 auditor) dissolved
 - **WorldCom (2002):** $11B accounting fraud, largest bankruptcy in US history
 - **Satyam (2009):** $1.5B fictitious cash, "India's Enron"
-- **Wirecard (2020):** â‚¬1.9B missing, EY audited for 10 years, saw nothing
+- **Wirecard (2020):** EUR 1.9B missing, EY audited for 10 years, saw nothing
 - **FTX (2022):** $8B customer funds unaccounted for, no audit trail
 
 ---
@@ -231,25 +231,25 @@ Auditors must **trust** that:
 - Changing old transaction requires recomputing all subsequent blocks (computationally infeasible)
 
 **What it solved:**
-- âœ… **IMMUTABILITY** - Once confirmed, transactions mathematically permanent
-- âœ… **Decentralization** - No single party controls ledger
-- âœ… **Transparency** - Anyone can verify entire transaction history
-- âœ… **Trustless verification** - Don't need to trust intermediaries
-- âœ… **Audit without sampling** - Verify 100% of transactions, not 1% sample
+- [OK] **IMMUTABILITY** - Once confirmed, transactions mathematically permanent
+- [OK] **Decentralization** - No single party controls ledger
+- [OK] **Transparency** - Anyone can verify entire transaction history
+- [OK] **Trustless verification** - Don't need to trust intermediaries
+- [OK] **Audit without sampling** - Verify 100% of transactions, not 1% sample
 
 **Critical flaws (for enterprise use):**
-- âŒ **FATAL: Total transparency** - All transaction details public
-  - **Problem:** Competitors see your sales, pricing, suppliers, customers
-  - **Example:** If Apple used Bitcoin, Samsung would see every iPhone sale in real-time
-  - **Result:** No Fortune 500 company can use public blockchain for business transactions
+- [X] **FATAL: Total transparency** - All transaction details public
+ - **Problem:** Competitors see your sales, pricing, suppliers, customers
+ - **Example:** If Apple used Bitcoin, Samsung would see every iPhone sale in real-time
+ - **Result:** No Fortune 500 company can use public blockchain for business transactions
 
-- âŒ **Privacy = Pseudonymity only** - Addresses obscure identity, but transaction graphs reveal patterns
-  - **Attack:** Chain analysis firms (Chainalysis, Elliptic) can de-anonymize 90%+ of Bitcoin addresses
-  - **Problem:** Financial institutions, defense contractors, healthcare CANNOT accept this risk
+- [X] **Privacy = Pseudonymity only** - Addresses obscure identity, but transaction graphs reveal patterns
+ - **Attack:** Chain analysis firms (Chainalysis, Elliptic) can de-anonymize 90%+ of Bitcoin addresses
+ - **Problem:** Financial institutions, defense contractors, healthcare CANNOT accept this risk
 
-- âŒ **Slow & expensive** - Bitcoin: 7 tx/s, 10+ min finality, $1-$50 per transaction
-- âŒ **No business logic** - Bitcoin only tracks ownership, not invoices, contracts, accruals
-- âŒ **No regulatory compliance** - Can't do selective disclosure to auditors/regulators
+- [X] **Slow & expensive** - Bitcoin: 7 tx/s, 10+ min finality, $1-$50 per transaction
+- [X] **No business logic** - Bitcoin only tracks ownership, not invoices, contracts, accruals
+- [X] **No regulatory compliance** - Can't do selective disclosure to auditors/regulators
 
 **The Second Great Paradox:**
 Blockchain **solves immutability** BUT creates **privacy disaster** for enterprises.
@@ -268,62 +268,62 @@ Blockchain **solves immutability** BUT creates **privacy disaster** for enterpri
 **How it works:**
 ```
 Business Transaction (QuickBooks invoice)
-          â†“
+ v
 FORAY Decomposition (4 components)
-  â†’ Arrangement (parties, terms)
-  â†’ Accrual (revenue recognition)
-  â†’ Anticipation (expected payment)
-  â†’ Action (cash received)
-          â†“
+ -> Arrangement (parties, terms)
+ -> Accrual (revenue recognition)
+ -> Anticipation (expected payment)
+ -> Action (cash received)
+ v
 Privacy Layers Applied (3-layer architecture, ZK-ready)
-  â†’ Identifier Hashing (customer names salted + hashed)
-  â†’ Formula Commitments (calculations committed as hashes)
-  â†’ Instance Pooling (multiple representations per formula)
-  â†’ Zero-Knowledge verification (future, when Kaspa supports ZK)
-          â†“
+ -> Identifier Hashing (customer names salted + hashed)
+ -> Formula Commitments (calculations committed as hashes)
+ -> Instance Pooling (multiple representations per formula)
+ -> Zero-Knowledge verification (future, when Kaspa supports ZK)
+ v
 Blockchain Anchoring (Kaspa)
-  â†’ ON-CHAIN: 150-byte merkle root hash
-  â†’ OFF-CHAIN: Full transaction details in encrypted database
-          â†“
+ -> ON-CHAIN: 150-byte merkle root hash
+ -> OFF-CHAIN: Full transaction details in encrypted database
+ v
 Selective Disclosure (ZK proofs)
-  â†’ Auditors: Prove transaction valid without revealing details
-  â†’ Regulators: Disclose specific transactions on demand
-  â†’ Public: Zero knowledge (only hash visible)
+ -> Auditors: Prove transaction valid without revealing details
+ -> Regulators: Disclose specific transactions on demand
+ -> Public: Zero knowledge (only hash visible)
 ```
 
 **What FORAY solves (combines ALL previous eras):**
 
-âœ… **Immutability** (from blockchain)
+[OK] **Immutability** (from blockchain)
 - Transactions cryptographically anchored to Kaspa
 - Changing history requires breaking SHA-256 + rewriting blockchain
 - Designed with defense-in-depth; quantum computing impact depends on future developments + $2M-$5M to break
 
-âœ… **Privacy** (from commodity money's fungibility + modern cryptography)
+[OK] **Privacy** (from commodity money's fungibility + modern cryptography)
 - Competitors see only random hashes, not business details
 - 3-layer privacy architecture prevents pattern analysis
 - Multiple independent defense layers raise the cost of pattern analysis
 
-âœ… **Auditability** (from double-entry bookkeeping)
+[OK] **Auditability** (from double-entry bookkeeping)
 - 4-component model captures full economic substance
 - Accruals separate from cash flows (matching principle)
 - Auditors verify 100% of transactions, not 1% sample
 
-âœ… **Selective disclosure** (NEW capability, impossible in previous eras)
+[OK] **Selective disclosure** (NEW capability, impossible in previous eras)
 - Prove transaction validity to auditors WITHOUT revealing to public
 - ZK-SNARKs: "This invoice calculation is correct" without showing formula
 - Regulators get access on demand, competitors get nothing
 
-âœ… **Speed + Scale** (from ERP systems)
+[OK] **Speed + Scale** (from ERP systems)
 - Sub-second Kaspa finality (per Kaspa documentation; actual performance may vary) (vs 10+ min Bitcoin)
 - Theoretical throughput capacity of 1,000+ tx/s (vs 7 tx/s Bitcoin)
 - Low transaction costs (fees subject to network conditions) (vs $1-$50 Ethereum)
 
-âœ… **Business logic** (from double-entry + ERP)
+[OK] **Business logic** (from double-entry + ERP)
 - 4-component model handles complex multi-step transactions
 - Formula registry for calculations (interest, depreciation, taxes)
-- Progressive maturation (agreement â†’ calculation â†’ projection â†’ settlement)
+- Progressive maturation (agreement -> calculation -> projection -> settlement)
 
-âœ… **Regulatory compliance** (NEW capability)
+[OK] **Regulatory compliance** (NEW capability)
 - SOX 404: Tamper-evident evidence supporting internal control documentation
 - DCAA: Cryptographic proof of cost allocation timing
 - SEC 17a-4: Tamper-proof record retention (5-7 years)
@@ -333,34 +333,34 @@ Selective Disclosure (ZK proofs)
 
 ## Why Each Era Required the Next
 
-### Barter â†’ Commodity Money
-**Problem:** Double coincidence of wants = 90% of trades impossible  
-**Solution:** Universally accepted intermediary (salt, grain)  
+### Barter -> Commodity Money
+**Problem:** Double coincidence of wants = 90% of trades impossible 
+**Solution:** Universally accepted intermediary (salt, grain) 
 **But created:** Bulkiness, perishability, no credit
 
-### Commodity Money â†’ Precious Metals
-**Problem:** Commodity money bulky, degrades, hard to verify quality  
-**Solution:** Dense, durable, government-guaranteed coinage  
+### Commodity Money -> Precious Metals
+**Problem:** Commodity money bulky, degrades, hard to verify quality 
+**Solution:** Dense, durable, government-guaranteed coinage 
 **But created:** Still physical (theft risk), no transaction records
 
-### Precious Metals â†’ Double-Entry
-**Problem:** Cash transactions leave no audit trail, no credit mechanism  
-**Solution:** Ledgers track debits/credits, enable deferred settlement  
+### Precious Metals -> Double-Entry
+**Problem:** Cash transactions leave no audit trail, no credit mechanism 
+**Solution:** Ledgers track debits/credits, enable deferred settlement 
 **But created:** Trust-based system, retroactive alteration possible
 
-### Double-Entry â†’ ERP Systems
-**Problem:** Manual ledgers slow, error-prone, geographically silo'd  
-**Solution:** Computerized databases, real-time, globally synchronized  
+### Double-Entry -> ERP Systems
+**Problem:** Manual ledgers slow, error-prone, geographically silo'd 
+**Solution:** Computerized databases, real-time, globally synchronized 
 **But created:** **CRITICAL FAILURE** - Database admins can alter history, no immutability proof
 
-### ERP Systems â†’ Public Blockchains
-**Problem:** Enron, WorldCom, Wirecard prove centralized ledgers can't be trusted  
-**Solution:** Distributed, cryptographically immutable blockchain  
+### ERP Systems -> Public Blockchains
+**Problem:** Enron, WorldCom, Wirecard prove centralized ledgers can't be trusted 
+**Solution:** Distributed, cryptographically immutable blockchain 
 **But created:** **CRITICAL FAILURE** - Total transparency = competitive intelligence leak
 
-### Public Blockchains â†’ FORAY
-**Problem:** Blockchain transparency incompatible with enterprise confidentiality  
-**Solution:** Privacy-preserving tamper-evident audit with selective disclosure  
+### Public Blockchains -> FORAY
+**Problem:** Blockchain transparency incompatible with enterprise confidentiality 
+**Solution:** Privacy-preserving tamper-evident audit with selective disclosure 
 **Result:** **SOLVES THE FINAL PARADOX**
 
 ---
@@ -373,24 +373,24 @@ Selective Disclosure (ZK proofs)
 
 This was **impossible** until 2026 because:
 
-1. **Barter â†’ ERP:** Transparency required for verification  
-   - To prove you paid, counterparty must see payment
-   - To audit ledger, auditor must read all entries
+1. **Barter -> ERP:** Transparency required for verification 
+ - To prove you paid, counterparty must see payment
+ - To audit ledger, auditor must read all entries
 
-2. **Public Blockchain:** Transparency enforced by protocol  
-   - Everyone sees everything (immutability requires transparency)
+2. **Public Blockchain:** Transparency enforced by protocol 
+ - Everyone sees everything (immutability requires transparency)
 
-3. **Private Blockchain:** Verification limited to consortium  
-   - Immutable within group, but outsiders can't verify
+3. **Private Blockchain:** Verification limited to consortium 
+ - Immutable within group, but outsiders can't verify
 
 **FORAY's breakthrough:** Separate **cryptographic proof** from **data disclosure**
 
 ```
 Traditional audit:
-  "Show me the transaction" â†’ See all details â†’ Verify accuracy
+ "Show me the transaction" -> See all details -> Verify accuracy
 
 FORAY audit:
-  "Verify merkle proof" â†’ See only hash â†’ Cryptographic certainty WITHOUT disclosure
+ "Verify merkle proof" -> See only hash -> Cryptographic certainty WITHOUT disclosure
 ```
 
 This is the **first time in history** an auditor can verify 100% of transactions without seeing 100% of transaction details.
@@ -462,19 +462,19 @@ Future advances that might extend or replace FORAY's approach:
 
 ```
 Barter (10,000 BCE)
-  â†’ Problem: Double coincidence
-    â†’ Commodity Money (3,000 BCE)
-      â†’ Problem: Bulky, perishable
-        â†’ Precious Metals (600 BCE)
-          â†’ Problem: No credit, no records
-            â†’ Double-Entry (1340 CE)
-              â†’ Problem: Retroactive alteration
-                â†’ ERP Systems (1960)
-                  â†’ Problem: Still alterable by admins
-                    â†’ Public Blockchain (2009)
-                      â†’ Problem: Total transparency
-                        â†’ FORAY (2026)
-                          â†’ SOLVES: Immutable + Private + Auditable
+ -> Problem: Double coincidence
+ -> Commodity Money (3,000 BCE)
+ -> Problem: Bulky, perishable
+ -> Precious Metals (600 BCE)
+ -> Problem: No credit, no records
+ -> Double-Entry (1340 CE)
+ -> Problem: Retroactive alteration
+ -> ERP Systems (1960)
+ -> Problem: Still alterable by admins
+ -> Public Blockchain (2009)
+ -> Problem: Total transparency
+ -> FORAY (2026)
+ -> SOLVES: Immutable + Private + Auditable
 ```
 
 ### The First Principles Foundation:
@@ -500,9 +500,9 @@ Barter (10,000 BCE)
 
 **FORAY makes this gap computationally impractical to exploit without detection.**
 
-The transaction timestamp is cryptographically anchored to blockchain finality. Altering the record would require breaking SHA-256 AND rewriting the Kaspa blockchain AND doing so before anyone notices — a combination designed to be economically irrational for adversaries.
+The transaction timestamp is cryptographically anchored to blockchain finality. Altering the record would require breaking SHA-256 AND rewriting the Kaspa blockchain AND doing so before anyone notices -- a combination designed to be economically irrational for adversaries.
 
-**FORAY provides cryptographic evidence linking "what happened" to "what the records say" — a capability no previous transaction technology has offered at enterprise scale.**
+**FORAY provides cryptographic evidence linking "what happened" to "what the records say" -- a capability no previous transaction technology has offered at enterprise scale.**
 
 ---
 
@@ -513,7 +513,7 @@ FORAY is not just "another blockchain project." It's the **culmination of 5,000 
 **How do we coordinate economic activity between parties who don't fully trust each other?**
 
 Each era solved one aspect:
-- Barter â†’ Commodity money â†’ Precious metals: **Solved trust in value**
+- Barter -> Commodity money -> Precious metals: **Solved trust in value**
 - Double-entry: **Solved trust in recordkeeping** (with trust assumption)
 - ERP: **Solved trust in scale/speed** (with trust assumption)
 - Blockchain: **Solved trust in immutability** (but destroyed privacy)
@@ -527,7 +527,7 @@ FORAY addresses the final unsolved paradox in the 5,000-year arc of transaction 
 
 ---
 
-**FORAY aims to make business transactions tamper-evident, private, and cryptographically verifiable — advancing the 5,000-year quest for trustworthy recordkeeping.**
+**FORAY aims to make business transactions tamper-evident, private, and cryptographically verifiable -- advancing the 5,000-year quest for trustworthy recordkeeping.**
 
 ## Contact
 

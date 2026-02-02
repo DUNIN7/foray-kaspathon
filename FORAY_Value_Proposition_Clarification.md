@@ -17,26 +17,26 @@ The distinction is crucial:
 
 | Claim Type | FORAY Can Make | FORAY Cannot Make |
 |------------|----------------|-------------------|
-| Audit Efficiency | âœ… "Reduces audit prep time by 60%" | |
-| Tamper Detection | âœ… "Detects record modification after anchoring" | |
-| Structural Integrity | âœ… "Ensures transaction components link correctly" | |
-| Anomaly Flagging | âœ… "Highlights missing linkages for investigation" | |
-| Fraud Prevention | | âŒ "Prevents fraud from occurring" |
-| Verification of Truth | | âŒ "Proves claims are accurate" |
-| Data Validation | | âŒ "Verifies service was actually delivered" |
+| Audit Efficiency | [OK] "Reduces audit prep time by 60%" | |
+| Tamper Detection | [OK] "Detects record modification after anchoring" | |
+| Structural Integrity | [OK] "Ensures transaction components link correctly" | |
+| Anomaly Flagging | [OK] "Highlights missing linkages for investigation" | |
+| Fraud Prevention | | [X] "Prevents fraud from occurring" |
+| Verification of Truth | | [X] "Proves claims are accurate" |
+| Data Validation | | [X] "Verifies service was actually delivered" |
 
 ---
 
-## The Core Insight: Structure â‰  Verification
+## The Core Insight: Structure != Verification
 
 ### What FORAY Actually Does
 
 FORAY creates **structured, tamper-evident records** of **claimed** transactions. It ensures:
 
-1. **Structural completeness** â€” Every payment (Action) has linked service claims (Accruals) and contracts (Arrangements)
-2. **Temporal immutability** â€” Once anchored to Kaspa, records cannot be modified without detection
-3. **Component traceability** â€” Auditors can follow the chain: Action â†’ Anticipation â†’ Accrual â†’ Arrangement
-4. **Formula integrity** â€” Calculation logic (hashed) can be verified against results
+1. **Structural completeness** -- Every payment (Action) has linked service claims (Accruals) and contracts (Arrangements)
+2. **Temporal immutability** -- Once anchored to Kaspa, records cannot be modified without detection
+3. **Component traceability** -- Auditors can follow the chain: Action -> Anticipation -> Accrual -> Arrangement
+4. **Formula integrity** -- Calculation logic (hashed) can be verified against results
 
 ### What FORAY Does NOT Do
 
@@ -67,7 +67,7 @@ The peer review used the Minnesota meal fraud case to expose FORAY's limitations
 | FORAY Component | What It Captures | What It Proves |
 |-----------------|------------------|----------------|
 | Arrangement | Contract to provide meal services | Contract exists |
-| Accrual | Formula: meals Ã— $5.50 = $825 | Math is correct |
+| Accrual | Formula: meals  x  $5.50 = $825 | Math is correct |
 | Anticipation | Expected payment of $825 | Payment was expected |
 | Action | Actual payment of $825 | Payment was made |
 
@@ -75,7 +75,7 @@ The peer review used the Minnesota meal fraud case to expose FORAY's limitations
 
 A fraudster would simply:
 1. Create a fake Arrangement (contract)
-2. Create a fake Accrual (150 meals Ã— rate)
+2. Create a fake Accrual (150 meals  x  rate)
 3. Create a fake Anticipation (expected payment)
 4. Receive a real Action (payment)
 
@@ -88,30 +88,30 @@ A fraudster would simply:
 FORAY's honest value proposition requires acknowledging that **fraud prevention requires two layers**:
 
 ```
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚                    COMPLETE FRAUD MITIGATION                     â”‚
-â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
-â”‚                                                                 â”‚
-â”‚   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”       â”‚
-â”‚   â”‚    FORAY Protocol     â”‚    â”‚    Attestations       â”‚       â”‚
-â”‚   â”‚    (Structure)        â”‚    â”‚    (Governance)       â”‚       â”‚
-â”‚   â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤    â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤       â”‚
-â”‚   â”‚ â€¢ Structured claims   â”‚    â”‚ â€¢ Independent verify  â”‚       â”‚
-â”‚   â”‚ â€¢ Tamper detection    â”‚    â”‚ â€¢ Third-party confirm â”‚       â”‚
-â”‚   â”‚ â€¢ Component linkage   â”‚    â”‚ â€¢ Physical inspection â”‚       â”‚
-â”‚   â”‚ â€¢ Formula integrity   â”‚    â”‚ â€¢ Sensor data (IoT)   â”‚       â”‚
-â”‚   â”‚ â€¢ Blockchain timestampâ”‚    â”‚ â€¢ Digital signatures  â”‚       â”‚
-â”‚   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜    â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜       â”‚
-â”‚              â”‚                          â”‚                       â”‚
-â”‚              â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜                       â”‚
-â”‚                         â”‚                                       â”‚
-â”‚                         â–¼                                       â”‚
-â”‚              â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”                         â”‚
-â”‚              â”‚  FRAUD PREVENTION     â”‚                         â”‚
-â”‚              â”‚  Requires BOTH        â”‚                         â”‚
-â”‚              â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜                         â”‚
-â”‚                                                                 â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
++-----------------------------------------------------------------+
+|                    COMPLETE FRAUD MITIGATION                     |
++-----------------------------------------------------------------+
+|                                                                 |
+|   +-----------------------+    +-----------------------+       |
+|   |    FORAY Protocol     |    |    Attestations       |       |
+|   |    (Structure)        |    |    (Governance)       |       |
+|   +-----------------------+    +-----------------------+       |
+|   | * Structured claims   |    | * Independent verify  |       |
+|   | * Tamper detection    |    | * Third-party confirm |       |
+|   | * Component linkage   |    | * Physical inspection |       |
+|   | * Formula integrity   |    | * Sensor data (IoT)   |       |
+|   | * Blockchain timestamp|    | * Digital signatures  |       |
+|   ------------------------+    ------------------------+       |
+|              |                          |                       |
+|              -----------+---------------+                       |
+|                         |                                       |
+|                         v                                       |
+|              +-----------------------+                         |
+|              |  FRAUD PREVENTION     |                         |
+|              |  Requires BOTH        |                         |
+|              ------------------------+                         |
+|                                                                 |
+------------------------------------------------------------------+
 ```
 
 ---
@@ -132,23 +132,23 @@ FORAY's honest value proposition requires acknowledging that **fraud prevention 
 
 ## Website Copy Audit and Corrections
 
-### index.html â€” Current vs. Corrected
+### index.html -- Current vs. Corrected
 
 | Section | Current Copy | Issue | Corrected Copy |
 |---------|--------------|-------|----------------|
 | Hero subtitle | "creates tamper-proof blockchain audit trails" | Acceptable | No change needed |
 | Problem section | "Problems are discovered months or years later" | Acceptable | No change needed |
-| Benefits â€” Immutable Proof | "No oneâ€”not even system administratorsâ€”can alter the record" | Acceptable | No change needed |
+| Benefits -- Immutable Proof | "No one--not even system administrators--can alter the record" | Acceptable | No change needed |
 
 **Assessment:** index.html is actually well-positioned. It focuses on audit trails, not fraud prevention.
 
-### about.html â€” Current vs. Corrected
+### about.html -- Current vs. Corrected
 
 | Section | Current Copy | Issue | Corrected Copy |
 |---------|--------------|-------|----------------|
-| Overview | "enables cryptographic verification" | Vagueâ€”verification of what? | "enables cryptographic verification of record integrity" |
+| Overview | "enables cryptographic verification" | Vague--verification of what? | "enables cryptographic verification of record integrity" |
 
-### foray-infographic-v41.html â€” Attestations Section
+### foray-infographic-v41.html -- Attestations Section
 
 **Current (Good):**
 > "FORAY creates a tamper-evident record of *claimed* transactions. Attestations provide independent verification of those claims."
@@ -198,7 +198,7 @@ Add to `docs.html` and `about.html`:
 
 **Current:** "Transparent audits, protected secrets, powered by Kaspa."
 
-**Recommended:** No change â€” this is accurate and appropriate.
+**Recommended:** No change -- this is accurate and appropriate.
 
 ### 3. Add Attestation Context to Use Case Cards
 
@@ -230,16 +230,16 @@ For each sector (Defense, Financial, Manufacturing, Energy), add:
 
 ### Tier 2: Secondary Value Proposition
 
-> **"FORAY's 4-component model creates clear linkage between contracts, calculations, expectations, and settlementsâ€”making anomalies immediately visible for investigation."**
+> **"FORAY's 4-component model creates clear linkage between contracts, calculations, expectations, and settlements--making anomalies immediately visible for investigation."**
 
 **Why this works:**
-- "Anomalies visible" is accurateâ€”FORAY flags gaps
+- "Anomalies visible" is accurate--FORAY flags gaps
 - "For investigation" acknowledges further verification needed
 - No claim that FORAY catches fraud
 
 ### Tier 3: Complete Solution Framing
 
-> **"Combined with attestation mechanismsâ€”IoT sensors, third-party verification, digital signaturesâ€”FORAY enables comprehensive audit trails that deter fraud through transparency and early detection."**
+> **"Combined with attestation mechanisms--IoT sensors, third-party verification, digital signatures--FORAY enables comprehensive audit trails that deter fraud through transparency and early detection."**
 
 **Why this works:**
 - "Combined with" acknowledges FORAY alone isn't sufficient
@@ -286,17 +286,17 @@ For each sector (Defense, Financial, Manufacturing, Energy), add:
 
 ### If FORAY Overclaims Fraud Prevention:
 
-1. **Legal liability** â€” "You said FORAY prevents fraud; we got defrauded"
-2. **Credibility damage** â€” Peer reviewers will publicly critique
-3. **Regulatory skepticism** â€” Treasury/SEC will see through claims
-4. **Implementation failure** â€” Organizations won't add attestations
+1. **Legal liability** -- "You said FORAY prevents fraud; we got defrauded"
+2. **Credibility damage** -- Peer reviewers will publicly critique
+3. **Regulatory skepticism** -- Treasury/SEC will see through claims
+4. **Implementation failure** -- Organizations won't add attestations
 
 ### If FORAY Claims Accurately:
 
-1. **Trust building** â€” Honest positioning builds enterprise credibility
-2. **Upsell opportunity** â€” Attestation layer becomes consulting revenue
-3. **Regulatory partnership** â€” Honest dialogue with government agencies
-4. **Academic validation** â€” Publishable, defensible claims
+1. **Trust building** -- Honest positioning builds enterprise credibility
+2. **Upsell opportunity** -- Attestation layer becomes consulting revenue
+3. **Regulatory partnership** -- Honest dialogue with government agencies
+4. **Academic validation** -- Publishable, defensible claims
 
 ---
 

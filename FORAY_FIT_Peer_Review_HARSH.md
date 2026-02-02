@@ -61,7 +61,7 @@ The privacy claims contain a **fundamental contradiction**:
 formula correctness without seeing individual records" (p.2). This is 
 **cryptographically impossible** with the described architecture.
 
-To verify "150 children Ã— 2 meals Ã— $5.00 = $1,500" correctness, auditors 
+To verify "150 children  x  2 meals  x  $5.00 = $1,500" correctness, auditors 
 must either:
 - See the underlying data (children count, meal count, rate) - breaking privacy
 - Trust the provider's self-attestation - negating audit value
@@ -118,7 +118,7 @@ data to:
 - Statistical power analysis for sample size
 - Control group methodology (how do you measure improvement?)
 - Pre-specified analysis plan to prevent p-hacking
-- Discussion of selection bias (volunteers â‰  fraudsters)
+- Discussion of selection bias (volunteers != fraudsters)
 
 ---
 
@@ -132,7 +132,7 @@ when providers don't follow the protocol*.
 - Can providers submit transactions directly, or must they go through a 
   trusted intermediary?
 - Who validates Accrual formulas before they're anchored?
-- What prevents a provider from anchoring "150 children Ã— 2 meals" when they
+- What prevents a provider from anchoring "150 children  x  2 meals" when they
   actually served 10 children?
 - How do you handle providers who refuse to adopt FORAY?
 - What are the legal/contractual enforcement mechanisms?
@@ -305,7 +305,7 @@ scope boundaries.
 7. **Academic Foundation:** Where are the citations? Where's the literature
    review? Where's the comparison to blockchain audit research?
 
-8. **Realistic Timeline:** 6-month pilot â†’ production deployment is fantasy
+8. **Realistic Timeline:** 6-month pilot -> production deployment is fantasy
    in government context. Where's the 3-5 year roadmap?
 
 ---
@@ -354,7 +354,7 @@ scope boundaries.
 - Add citations/references
 - Include stakeholder quotes/testimonials (if any)
 - Add technical architecture diagrams
-- Specify exact FORAYâ†’FIT integration points
+- Specify exact FORAY->FIT integration points
 - Define all acronyms on first use
 - Add glossary of 4A terms
 
@@ -385,7 +385,7 @@ immediately, potentially damaging credibility for future engagement.
 ## CONTACT
 
 **Reviewer Note:** This critique is harsh by design per your request. The 
-underlying FORAY concept has meritâ€”the presentation needs significant 
+underlying FORAY concept has merit--the presentation needs significant 
 hardening before government engagement.
 
 ---

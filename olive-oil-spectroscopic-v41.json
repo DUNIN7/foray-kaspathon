@@ -39,7 +39,7 @@
           "grove_registration": "IT-TOS-GR-4521",
           "olive_varieties": ["Frantoio", "Leccino", "Moraiolo"],
           "harvest_method": "Hand-picked and mechanical (combined)",
-          "pressing_method": "Cold extraction (<27Â°C)",
+          "pressing_method": "Cold extraction (<27 degC)",
           "spectroscopic_method": "NIR-Raman-Hybrid",
           "oracle_certification_id": "SLI-CERT-2026-0891"
         },
@@ -120,7 +120,7 @@
         "tolerance_model": {
           "acceptable_deviation_percent": 3.0,
           "degradation_formula_id": "sha256:evoo_aging_model...",
-          "temperature_sensitivity": "Enc(0.5% per 10Â°C above 20Â°C)",
+          "temperature_sensitivity": "Enc(0.5% per 10 degC above 20 degC)",
           "light_sensitivity": "Enc(0.2% per 100 lux-hours)"
         },
         "output": 1.0,
@@ -190,7 +190,7 @@
           "degradation_model_id": "sha256:evoo_aging_model..."
         },
         "conditions": {
-          "temperature_breach_alert": "if stored >25Â°C for >48h, fingerprint may drift",
+          "temperature_breach_alert": "if stored >25 degC for >48h, fingerprint may drift",
           "seal_integrity_required": true,
           "uv_exposure_limit_lux_hours": 1000
         },

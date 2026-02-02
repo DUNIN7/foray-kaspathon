@@ -90,11 +90,11 @@ pm2 status
 **You should see a table that includes a row like:**
 
 ```
-â”Œâ”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚ id  â”‚ name        â”‚ mode        â”‚ status  â”‚ restarts â”‚ cpu  â”‚ memory â”‚
-â”œâ”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”¤
-â”‚ 0   â”‚ foray-api   â”‚ fork        â”‚ online  â”‚ 0        â”‚ 0%   â”‚ 50mb   â”‚
-â””â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”˜
++-----+-------------+-------------+---------+----------+------+--------+
+| id  | name        | mode        | status  | restarts | cpu  | memory |
++-----+-------------+-------------+---------+----------+------+--------+
+| 0   | foray-api   | fork        | online  | 0        | 0%   | 50mb   |
+------+-------------+-------------+---------+----------+------+--------+
 ```
 
 The important thing is that `foray-api` appears and the status says `online`.
@@ -206,7 +206,7 @@ pm2 restart foray-api
 
 ```
 [PM2] Applying action restartProcessId on app [foray-api](ids: [ 0 ])
-[PM2] [foray-api](0) âœ“
+[PM2] [foray-api](0) [CHECK]
 ```
 
 **Wait 3 seconds**, then verify it's running. **Type this and press Return:**
@@ -252,9 +252,9 @@ curl http://localhost:3001/health
 
 **What to check:**
 
-- `"status": "healthy"` â€” the server is running
-- `"version": "2.0.0"` â€” you're running the new version (not the old one)
-- `"apiKeyConfigured": true` â€” your API key is loaded
+- `"status": "healthy"` -- the server is running
+- `"version": "2.0.0"` -- you're running the new version (not the old one)
+- `"apiKeyConfigured": true` -- your API key is loaded
 - All four features show `true`
 
 > **If you see "Connection refused":** The server isn't running. Type `pm2 restart foray-api` and try again.
@@ -274,7 +274,7 @@ Let's generate an actual FORAY transaction to make sure everything works end to 
 ```bash
 curl -X POST http://localhost:3001/api/generate-foray \
   -H "Content-Type: application/json" \
-  -d '{"transactionName":"Test Cash Sale","transactionDescription":"Walk-in customer bought coffee for $5.50 cash at register 1."}' \
+  -d -> {"transactionName":"Test Cash Sale","transactionDescription":"Walk-in customer bought coffee for $5.50 cash at register 1."}' \
   2>/dev/null | python3 -m json.tool | head -30
 ```
 
@@ -297,11 +297,11 @@ curl -X POST http://localhost:3001/api/generate-foray \
 
 **What to check:**
 
-- You see `"forayJSON"` â€” the transaction was generated
-- You see `"narrative"` â€” the new narrative feature is working
-- You see `"validation"` â€” the new validation feature is working
+- You see `"forayJSON"` -- the transaction was generated
+- You see `"narrative"` -- the new narrative feature is working
+- You see `"validation"` -- the new validation feature is working
 
-> **If you see an error about the API key:** Check your key at https://console.anthropic.com â€” it may be expired or have insufficient credits.
+> **If you see an error about the API key:** Check your key at https://console.anthropic.com -- it may be expired or have insufficient credits.
 >
 > **This call costs approximately $0.05-0.10** in Anthropic API usage.
 
@@ -408,7 +408,7 @@ git commit -m "Update API server to v2.0.0, business analyzer to v2.0.0 with nar
 git push
 ```
 
-> **If git push asks for a password:** GitHub no longer accepts passwords. You need a Personal Access Token. Go to github.com â†’ Settings â†’ Developer Settings â†’ Personal Access Tokens â†’ Generate New Token. Use that token as your password.
+> **If git push asks for a password:** GitHub no longer accepts passwords. You need a Personal Access Token. Go to github.com -> Settings -> Developer Settings -> Personal Access Tokens -> Generate New Token. Use that token as your password.
 
 ---
 
@@ -468,7 +468,7 @@ Or find where the website files are served from:
 ps aux | grep python
 ```
 
-Look for a line that shows `python3 -m http.server 9000` â€” the path before it is your website folder.
+Look for a line that shows `python3 -m http.server 9000` -- the path before it is your website folder.
 
 ---
 
@@ -485,7 +485,7 @@ Common errors:
 | Error message | What it means | Fix |
 |--------------|---------------|-----|
 | `SyntaxError: Unexpected token` | The file got corrupted during download | Download `foray-api-server.js` again |
-| `Cannot find module 'express'` | Dependencies not installed | Type `cd ~/foray-api && npm install` |
+| `Cannot find module -> express'` | Dependencies not installed | Type `cd ~/foray-api && npm install` |
 | `EADDRINUSE: address already in use` | Something else is using port 3001 | Type `lsof -i :3001` to see what, then `kill -9 PID` (replace PID with the number shown) |
 
 After fixing, type `pm2 restart foray-api` to try again.

@@ -34,7 +34,7 @@
 ### For Reviewers Comparing to v3.0
 - All v3.0 content is preserved in `foray_core`
 - New content is in `audit_data` sections
-- Breaking changes are marked with âš ï¸
+- Breaking changes are marked with [!]
 
 ### To Revert to v3.0
 - Ignore `audit_data` sections entirely
@@ -52,7 +52,7 @@
 5. [Sealed Archive Specification](#5-sealed-archive-specification)
 6. [Processing Pipeline](#6-processing-pipeline)
 7. [Verification Protocols](#7-verification-protocols)
-8. [Migration Guide (v3.0 â†’ v4.0)](#8-migration-guide-v30--v40)
+8. [Migration Guide (v3.0 -> v4.0)](#8-migration-guide-v30--v40)
 9. [Appendices](#9-appendices)
 
 ---
@@ -72,23 +72,23 @@
 
 ## 1.2 Design Principles (Unchanged from v3.0)
 
-1. **Source System Trust** â€” FORAY trusts validated ERP data
-2. **4-Component Model** â€” Arrangements â†’ Accruals â†’ Anticipations â†’ Actions
-3. **Immutable Anchoring** â€” Blockchain provides tamper-proof timestamps
-4. **Privacy Preservation** â€” Hash-based verification without data exposure
+1. **Source System Trust** -- FORAY trusts validated ERP data
+2. **4-Component Model** -- Arrangements -> Accruals -> Anticipations -> Actions
+3. **Immutable Anchoring** -- Blockchain provides tamper-proof timestamps
+4. **Privacy Preservation** -- Hash-based verification without data exposure
 
 ## 1.3 New Design Principles (v4.0)
 
-5. **Separation of Concerns** â€” Core protocol separate from audit metadata
-6. **Layered Storage** â€” Right data in right place at right cost
-7. **Sealed Archive** â€” Complete record preserved with forensic-grade controls
-8. **Async Sealing** â€” User-facing latency independent of archive operations
+5. **Separation of Concerns** -- Core protocol separate from audit metadata
+6. **Layered Storage** -- Right data in right place at right cost
+7. **Sealed Archive** -- Complete record preserved with forensic-grade controls
+8. **Async Sealing** -- User-facing latency independent of archive operations
 
 ---
 
 # 2. Core Protocol (foray_core)
 
-> â„¹ï¸ **Compatibility Note:** This section contains all v3.0 functionality. Systems implementing only this section are fully v3.0 compatible.
+> [i] **Compatibility Note:** This section contains all v3.0 functionality. Systems implementing only this section are fully v3.0 compatible.
 
 ## 2.1 Transaction Structure
 
@@ -145,19 +145,19 @@
 
 | Field | Type | Required | Description | v3.0 Equivalent |
 |-------|------|:--------:|-------------|-----------------|
-| `transaction_id` | string | âœ… | Unique identifier | Same |
-| `schema_version` | string | âœ… | Protocol version | `_v` |
-| `timestamp` | ISO-8601 | âœ… | Creation timestamp | Same |
-| `foray_core` | object | âœ… | Core transaction data | **NEW** (was flat) |
-| `component_hashes` | object | âœ… | Hash of each component | **NEW** |
-| `arrangements` | array | âœ… | Arrangement components | Same |
-| `accruals` | array | âšª | Accrual components | Same |
-| `anticipations` | array | âšª | Anticipation components | Same |
-| `actions` | array | âšª | Action components | Same |
-| `merkle_root` | string | âœ… | Root hash of all components | `_mr` |
-| `blockchain_anchor` | object | âœ… | On-chain anchoring details | **NEW** (was `kaspa_commitment`) |
-| `audit_data_anchor` | object | âšª | Reference to audit_data | **NEW** |
-| `privacy_metadata` | object | âšª | Privacy settings | Same |
+| `transaction_id` | string | [OK] | Unique identifier | Same |
+| `schema_version` | string | [OK] | Protocol version | `_v` |
+| `timestamp` | ISO-8601 | [OK] | Creation timestamp | Same |
+| `foray_core` | object | [OK] | Core transaction data | **NEW** (was flat) |
+| `component_hashes` | object | [OK] | Hash of each component | **NEW** |
+| `arrangements` | array | [OK] | Arrangement components | Same |
+| `accruals` | array | [ ] | Accrual components | Same |
+| `anticipations` | array | [ ] | Anticipation components | Same |
+| `actions` | array | [ ] | Action components | Same |
+| `merkle_root` | string | [OK] | Root hash of all components | `_mr` |
+| `blockchain_anchor` | object | [OK] | On-chain anchoring details | **NEW** (was `kaspa_commitment`) |
+| `audit_data_anchor` | object | [ ] | Reference to audit_data | **NEW** |
+| `privacy_metadata` | object | [ ] | Privacy settings | Same |
 
 ## 2.2 Component Structures
 
@@ -325,26 +325,26 @@ For on-chain payload optimization, the following key mapping is supported:
 | `audit_data` | `ad` | 8 |
 | `merkle_root` | `mr` | 10 |
 
-âš ï¸ **v4.0 Addition:** When `audit_data` is present, only `audit_data_hash` goes on-chain, not the full `audit_data` object.
+[!] **v4.0 Addition:** When `audit_data` is present, only `audit_data_hash` goes on-chain, not the full `audit_data` object.
 
 ---
 
 # 3. Audit Data Extension (audit_data)
 
-> â„¹ï¸ **New in v4.0:** This entire section is new. For v3.0 compatibility, this section can be omitted entirely.
+> [i] **New in v4.0:** This entire section is new. For v3.0 compatibility, this section can be omitted entirely.
 
 ## 3.1 Design Philosophy
 
 The `audit_data` section contains fields required for enterprise audit compliance that are not essential to FORAY's core anchoring mission:
 
-- **Source traceability** â€” ERP document numbers, modules, line items
-- **Authorization chain** â€” Who created, approved, posted
-- **GL detail** â€” Account codes, names, types, chart of accounts
-- **Organizational assignment** â€” Cost centers, profit centers, projects
-- **Tax detail** â€” Tax codes, jurisdictions, withholding
-- **Posting control** â€” Status, reversal flags, clearing documents
-- **Compliance metadata** â€” SOX control points, DCAA contract details
-- **Forensic chain** â€” Extraction certification, custody chain
+- **Source traceability** -- ERP document numbers, modules, line items
+- **Authorization chain** -- Who created, approved, posted
+- **GL detail** -- Account codes, names, types, chart of accounts
+- **Organizational assignment** -- Cost centers, profit centers, projects
+- **Tax detail** -- Tax codes, jurisdictions, withholding
+- **Posting control** -- Status, reversal flags, clearing documents
+- **Compliance metadata** -- SOX control points, DCAA contract details
+- **Forensic chain** -- Extraction certification, custody chain
 
 ## 3.2 Audit Profiles
 
@@ -760,7 +760,7 @@ Different use cases require different audit completeness levels:
 
 ## 3.8 DCAA Extension (dcaa_full profile)
 
-> â„¹ï¸ **When to Use:** Required for defense contracts subject to DCAA audit.
+> [i] **When to Use:** Required for defense contracts subject to DCAA audit.
 
 ```json
 {
@@ -841,34 +841,34 @@ Different use cases require different audit completeness levels:
 
 # 4. Three-Layer Storage Architecture
 
-> â„¹ï¸ **New in v4.0:** This entire section is new.
+> [i] **New in v4.0:** This entire section is new.
 
 ## 4.1 Architecture Overview
 
 ```
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚                    FORAY STORAGE LAYERS                          â”‚
-â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
-â”‚                                                                  â”‚
-â”‚  LAYER 1: ON-CHAIN (Kaspa/Cardano)                              â”‚
-â”‚  Purpose: Verification, tamper-proof timestamps                  â”‚
-â”‚  Content: foray_core hashes, audit_data_hash, sealing pointer   â”‚
-â”‚  Size: ~500 bytes per transaction                               â”‚
-â”‚  Access: Public, continuous                                      â”‚
-â”‚                                                                  â”‚
-â”‚  LAYER 2: OFF-CHAIN NoSQL (MongoDB + DocumentDB)                â”‚
-â”‚  Purpose: Operational queries, day-to-day audit                 â”‚
-â”‚  Content: Full foray_core + full audit_data                     â”‚
-â”‚  Size: ~15-20 KB per transaction                                â”‚
-â”‚  Access: Authorized users, standard authentication              â”‚
-â”‚                                                                  â”‚
-â”‚  LAYER 3: SEALED ARCHIVE (Arweave + Glacier)                    â”‚
-â”‚  Purpose: Litigation, regulatory, dispute resolution            â”‚
-â”‚  Content: Complete encrypted record                              â”‚
-â”‚  Size: ~5 KB compressed/encrypted per transaction               â”‚
-â”‚  Access: Multi-party ceremony, rare                             â”‚
-â”‚                                                                  â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
++-----------------------------------------------------------------+
+|                    FORAY STORAGE LAYERS                          |
++-----------------------------------------------------------------+
+|                                                                  |
+|  LAYER 1: ON-CHAIN (Kaspa/Cardano)                              |
+|  Purpose: Verification, tamper-proof timestamps                  |
+|  Content: foray_core hashes, audit_data_hash, sealing pointer   |
+|  Size: ~500 bytes per transaction                               |
+|  Access: Public, continuous                                      |
+|                                                                  |
+|  LAYER 2: OFF-CHAIN NoSQL (MongoDB + DocumentDB)                |
+|  Purpose: Operational queries, day-to-day audit                 |
+|  Content: Full foray_core + full audit_data                     |
+|  Size: ~15-20 KB per transaction                                |
+|  Access: Authorized users, standard authentication              |
+|                                                                  |
+|  LAYER 3: SEALED ARCHIVE (Arweave + Glacier)                    |
+|  Purpose: Litigation, regulatory, dispute resolution            |
+|  Content: Complete encrypted record                              |
+|  Size: ~5 KB compressed/encrypted per transaction               |
+|  Access: Multi-party ceremony, rare                             |
+|                                                                  |
+------------------------------------------------------------------+
 ```
 
 ## 4.2 Layer 1: On-Chain Structure
@@ -945,17 +945,17 @@ See Section 5 for complete sealed archive specification.
 
 # 5. Sealed Archive Specification
 
-> â„¹ï¸ **New in v4.0:** This entire section is new.
+> [i] **New in v4.0:** This entire section is new.
 
 ## 5.1 Purpose
 
 The sealed archive is a "break glass" repository containing complete, encrypted transaction records. It is:
 
-- **Complete** â€” Contains both foray_core AND full audit_data
-- **Encrypted** â€” AES-256-GCM with Shamir secret sharing
-- **Immutable** â€” Stored on permanent/locked storage
-- **Difficult to Access** â€” Multi-party ceremony required
-- **Tamper-Evident** â€” Access logged on-chain
+- **Complete** -- Contains both foray_core AND full audit_data
+- **Encrypted** -- AES-256-GCM with Shamir secret sharing
+- **Immutable** -- Stored on permanent/locked storage
+- **Difficult to Access** -- Multi-party ceremony required
+- **Tamper-Evident** -- Access logged on-chain
 
 ## 5.2 Sealed Record Structure
 
@@ -1121,36 +1121,36 @@ After sealing completes, a pointer record is anchored:
 
 ```
 ERP Transaction
-     â”‚
-     â–¼
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚  FORAY Adapter  â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”˜
-         â”‚
-         â”œâ”€â”€â–º Compute hashes
-         â”‚
-         â”‚    SYNCHRONOUS (User waits ~1.2s)
-         â”œâ”€â”€â–º Layer 1: Kaspa anchor
-         â”œâ”€â”€â–º Layer 2a: MongoDB write
-         â”œâ”€â”€â–º Layer 2b: DocumentDB write
-         â”‚
-         â”‚    âœ… User receives confirmation
-         â”‚
-         â”‚    ASYNCHRONOUS (Background)
-         â””â”€â”€â–º Layer 3: Sealing queue
-                    â”‚
-                    â–¼
-              â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-              â”‚ Sealing Workerâ”‚
-              â””â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”˜
-                      â”‚
-                      â”œâ”€â”€â–º Encrypt payload
-                      â”œâ”€â”€â–º Arweave upload
-                      â”œâ”€â”€â–º Glacier upload
-                      â”œâ”€â”€â–º Kaspa sealing pointer
-                      â”‚
-                      â–¼
-              âœ… Fully sealed
+     |
+     v
++-----------------+
+|  FORAY Adapter  |
+---------+--------+
+         |
+         +---> Compute hashes
+         |
+         |    SYNCHRONOUS (User waits ~1.2s)
+         +---> Layer 1: Kaspa anchor
+         +---> Layer 2a: MongoDB write
+         +---> Layer 2b: DocumentDB write
+         |
+         |    [OK] User receives confirmation
+         |
+         |    ASYNCHRONOUS (Background)
+         ----> Layer 3: Sealing queue
+                    |
+                    v
+              +---------------+
+              | Sealing Worker|
+              --------+-------+
+                      |
+                      +---> Encrypt payload
+                      +---> Arweave upload
+                      +---> Glacier upload
+                      +---> Kaspa sealing pointer
+                      |
+                      v
+              [OK] Fully sealed
 ```
 
 ## 6.2 Timing Estimates
@@ -1230,7 +1230,7 @@ async function verifySealedArchive(transactionId) {
 
 ---
 
-# 8. Migration Guide (v3.0 â†’ v4.0)
+# 8. Migration Guide (v3.0 -> v4.0)
 
 ## 8.1 Breaking Changes
 

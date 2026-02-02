@@ -13,7 +13,7 @@
 I reviewed all project files for:
 1. **Attestation Model Consistency** - Ensuring the latest trust model (what FORAY proves vs. doesn't prove) is reflected
 2. **Claim Scope** - Identifying overclaiming beyond what a hackathon demo can reasonably demonstrate
-3. **Character Encoding** - Mojibake issues (Ã¢â‚¬", ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬, etc.)
+3. **Character Encoding** - Mojibake issues (EUR ", EUR EUR , etc.)
 4. **Contact Section Format** - Per your specification
 
 ### Overall Assessment: **MOSTLY GOOD with specific fixes needed**
@@ -28,16 +28,16 @@ The main website files (index.html, docs.html, about.html) have already been upd
 
 #### 1. FORAY_Defense_Contractor_Guide.md
 **Issues Found:**
-- Line 9: "immutable, verifiable audit trails that **satisfy** DCAA requirements" â†’ should be "designed to support"
-- Line 28: Mojibake: `canÃ¢â‚¬"and doÃ¢â‚¬"` â†’ should be `canâ€”and doâ€”`
-- Line 77: Mojibake: `claimedÃ¢â‚¬"not` â†’ should be `claimedâ€”not`
-- Line 152: Mojibake: `identifiedÃ¢â‚¬"not` â†’ should be `identifiedâ€”not`
-- Lines 177-178: Mojibake arrows: `Ã¢â€ '` â†’ `â†’`
-- Line 199: Mojibake: `allegeÃ¢â‚¬"and` â†’ should be `allegeâ€”and`
-- Lines 220, 225, 249: Mojibake: `Ã¢â‚¬"` â†’ should be `â€”`
-- Line 264: Mojibake: `Ã¢â‚¬"` â†’ should be `â€”`
-- Line 281: Mojibake: `Ã¢â‚¬"` â†’ should be `â€”`
-- Line 285: Mojibake: `Ã‚Â©` â†’ should be `Â©`
+- Line 9: "immutable, verifiable audit trails that **satisfy** DCAA requirements" -> should be "designed to support"
+- Line 28: Mojibake: `canEUR "and doEUR "` -> should be `can--and do--`
+- Line 77: Mojibake: `claimedEUR "not` -> should be `claimed--not`
+- Line 152: Mojibake: `identifiedEUR "not` -> should be `identified--not`
+- Lines 177-178: Mojibake arrows: ` -> ` -> `->`
+- Line 199: Mojibake: `allegeEUR "and` -> should be `allege--and`
+- Lines 220, 225, 249: Mojibake: `EUR "` -> should be `--`
+- Line 264: Mojibake: `EUR "` -> should be `--`
+- Line 281: Mojibake: `EUR "` -> should be `--`
+- Line 285: Mojibake: `(c)` -> should be `(c)`
 - **Missing:** Attestation disclaimer for defense use cases (attestations section not integrated)
 
 **Contact Section (Lines 274-277):** Needs reformatting to standard format:
@@ -51,12 +51,12 @@ The main website files (index.html, docs.html, about.html) have already been upd
 
 #### 2. FORAY_Financial_Services_Guide.md
 **Issues Found:**
-- Line 9: "immutable, verifiable audit trails" â†’ should be "tamper-evident audit trails"
-- Line 137: Mojibake: `Ã¢â‚¬"` â†’ should be `â€”`
-- Lines 145, 151, 156, 161, 181: Mojibake: `Ã¢â‚¬"` â†’ should be `â€”`
-- Line 122: "**Estimated savings:** 40-60% reduction" â†’ This is an aspirational claim; should be qualified with "potential" or "targeted"
-- Line 198: Mojibake: `Ã¢â‚¬"` â†’ should be `â€”`
-- Line 202: Mojibake: `Ã‚Â©` â†’ should be `Â©`
+- Line 9: "immutable, verifiable audit trails" -> should be "tamper-evident audit trails"
+- Line 137: Mojibake: `EUR "` -> should be `--`
+- Lines 145, 151, 156, 161, 181: Mojibake: `EUR "` -> should be `--`
+- Line 122: "**Estimated savings:** 40-60% reduction" -> This is an aspirational claim; should be qualified with "potential" or "targeted"
+- Line 198: Mojibake: `EUR "` -> should be `--`
+- Line 202: Mojibake: `(c)` -> should be `(c)`
 - **Missing:** Attestation disclaimer for complex financial instruments
 
 **Contact Section (Lines 191-194):** Needs reformatting
@@ -64,7 +64,7 @@ The main website files (index.html, docs.html, about.html) have already been upd
 #### 3. FORAY_Manufacturing_Supply_Chain_Guide.md
 **Status:** Not yet reviewed in detail - needs checking for similar issues
 
-#### 4. FORAY_Energy_Sector_Guide.md  
+#### 4. FORAY_Energy_Sector_Guide.md 
 **Status:** Not yet reviewed in detail - needs checking for similar issues
 
 #### 5. FORAY_Warranty_Guide.md
@@ -76,52 +76,52 @@ The main website files (index.html, docs.html, about.html) have already been upd
 **Issues Found:**
 - Line 4: "Fraud Prevention" in title - should be "Fraud Detection Support" or similar
 - Line 18-19: "FORAY's transaction semantic model addresses this gap by requiring explicit linkage" - This is reasonable but should note that FORAY flags missing linkages, doesn't prevent fake claims
-- Line 52-53: Mojibake: `Ã—` symbols appear correctly but arrows may not render
-- Line 98: "Measure fraud detection and prevention metrics" â†’ should be "detection" only
+- Line 52-53: Mojibake: ` x ` symbols appear correctly but arrows may not render
+- Line 98: "Measure fraud detection and prevention metrics" -> should be "detection" only
 - **Contact section is properly formatted**
 
 #### 7. gap_analysis.txt / FORAY_FIT_Gap_Analysis.pdf
-**Issues Found:**  
+**Issues Found:** 
 - Line 4: "Fraud Prevention" language
-- Line 17: "fraud prevention value" â†’ should be "fraud detection capability"
-- Line 111-113: "Fraudulent invoices cannot be anchored without creating the verifiable service delivery records that would expose the fraud" â†’ **This is overclaiming**. A fraudster can create fake service delivery records. FORAY flags MISSING linkages, not fake ones.
+- Line 17: "fraud prevention value" -> should be "fraud detection capability"
+- Line 111-113: "Fraudulent invoices cannot be anchored without creating the verifiable service delivery records that would expose the fraud" -> **This is overclaiming**. A fraudster can create fake service delivery records. FORAY flags MISSING linkages, not fake ones.
 - **Contact section is properly formatted**
 
 ### LOW PRIORITY (Already Good)
 
-#### 8. FORAY_Protocol_v4_1_Specification.md âœ…
+#### 8. FORAY_Protocol_v4_1_Specification.md [OK]
 - Already uses "tamper-evident" language
 - Section 9.7 Trust Model is correct and comprehensive
 - Disclaimer at line 1538 is appropriate
 
-#### 9. FORAY_Attestation_Trust_Model.md âœ…
+#### 9. FORAY_Attestation_Trust_Model.md [OK]
 - Excellent trust model documentation
 - Lines 44-47: "What FORAY Does NOT Prove" section is exactly what's needed
-- Line 49: Key statement preserved: "This is not a weakness to hideâ€”it is a boundary to understand"
+- Line 49: Key statement preserved: "This is not a weakness to hide--it is a boundary to understand"
 - Minor mojibake in diagram box characters (cosmetic only)
 
-#### 10. index.html âœ…
+#### 10. index.html [OK]
 - Already updated with "tamper-evident" language
 - Changelog shows prior review (v2.3.0)
 - Attestations component added (v2.4.0)
 
-#### 11. docs.html âœ…
+#### 11. docs.html [OK]
 - Already updated per changelog
 - Privacy architecture correctly shows "3-layer + ZK-ready"
 
-#### 12. about.html âœ…
+#### 12. about.html [OK]
 - Already updated per changelog
 
-#### 13. README.md âœ…
+#### 13. README.md [OK]
 - Line 30: Correctly uses "tamper-evident"
 - Line 34: "instantly detectable" is accurate for hash mismatch detection
 
-#### 14. FORAY_SKILL_v4_1_1.md âœ…
+#### 14. FORAY_SKILL_v4_1_1.md [OK]
 - Line 25: "Provide tamper-evident audit trail" - correct
 - Source System Trust principle is properly documented
 - Attestation extension documented (lines 322-362)
 
-#### 15. FORAY_Value_Proposition_Clarification.md âœ…
+#### 15. FORAY_Value_Proposition_Clarification.md [OK]
 - This document itself IS the clarification of proper claims
 - Contains the correct positioning framework
 
@@ -137,10 +137,10 @@ The main website files (index.html, docs.html, about.html) have already been upd
 - Creates ACCOUNTABILITY (who claimed what, when)
 
 **Recommended Language:**
-- âŒ "fraud prevention"
-- âœ… "fraud detection support"
-- âœ… "fraud deterrence through accountability"
-- âœ… "anomaly flagging"
+- [X] "fraud prevention"
+- [OK] "fraud detection support"
+- [OK] "fraud deterrence through accountability"
+- [OK] "anomaly flagging"
 
 ### 2. "Satisfy DCAA Requirements"
 **Location:** Defense Contractor Guide line 9
@@ -150,9 +150,9 @@ The main website files (index.html, docs.html, about.html) have already been upd
 - Multi-year track record
 
 **Recommended Language:**
-- âŒ "satisfy DCAA requirements"
-- âœ… "designed to support DCAA compliance workflows"
-- âœ… "provide audit evidence that may assist DCAA review"
+- [X] "satisfy DCAA requirements"
+- [OK] "designed to support DCAA compliance workflows"
+- [OK] "provide audit evidence that may assist DCAA review"
 
 ### 3. "Immutable" vs "Tamper-Evident"
 **Status:** Mostly fixed in website files, needs updating in sector guides
@@ -163,9 +163,9 @@ The main website files (index.html, docs.html, about.html) have already been upd
 **Issue:** "40-60% reduction in audit preparation costs" is unverified projection
 
 **Recommended Language:**
-- âŒ "Estimated savings: 40-60%"
-- âœ… "Potential efficiency gains (to be validated through implementation)"
-- âœ… "Targeted audit preparation time reduction"
+- [X] "Estimated savings: 40-60%"
+- [OK] "Potential efficiency gains (to be validated through implementation)"
+- [OK] "Targeted audit preparation time reduction"
 
 ---
 
@@ -175,12 +175,12 @@ The following mojibake patterns appear in markdown files:
 
 | Bad Sequence | Correct Character | HTML Entity |
 |--------------|-------------------|-------------|
-| `Ã¢â‚¬"` | â€” (em dash) | `&mdash;` |
-| `Ã¢â‚¬"` | â€” (em dash) | `&mdash;` |
-| `ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬` | â€” (em dash) | `&mdash;` |
-| `Ã¢â€ '` | â†’ (arrow) | `&rarr;` |
-| `Ãƒâ€šÃ‚Â©` | Â© (copyright) | `&copy;` |
-| `Ã‚Â©` | Â© (copyright) | `&copy;` |
+| `EUR "` | -- (em dash) | `&mdash;` |
+| `EUR "` | -- (em dash) | `&mdash;` |
+| `EUR EUR ` | -- (em dash) | `&mdash;` |
+| ` -> ` | -> (arrow) | `&rarr;` |
+| `(c)` | (c) (copyright) | `&copy;` |
+| `(c)` | (c) (copyright) | `&copy;` |
 
 ---
 
@@ -207,20 +207,20 @@ All documents should use:
 
 The following statements should appear (or be consistent with) in all documents making claims:
 
-### What FORAY Proves âœ…
+### What FORAY Proves [OK]
 - Temporal proof (when something was recorded)
 - Integrity proof (data hasn't changed since anchoring)
 - Consistency proof (parties hold identical records)
 - Sequence proof (order of events)
 
-### What FORAY Does NOT Prove âš ï¸
+### What FORAY Does NOT Prove [!]
 - Truth of claims (FORAY anchors assertions, not facts)
 - Physical reality (digital records don't verify physical world)
 - Attestor competence (lab certification only as reliable as lab)
 - Data accuracy at source (garbage in, garbage out)
 
 ### Key Statement to Include
-> "FORAY creates tamper-evident audit trails. For transactions requiring verification of physical reality or third-party validation, the Attestations extension provides accountability infrastructureâ€”but the claims are only as reliable as the parties making them."
+> "FORAY creates tamper-evident audit trails. For transactions requiring verification of physical reality or third-party validation, the Attestations extension provides accountability infrastructure--but the claims are only as reliable as the parties making them."
 
 ---
 
@@ -229,8 +229,8 @@ The following statements should appear (or be consistent with) in all documents 
 ### Immediate (Before Kaspathon Submission)
 1. Fix mojibake in Defense Contractor Guide
 2. Fix mojibake in Financial Services Guide
-3. Update "fraud prevention" â†’ "fraud detection" in Technical Brief and Gap Analysis
-4. Update "satisfy DCAA requirements" â†’ "designed to support" in Defense Guide
+3. Update "fraud prevention" -> "fraud detection" in Technical Brief and Gap Analysis
+4. Update "satisfy DCAA requirements" -> "designed to support" in Defense Guide
 5. Update contact sections to standard format
 
 ### Secondary (Quality Improvement)
@@ -248,14 +248,14 @@ The following statements should appear (or be consistent with) in all documents 
 
 | File | Status |
 |------|--------|
-| FORAY_Protocol_v4_1_Specification.md | âœ… Correct |
-| FORAY_Attestation_Trust_Model.md | âœ… Correct |
-| index.html | âœ… Correct |
-| docs.html | âœ… Correct |
-| about.html | âœ… Correct |
-| README.md | âœ… Correct |
-| FORAY_SKILL_v4_1_1.md | âœ… Correct |
-| FORAY_Value_Proposition_Clarification.md | âœ… Correct |
+| FORAY_Protocol_v4_1_Specification.md | [OK] Correct |
+| FORAY_Attestation_Trust_Model.md | [OK] Correct |
+| index.html | [OK] Correct |
+| docs.html | [OK] Correct |
+| about.html | [OK] Correct |
+| README.md | [OK] Correct |
+| FORAY_SKILL_v4_1_1.md | [OK] Correct |
+| FORAY_Value_Proposition_Clarification.md | [OK] Correct |
 
 ---
 

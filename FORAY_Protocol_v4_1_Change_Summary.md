@@ -4,8 +4,8 @@
 
 This document summarizes the two key changes introduced in FORAY Protocol v4.1:
 
-1. **Flexible Entry Points** â€” Arrangements are no longer required
-2. **Many-to-Many References** â€” Singular `_ref` fields replaced with `_refs[]` arrays
+1. **Flexible Entry Points** -- Arrangements are no longer required
+2. **Many-to-Many References** -- Singular `_ref` fields replaced with `_refs[]` arrays
 
 ---
 
@@ -110,7 +110,7 @@ When an Action settles multiple Anticipations, use the `allocations` array:
 ### Automatic Conversion
 
 ```javascript
-// v4.0 â†’ v4.1 Migration
+// v4.0 -> v4.1 Migration
 function migrate(v40) {
   const v41 = { ...v40, schema_version: "4.1" };
   
@@ -190,7 +190,7 @@ function migrate(v40) {
 
 | Change | Impact | Mitigation |
 |--------|--------|------------|
-| `*_ref` â†’ `*_refs[]` | Existing code breaks | Auto-migration script |
+| `*_ref` -> `*_refs[]` | Existing code breaks | Auto-migration script |
 | Arrangements optional | Validation logic changes | Update validators |
 | New `allocations` field | Schema changes | Field is optional |
 
@@ -224,8 +224,8 @@ function migrate(v40) {
 
 ## Files Delivered
 
-1. `FORAY_Protocol_v4_1_Specification.md` â€” Complete specification
-2. `FORAY_Protocol_v4_1_Change_Summary.md` â€” This summary document
+1. `FORAY_Protocol_v4_1_Specification.md` -- Complete specification
+2. `FORAY_Protocol_v4_1_Change_Summary.md` -- This summary document
 
 ---
 

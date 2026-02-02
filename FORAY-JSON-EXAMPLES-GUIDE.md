@@ -4,18 +4,18 @@ All files are in FORAY v3.0 format and ready to paste into the Transaction Revie
 
 ---
 
-## ðŸ“ Available Example Files
+## [SEARCH] Available Example Files
 
-### âœ… **1. Mary Smith Loan (v3.0)** 
-**File:** `mary-smith-loan-v3.json`  
-**Size:** 13 KB (437 lines)  
+### [OK] **1. Mary Smith Loan (v3.0)** 
+**File:** `mary-smith-loan-v3.json` 
+**Size:** 13 KB (437 lines) 
 **Location:** `/mnt/project/mary-smith-loan-v3.json` and `/mnt/user-data/outputs/mary-smith-loan-v3.json`
 
-**Transaction Type:** Consumer Loan  
-**Borrower:** Mary Smith  
-**Lender:** ABC National Bank  
-**Amount:** $60,000  
-**Term:** 6 months  
+**Transaction Type:** Consumer Loan 
+**Borrower:** Mary Smith 
+**Lender:** ABC National Bank 
+**Amount:** $60,000 
+**Term:** 6 months 
 **Interest:** Tiered (8% for months 1-3, 10% for months 4-6)
 
 **Structure:**
@@ -32,17 +32,17 @@ All files are in FORAY v3.0 format and ready to paste into the Transaction Revie
 
 ---
 
-### âœ… **2. Auto Loan - John Doe (v3.0)**
-**File:** `auto-loan-john-doe-v3.json`  
-**Size:** 12 KB (412 lines)  
+### [OK] **2. Auto Loan - John Doe (v3.0)**
+**File:** `auto-loan-john-doe-v3.json` 
+**Size:** 12 KB (412 lines) 
 **Location:** `/mnt/user-data/outputs/auto-loan-john-doe-v3.json`
 
-**Transaction Type:** Auto Loan  
-**Borrower:** John Doe  
-**Lender:** Auto Finance Co  
-**Amount:** $25,000  
-**Term:** 60 months (5 years)  
-**Interest:** 4.5% APR  
+**Transaction Type:** Auto Loan 
+**Borrower:** John Doe 
+**Lender:** Auto Finance Co 
+**Amount:** $25,000 
+**Term:** 60 months (5 years) 
+**Interest:** 4.5% APR 
 **Vehicle:** 2024 Honda Accord
 
 **Structure:**
@@ -59,15 +59,15 @@ All files are in FORAY v3.0 format and ready to paste into the Transaction Revie
 
 ---
 
-### âœ… **3. RMBS Transaction (v3.0)**
-**File:** `rmbs-transaction-v3.json`  
-**Size:** 25 KB (896 lines)  
+### [OK] **3. RMBS Transaction (v3.0)**
+**File:** `rmbs-transaction-v3.json` 
+**Size:** 25 KB (896 lines) 
 **Location:** `/mnt/project/rmbs-transaction-v3.json` and `/mnt/user-data/outputs/rmbs-transaction-v3.json`
 
-**Transaction Type:** Residential Mortgage-Backed Security  
-**Entity:** Global Investment Bank  
-**Amount:** $300,000,000  
-**Assets:** 1,000 residential mortgages  
+**Transaction Type:** Residential Mortgage-Backed Security 
+**Entity:** Global Investment Bank 
+**Amount:** $300,000,000 
+**Assets:** 1,000 residential mortgages 
 **Tranches:** Class A ($240M), Class M-1 ($30M), Class B ($15M), Equity ($15M)
 
 **Structure:**
@@ -85,16 +85,16 @@ All files are in FORAY v3.0 format and ready to paste into the Transaction Revie
 
 ---
 
-### âœ… **4. Solar PPA - Morocco to Spain (v3.0)** ðŸ†•
-**File:** `energy-solar-ppa-morocco-spain-v3.json`  
-**Size:** 18 KB (550+ lines)  
+### [OK] **4. Solar PPA - Morocco to Spain (v3.0)** [NEW]
+**File:** `energy-solar-ppa-morocco-spain-v3.json` 
+**Size:** 18 KB (550+ lines) 
 **Location:** `/mnt/user-data/outputs/energy-solar-ppa-morocco-spain-v3.json`
 
-**Transaction Type:** Cross-Border Power Purchase Agreement  
-**Entity:** Noor Energy SARL (Morocco)  
-**Amount:** â‚¬197.1M annually (â‚¬16.4M monthly)  
-**Capacity:** 500 MW baseload solar power  
-**Duration:** 25 years (2026-2051)  
+**Transaction Type:** Cross-Border Power Purchase Agreement 
+**Entity:** Noor Energy SARL (Morocco) 
+**Amount:** EUR 197.1M annually (EUR 16.4M monthly) 
+**Capacity:** 500 MW baseload solar power 
+**Duration:** 25 years (2026-2051) 
 **Transmission:** 600 km HVDC submarine cable
 
 **Structure:**
@@ -114,16 +114,16 @@ All files are in FORAY v3.0 format and ready to paste into the Transaction Revie
 
 ---
 
-### âœ… **5. Green Hydrogen - Saudi to Europe (v3.0)** ðŸ†•
-**File:** `energy-green-hydrogen-saudi-europe-v3.json`  
-**Size:** 22 KB (650+ lines)  
+### [OK] **5. Green Hydrogen - Saudi to Europe (v3.0)** [NEW]
+**File:** `energy-green-hydrogen-saudi-europe-v3.json` 
+**Size:** 22 KB (650+ lines) 
 **Location:** `/mnt/user-data/outputs/energy-green-hydrogen-saudi-europe-v3.json`
 
-**Transaction Type:** Green Hydrogen Project Finance  
-**Entity:** Saudi Green Hydrogen Corporation  
-**Amount:** $8B total ($4.8B debt, $3.2B equity)  
-**Production:** 1M tonnes/year H2 (800K tonnes offtake)  
-**Power Source:** 5 GW renewables (3 GW solar + 2 GW wind)  
+**Transaction Type:** Green Hydrogen Project Finance 
+**Entity:** Saudi Green Hydrogen Corporation 
+**Amount:** $8B total ($4.8B debt, $3.2B equity) 
+**Production:** 1M tonnes/year H2 (800K tonnes offtake) 
+**Power Source:** 5 GW renewables (3 GW solar + 2 GW wind) 
 **Duration:** 20 years (2029-2049)
 
 **Structure:**
@@ -144,25 +144,25 @@ All files are in FORAY v3.0 format and ready to paste into the Transaction Revie
 
 ---
 
-### âš ï¸ **4. RMBS Transaction Clean (Legacy)**
-**File:** `RMBS_Transaction_Clean.json`  
-**Size:** 30 KB  
+### [!] **4. RMBS Transaction Clean (Legacy)**
+**File:** `RMBS_Transaction_Clean.json` 
+**Size:** 30 KB 
 **Location:** `/mnt/user-data/outputs/RMBS_Transaction_Clean.json`
 
 **Note:** This appears to be an earlier or alternative version of the RMBS transaction. The v3.0 version above is recommended.
 
 ---
 
-### âš ï¸ **5. Mary Smith Loan (Legacy)**
-**File:** `mary-smith-loan.json`  
-**Size:** 13 KB  
+### [!] **5. Mary Smith Loan (Legacy)**
+**File:** `mary-smith-loan.json` 
+**Size:** 13 KB 
 **Location:** `/mnt/user-data/outputs/mary-smith-loan.json`
 
 **Note:** This may be a v2.0 or earlier version. The v3.0 version above is recommended.
 
 ---
 
-## ðŸŽ¯ Quick Reference Guide
+## [TARGET] Quick Reference Guide
 
 ### By Transaction Complexity:
 
@@ -199,7 +199,7 @@ All files are in FORAY v3.0 format and ready to paste into the Transaction Revie
 
 ---
 
-## ðŸ“Š Detailed Comparison
+## [CHART] Detailed Comparison
 
 ### Components Count:
 
@@ -217,7 +217,7 @@ All files are in FORAY v3.0 format and ready to paste into the Transaction Revie
 |------|-------------|----------|
 | **Mary Smith v3** | $60,000 | USD |
 | **Auto Loan v3** | $25,000 | USD |
-| **Solar PPA v3** | â‚¬197,100,000 annual | EUR |
+| **Solar PPA v3** | EUR 197,100,000 annual | EUR |
 | **RMBS v3** | $300,000,000 | USD |
 | **Green H2 v3** | $8,000,000,000 | USD |
 
@@ -243,7 +243,7 @@ All files are in FORAY v3.0 format and ready to paste into the Transaction Revie
 
 ---
 
-## ðŸš€ How to Use These Files
+## [ROCKET] How to Use These Files
 
 ### Method 1: Copy File Content
 
@@ -282,17 +282,17 @@ const fs = require('fs');
 
 // Load Mary Smith Loan
 const marySmith = JSON.parse(
-  fs.readFileSync('/mnt/project/mary-smith-loan-v3.json', 'utf8')
+ fs.readFileSync('/mnt/project/mary-smith-loan-v3.json', -> utf8')
 );
 
 // Load Auto Loan
 const autoLoan = JSON.parse(
-  fs.readFileSync('/mnt/user-data/outputs/auto-loan-john-doe-v3.json', 'utf8')
+ fs.readFileSync('/mnt/user-data/outputs/auto-loan-john-doe-v3.json', -> utf8')
 );
 
 // Load RMBS
 const rmbs = JSON.parse(
-  fs.readFileSync('/mnt/project/rmbs-transaction-v3.json', 'utf8')
+ fs.readFileSync('/mnt/project/rmbs-transaction-v3.json', -> utf8')
 );
 ```
 
@@ -301,25 +301,25 @@ const rmbs = JSON.parse(
 import json
 
 # Load Mary Smith Loan
-with open('/mnt/project/mary-smith-loan-v3.json', 'r') as f:
-    mary_smith = json.load(f)
+with open('/mnt/project/mary-smith-loan-v3.json', -> r') as f:
+ mary_smith = json.load(f)
 
 # Load Auto Loan
-with open('/mnt/user-data/outputs/auto-loan-john-doe-v3.json', 'r') as f:
-    auto_loan = json.load(f)
+with open('/mnt/user-data/outputs/auto-loan-john-doe-v3.json', -> r') as f:
+ auto_loan = json.load(f)
 
 # Load RMBS
-with open('/mnt/project/rmbs-transaction-v3.json', 'r') as f:
-    rmbs = json.load(f)
+with open('/mnt/project/rmbs-transaction-v3.json', -> r') as f:
+ rmbs = json.load(f)
 ```
 
 ---
 
-## âœ… Validation Checklist
+## [OK] Validation Checklist
 
 All example files include:
 
-âœ… **Top-Level Fields:**
+[OK] **Top-Level Fields:**
 - transaction_id
 - timestamp
 - block_height
@@ -333,72 +333,72 @@ All example files include:
 - status
 - compliance_flags
 
-âœ… **4-Component Structure:**
+[OK] **4-Component Structure:**
 - arrangements (with parties as objects)
 - accruals (with formula_id, inputs, output)
 - anticipations (with probability_factor, assumptions)
 - actions (with amount_settled, dependencies)
 
-âœ… **Privacy Metadata:**
+[OK] **Privacy Metadata:**
 - formulas_obfuscated
 - instance_pools
 - attack_complexity
 - obfuscated_formulas array
 
-âœ… **No Legacy Fields:**
-- âŒ NO chaff_operations
-- âŒ NO computational_chaff_operations
-- âŒ NO nested formula objects
+[OK] **No Legacy Fields:**
+- [X] NO chaff_operations
+- [X] NO computational_chaff_operations
+- [X] NO nested formula objects
 
 ---
 
-## ðŸŽ“ Learning Path
+## [GRAD] Learning Path
 
-### Beginner â†’ Advanced:
+### Beginner -> Advanced:
 
 1. **Start with:** Mary Smith Loan v3
-   - Simple structure
-   - Easy to understand
-   - Clear accrual calculations
+ - Simple structure
+ - Easy to understand
+ - Clear accrual calculations
 
 2. **Progress to:** Auto Loan - John Doe v3
-   - More anticipation scenarios
-   - Collateral concepts
-   - Risk modeling
+ - More anticipation scenarios
+ - Collateral concepts
+ - Risk modeling
 
 3. **Master with:** RMBS Transaction v3
-   - Complex multi-party structure
-   - Waterfall calculations
-   - Regulatory compliance
-   - Enterprise-scale transactions
+ - Complex multi-party structure
+ - Waterfall calculations
+ - Regulatory compliance
+ - Enterprise-scale transactions
 
 ---
 
-## ðŸ“ Testing Scenarios
+## Testing Scenarios
 
 ### Scenario 1: Basic Parsing Test
-**File:** Mary Smith Loan v3  
+**File:** Mary Smith Loan v3 
 **Expected:** All sections display correctly, 15 total components
 
 ### Scenario 2: Print Test
-**File:** Auto Loan - John Doe v3  
+**File:** Auto Loan - John Doe v3 
 **Expected:** Professional PDF output with vehicle details
 
 ### Scenario 3: Stress Test
-**File:** RMBS Transaction v3  
+**File:** RMBS Transaction v3 
 **Expected:** GUI handles 24 components smoothly, all tranches visible
 
 ### Scenario 4: Search Test
-**File:** Any  
+**File:** Any 
 **Expected:** Browser search (Ctrl+F) works across all sections
 
 ### Scenario 5: Mobile Test
-**File:** Mary Smith Loan v3 (smaller for mobile)  
+**File:** Mary Smith Loan v3 (smaller for mobile) 
 **Expected:** Responsive layout, sections collapsible
 
 ---
 
-## ðŸ”§ Troubleshooting
+## Troubleshooting
 
 ### File Not Found?
 ```bash
@@ -420,7 +420,7 @@ All files have been validated and should parse correctly. If you get an error:
 
 ---
 
-## ðŸ’¡ Pro Tips
+## [!] Pro Tips
 
 1. **Start Small:** Use Mary Smith Loan v3 for first-time testing
 2. **Compare Structures:** Load different files to see variations
@@ -430,7 +430,7 @@ All files have been validated and should parse correctly. If you get an error:
 
 ---
 
-## ðŸ“ File Locations Reference
+## File Locations Reference
 
 ### Project Files (Canonical v3.0):
 ```
@@ -449,21 +449,21 @@ All files have been validated and should parse correctly. If you get an error:
 
 ---
 
-## ðŸŽ‰ Summary
+## [PARTY] Summary
 
 **5 Production-Ready v3.0 Examples:**
-1. âœ… Mary Smith Loan ($60K, 6-month consumer loan)
-2. âœ… Auto Loan - John Doe ($25K, 60-month auto financing)
-3. âœ… Solar PPA Morocco-Spain (â‚¬197M annual, 25-year cross-border power)
-4. âœ… RMBS Transaction ($300M, complex securitization)
-5. âœ… Green Hydrogen Saudi-Europe ($8B, mega-project finance)
+1. [OK] Mary Smith Loan ($60K, 6-month consumer loan)
+2. [OK] Auto Loan - John Doe ($25K, 60-month auto financing)
+3. [OK] Solar PPA Morocco-Spain (EUR 197M annual, 25-year cross-border power)
+4. [OK] RMBS Transaction ($300M, complex securitization)
+5. [OK] Green Hydrogen Saudi-Europe ($8B, mega-project finance)
 
 **All files are:**
-- âœ… Valid FORAY v3.0 JSON
-- âœ… Ready to paste into GUI
-- âœ… Properly structured (4 components)
-- âœ… Privacy-enabled
-- âœ… Compliance-tagged
-- âœ… Production-quality examples
+- [OK] Valid FORAY v3.0 JSON
+- [OK] Ready to paste into GUI
+- [OK] Properly structured (4 components)
+- [OK] Privacy-enabled
+- [OK] Compliance-tagged
+- [OK] Production-quality examples
 
-**Pick the right file for your use case and paste it into the FORAY Transaction Review GUI!** ðŸš€
+**Pick the right file for your use case and paste it into the FORAY Transaction Review GUI!** [ROCKET]

@@ -26,7 +26,7 @@
         "parties": [
           { "role": "manufacturer", "name": "Rolex SA", "jurisdiction": "CH-GE" },
           { "role": "spectroscopic_oracle", "name": "MaterialScan AG", "jurisdiction": "CH-ZH" },
-          { "role": "certification_body", "name": "COSC - ContrÃ´le Officiel Suisse des ChronomÃ¨tres", "jurisdiction": "CH" }
+          { "role": "certification_body", "name": "COSC - Controle Officiel Suisse des Chronometres", "jurisdiction": "CH" }
         ],
         "description": "Product birth certificate with multi-component material fingerprinting for Cosmograph Daytona",
         "total_value": 29500.00,

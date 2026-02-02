@@ -2,7 +2,7 @@
 
 ## The Core Argument
 
-**Every major ERP claims comprehensive audit trails. They're all telling the truthâ€”and missing the point.**
+**Every major ERP claims comprehensive audit trails. They're all telling the truth--and missing the point.**
 
 Native ERP audit capabilities answer: *"What changed, when, and by whom?"*
 
@@ -25,7 +25,7 @@ All ERP audit systems share a fatal flaw:
 
 No ERP vendor can solve this because **the audit trail lives inside the system it's auditing**.
 
-FORAY solves this by anchoring cryptographic proof to an **external, tamper-evident ledger** that no internal actor can alterâ€”not the DBA, not the CFO, not the CEO.
+FORAY solves this by anchoring cryptographic proof to an **external, tamper-evident ledger** that no internal actor can alter--not the DBA, not the CFO, not the CEO.
 
 ---
 
@@ -33,14 +33,14 @@ FORAY solves this by anchoring cryptographic proof to an **external, tamper-evid
 
 | Capability | ERP Native | FORAY Addition |
 |------------|------------|----------------|
-| **Record changes** | âœ… Yes | âœ… Yes |
-| **Timestamp events** | âœ… Yes | âœ… Yes |
-| **Identify users** | âœ… Yes | âœ… Yes (hashed) |
-| **Survive admin tampering** | âŒ No | âœ… Yes |
-| **Prove to external parties** | âŒ No | âœ… Yes |
-| **Cross-system unified trail** | âŒ No | âœ… Yes |
-| **Privacy-preserving verification** | âŒ No | âœ… Yes |
-| **Quantum-resistant proof** | âŒ No | âœ… Yes |
+| **Record changes** | [OK] Yes | [OK] Yes |
+| **Timestamp events** | [OK] Yes | [OK] Yes |
+| **Identify users** | [OK] Yes | [OK] Yes (hashed) |
+| **Survive admin tampering** | [X] No | [OK] Yes |
+| **Prove to external parties** | [X] No | [OK] Yes |
+| **Cross-system unified trail** | [X] No | [OK] Yes |
+| **Privacy-preserving verification** | [X] No | [OK] Yes |
+| **Quantum-resistant proof** | [X] No | [OK] Yes |
 
 ---
 
@@ -73,7 +73,7 @@ SAP offers extensive audit functionality:
 **The Vulnerability:**
 ```
 SAP Basis Admin + S_TABU_DIS authorization = 
-  Can execute: DELETE FROM CDHDR WHERE OBJECTID = 'suspicious_doc'
+  Can execute: DELETE FROM CDHDR WHERE OBJECTID = -> suspicious_doc'
   Result: Audit trail erased, no external evidence remains
 ```
 
@@ -329,7 +329,7 @@ Costpoint DBA + SQL Server access =
 
 ### Costpoint-Specific FORAY Benefits
 
-1. **DCAA Audit Acceleration:** Months â†’ Days for cost verification
+1. **DCAA Audit Acceleration:** Months -> Days for cost verification
 2. **Indirect Rate Defense:** Prove allocation formulas were consistent
 3. **Program Cost Isolation:** Cryptographic proof of no cross-charging
 4. **Classified Program Protection:** Only hashes on-chain (UNCLASSIFIED)
@@ -340,15 +340,15 @@ Costpoint DBA + SQL Server access =
 
 ### For CFOs / Chief Audit Executives:
 
-> "Your ERP audit trail proves what happened inside your systems. FORAY proves it to people who have every reason not to trust your systemsâ€”regulators, auditors, counterparties, and courts."
+> "Your ERP audit trail proves what happened inside your systems. FORAY proves it to people who have every reason not to trust your systems--regulators, auditors, counterparties, and courts."
 
 ### For CIOs / CTOs:
 
-> "FORAY doesn't replace your audit infrastructure. It anchors it to a tamper-evident external ledger, transforming your audit logs from 'records you keep' into 'records that are cryptographically difficult to alter undetected.'"
+> "FORAY doesn't replace your audit infrastructure. It anchors it to a tamper-evident external ledger, transforming your audit logs from -> records you keep' into -> records that are cryptographically difficult to alter undetected.'"
 
 ### For Boards / Audit Committees:
 
-> "After the next Enron, prosecutors will ask: 'Could your executives have altered the audit trail?' With FORAY, your answer is: 'Any alteration would be cryptographically detectable.'"
+> "After the next Enron, prosecutors will ask: -> Could your executives have altered the audit trail?' With FORAY, your answer is: -> Any alteration would be cryptographically detectable.'"
 
 ---
 

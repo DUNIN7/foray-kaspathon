@@ -1,8 +1,8 @@
 # FORAY Business Analyzer - Complete Installation Guide
 
-**Created:** 2026-01-30  
-**Author:** Marvin Percival  
-**Email:** marvinp@dunin7.com  
+**Created:** 2026-01-30 
+**Author:** Marvin Percival 
+**Email:** marvinp@dunin7.com 
 **GitHub:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
 
 ---
@@ -17,10 +17,10 @@ An interactive web tool that lets users describe their business and get AI-power
 
 ## Prerequisites
 
-âœ… Mac Mini with foray-api backend running (port 3001)  
-âœ… Python web server running (port 9000)  
-âœ… Cloudflare Tunnel active (foray.dunin7.com)  
-âœ… Anthropic API key
+[OK] Mac Mini with foray-api backend running (port 3001) 
+[OK] Python web server running (port 9000) 
+[OK] Cloudflare Tunnel active (foray.dunin7.com) 
+[OK] Anthropic API key
 
 ---
 
@@ -66,7 +66,7 @@ Edit your PM2 ecosystem file or add to your shell:
 
 ```bash
 # Option 1: Add to .bashrc or .zshrc
-echo 'export ANTHROPIC_API_KEY="sk-ant-your-key-here"' >> ~/.bashrc
+echo -> export ANTHROPIC_API_KEY="sk-ant-your-key-here"' >> ~/.bashrc
 source ~/.bashrc
 
 # Option 2: Or set it just for this session
@@ -82,7 +82,7 @@ Open the file in your favorite editor:
 ```bash
 nano ~/foray-api/foray-api-server.js
 # or
-code ~/foray-api/foray-api-server.js  # if you have VS Code
+code ~/foray-api/foray-api-server.js # if you have VS Code
 # or
 open -a TextEdit ~/foray-api/foray-api-server.js
 ```
@@ -94,14 +94,14 @@ open -a TextEdit ~/foray-api/foray-api-server.js
 ```javascript
 // Business Analyzer endpoint - proxies Claude API to avoid CORS
 app.post('/api/analyze-business', async (req, res) => {
-  try {
-    const { businessDescription } = req.body;
+ try {
+ const { businessDescription } = req.body;
 
-    if (!businessDescription || businessDescription.trim().length === 0) {
-      return res.status(400).json({ error: 'Business description is required' });
-    }
+ if (!businessDescription || businessDescription.trim().length === 0) {
+ return res.status(400).json({ error: -> Business description is required' });
+ }
 
-    const systemPrompt = `You are an expert business analyst and blockchain consultant specializing in FORAY Protocol implementations. 
+ const systemPrompt = `You are an expert business analyst and blockchain consultant specializing in FORAY Protocol implementations. 
 
 FORAY Protocol is a privacy-preserving blockchain audit infrastructure that anchors enterprise transactions to Kaspa blockchain while keeping sensitive data off-chain. It uses a 4-component architecture:
 
@@ -120,53 +120,53 @@ Your task is to analyze a business description and explain:
 Format your response as clean, structured HTML sections with headers and lists. Use business-appropriate language. Be specific to their industry. Show deep understanding of their pain points.
 
 Structure your response with these sections:
-- <h3>ðŸŽ¯ Transaction Types</h3>
-- <h3>ðŸ”§ FORAY Component Mapping</h3>
-- <h3>âœ… Compliance Benefits</h3>
-- <h3>ðŸ”’ Privacy Architecture</h3>
-- <h3>âš¡ Kaspa Advantage</h3>`;
+- <h3>[TARGET] Transaction Types</h3>
+- <h3> FORAY Component Mapping</h3>
+- <h3>[OK] Compliance Benefits</h3>
+- <h3>[KEY] Privacy Architecture</h3>
+- <h3>[ZAP] Kaspa Advantage</h3>`;
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 4000,
-        system: systemPrompt,
-        messages: [
-          {
-            role: 'user',
-            content: `Analyze this business for FORAY Protocol applications:\n\n${businessDescription}\n\nProvide detailed analysis formatted as HTML sections.`
-          }
-        ]
-      })
-    });
+ const response = await fetch('https://api.anthropic.com/v1/messages', {
+ method: -> POST',
+ headers: {
+ -> Content-Type': -> application/json',
+ -> x-api-key': process.env.ANTHROPIC_API_KEY,
+ -> anthropic-version': -> 2023-06-01'
+ },
+ body: JSON.stringify({
+ model: -> claude-sonnet-4-20250514',
+ max_tokens: 4000,
+ system: systemPrompt,
+ messages: [
+ {
+ role: -> user',
+ content: `Analyze this business for FORAY Protocol applications:\n\n${businessDescription}\n\nProvide detailed analysis formatted as HTML sections.`
+ }
+ ]
+ })
+ });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Anthropic API error:', response.status, errorText);
-      return res.status(response.status).json({ 
-        error: `API request failed: ${response.status}`,
-        details: errorText 
-      });
-    }
+ if (!response.ok) {
+ const errorText = await response.text();
+ console.error('Anthropic API error:', response.status, errorText);
+ return res.status(response.status).json({ 
+ error: `API request failed: ${response.status}`,
+ details: errorText 
+ });
+ }
 
-    const data = await response.json();
-    const analysisHTML = data.content.find(block => block.type === 'text')?.text || '';
+ const data = await response.json();
+ const analysisHTML = data.content.find(block => block.type === -> text')?.text || -> ';
 
-    res.json({ analysis: analysisHTML });
+ res.json({ analysis: analysisHTML });
 
-  } catch (error) {
-    console.error('Business analyzer error:', error);
-    res.status(500).json({ 
-      error: 'Analysis failed', 
-      message: error.message 
-    });
-  }
+ } catch (error) {
+ console.error('Business analyzer error:', error);
+ res.status(500).json({ 
+ error: -> Analysis failed', 
+ message: error.message 
+ });
+ }
 });
 ```
 
@@ -211,7 +211,7 @@ https://foray.dunin7.com/business-analyzer.html
 ### Quick Test:
 
 1. Click one of the example buttons (e.g., "Defense Contractor")
-2. Click "âœ¨ Analyze My Business with FORAY"
+2. Click "[*] Analyze My Business with FORAY"
 3. Wait 5-10 seconds
 4. You should see detailed analysis appear in the right panel!
 
@@ -230,8 +230,8 @@ Should show `foray-api` as `online`.
 **Check 2:** Test the backend directly:
 ```bash
 curl -X POST http://localhost:3001/api/analyze-business \
-  -H "Content-Type: application/json" \
-  -d '{"businessDescription":"We are a defense contractor"}'
+ -H "Content-Type: application/json" \
+ -d -> {"businessDescription":"We are a defense contractor"}'
 ```
 
 Should return JSON with analysis.
@@ -250,8 +250,8 @@ Your API key is wrong or not set. Go back to Step 3B.
 
 Your Node.js version is too old. Update to Node 18+:
 ```bash
-node --version  # Check version
-brew upgrade node  # Update if needed
+node --version # Check version
+brew upgrade node # Update if needed
 pm2 restart foray-api
 ```
 
@@ -275,15 +275,15 @@ const response = await fetch('http://localhost:3001/api/analyze-business', {
 
 ```
 User Browser
-    â†“
+ v
 business-analyzer.html (foray.dunin7.com)
-    â†“
+ v
 Your Backend Server (localhost:3001)
-    â†“
+ v
 Anthropic API (api.anthropic.com)
-    â†“
+ v
 AI Analysis
-    â†“
+ v
 Back to User Browser
 ```
 
@@ -310,13 +310,13 @@ If you get stuck:
 2. Check browser console (F12)
 3. Verify API key is working: https://console.anthropic.com/
 4. Make sure all 3 services are running:
-   - Backend (port 3001)
-   - Web server (port 9000)
-   - Cloudflare Tunnel
+ - Backend (port 3001)
+ - Web server (port 9000)
+ - Cloudflare Tunnel
 
 ---
 
-**Installation complete! ðŸŽ‰**
+**Installation complete! [PARTY]**
 
 Your business analyzer should now be live at:
 **https://foray.dunin7.com/business-analyzer.html**

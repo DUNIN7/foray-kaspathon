@@ -155,4 +155,4 @@ Or include inline:
 
 ---
 
-Â© 2026 FORAY Protocol Contributors. All rights reserved.
+(c) 2026 FORAY Protocol Contributors. All rights reserved.

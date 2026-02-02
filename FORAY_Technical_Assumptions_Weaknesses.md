@@ -1,25 +1,25 @@
 <!--
-  File: FORAY_Technical_Assumptions_Weaknesses.md
-  Version: 3.0
-  Created: 2026-01-20T00:00:00Z
-  Modified: 2026-02-02T14:30:00Z
-  Author: Marvin Percival
-  Email: marvinp@dunin7.com
-  GitHub: DUNIN7/foray-kaspathon
+ File: FORAY_Technical_Assumptions_Weaknesses.md
+ Version: 3.0
+ Created: 2026-01-20T00:00:00Z
+ Modified: 2026-02-02T14:30:00Z
+ Author: Marvin Percival
+ Email: marvinp@dunin7.com
+ GitHub: DUNIN7/foray-kaspathon
 
-  Change Log:
-    v3.0 (2026-02-02): Aligned privacy assumptions to 3-layer architecture; removed
-                        outdated 8-layer references; corrected forbidden claims
-    v2.0 (2026-01-25): Added resolution status, corrected documents
-    v1.0 (2026-01-20): Initial analysis
+ Change Log:
+ v3.0 (2026-02-02): Aligned privacy assumptions to 3-layer architecture; removed
+ outdated 8-layer references; corrected forbidden claims
+ v2.0 (2026-01-25): Added resolution status, corrected documents
+ v1.0 (2026-01-20): Initial analysis
 -->
 
 # FORAY Protocol: Technical Assumptions & Potential Weaknesses
 
 ## Critical Self-Assessment of Generated Documentation
 
-**Document Version:** 3.0  
-**Last Updated:** February 2, 2026  
+**Document Version:** 3.0 
+**Last Updated:** February 2, 2026 
 **Purpose:** Transparency document identifying assumptions and limitations
 
 > **DISCLAIMER:** See [FORAY_Standard_Disclaimer.md](./FORAY_Standard_Disclaimer.md) for important legal and technical disclaimers.
@@ -43,12 +43,12 @@ This document provides a critical self-assessment identifying:
 
 | ID | Assumption | Risk If Wrong | Validation Status |
 |----|------------|---------------|-------------------|
-| A1.1 | Kaspa network remains operational 24/7 | No anchoring if network down | âš ï¸ Unverified |
-| A1.2 | Sub-second transaction finality | Breaks "real-time" audit claim | âš ï¸ Per documentation only |
-| A1.3 | Transaction fees ~$0.0001 | ROI calculations invalid | âš ï¸ Subject to change |
-| A1.4 | OP_RETURN supports 150-byte data | Need different approach | âš ï¸ Unverified |
-| A1.5 | BlockDAG consensus is secure | 51% attack risk | âš ï¸ Theoretical analysis only |
-| A1.6 | Network will continue growing | Orphaned blockchain risk | âš ï¸ No guarantee |
+| A1.1 | Kaspa network remains operational 24/7 | No anchoring if network down | [!] Unverified |
+| A1.2 | Sub-second transaction finality | Breaks "real-time" audit claim | [!] Per documentation only |
+| A1.3 | Transaction fees ~$0.0001 | ROI calculations invalid | [!] Subject to change |
+| A1.4 | OP_RETURN supports 150-byte data | Need different approach | [!] Unverified |
+| A1.5 | BlockDAG consensus is secure | 51% attack risk | [!] Theoretical analysis only |
+| A1.6 | Network will continue growing | Orphaned blockchain risk | [!] No guarantee |
 
 **Mitigation:** Verify all Kaspa parameters against current network state before production deployment. Consider multi-chain support for redundancy.
 
@@ -56,11 +56,11 @@ This document provides a critical self-assessment identifying:
 
 | ID | Assumption | Risk If Wrong | Validation Status |
 |----|------------|---------------|-------------------|
-| A2.1 | SHA-256 remains computationally secure | Hash reversal possible | âœ… Current standard |
-| A2.2 | AES-256 encryption unbroken | Data exposure | âœ… Current standard |
-| A2.3 | Random salts prevent rainbow tables | Hash linkability | âš ï¸ Requires CSPRNG |
-| A2.4 | No practical hash collisions | Transaction confusion | âœ… No known collisions |
-| A2.5 | ZK-SNARK proofs are sound | Privacy leakage | âš ï¸ Requires formal verification |
+| A2.1 | SHA-256 remains computationally secure | Hash reversal possible | [OK] Current standard |
+| A2.2 | AES-256 encryption unbroken | Data exposure | [OK] Current standard |
+| A2.3 | Random salts prevent rainbow tables | Hash linkability | [!] Requires CSPRNG |
+| A2.4 | No practical hash collisions | Transaction confusion | [OK] No known collisions |
+| A2.5 | ZK-SNARK proofs are sound | Privacy leakage | [!] Requires formal verification |
 
 **Mitigation:** Use cryptographically secure random number generators. Plan for post-quantum migration. Consider formal verification of ZK circuits.
 
@@ -68,11 +68,11 @@ This document provides a critical self-assessment identifying:
 
 | ID | Assumption | Risk If Wrong | Validation Status |
 |----|------------|---------------|-------------------|
-| A3.1 | 3 privacy layers are independent | Combined protection reduced | âš ï¸  Unproven — requires formal analysis |
-| A3.2 | Salted hashes prevent cross-entity correlation | Side-channel linkage possible | âš ï¸  Depends on salt management practices |
-| A3.3 | Formula commitments prevent logic inference | Metadata correlation risk | âš ï¸  Requires registry access controls |
-| A3.4 | Instance pool provides unlinkability | Timing analysis risk | âš ï¸  Pool size undefined for production |
-| A3.5 | Amount obfuscation sufficient for sensitivity level | Value inference possible | âš ï¸  Rounding thresholds unspecified per industry |
+| A3.1 | 3 privacy layers are independent | Combined protection reduced | [!] Unproven -- requires formal analysis |
+| A3.2 | Salted hashes prevent cross-entity correlation | Side-channel linkage possible | [!] Depends on salt management practices |
+| A3.3 | Formula commitments prevent logic inference | Metadata correlation risk | [!] Requires registry access controls |
+| A3.4 | Instance pool provides unlinkability | Timing analysis risk | [!] Pool size undefined for production |
+| A3.5 | Amount obfuscation sufficient for sensitivity level | Value inference possible | [!] Rounding thresholds unspecified per industry |
 
 **Mitigation:** Conduct formal security analysis. Define minimum pool sizes per use case. Specify obfuscation thresholds for different industries and sensitivity levels.
 
@@ -84,10 +84,10 @@ This document provides a critical self-assessment identifying:
 
 | ID | Assumption | Risk If Wrong | Validation Status |
 |----|------------|---------------|-------------------|
-| B1.1 | All ERPs support outbound webhooks | Polling required | âš ï¸ Varies by system |
-| B1.2 | ERP APIs remain stable | Adapter breakage | âš ï¸ Version dependent |
-| B1.3 | Real-time data access available | Batch-only operation | âš ï¸ Varies by system |
-| B1.4 | Required fields accessible via API | Incomplete transactions | âš ï¸ Per-ERP audit needed |
+| B1.1 | All ERPs support outbound webhooks | Polling required | [!] Varies by system |
+| B1.2 | ERP APIs remain stable | Adapter breakage | [!] Version dependent |
+| B1.3 | Real-time data access available | Batch-only operation | [!] Varies by system |
+| B1.4 | Required fields accessible via API | Incomplete transactions | [!] Per-ERP audit needed |
 
 **Mitigation:** Test against actual sandbox APIs. Implement version-specific adapters. Document API limitations per ERP.
 
@@ -95,10 +95,10 @@ This document provides a critical self-assessment identifying:
 
 | ID | Assumption | Risk If Wrong | Validation Status |
 |----|------------|---------------|-------------------|
-| B2.1 | All transactions fit 4-component model | Model gaps | âš ï¸ Edge cases exist |
-| B2.2 | All transactions have amounts | Null handling needed | âš ï¸ Cases don't |
-| B2.3 | All transactions have clear dates | Range handling needed | âš ï¸ Some have ranges |
-| B2.4 | Parties always identifiable | Missing party handling | âš ï¸ System transactions |
+| B2.1 | All transactions fit 4-component model | Model gaps | [!] Edge cases exist |
+| B2.2 | All transactions have amounts | Null handling needed | [!] Cases don't |
+| B2.3 | All transactions have clear dates | Range handling needed | [!] Some have ranges |
+| B2.4 | Parties always identifiable | Missing party handling | [!] System transactions |
 
 **Critical Finding:** Salesforce Case objects do not have monetary amounts. The adapter creates "estimated" values based on heuristics, not Salesforce data. This is now documented in v2.0 adapters.
 
@@ -108,11 +108,11 @@ This document provides a critical self-assessment identifying:
 
 | ID | Assumption | Risk If Wrong | Validation Status |
 |----|------------|---------------|-------------------|
-| C1.1 | SEC accepts blockchain records | Parallel systems required | âš ï¸ Unconfirmed |
-| C1.2 | DCAA accepts FORAY audits | Rejection possible | âš ï¸ Unconfirmed |
-| C1.3 | SOX 404 satisfied by immutable records | Control gaps | âŒ Overstated |
-| C1.4 | GDPR compatible | Deletion conflict | âš ï¸ Architecture dependent |
-| C1.5 | Auditors will adopt new tools | Training required | âš ï¸ Change management |
+| C1.1 | SEC accepts blockchain records | Parallel systems required | [!] Unconfirmed |
+| C1.2 | DCAA accepts FORAY audits | Rejection possible | [!] Unconfirmed |
+| C1.3 | SOX 404 satisfied by immutable records | Control gaps | [X] Overstated |
+| C1.4 | GDPR compatible | Deletion conflict | [!] Architecture dependent |
+| C1.5 | Auditors will adopt new tools | Training required | [!] Change management |
 
 **Critical Finding:** SOX 404 requires internal *controls*, not just immutable *records*. FORAY provides evidence supporting controls, not compliance itself. Documentation corrected in v2.0.
 
@@ -160,26 +160,26 @@ All documents now reference `FORAY_Standard_Disclaimer.md` or include inline dis
 
 | # | Issue | Status | Resolution |
 |---|-------|--------|------------|
-| 1 | Add disclaimers to all documents | âœ… RESOLVED | FORAY_Standard_Disclaimer.md created |
-| 2 | Correct "quantum-resistant" claim | âœ… RESOLVED | Changed to "defense-in-depth" |
-| 3 | Add "estimates" qualifier to ROI | âœ… RESOLVED | Qualifiers added throughout |
-| 4 | Add input validation to adapters | âœ… RESOLVED | ValidationError class added |
-| 5 | Add error handling to batch processing | âœ… RESOLVED | Retry logic implemented |
-| 12 | Add missing QuickBooks types | âœ… RESOLVED | Credit Memo, Journal Entry added |
-| 13 | Add missing Salesforce objects | âœ… RESOLVED | Account, Lead added |
-| 15 | Standardize terminology | âœ… RESOLVED | Privacy levels unified |
+| 1 | Add disclaimers to all documents | [OK] RESOLVED | FORAY_Standard_Disclaimer.md created |
+| 2 | Correct "quantum-resistant" claim | [OK] RESOLVED | Changed to "defense-in-depth" |
+| 3 | Add "estimates" qualifier to ROI | [OK] RESOLVED | Qualifiers added throughout |
+| 4 | Add input validation to adapters | [OK] RESOLVED | ValidationError class added |
+| 5 | Add error handling to batch processing | [OK] RESOLVED | Retry logic implemented |
+| 12 | Add missing QuickBooks types | [OK] RESOLVED | Credit Memo, Journal Entry added |
+| 13 | Add missing Salesforce objects | [OK] RESOLVED | Account, Lead added |
+| 15 | Standardize terminology | [OK] RESOLVED | Privacy levels unified |
 
 ### Issues Requiring Implementation Work
 
 | # | Issue | Status | Documented In |
 |---|-------|--------|---------------|
-| 6 | Create GDPR data processing guidance | ðŸ“‹ PLANNED | Implementation Roadmap |
-| 7 | Verify Kaspa API/parameters | ðŸ“‹ PLANNED | Implementation Roadmap |
-| 8 | Test adapters against sandbox APIs | ðŸ“‹ PLANNED | Implementation Roadmap |
-| 9 | Create formal threat model | ðŸ“‹ PLANNED | Implementation Roadmap |
-| 10 | Add unit tests (>80% coverage) | ðŸ“‹ PLANNED | Implementation Roadmap |
-| 11 | Create compliance mapping docs | ðŸ“‹ PLANNED | Implementation Roadmap |
-| 14 | Create troubleshooting guides | ðŸ“‹ PLANNED | Implementation Roadmap |
+| 6 | Create GDPR data processing guidance | [CLIPBOARD] PLANNED | Implementation Roadmap |
+| 7 | Verify Kaspa API/parameters | [CLIPBOARD] PLANNED | Implementation Roadmap |
+| 8 | Test adapters against sandbox APIs | [CLIPBOARD] PLANNED | Implementation Roadmap |
+| 9 | Create formal threat model | [CLIPBOARD] PLANNED | Implementation Roadmap |
+| 10 | Add unit tests (>80% coverage) | [CLIPBOARD] PLANNED | Implementation Roadmap |
+| 11 | Create compliance mapping docs | [CLIPBOARD] PLANNED | Implementation Roadmap |
+| 14 | Create troubleshooting guides | [CLIPBOARD] PLANNED | Implementation Roadmap |
 
 ---
 

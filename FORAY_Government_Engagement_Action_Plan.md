@@ -66,7 +66,7 @@ Treasury's FIT office is actively piloting blockchain for federal grant manageme
 
 2. **Technical Alignment** (2 pages)
    - How FORAY integrates with Treasury's tokenized grant model
-   - Transaction semantic mapping (their tokens â†’ FORAY components)
+   - Transaction semantic mapping (their tokens -> FORAY components)
    - Privacy architecture for beneficiary protection
 
 3. **Pilot Proposal** (1 page)
@@ -405,7 +405,7 @@ Multiple federal agencies have active blockchain programs. FORAY can position as
 **Messaging Framework:**
 
 ```
-FORAY is not a blockchain platformâ€”it's a transaction semantic standard
+FORAY is not a blockchain platform--it's a transaction semantic standard
 that runs ON TOP OF existing blockchain infrastructure.
 
 Your blockchain investment + FORAY = 
@@ -520,4 +520,4 @@ FORAY works with:
 
 ---
 
-*Document Version 1.0 â€” January 30, 2026*
+*Document Version 1.0 -- January 30, 2026*
