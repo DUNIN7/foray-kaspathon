@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <!--
   File: docs.html
-  Version: 4.1.3
+  Version: 4.1.4
   Created: 2026-01-29T08:15:00Z
-  Modified: 2026-01-31T19:30:00Z
+  Modified: 2026-02-02T17:00:00Z
   Author: Marvin Percival
   Email: marvinp@dunin7.com
   GitHub: DUNIN7/foray-kaspathon
   
   FORAY Protocol Documentation Page
   Change Log:
+    v4.1.4 (2026-02-02): Added infographic link (sidebar + Visual Overview box)
+                         Fixed multiplication sign mojibake
     v4.1.3 (2026-01-31): Content review - "immutable" to "tamper-evident"
                          Content review - removed "complete" overclaim
                          Updated privacy architecture from 8-layer to 3-layer + ZK-ready
@@ -379,6 +381,7 @@
         <a href="#overview" class="sidebar-link active">Overview</a>
         <a href="#quick-start" class="sidebar-link">Quick Start</a>
         <a href="#design-principles" class="sidebar-link">Design Principles</a>
+        <a href="foray-infographic-v41.html" class="sidebar-link">Infographic</a>
       </div>
       
       <div class="sidebar-section">
@@ -420,6 +423,16 @@
           About the Name
         </div>
         <p>FORAY is derived from "4A" &mdash; the four components: Arrangements, Accruals, Anticipations, and Actions.</p>
+      </div>
+
+      <div class="info-box note" style="border-left-color: var(--action-amber); background: rgba(230, 168, 23, 0.08);">
+        <div class="info-box-title" style="color: var(--action-amber);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>
+          </svg>
+          Visual Overview
+        </div>
+        <p>For a visual map of the 4A model, privacy layers, and attestation framework, see the <a href="foray-infographic-v41.html"><strong>FORAY Protocol Infographic</strong></a>.</p>
       </div>
 
       <h2 id="quick-start">Quick Start</h2>
