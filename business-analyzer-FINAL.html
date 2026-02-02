@@ -18,9 +18,9 @@
     ============================================================================
     FORAY Business Use Case Analyzer
     ============================================================================
-    Version:       2.5.0
+    Version:       2.5.2
     Created:       2026-01-29T00:00:00Z
-    Modified:      2026-02-02T22:00:00Z
+    Modified:      2026-02-02T23:30:00Z
 
     Author:        Marvin Percival
     Email:         marvinp@dunin7.com
@@ -30,6 +30,16 @@
     Copyright (c) 2026 Marvin Percival. All rights reserved.
 
     Changelog:
+      v2.5.2 (2026-02-02)
+        - Switched API_BASE to Cloudflare Tunnel (https://foray.dunin7.com)
+        - Live site now works for all visitors, not just localhost
+
+      v2.5.1 (2026-02-02)
+        - Improved loading popup messaging: removed misleading time estimates
+        - Popup #1: Now describes what Claude is analyzing (business model, transaction types)
+        - Popup #2: Explains AI is constructing unique example; clarifies production
+          integrations are instantaneous vs demo AI generation
+
       v2.5.0 (2026-02-02)
         - Added Google Analytics 4 tracking (G-CDFWGR24FR)
         - Fixed Cloudflare email protection corruption in footer email link
@@ -650,7 +660,7 @@
         <div class="loading-box">
             <div class="spinner"></div>
             <h3 id="loadingTitle">Analyzing...</h3>
-            <p id="loadingMessage">This typically takes 10-15 seconds.</p>
+            <p id="loadingMessage">Please wait...</p>
         </div>
     </div>
 
@@ -658,8 +668,8 @@
         // ================================================================
         // Configuration
         // ================================================================
-        var API_BASE = 'http://localhost:3001';
-        // For Cloudflare Tunnel: var API_BASE = 'https://foray.dunin7.com';
+        var API_BASE = 'https://foray.dunin7.com';
+        // For local development: var API_BASE = 'http://localhost:3001';
 
         var currentFORAYJSON = null;
         var lastBusinessDescription = '';
@@ -717,7 +727,7 @@
             lastBusinessDescription = description;
 
             document.getElementById('analyzeBtn').disabled = true;
-            showLoading('Analyzing Your Business', 'Mapping your transactions to FORAY components. This typically takes 10-15 seconds.');
+            showLoading('Analyzing Your Business', 'Claude is analyzing your business model and identifying applicable FORAY transaction types...');
             document.getElementById('results').classList.remove('active');
             document.getElementById('errorMsg').classList.remove('active');
             document.getElementById('sampleSection').classList.remove('active');
@@ -737,7 +747,7 @@
                 displayResults(data.analysis || '');
             } catch (error) {
                 console.error('Analysis error:', error);
-                showError('Analysis failed: ' + error.message + '. Ensure the API server is running on port 3001.');
+                showError('Analysis failed: ' + error.message);
             } finally {
                 document.getElementById('analyzeBtn').disabled = false;
                 hideLoading();
@@ -760,7 +770,7 @@
             var outputEl = document.getElementById('sampleOutput');
 
             btn.disabled = true;
-            showLoading('Generating FORAY Transaction', 'Creating v4.1 JSON structure and narrative companion. This typically takes 10-15 seconds.');
+            showLoading('Generating Sample Transaction', 'Claude is constructing a unique realistic FORAY v4.1 transaction with full 4A component mapping. In production integrations, this mapping is instantaneous — the AI generation here demonstrates the structure for learning purposes.');
             outputEl.classList.remove('active');
 
             var prompt = detectIndustry(lastBusinessDescription);
