@@ -256,6 +256,9 @@ Every FORAY transaction decomposes into four core component types, with an optio
 }
 
 ### Action
+
+CRITICAL ALLOCATION RULE: If an Action references multiple Anticipations or has amount_settled > 0, you MUST include an allocations array where the sum of all allocation amounts EXACTLY equals amount_settled. Each allocation object must have: { "ref": "ANT_ID", "ref_type": "anticipation", "amount": X.XX, "currency": "USD" }. For single-reference Actions, include one allocation matching the full amount.
+
 {
   "id": "ACT_DESCRIPTIVE_ID",
   "foray_core": {
