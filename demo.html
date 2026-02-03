@@ -18,9 +18,9 @@
     ============================================================================
     FORAY Protocol Transaction Generator
     ============================================================================
-    Version:       3.7.0
+    Version:       3.8.0
     Created:       2025-01-28T16:30:00Z
-    Modified:      2026-02-02T22:00:00Z
+    Modified:      2026-02-03T19:30:00Z
     
     Author:        Marvin Percival
     Email:         marvinp@dunin7.com
@@ -30,6 +30,10 @@
     Copyright (c) 2026 Marvin Percival. All rights reserved.
     
     Changelog:
+      v3.8.0 (2026-02-03)
+        - Added URL parameter handling for ?sample= links from examples.html
+        - Auto-redirects to review page when sample parameter is present
+
       v3.7.0 (2026-02-02)
         - Added Google Analytics 4 tracking snippet
 
@@ -912,7 +916,9 @@
             manufacturing: 'manufacturing',
             salesforce: 'salesforceOpportunity',
             manukaHoney: 'manukaHoneyProvenance',
-            luxuryWatch: 'luxuryWatchAuth'
+            luxuryWatch: 'luxuryWatchAuth',
+            fxSpot: 'fxSpot',
+            overnightRepo: 'overnightRepo'
         };
 
         // Welcome banner
@@ -936,6 +942,16 @@
             // Navigate to review page
             window.location.href = REVIEW_PAGE_URL;
         }
+
+        // Check for ?sample= URL parameter on page load
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sampleKey = urlParams.get('sample');
+            if (sampleKey && referenceKeys[sampleKey]) {
+                // Auto-redirect to review page with this sample
+                viewReference(sampleKey);
+            }
+        })();
 
         // Custom transaction generation
         function loadTemplate() {
