@@ -681,6 +681,7 @@
 
         var currentFORAYJSON = null;
         var lastBusinessDescription = '';
+        var lastAnalysisResult = '';
 
         // ================================================================
         // Loading Modal
@@ -753,7 +754,7 @@
                     throw new Error(errData.error || 'Request failed: ' + response.status);
                 }
                 var data = await response.json();
-                displayResults(data.analysis || '');
+                lastAnalysisResult = data.analysis || ''; displayResults(lastAnalysisResult);
             } catch (error) {
                 console.error('Analysis error:', error);
                 showError('Analysis failed: ' + error.message);
@@ -782,8 +783,7 @@
             showLoading('Generating Sample Transaction', 'Claude is constructing a unique realistic FORAY v4.1 transaction with full 4A component mapping. In production integrations, this mapping is instantaneous -- the AI generation here demonstrates the structure for learning purposes.');
             outputEl.classList.remove('active');
 
-            var prompt = detectIndustry(lastBusinessDescription);
-
+            var prompt = { name: 'Business-Specific Transaction', description: 'Generate a FORAY v4.1 transaction based on this business analysis. Business: ' + lastBusinessDescription.substring(0, 500) + ' -- FORAY Analysis: ' + lastAnalysisResult.replace(/<[^>]*>/g, ' ').substring(0, 1500) + ' -- Create a realistic sample transaction that matches this specific business. Include appropriate attestations for delivery, quality, or verification as identified in the analysis.' };
             try {
                 var response = await fetch(API_BASE + '/api/generate-foray', {
                     method: 'POST',
@@ -991,7 +991,7 @@
         function resetAnalyzer() {
             // Clear input
             document.getElementById('businessDescription').value = '';
-            lastBusinessDescription = '';
+            lastBusinessDescription = ''; lastAnalysisResult = '';
             currentFORAYJSON = null;
 
             // Hide results and sample sections
