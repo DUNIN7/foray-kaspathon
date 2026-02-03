@@ -821,7 +821,7 @@
             if (d.includes('pharma') || d.includes('drug') || d.includes('fda') || d.includes('cgmp') || d.includes('clinical') || d.includes('biotech')) return sampleTxPrompts.pharma;
             if (d.includes('logistics') || d.includes('warehouse') || d.includes('freight') || d.includes('customs') || d.includes('shipping') || d.includes('cargo')) return sampleTxPrompts.logistics;
             // Retail/Tourism/Custom Services detection
-            if (d.includes('t-shirt') || d.includes('tshirt') || d.includes('tourist') || d.includes('tourism') || d.includes('tour group') || d.includes('custom') || d.includes('personali') || d.includes('embroid') || d.includes('souvenir') || d.includes('gift shop') || d.includes('apparel') || d.includes('retail') || d.includes('merchandise')) return sampleTxPrompts.retail;
+            if (d.includes('t-shirt') || d.includes('tshirt') || d.includes('tour group') || d.includes('customiz') || d.includes('personali') || d.includes('embroid') || d.includes('souvenir') || d.includes('gift shop') || d.includes('apparel') || d.includes('merchandise')) return sampleTxPrompts.retail;
             // No match - generate a transaction based on the users actual description
             return {
                 name: 'Industry-Specific Transaction',
