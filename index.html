@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.7.1
+Version:       2.7.2
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T17:18:00Z
+Modified:      2026-02-04T17:22:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,9 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.7.2 (2026-02-04)
+    - Moved Kaspa arrow outside border (bottom:-2.5rem, right:0)
+  
   v2.7.1 (2026-02-04)
     - Adjusted Kaspa section arrow position (right:3rem) to align with content
   
@@ -447,10 +450,10 @@ Changelog:
       overflow: visible;
     }
     
-    /* Kaspa section: position arrow to align with content */
+    /* Kaspa section: position arrow outside border, aligned with other sections */
     .kaspa-section .back-to-top {
-      bottom: -1rem;
-      right: 3rem;
+      bottom: -2.5rem;
+      right: 0;
     }
     
     @media (max-width: 768px) {
