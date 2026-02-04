@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.7.5
+Version:       2.7.6
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T17:35:00Z
+Modified:      2026-02-04T17:45:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,10 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.7.6 (2026-02-04)
+    - Matched Attestations text size to 4A model cards (h4: 1.3rem, p: 0.9rem)
+    - Updated badge background to new color
+  
   v2.7.5 (2026-02-04)
     - Changed attestation color from pink (#EC4899) to muted blue-gray (#8B9DC3)
     - More trustworthy/confident tone, less danger/warning feel
@@ -700,7 +704,7 @@ Changelog:
     }
     
     .attestations-content h4 {
-      font-size: 1rem;
+      font-size: 1.3rem;
       font-weight: 600;
       color: var(--attestation-color);
       margin-bottom: 0.35rem;
@@ -714,7 +718,7 @@ Changelog:
       font-size: 0.65rem;
       font-weight: 500;
       padding: 0.2rem 0.5rem;
-      background: rgba(236, 72, 153, 0.15);
+      background: rgba(139, 157, 195, 0.15);
       color: var(--attestation-color);
       border-radius: 4px;
       text-transform: uppercase;
@@ -722,8 +726,10 @@ Changelog:
     }
     
     .attestations-content p {
-      font-size: 0.875rem;
+      font-size: 0.9rem;
       color: var(--gray-400);
+      line-height: 1.6;
+    }
       line-height: 1.5;
       margin: 0;
     }
