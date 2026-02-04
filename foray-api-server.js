@@ -54,6 +54,7 @@
  */
 
 'use strict';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 // ---------------------------------------------------------------------------
 // Dependencies
@@ -61,6 +62,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const fetch = require('node-fetch');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
