@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.6.3
+Version:       2.6.4
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T16:10:00Z
+Modified:      2026-02-04T16:15:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,10 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.6.4 (2026-02-04)
+    - Back-to-top at content right edge (right:1rem)
+    - Added spacing below content (bottom:-2rem)
+  
   v2.6.3 (2026-02-04)
     - Repositioned back-to-top to viewport right edge using calc()
     - Reduced size back to subtle (20px icon, 35%/70% opacity)
@@ -384,11 +388,11 @@ Changelog:
       }
     }
     
-    /* Back to Top Arrow - fixed to viewport right edge */
+    /* Back to Top Arrow - at right edge of content with spacing below */
     .back-to-top {
       position: absolute;
-      bottom: 1rem;
-      right: calc(-50vw + 50% + 2rem);
+      bottom: -2rem;
+      right: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
