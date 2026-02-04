@@ -308,6 +308,33 @@ When to Include Attestations:
 
 Important: Attestations record CLAIMS, not TRUTH. Include attestations when accountability for assertions matters.
 
+## CRITICAL VALIDATION RULES
+
+The generated JSON will be validated. To avoid validation errors, you MUST follow these rules:
+
+1. **REFERENTIAL INTEGRITY**: Every reference ID in _refs arrays MUST exist as an actual component ID in the transaction.
+   - arrangement_refs: Each ID must match an existing arrangement's "id" field
+   - accrual_refs: Each ID must match an existing accrual's "id" field  
+   - anticipation_refs: Each ID must match an existing anticipation's "id" field
+   - subject_refs (attestations): Each ID must match an existing component's "id" field
+   - dependencies: Each ID must match an existing component's "id" field
+   
+   BAD: "arrangement_refs": ["ARR_CONTRACT"] when no arrangement has id "ARR_CONTRACT"
+   GOOD: Create the arrangement first with id "ARR_CONTRACT", then reference it
+
+2. **ALLOCATION SUM RULE**: If an Action has a non-empty "allocations" array, the sum of all allocation "amount" values MUST EXACTLY EQUAL "amount_settled".
+   - If you cannot properly calculate allocations, use an empty array: "allocations": []
+   - Example: amount_settled: 10000, allocations: [{amount: 6000}, {amount: 4000}] = 10000 (VALID)
+
+3. **MINIMUM COMPONENTS**: Transaction must have at least one component (arrangement, accrual, anticipation, or action).
+
+4. **ID PREFIX CONVENTION**: Use correct prefixes for component IDs:
+   - Arrangements: ARR_*
+   - Accruals: ACC_*
+   - Anticipations: ANT_*
+   - Actions: ACT_*
+   - Attestations: ATT_*
+
 ## Domain Recognition
 
 Detect transaction domain from description and apply appropriate patterns:
