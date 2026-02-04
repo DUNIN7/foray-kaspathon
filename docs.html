@@ -418,6 +418,7 @@
         <div class="sidebar-title">Integration</div>
         <a href="#quickbooks" class="sidebar-link">QuickBooks</a>
         <a href="#erp" class="sidebar-link">ERP Systems</a>
+        <a href="#ai-agents" class="sidebar-link">AI Agents</a>
       </div>
     </aside>
 
@@ -947,6 +948,67 @@
       <p>
         FORAY adapters are available or planned for SAP, Oracle, NetSuite, and Salesforce. 
         Contact us for enterprise integration support.
+      </p>
+
+      <h2 id="ai-agents">AI Agent Integration</h2>
+      <p>
+        As autonomous AI agents execute trades and financial operations on behalf of users,
+        the need for tamper-evident audit trails becomes critical. FORAY provides accountability 
+        infrastructure for agent-executed transactions.
+      </p>
+
+      <h3>OpenClaw Trading Audit Skill</h3>
+      <p>
+        <a href="https://openclaw.ai" target="_blank">OpenClaw</a> is an open-source AI agent platform 
+        that can execute autonomous tasks including crypto trading on platforms like Hyperliquid and Polymarket.
+        The FORAY Audit Skill enables automatic capture of every trade the agent executes:
+      </p>
+
+      <ul>
+        <li><strong>Trade Capture</strong> &mdash; Asset, direction, quantity, price, leverage, fees</li>
+        <li><strong>Risk Parameters</strong> &mdash; Stop loss, take profit, liquidation levels</li>
+        <li><strong>Agent Rationale</strong> &mdash; Why the agent made the decision</li>
+        <li><strong>Human Authorization</strong> &mdash; Whether human-in-the-loop approved</li>
+        <li><strong>Exchange Attestation</strong> &mdash; Confirmation from the trading venue</li>
+      </ul>
+
+      <h3>Natural Language Commands</h3>
+      <div class="code-block">
+        <code><pre>"Audit my last trade"
+"Anchor my trading history to Kaspa"
+"Show me proof of that BTC short"
+"Export audit report for taxes"</pre></code>
+      </div>
+
+      <h3>Supported Platforms</h3>
+      <table>
+        <thead>
+          <tr><th>Platform</th><th>Type</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Hyperliquid</td><td>Perpetuals, Spot</td><td>Supported</td></tr>
+          <tr><td>Polymarket</td><td>Prediction Markets</td><td>Supported</td></tr>
+          <tr><td>Jupiter</td><td>Solana DEX</td><td>Supported</td></tr>
+          <tr><td>Uniswap</td><td>ETH DEX</td><td>Supported</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Why This Matters</h3>
+      <p>
+        When you give an AI agent control over real money, you need cryptographic proof of:
+      </p>
+      <ul>
+        <li>What was intended vs. what happened</li>
+        <li>Who authorized each trade (human approval or auto-trade rule)</li>
+        <li>The sequence of events for dispute resolution</li>
+        <li>Complete history for tax and compliance reporting</li>
+      </ul>
+      <p>
+        FORAY anchors each trade to Kaspa's ~1-second finality blockchain, creating an immutable 
+        record that cannot be altered after the fact.
+      </p>
+      <p>
+        The skill is available at <a href="https://github.com/DUNIN7/openclaw-audit-skill" target="_blank">github.com/DUNIN7/openclaw-audit-skill</a>.
       </p>
 
       <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(125, 211, 214, 0.1); text-align: center; color: var(--gray-400); font-size: 0.9rem;">
