@@ -183,12 +183,7 @@ Every FORAY transaction decomposes into four core component types, with an optio
   "actions": [],
   "attestations": [],
   "merkle_root": "sha256:...",
-  "blockchain_anchor": {
-    "kaspa_tx_id": "kaspa:qr...",
-    "block_height": 0,
-    "confirmation_time_ms": 0,
-    "anchored_at": "ISO-8601"
-  },
+  "blockchain_anchor": null,
   "audit_data_anchor": {
     "audit_data_hash": "sha256:...",
     "audit_profile": "standard",
@@ -200,6 +195,8 @@ Every FORAY transaction decomposes into four core component types, with an optio
     "attack_complexity": "N/A"
   }
 }
+
+IMPORTANT: The "blockchain_anchor" field MUST be null when generating transactions. Blockchain anchoring happens AFTER generation when the user clicks "Anchor". Never generate fake kaspa_tx_id, block_height, or anchored_at values.
 
 ## Component Structure Templates
 
