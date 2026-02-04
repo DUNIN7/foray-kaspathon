@@ -5327,27 +5327,6 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         sessionStorage.setItem('foray_selected_network', selectedNetwork);
       }, [selectedNetwork]);
 
-      // Auto-reconnect wallet on page load if previously connected
-      useEffect(() => {
-        const autoReconnectWallet = async () => {
-          const wasConnected = sessionStorage.getItem('foray_wallet_connected');
-          if (wasConnected === 'true' && isKasWareAvailable()) {
-            try {
-              const accounts = await window.kasware.getAccounts();
-              if (accounts && accounts.length > 0) {
-                setWalletAddress(accounts[0]);
-                setWalletConnected(true);
-                console.log('Auto-reconnected wallet:', accounts[0].substring(0, 20) + '...');
-              }
-            } catch (err) {
-              console.log('Auto-reconnect failed (user may need to reconnect):', err.message);
-              sessionStorage.removeItem('foray_wallet_connected');
-            }
-          }
-        };
-        autoReconnectWallet();
-      }, []);
-
       // Check sessionStorage on mount for passed transactions from generator
       useEffect(() => {
         // Check for transaction passed from generator page
@@ -5502,6 +5481,27 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         // Clear persisted connection state
         sessionStorage.removeItem('foray_wallet_connected');
       };
+
+      // Auto-reconnect wallet on page load if previously connected
+      useEffect(() => {
+        const autoReconnectWallet = async () => {
+          const wasConnected = sessionStorage.getItem('foray_wallet_connected');
+          if (wasConnected === 'true' && isKasWareAvailable()) {
+            try {
+              const accounts = await window.kasware.getAccounts();
+              if (accounts && accounts.length > 0) {
+                setWalletAddress(accounts[0]);
+                setWalletConnected(true);
+                console.log('Auto-reconnected wallet:', accounts[0].substring(0, 20) + '...');
+              }
+            } catch (err) {
+              console.log('Auto-reconnect failed (user may need to reconnect):', err.message);
+              sessionStorage.removeItem('foray_wallet_connected');
+            }
+          }
+        };
+        autoReconnectWallet();
+      }, []);
 
       // Compute a simple hash of the transaction data for anchoring
       const computeTransactionHash = async (txData) => {
