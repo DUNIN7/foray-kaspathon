@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.7.4
+Version:       2.7.5
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T17:28:00Z
+Modified:      2026-02-04T17:35:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,10 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.7.5 (2026-02-04)
+    - Changed attestation color from pink (#EC4899) to muted blue-gray (#8B9DC3)
+    - More trustworthy/confident tone, less danger/warning feel
+  
   v2.7.4 (2026-02-04)
     - Moved Kaspa arrow down more (bottom:-3rem)
   
@@ -98,7 +102,7 @@ Changelog:
   v2.4.0 (2026-02-01)
     - Added Attestations component to 4A model section
     - Updated title to "The 4A Model + Attestations"
-    - Added attestation-color CSS variable (pink #EC4899)
+    - Added attestation-color CSS variable (muted blue-gray #8B9DC3)
     - Updated flow diagram to show "+ Attestations"
   
   v2.3.0 (2026-01-31)
@@ -165,7 +169,7 @@ Changelog:
       --accrual-color: #E6A817;
       --anticipation-color: #8B5CF6;
       --action-color: #10B981;
-      --attestation-color: #EC4899;
+      --attestation-color: #8B9DC3;
     }
     
     * {
@@ -677,8 +681,8 @@ Changelog:
       gap: 1.25rem;
       margin-top: 1.5rem;
       padding: 1.25rem 1.5rem;
-      background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(236, 72, 153, 0.03) 100%);
-      border: 1px solid rgba(236, 72, 153, 0.2);
+      background: linear-gradient(135deg, rgba(139, 157, 195, 0.08) 0%, rgba(139, 157, 195, 0.03) 100%);
+      border: 1px solid rgba(139, 157, 195, 0.2);
       border-left: 3px solid var(--attestation-color);
       border-radius: 8px;
     }
