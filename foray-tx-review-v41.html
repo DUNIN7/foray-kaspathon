@@ -5297,7 +5297,10 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
       const [showAnchorConfirm, setShowAnchorConfirm] = useState(false);
       const [isAnchoring, setIsAnchoring] = useState(false);
       const [anchorResult, setAnchorResult] = useState(null);
-      const [selectedNetwork, setSelectedNetwork] = useState('testnet-10');
+      const [selectedNetwork, setSelectedNetwork] = useState(() => {
+        // Restore network from sessionStorage if available
+        return sessionStorage.getItem('foray_selected_network') || 'testnet-10';
+      });
       const [showNetworkDropdown, setShowNetworkDropdown] = useState(false);
       const [showMainnetWarning, setShowMainnetWarning] = useState(false);
       const [pendingNetworkSwitch, setPendingNetworkSwitch] = useState(null);
@@ -5318,6 +5321,32 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
       
       // Check if all sections are expanded
       const allExpanded = Object.values(expandedSections).every(v => v === true);
+
+      // Persist network selection to sessionStorage
+      useEffect(() => {
+        sessionStorage.setItem('foray_selected_network', selectedNetwork);
+      }, [selectedNetwork]);
+
+      // Auto-reconnect wallet on page load if previously connected
+      useEffect(() => {
+        const autoReconnectWallet = async () => {
+          const wasConnected = sessionStorage.getItem('foray_wallet_connected');
+          if (wasConnected === 'true' && isKasWareAvailable()) {
+            try {
+              const accounts = await window.kasware.getAccounts();
+              if (accounts && accounts.length > 0) {
+                setWalletAddress(accounts[0]);
+                setWalletConnected(true);
+                console.log('Auto-reconnected wallet:', accounts[0].substring(0, 20) + '...');
+              }
+            } catch (err) {
+              console.log('Auto-reconnect failed (user may need to reconnect):', err.message);
+              sessionStorage.removeItem('foray_wallet_connected');
+            }
+          }
+        };
+        autoReconnectWallet();
+      }, []);
 
       // Check sessionStorage on mount for passed transactions from generator
       useEffect(() => {
@@ -5436,6 +5465,8 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
           if (accounts && accounts.length > 0) {
             setWalletAddress(accounts[0]);
             setWalletConnected(true);
+            // Persist connection state for auto-reconnect
+            sessionStorage.setItem('foray_wallet_connected', 'true');
             
             // Check and sync network
             const walletNetwork = await window.kasware.getNetwork();
@@ -5468,6 +5499,8 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         }
         setWalletConnected(false);
         setWalletAddress(null);
+        // Clear persisted connection state
+        sessionStorage.removeItem('foray_wallet_connected');
       };
 
       // Compute a simple hash of the transaction data for anchoring
