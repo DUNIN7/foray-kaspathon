@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.5.4
+Version:       2.6.0
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T15:32:00Z
+Modified:      2026-02-04T15:45:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,11 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.6.0 (2026-02-04)
+    - Added subtle back-to-top arrows at bottom-right of each section
+    - Arrows at 25% opacity, 60% on hover
+    - Hidden on mobile to avoid clutter
+  
   v2.5.4 (2026-02-04)
     - Made scroll indicator more subtle (35% opacity, 70% on hover)
   
@@ -361,6 +366,42 @@ Changelog:
     /* Hide scroll indicator on smaller screens where content is visible */
     @media (max-width: 768px) {
       .scroll-indicator {
+        display: none;
+      }
+    }
+    
+    /* Back to Top Arrow */
+    .back-to-top {
+      position: absolute;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      color: rgba(255, 255, 255, 0.25);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .back-to-top:hover {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .back-to-top svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    /* Sections need relative positioning for the back-to-top arrow */
+    .section, .kaspa-section, .cta-section {
+      position: relative;
+    }
+    
+    @media (max-width: 768px) {
+      .back-to-top {
         display: none;
       }
     }
@@ -1003,6 +1044,11 @@ Changelog:
         Even "audit logs" can be modified by database administrators.</p>
       </div>
     </div>
+    <a href="#" class="back-to-top" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"/>
+      </svg>
+    </a>
   </section>
 
   <!-- Solution Section - 4A Model + Attestations -->
@@ -1091,6 +1137,11 @@ Changelog:
         </div>
       </div>
     </div>
+    <a href="#" class="back-to-top" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"/>
+      </svg>
+    </a>
   </section>
 
   <!-- Benefits Section -->
@@ -1174,6 +1225,11 @@ Changelog:
         economically viable for high-volume enterprises.</p>
       </div>
     </div>
+    <a href="#" class="back-to-top" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"/>
+      </svg>
+    </a>
   </section>
 
   <!-- Kaspa Section -->
@@ -1212,6 +1268,11 @@ Changelog:
         <div class="kaspa-stat-label">Launch</div>
       </div>
     </div>
+    <a href="#" class="back-to-top" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"/>
+      </svg>
+    </a>
   </section>
 
   <!-- CTA Section -->
@@ -1222,6 +1283,11 @@ Changelog:
         Try the interactive demo and anchor your first transaction to Kaspa Testnet.
       </p>
     </div>
+    <a href="#" class="back-to-top" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"/>
+      </svg>
+    </a>
   </section>
 
   <!-- Footer -->
