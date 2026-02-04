@@ -835,6 +835,11 @@ app.post('/api/generate-foray', async (req, res) => {
     // -- Parse dual output --
     const { forayJSON, narrative } = parseGeneratorOutput(rawText);
 
+    // -- Override timestamp with current time --
+    if (forayJSON) {
+      forayJSON.timestamp = new Date().toISOString();
+    }
+
     // -- Validate generated JSON --
     const validation = validateFORAYJSON(forayJSON);
 
