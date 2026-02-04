@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.6.4
+Version:       2.6.5
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T16:15:00Z
+Modified:      2026-02-04T16:20:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,11 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.6.5 (2026-02-04)
+    - Fixed inconsistent back-to-top positions across section types
+    - Added padding to CTA section for last arrow spacing
+    - Overrides for .section and .kaspa-section alignment
+  
   v2.6.4 (2026-02-04)
     - Back-to-top at content right edge (right:1rem)
     - Added spacing below content (bottom:-2rem)
@@ -388,11 +393,11 @@ Changelog:
       }
     }
     
-    /* Back to Top Arrow - at right edge of content with spacing below */
+    /* Back to Top Arrow - consistent position near viewport right */
     .back-to-top {
       position: absolute;
-      bottom: -2rem;
-      right: 1rem;
+      bottom: -1.5rem;
+      right: 2rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -403,6 +408,12 @@ Changelog:
       transition: color 0.3s ease;
       cursor: pointer;
       z-index: 10;
+    }
+    
+    /* Override for sections with max-width to align arrows */
+    .section .back-to-top,
+    .kaspa-section .back-to-top {
+      right: 0;
     }
     
     .back-to-top:hover {
@@ -418,6 +429,11 @@ Changelog:
     .section, .solution-section, .kaspa-section, .cta-section {
       position: relative;
       overflow: visible;
+    }
+    
+    /* CTA section needs more bottom padding for the arrow */
+    .cta-section {
+      padding-bottom: 4rem;
     }
     
     @media (max-width: 768px) {
