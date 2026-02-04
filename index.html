@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.6.5
+Version:       2.6.6
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T16:20:00Z
+Modified:      2026-02-04T16:30:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,11 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.6.6 (2026-02-04)
+    - Moved solution-section back-to-top inside inner .section div
+    - Simplified CSS: all .section arrows at right:0, bottom:-1rem
+    - Kaspa/CTA arrows at right:1rem, bottom:1rem (inside their bounds)
+  
   v2.6.5 (2026-02-04)
     - Fixed inconsistent back-to-top positions across section types
     - Added padding to CTA section for last arrow spacing
@@ -393,11 +398,11 @@ Changelog:
       }
     }
     
-    /* Back to Top Arrow - consistent position near viewport right */
+    /* Back to Top Arrow - positioned at right edge of content */
     .back-to-top {
       position: absolute;
-      bottom: -1.5rem;
-      right: 2rem;
+      bottom: -1rem;
+      right: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -410,12 +415,6 @@ Changelog:
       z-index: 10;
     }
     
-    /* Override for sections with max-width to align arrows */
-    .section .back-to-top,
-    .kaspa-section .back-to-top {
-      right: 0;
-    }
-    
     .back-to-top:hover {
       color: rgba(255, 255, 255, 0.7);
     }
@@ -425,15 +424,17 @@ Changelog:
       height: 20px;
     }
     
-    /* Sections need relative positioning for the back-to-top arrow */
-    .section, .solution-section, .kaspa-section, .cta-section {
+    /* All sections need relative positioning */
+    .section, .kaspa-section, .cta-section {
       position: relative;
       overflow: visible;
     }
     
-    /* CTA section needs more bottom padding for the arrow */
-    .cta-section {
-      padding-bottom: 4rem;
+    /* Kaspa and CTA sections: position arrow inside their bounds */
+    .kaspa-section .back-to-top,
+    .cta-section .back-to-top {
+      bottom: 1rem;
+      right: 1rem;
     }
     
     @media (max-width: 768px) {
@@ -1172,12 +1173,12 @@ Changelog:
           <span style="color: var(--attestation-color);">Attestations</span>
         </div>
       </div>
+      <a href="#" class="back-to-top" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="18 15 12 9 6 15"/>
+        </svg>
+      </a>
     </div>
-    <a href="#" class="back-to-top" aria-label="Back to top">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="18 15 12 9 6 15"/>
-      </svg>
-    </a>
   </section>
 
   <!-- Benefits Section -->
