@@ -5572,6 +5572,17 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
           };
 
           setAnchorResult(result);
+          
+          // Update transactionData with blockchain anchor info so UI reflects anchored state
+          setTransactionData(prev => ({
+            ...prev,
+            blockchain_anchor: {
+              kaspa_tx_id: txId,
+              block_height: null, // Will be confirmed later
+              confirmation_time_ms: confirmationTime,
+              anchored_at: new Date().toISOString()
+            }
+          }));
 
         } catch (err) {
           console.error('Anchoring error:', err);
