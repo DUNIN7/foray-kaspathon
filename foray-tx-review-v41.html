@@ -5,7 +5,7 @@
   ============================================================================
   Version:       4.1.6
   Created:       2026-01-26T23:43:00Z
-  Last Modified: 2026-02-04T16:55:00Z
+  Last Modified: 2026-02-04T20:30:00Z
   
   Author:        Marvin Percival
   Email:         marvinp@dunin7.com
@@ -21,9 +21,8 @@
   
   Changelog:
     v4.1.6 (2026-02-04)
-      - Removed Testnet 11 references from Version Guide modal
-      - Updated network info to show only Testnet 10 and Mainnet (2-column grid)
-      - Updated recommendation text for Mainnet warning dialog
+      - Fixed Blockchain Anchor display to handle null values properly
+      - Shows "Not anchored" / "N/A" instead of "undefined..." before anchoring
     
     v4.1.5 (2026-02-01)
       - Added full Attestations UI section with expandable cards
@@ -6090,12 +6089,12 @@ Anchored By: ${anchorResult.anchored_by}`;
                       <Card className="mt-2">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div>
-                            <KeyValue label="Kaspa TX ID" value={transactionData.blockchain_anchor.kaspa_tx_id?.substring(0, 30) + '...'} mono />
-                            <KeyValue label="Block Height" value={transactionData.blockchain_anchor.block_height?.toLocaleString()} />
+                            <KeyValue label="Kaspa TX ID" value={transactionData.blockchain_anchor.kaspa_tx_id ? transactionData.blockchain_anchor.kaspa_tx_id.substring(0, 30) + '...' : 'Not anchored'} mono />
+                            <KeyValue label="Block Height" value={transactionData.blockchain_anchor.block_height ? transactionData.blockchain_anchor.block_height.toLocaleString() : 'N/A'} />
                           </div>
                           <div>
-                            <KeyValue label="Confirmation Time" value={`${transactionData.blockchain_anchor.confirmation_time_ms || 'N/A'} ms`} />
-                            <KeyValue label="Anchored At" value={transactionData.blockchain_anchor.anchored_at} />
+                            <KeyValue label="Confirmation Time" value={transactionData.blockchain_anchor.confirmation_time_ms ? `${transactionData.blockchain_anchor.confirmation_time_ms} ms` : 'N/A'} />
+                            <KeyValue label="Anchored At" value={transactionData.blockchain_anchor.anchored_at || 'N/A'} />
                           </div>
                         </div>
                       </Card>
@@ -6915,7 +6914,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               This Transaction Review tool demonstrates blockchain anchoring using actual Kaspa testnet transactions. When you anchor a transaction:
                             </p>
                             <ul className="text-sm mt-2 space-y-1" style={{ color: forayColors.gray600 }}>
-                              <li>&bull; <strong>Real Kaspa TX:</strong> A real transaction is submitted to Kaspa Testnet 10</li>
+                              <li>&bull; <strong>Real Kaspa TX:</strong> A real transaction is submitted to Kaspa Testnet 10 or 11</li>
                               <li>&bull; <strong>Explorer Verification:</strong> Click "View on Explorer" to see the actual blockchain record</li>
                               <li>&bull; <strong>Test Funds Required:</strong> Get free test KAS from the faucet (link in network dropdown)</li>
                               <li>&bull; <strong>No FORAY Data in TX:</strong> The FORAY data itself is NOT embedded in the blockchain transaction&mdash;only the timestamp proof is on-chain</li>
@@ -6928,11 +6927,16 @@ Anchored By: ${anchorResult.anchored_by}`;
                           {/* Network Information */}
                           <div className="p-4 border rounded-lg" style={{ borderColor: forayColors.gray400 }}>
                             <h4 className="font-medium mb-3" style={{ color: forayColors.secondaryNavy }}>Kaspa Networks</h4>
-                            <div className="grid grid-cols-2 gap-3 text-xs">
+                            <div className="grid grid-cols-3 gap-3 text-xs">
                               <div className="p-3 rounded" style={{ backgroundColor: `${forayColors.actionAmber}10` }}>
                                 <p className="font-semibold" style={{ color: forayColors.actionAmber }}>Testnet 10</p>
                                 <p style={{ color: forayColors.gray600 }}>Stable, mirrors mainnet (1 BPS)</p>
                                 <p className="mt-1"><strong>Recommended for testing</strong></p>
+                              </div>
+                              <div className="p-3 rounded" style={{ backgroundColor: `${forayColors.actionAmber}10` }}>
+                                <p className="font-semibold" style={{ color: forayColors.actionAmber }}>Testnet 11</p>
+                                <p style={{ color: forayColors.gray600 }}>Experimental (10 BPS)</p>
+                                <p className="mt-1">Faster confirmations</p>
                               </div>
                               <div className="p-3 rounded opacity-50" style={{ backgroundColor: `${forayColors.gray400}10` }}>
                                 <p className="font-semibold" style={{ color: forayColors.gray400 }}>Mainnet</p>
@@ -7174,7 +7178,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     </div>
                     <div className="p-3 rounded-lg mb-6" style={{ backgroundColor: forayColors.bgLight }}>
                       <p className="text-xs" style={{ color: forayColors.gray600 }}>
-                        <strong>Recommendation:</strong> Use Testnet 10 for development and testing. Only switch to Mainnet for production transactions.
+                        <strong>Recommendation:</strong> Use Testnet 10 or Testnet 11 for development and testing. Only switch to Mainnet for production transactions.
                       </p>
                     </div>
                     <div className="flex gap-3">
