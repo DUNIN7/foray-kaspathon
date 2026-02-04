@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.4.0
+Version:       2.7.8
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-01T04:30:00Z
+Modified:      2026-02-04T23:20:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,12 +15,109 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.7.8 (2026-02-04)
+    - Footer: Removed GitHub from Connect section (redundant)
+    - Footer: Specification links directly to specification.html
+    - Footer: Renamed "Integration Guide" to "Integration", links to QuickBooks section
+
+  v2.7.7 (2026-02-04)
+    - Added hover glow effect to Attestations banner (matches 4A model cards)
+    - Includes lift, border highlight, and box-shadow on hover
+
+  v2.7.6 (2026-02-04)
+    - Matched Attestations text size to 4A model cards (h4: 1.3rem, p: 0.9rem)
+    - Updated badge background to new color
+
+  v2.7.5 (2026-02-04)
+    - Changed attestation color from pink (#EC4899) to muted blue-gray (#8B9DC3)
+    - More trustworthy/confident tone, less danger/warning feel
+
+  v2.7.4 (2026-02-04)
+    - Moved Kaspa arrow down more (bottom:-3rem)
+
+  v2.7.3 (2026-02-04)
+    - Adjusted Kaspa arrow horizontal position (right:-20px) to align with other sections
+
+  v2.7.2 (2026-02-04)
+    - Moved Kaspa arrow outside border (bottom:-2.5rem, right:0)
+
+  v2.7.1 (2026-02-04)
+    - Adjusted Kaspa section arrow position (right:3rem) to align with content
+
+  v2.7.0 (2026-02-04)
+    - Added border styling to Kaspa section (matches Attestations banner style)
+    - 1px border with 3px teal left accent, 12px border-radius
+
+  v2.6.9 (2026-02-04)
+    - Reduced Kaspa section max-width to 1160px to match other sections visually
+
+  v2.6.8 (2026-02-04)
+    - Aligned Kaspa section arrow with other sections (right:0)
+
+  v2.6.7 (2026-02-04)
+    - Removed back-to-top from CTA section (redundant before footer)
+    - Fixed Kaspa section arrow: bottom:-1rem for spacing below content
+
+  v2.6.6 (2026-02-04)
+    - Moved solution-section back-to-top inside inner .section div
+    - Simplified CSS: all .section arrows at right:0, bottom:-1rem
+    - Kaspa/CTA arrows at right:1rem, bottom:1rem (inside their bounds)
+
+  v2.6.5 (2026-02-04)
+    - Fixed inconsistent back-to-top positions across section types
+    - Added padding to CTA section for last arrow spacing
+    - Overrides for .section and .kaspa-section alignment
+
+  v2.6.4 (2026-02-04)
+    - Back-to-top at content right edge (right:1rem)
+    - Added spacing below content (bottom:-2rem)
+
+  v2.6.3 (2026-02-04)
+    - Repositioned back-to-top to viewport right edge using calc()
+    - Reduced size back to subtle (20px icon, 35%/70% opacity)
+    - Bottom: 1rem for consistent placement
+
+  v2.6.2 (2026-02-04)
+    - Added solution-section to positioning rule (was missing)
+    - Increased visibility: 50% opacity, larger size (40px/24px icon)
+    - Added z-index and overflow:visible to ensure arrows show
+
+  v2.6.1 (2026-02-04)
+    - Fixed back-to-top arrow positioning (right:0 instead of right:1.5rem)
+    - Increased opacity to 35%/70% for better visibility
+
+  v2.6.0 (2026-02-04)
+    - Added subtle back-to-top arrows at bottom-right of each section
+    - Arrows at 25% opacity, 60% on hover
+    - Hidden on mobile to avoid clutter
+
+  v2.5.4 (2026-02-04)
+    - Made scroll indicator more subtle (35% opacity, 70% on hover)
+
+  v2.5.3 (2026-02-04)
+    - Fixed broken HTML structure (extra closing div tag)
+    - Scroll indicator now properly inside hero section
+
+  v2.5.2 (2026-02-04)
+    - Fixed centering: using left:0/right:0/margin:auto instead of transform
+    - Lighter color: white at 60% opacity rgba(255,255,255,0.6)
+
+  v2.5.1 (2026-02-04)
+    - Fixed scroll indicator: lighter color (gray-200), increased bottom spacing (3rem)
+    - Added subtle opacity (0.7) with full opacity on hover
+
+  v2.5.0 (2026-02-04)
+    - Added discrete scroll indicator (down arrow) to hero section
+    - "Learn More" text with animated bouncing chevron arrow
+    - Links to #problem section for smooth scroll navigation
+    - Hidden on mobile (768px) to avoid overlap issues
+
   v2.4.0 (2026-02-01)
     - Added Attestations component to 4A model section
     - Updated title to "The 4A Model + Attestations"
-    - Added attestation-color CSS variable (pink #EC4899)
+    - Added attestation-color CSS variable (muted blue-gray #8B9DC3)
     - Updated flow diagram to show "+ Attestations"
-  
+
   v2.3.0 (2026-01-31)
     - Content review: "tamper-proof" changed to "tamper-evident" throughout
     - Content review: Softened overclaiming language in 4A model section
@@ -30,22 +127,22 @@ Changelog:
     - Content review: Removed "completely" from problem statement
     - Fixed Kaspa BPS stat (32 -> 10+)
     - Fixed footer closing tag
-  
+
   v2.2.0 (2026-01-30)
     - Unified navigation with responsive hamburger menu
     - Fixed UTF-8 encoding issues (mojibake characters)
     - Added favicon link
-  
+
   v2.1.0 (2026-01-29)
     - Fixed scroll indicator overlap on smaller screens (now hidden on mobile)
     - Corrected Accruals description to "formulas applied against asset flows"
-  
+
   v2.0.0 (2026-01-28)
     - Reduced section spacing for better visual flow
     - Preserved hero -> Problem section gap
     - Added metadata header
     - Matching nav bar with other pages
-  
+
   v1.0.0 (2026-01-27)
     - Initial landing page with hero, problem/solution sections
     - FORAY brand colors and styling
@@ -58,12 +155,12 @@ Changelog:
   <title>FORAY Protocol - Immutable Audit Infrastructure for Enterprise</title>
   <meta name="description" content="Privacy-preserving blockchain audit trails for enterprise transactions. Built for Kaspathon 2026.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  
+
   <style>
     :root {
       /* FORAY Brand Colors */
@@ -79,25 +176,25 @@ Changelog:
       --gray-600: #636E72;
       --gray-400: #94A3A8;
       --gray-200: #E5E9EB;
-      
+
       /* Component Colors */
       --arrangement-color: #0D7377;
       --accrual-color: #E6A817;
       --anticipation-color: #8B5CF6;
       --action-color: #10B981;
-      --attestation-color: #EC4899;
+      --attestation-color: #8B9DC3;
     }
-    
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
+
     html {
       scroll-behavior: smooth;
     }
-    
+
     body {
       font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg-dark);
@@ -105,11 +202,11 @@ Changelog:
       line-height: 1.6;
       overflow-x: hidden;
     }
-    
+
     .font-mono {
       font-family: 'IBM Plex Mono', 'Space Mono', monospace;
     }
-    
+
     /* Navigation */
         /* === BULLETPROOF NAV CSS v4.0 - FULLY SELF-CONTAINED === */
     .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
@@ -133,29 +230,29 @@ Changelog:
     .nav-mobile-menu .nav-link:hover { color: #14B8B8; }
     @media (max-width: 768px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .nav-mobile-menu { display: flex; } }
     /* === END BULLETPROOF NAV CSS === */
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
     /* Hamburger Menu Button */
-    
-    
-    
-    
-    
+
+
+
+
+
     /* Mobile Menu Overlay */
-    
-    
-    
-    
-    
+
+
+
+
+
     /* Hero Section */
     .hero {
       min-height: 100vh;
@@ -168,7 +265,7 @@ Changelog:
       position: relative;
       overflow: hidden;
     }
-    
+
     .hero::before {
       content: '';
       position: absolute;
@@ -176,13 +273,13 @@ Changelog:
       left: 0;
       right: 0;
       bottom: 0;
-      background: 
+      background:
         radial-gradient(ellipse at 30% 20%, rgba(13, 115, 119, 0.15) 0%, transparent 50%),
         radial-gradient(ellipse at 70% 80%, rgba(20, 184, 184, 0.1) 0%, transparent 50%),
         radial-gradient(ellipse at 50% 50%, rgba(230, 168, 23, 0.05) 0%, transparent 60%);
       pointer-events: none;
     }
-    
+
     /* Animated grid background */
     .hero-grid {
       position: absolute;
@@ -190,24 +287,24 @@ Changelog:
       left: 0;
       right: 0;
       bottom: 0;
-      background-image: 
+      background-image:
         linear-gradient(rgba(125, 211, 214, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(125, 211, 214, 0.03) 1px, transparent 1px);
       background-size: 60px 60px;
       animation: gridMove 20s linear infinite;
     }
-    
+
     @keyframes gridMove {
       0% { transform: translate(0, 0); }
       100% { transform: translate(60px, 60px); }
     }
-    
+
     .hero-content {
       position: relative;
       z-index: 1;
       max-width: 900px;
     }
-    
+
     .hero-kaspathon {
       display: inline-flex;
       align-items: center;
@@ -221,7 +318,7 @@ Changelog:
       margin-bottom: 2rem;
       animation: fadeInUp 0.8s ease-out;
     }
-    
+
     .hero-kaspathon-dot {
       width: 8px;
       height: 8px;
@@ -229,12 +326,12 @@ Changelog:
       border-radius: 50%;
       animation: pulse 2s infinite;
     }
-    
+
     @keyframes pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.5; transform: scale(1.2); }
     }
-    
+
     .hero-title {
       font-size: clamp(2.5rem, 6vw, 4.5rem);
       font-weight: 700;
@@ -243,14 +340,14 @@ Changelog:
       letter-spacing: -0.03em;
       animation: fadeInUp 0.8s ease-out 0.1s both;
     }
-    
+
     .hero-title-gradient {
       background: linear-gradient(135deg, var(--accent-cyan), var(--highlight-mint), var(--action-amber));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    
+
     .hero-subtitle {
       font-size: clamp(1.1rem, 2vw, 1.4rem);
       color: var(--gray-400);
@@ -259,7 +356,7 @@ Changelog:
       line-height: 1.7;
       animation: fadeInUp 0.8s ease-out 0.2s both;
     }
-    
+
     .btn {
       display: inline-flex;
       align-items: center;
@@ -273,18 +370,18 @@ Changelog:
       cursor: pointer;
       border: none;
     }
-    
+
     .btn-secondary {
       background: transparent;
       color: var(--text-light);
       border: 1px solid var(--gray-600);
     }
-    
+
     .btn-secondary:hover {
       border-color: var(--accent-cyan);
       color: var(--accent-cyan);
     }
-    
+
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -295,19 +392,111 @@ Changelog:
         transform: translateY(0);
       }
     }
-    
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 3rem;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      width: fit-content;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255, 255, 255, 0.35);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+      cursor: pointer;
+    }
+
+    .scroll-indicator:hover {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .scroll-indicator-text {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .scroll-indicator-arrow {
+      width: 24px;
+      height: 24px;
+      animation: scrollBounce 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    /* Hide scroll indicator on smaller screens where content is visible */
+    @media (max-width: 768px) {
+      .scroll-indicator {
+        display: none;
+      }
+    }
+
+    /* Back to Top Arrow - positioned at right edge of content */
+    .back-to-top {
+      position: absolute;
+      bottom: -1rem;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      color: rgba(255, 255, 255, 0.35);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .back-to-top:hover {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .back-to-top svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* All sections need relative positioning */
+    .section, .kaspa-section {
+      position: relative;
+      overflow: visible;
+    }
+
+    /* Kaspa section: position arrow outside border, aligned with other sections */
+    .kaspa-section .back-to-top {
+      bottom: -3rem;
+      right: -20px;
+    }
+
+    @media (max-width: 768px) {
+      .back-to-top {
+        display: none;
+      }
+    }
+
     /* Problem Section */
     .section {
       padding: 3rem 2rem;
       max-width: 1200px;
       margin: 0 auto;
     }
-    
+
     /* Keep larger gap after hero for problem section */
     #problem {
       padding-top: 6rem;
     }
-    
+
     .section-label {
       font-size: 0.75rem;
       font-weight: 600;
@@ -316,21 +505,21 @@ Changelog:
       color: var(--action-amber);
       margin-bottom: 1rem;
     }
-    
+
     .section-title {
       font-size: clamp(2rem, 4vw, 3rem);
       font-weight: 700;
       letter-spacing: -0.02em;
       margin-bottom: 1.5rem;
     }
-    
+
     .section-subtitle {
       font-size: 1.1rem;
       color: var(--gray-400);
       max-width: 600px;
       margin-bottom: 2rem;
     }
-    
+
     /* Problem cards - compact style matching solution cards */
     .problem-grid {
       display: grid;
@@ -338,7 +527,7 @@ Changelog:
       gap: 1rem;
       margin-top: 2rem;
     }
-    
+
     .problem-card {
       background: rgba(27, 54, 93, 0.2);
       border: 1px solid rgba(125, 211, 214, 0.1);
@@ -349,7 +538,7 @@ Changelog:
       overflow: hidden;
       transition: all 0.3s;
     }
-    
+
     .problem-card::before {
       content: '';
       position: absolute;
@@ -359,13 +548,13 @@ Changelog:
       height: 4px;
       background: #EF4444;
     }
-    
+
     .problem-card:hover {
       border-color: rgba(239, 68, 68, 0.4);
       transform: translateY(-8px);
       box-shadow: 0 20px 60px rgba(239, 68, 68, 0.15);
     }
-    
+
     .problem-icon {
       width: 64px;
       height: 64px;
@@ -377,32 +566,32 @@ Changelog:
       margin: 0 auto 1.5rem;
       color: #EF4444;
     }
-    
+
     .problem-card h3 {
       font-size: 1.1rem;
       margin-bottom: 0.5rem;
       color: var(--text-light);
     }
-    
+
     .problem-card p {
       color: var(--gray-400);
       font-size: 0.85rem;
       line-height: 1.5;
     }
-    
+
     /* Solution / 4A Model Section */
     .solution-section {
       background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(13, 115, 119, 0.05) 50%, var(--bg-dark) 100%);
       padding: 3rem 0;
     }
-    
+
     .model-container {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 1rem;
       margin-top: 2rem;
     }
-    
+
     .model-card {
       background: rgba(26, 29, 33, 0.8);
       border: 1px solid rgba(125, 211, 214, 0.1);
@@ -413,11 +602,11 @@ Changelog:
       overflow: hidden;
       transition: all 0.3s;
     }
-    
+
     .model-card:hover {
       transform: translateY(-8px);
     }
-    
+
     .model-card::before {
       content: '';
       position: absolute;
@@ -426,17 +615,17 @@ Changelog:
       right: 0;
       height: 4px;
     }
-    
+
     .model-card.arrangement::before { background: var(--arrangement-color); }
     .model-card.accrual::before { background: var(--accrual-color); }
     .model-card.anticipation::before { background: var(--anticipation-color); }
     .model-card.action::before { background: var(--action-color); }
-    
+
     .model-card.arrangement:hover { border-color: var(--arrangement-color); box-shadow: 0 20px 60px rgba(13, 115, 119, 0.2); }
     .model-card.accrual:hover { border-color: var(--accrual-color); box-shadow: 0 20px 60px rgba(230, 168, 23, 0.2); }
     .model-card.anticipation:hover { border-color: var(--anticipation-color); box-shadow: 0 20px 60px rgba(139, 92, 246, 0.2); }
     .model-card.action:hover { border-color: var(--action-color); box-shadow: 0 20px 60px rgba(16, 185, 129, 0.2); }
-    
+
     .model-number {
       font-size: 3rem;
       font-weight: 700;
@@ -445,7 +634,7 @@ Changelog:
       top: 1rem;
       right: 1.5rem;
     }
-    
+
     .model-icon {
       width: 64px;
       height: 64px;
@@ -456,28 +645,28 @@ Changelog:
       margin: 0 auto 1.5rem;
       font-size: 1.5rem;
     }
-    
+
     .model-card.arrangement .model-icon { background: rgba(13, 115, 119, 0.2); color: var(--arrangement-color); }
     .model-card.accrual .model-icon { background: rgba(230, 168, 23, 0.2); color: var(--accrual-color); }
     .model-card.anticipation .model-icon { background: rgba(139, 92, 246, 0.2); color: var(--anticipation-color); }
     .model-card.action .model-icon { background: rgba(16, 185, 129, 0.2); color: var(--action-color); }
-    
+
     .model-card h3 {
       font-size: 1.3rem;
       margin-bottom: 0.5rem;
     }
-    
+
     .model-card.arrangement h3 { color: var(--arrangement-color); }
     .model-card.accrual h3 { color: var(--accrual-color); }
     .model-card.anticipation h3 { color: var(--anticipation-color); }
     .model-card.action h3 { color: var(--action-color); }
-    
+
     .model-card p {
       color: var(--gray-400);
       font-size: 0.9rem;
       line-height: 1.6;
     }
-    
+
     /* Flow arrows */
     .model-flow {
       display: flex;
@@ -485,7 +674,7 @@ Changelog:
       margin-top: 2rem;
       gap: 2rem;
     }
-    
+
     .flow-step {
       display: flex;
       align-items: center;
@@ -493,11 +682,11 @@ Changelog:
       font-size: 0.85rem;
       color: var(--gray-400);
     }
-    
+
     .flow-arrow {
       color: var(--accent-cyan);
     }
-    
+
     /* Attestations Banner */
     .attestations-banner {
       display: flex;
@@ -505,12 +694,19 @@ Changelog:
       gap: 1.25rem;
       margin-top: 1.5rem;
       padding: 1.25rem 1.5rem;
-      background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(236, 72, 153, 0.03) 100%);
-      border: 1px solid rgba(236, 72, 153, 0.2);
+      background: linear-gradient(135deg, rgba(139, 157, 195, 0.08) 0%, rgba(139, 157, 195, 0.03) 100%);
+      border: 1px solid rgba(139, 157, 195, 0.2);
       border-left: 3px solid var(--attestation-color);
       border-radius: 8px;
+      transition: all 0.3s;
     }
-    
+
+    .attestations-banner:hover {
+      transform: translateY(-4px);
+      border-color: var(--attestation-color);
+      box-shadow: 0 20px 60px rgba(139, 157, 195, 0.2);
+    }
+
     .attestations-icon {
       flex-shrink: 0;
       width: 44px;
@@ -522,9 +718,9 @@ Changelog:
       border-radius: 10px;
       color: var(--attestation-color);
     }
-    
+
     .attestations-content h4 {
-      font-size: 1rem;
+      font-size: 1.3rem;
       font-weight: 600;
       color: var(--attestation-color);
       margin-bottom: 0.35rem;
@@ -533,32 +729,34 @@ Changelog:
       gap: 0.75rem;
       flex-wrap: wrap;
     }
-    
+
     .attestations-badge {
       font-size: 0.65rem;
       font-weight: 500;
       padding: 0.2rem 0.5rem;
-      background: rgba(236, 72, 153, 0.15);
+      background: rgba(139, 157, 195, 0.15);
       color: var(--attestation-color);
       border-radius: 4px;
       text-transform: uppercase;
       letter-spacing: 0.03em;
     }
-    
+
     .attestations-content p {
-      font-size: 0.875rem;
+      font-size: 0.9rem;
       color: var(--gray-400);
+      line-height: 1.6;
+    }
       line-height: 1.5;
       margin: 0;
     }
-    
+
     @media (max-width: 640px) {
       .attestations-banner {
         flex-direction: column;
         gap: 1rem;
       }
     }
-    
+
     /* Benefits Section */
     .benefits-grid {
       display: grid;
@@ -566,7 +764,7 @@ Changelog:
       gap: 1.5rem;
       margin-top: 2rem;
     }
-    
+
     .benefit-card {
       background: linear-gradient(135deg, rgba(13, 115, 119, 0.1), rgba(27, 54, 93, 0.2));
       border: 1px solid rgba(125, 211, 214, 0.15);
@@ -574,12 +772,12 @@ Changelog:
       padding: 2rem;
       transition: all 0.3s;
     }
-    
+
     .benefit-card:hover {
       border-color: var(--accent-cyan);
       transform: translateY(-4px);
     }
-    
+
     .benefit-icon {
       width: 48px;
       height: 48px;
@@ -591,49 +789,49 @@ Changelog:
       margin-bottom: 1.5rem;
       color: var(--accent-cyan);
     }
-    
+
     .benefit-card h3 {
       font-size: 1.2rem;
       margin-bottom: 0.75rem;
     }
-    
+
     .benefit-card p {
       color: var(--gray-400);
       font-size: 0.95rem;
     }
-    
+
     /* Kaspa Section */
     .kaspa-section {
       background: linear-gradient(135deg, rgba(27, 54, 93, 0.3), rgba(13, 115, 119, 0.1));
-      border-radius: 24px;
+      border: 1px solid rgba(13, 115, 119, 0.2);
+      border-left: 3px solid var(--primary-teal);
+      border-radius: 12px;
       padding: 3rem;
-      margin: 2rem 2rem;
-      max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 2rem auto;
+      max-width: 1160px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 3rem;
       align-items: center;
     }
-    
+
     .kaspa-content h2 {
       font-size: 2.5rem;
       margin-bottom: 1rem;
     }
-    
+
     .kaspa-content p {
       color: var(--gray-400);
       font-size: 1.1rem;
       margin-bottom: 2rem;
     }
-    
+
     .kaspa-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
     }
-    
+
     .kaspa-stat {
       text-align: center;
       padding: 1.5rem;
@@ -641,27 +839,27 @@ Changelog:
       border-radius: 12px;
       border: 1px solid rgba(125, 211, 214, 0.1);
     }
-    
+
     .kaspa-stat-value {
       font-size: 2rem;
       font-weight: 700;
       color: var(--accent-cyan);
       font-family: 'IBM Plex Mono', monospace;
     }
-    
+
     .kaspa-stat-label {
       font-size: 0.8rem;
       color: var(--gray-400);
       margin-top: 0.25rem;
     }
-    
+
     /* CTA Section */
     .cta-section {
       text-align: center;
       padding: 4rem 2rem;
       position: relative;
     }
-    
+
     .cta-section::before {
       content: '';
       position: absolute;
@@ -673,23 +871,23 @@ Changelog:
       background: radial-gradient(circle, rgba(13, 115, 119, 0.15) 0%, transparent 70%);
       pointer-events: none;
     }
-    
+
     .cta-content {
       position: relative;
       z-index: 1;
     }
-    
+
     .cta-title {
       font-size: clamp(2rem, 4vw, 3rem);
       margin-bottom: 1rem;
     }
-    
+
     .cta-subtitle {
       color: var(--gray-400);
       font-size: 1.2rem;
       margin-bottom: 2rem;
     }
-    
+
     /* Footer */
     .footer {
       border-top: 1px solid rgba(125, 211, 214, 0.1);
@@ -697,20 +895,20 @@ Changelog:
       max-width: 1200px;
       margin: 0 auto;
     }
-    
+
     .footer-grid {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr;
       gap: 4rem;
       margin-bottom: 3rem;
     }
-    
+
     .footer-brand p {
       color: var(--gray-400);
       margin-top: 1rem;
       font-size: 0.9rem;
     }
-    
+
     .footer-links h4 {
       font-size: 0.85rem;
       font-weight: 600;
@@ -719,7 +917,7 @@ Changelog:
       color: var(--gray-400);
       margin-bottom: 1rem;
     }
-    
+
     .footer-links a {
       display: block;
       color: var(--text-light);
@@ -728,11 +926,11 @@ Changelog:
       font-size: 0.9rem;
       transition: color 0.2s;
     }
-    
+
     .footer-links a:hover {
       color: var(--accent-cyan);
     }
-    
+
     .footer-bottom {
       display: flex;
       justify-content: space-between;
@@ -742,70 +940,70 @@ Changelog:
       font-size: 0.85rem;
       color: var(--gray-400);
     }
-    
+
     .footer-legal {
       display: flex;
       gap: 2rem;
     }
-    
+
     .footer-legal a {
       color: var(--gray-400);
       text-decoration: none;
     }
-    
+
     .footer-legal a:hover {
       color: var(--accent-cyan);
     }
-    
+
     /* Responsive */
     @media (max-width: 1024px) {
       .problem-grid {
         grid-template-columns: repeat(2, 1fr);
       }
-      
+
       .model-container {
         grid-template-columns: repeat(2, 1fr);
       }
-      
+
       .benefits-grid {
         grid-template-columns: repeat(2, 1fr);
       }
-      
+
       .kaspa-section {
         grid-template-columns: 1fr;
         padding: 3rem 2rem;
       }
-      
+
       .footer-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
-    
+
     @media (max-width: 768px) {
-      
-      
-      
+
+
+
       .problem-grid {
         grid-template-columns: 1fr;
       }
-      
+
       .model-container {
         grid-template-columns: 1fr;
       }
-      
+
       .benefits-grid {
         grid-template-columns: 1fr;
       }
-      
+
       .kaspa-stats {
         grid-template-columns: 1fr;
       }
-      
+
       .footer-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
       }
-      
+
       .footer-bottom {
         flex-direction: column;
         gap: 1rem;
@@ -836,7 +1034,7 @@ Changelog:
       <span></span>
     </button>
   </nav>
-  
+
   <!-- Mobile Menu -->
   <div class="nav-mobile-menu" id="mobileMenu">
     <a href="demo.html" class="nav-link" onclick="closeMobileMenu()">Demo</a>
@@ -859,11 +1057,18 @@ Changelog:
         Protected Secrets.
       </h1>
       <p class="hero-subtitle">
-        FORAY Protocol creates tamper-evident blockchain audit trails for enterprise transactions 
+        FORAY Protocol creates tamper-evident blockchain audit trails for enterprise transactions
         without exposing sensitive business data. Powered by Kaspa's sub-second block times.
       </p>
-</div>
-</div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <a href="#problem" class="scroll-indicator" aria-label="Scroll to learn more">
+      <span class="scroll-indicator-text">Learn More</span>
+      <svg class="scroll-indicator-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </a>
   </section>
 
   <!-- Problem Section -->
@@ -871,10 +1076,10 @@ Changelog:
     <span class="section-label">The Problem</span>
     <h2 class="section-title">Enterprise Audit Trails Are Broken</h2>
     <p class="section-subtitle">
-      Companies spend billions annually on audits, struggling to prove that complex 
+      Companies spend billions annually on audits, struggling to prove that complex
       financial transactions occurred correctly.
     </p>
-    
+
     <div class="problem-grid">
       <div class="problem-card">
         <div class="problem-icon">
@@ -886,10 +1091,10 @@ Changelog:
           </svg>
         </div>
         <h3>Fragmented Records</h3>
-        <p>Contracts in one system, calculations in spreadsheets, payments in another. 
+        <p>Contracts in one system, calculations in spreadsheets, payments in another.
         Auditors must reconstruct the full picture manually.</p>
       </div>
-      
+
       <div class="problem-card">
         <div class="problem-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -899,10 +1104,10 @@ Changelog:
           </svg>
         </div>
         <h3>Delayed Detection</h3>
-        <p>Problems are discovered months or years later during periodic audits. 
+        <p>Problems are discovered months or years later during periodic audits.
         By then, evidence may be lost or corrupted.</p>
       </div>
-      
+
       <div class="problem-card">
         <div class="problem-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -911,10 +1116,10 @@ Changelog:
           </svg>
         </div>
         <h3>Privacy vs. Transparency</h3>
-        <p>Full transparency exposes competitive secrets. Full privacy prevents verification. 
+        <p>Full transparency exposes competitive secrets. Full privacy prevents verification.
         Finding the right balance has been difficult.</p>
       </div>
-      
+
       <div class="problem-card">
         <div class="problem-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -923,10 +1128,15 @@ Changelog:
           </svg>
         </div>
         <h3>Mutable Records</h3>
-        <p>Traditional systems allow backdating and alteration. 
+        <p>Traditional systems allow backdating and alteration.
         Even "audit logs" can be modified by database administrators.</p>
       </div>
     </div>
+    <a href="#" class="back-to-top" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"/>
+      </svg>
+    </a>
   </section>
 
   <!-- Solution Section - 4A Model + Attestations -->
@@ -935,10 +1145,10 @@ Changelog:
       <span class="section-label">The Solution</span>
       <h2 class="section-title">The 4A Model + Attestations</h2>
       <p class="section-subtitle">
-        FORAY decomposes business transactions into four auditable components, 
+        FORAY decomposes business transactions into four auditable components,
         with optional third-party attestations for enhanced trust.
       </p>
-      
+
       <div class="model-container">
         <div class="model-card arrangement">
           <div class="model-icon">
@@ -952,7 +1162,7 @@ Changelog:
           <h3>Arrangements</h3>
           <p>Contractual foundations defining parties, terms, and obligations. The "what we agreed to."</p>
         </div>
-        
+
         <div class="model-card accrual">
           <div class="model-icon">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -963,7 +1173,7 @@ Changelog:
           <h3>Accruals</h3>
           <p>Formulas applied against asset flows. The "how amounts are computed."</p>
         </div>
-        
+
         <div class="model-card anticipation">
           <div class="model-icon">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -974,7 +1184,7 @@ Changelog:
           <h3>Anticipations</h3>
           <p>Expected future cash flows and deliverables. The "what we expect to happen."</p>
         </div>
-        
+
         <div class="model-card action">
           <div class="model-icon">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -986,7 +1196,7 @@ Changelog:
           <p>Actual asset transfers and settlements. The "what actually moved."</p>
         </div>
       </div>
-      
+
       <!-- Attestations Extension Banner -->
       <div class="attestations-banner">
         <div class="attestations-icon">
@@ -1000,7 +1210,7 @@ Changelog:
           <p>Third-party verifications from laboratories, auditors, certification bodies, or regulators. Creates trust chains for supply chain provenance, product authentication, and regulatory compliance.</p>
         </div>
       </div>
-      
+
       <div class="model-flow">
         <div class="flow-step">
           <span style="color: var(--arrangement-color);">Arrangements</span>
@@ -1014,6 +1224,11 @@ Changelog:
           <span style="color: var(--attestation-color);">Attestations</span>
         </div>
       </div>
+      <a href="#" class="back-to-top" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="18 15 12 9 6 15"/>
+        </svg>
+      </a>
     </div>
   </section>
 
@@ -1022,10 +1237,10 @@ Changelog:
     <span class="section-label">Why FORAY</span>
     <h2 class="section-title">Built for Enterprise Reality</h2>
     <p class="section-subtitle">
-      FORAY isn't just another blockchain project&mdash;it's designed for the complex, 
+      FORAY isn't just another blockchain project&mdash;it's designed for the complex,
       regulated world of enterprise finance.
     </p>
-    
+
     <div class="benefits-grid">
       <div class="benefit-card">
         <div class="benefit-icon">
@@ -1035,10 +1250,10 @@ Changelog:
           </svg>
         </div>
         <h3>Privacy-Preserving</h3>
-        <p>Only cryptographic hashes go on-chain. Sensitive business data stays off-chain, 
+        <p>Only cryptographic hashes go on-chain. Sensitive business data stays off-chain,
         protected by your existing security infrastructure.</p>
       </div>
-      
+
       <div class="benefit-card">
         <div class="benefit-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1047,10 +1262,10 @@ Changelog:
           </svg>
         </div>
         <h3>Tamper-Evident Proof</h3>
-        <p>Blockchain anchoring provides tamper-evident timestamps. 
+        <p>Blockchain anchoring provides tamper-evident timestamps.
         No one&mdash;not even system administrators&mdash;can alter the on-chain record.</p>
       </div>
-      
+
       <div class="benefit-card">
         <div class="benefit-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1059,10 +1274,10 @@ Changelog:
           </svg>
         </div>
         <h3>Real-Time Verification</h3>
-        <p>Kaspa's 1-second blocks enable instant anchoring. 
+        <p>Kaspa's 1-second blocks enable instant anchoring.
         Verify transactions as they happen, not months later.</p>
       </div>
-      
+
       <div class="benefit-card">
         <div class="benefit-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1071,10 +1286,10 @@ Changelog:
           </svg>
         </div>
         <h3>ERP Integration Ready</h3>
-        <p>Designed to work alongside SAP, QuickBooks, Salesforce, and other 
+        <p>Designed to work alongside SAP, QuickBooks, Salesforce, and other
         enterprise systems&mdash;not replace them.</p>
       </div>
-      
+
       <div class="benefit-card">
         <div class="benefit-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1085,7 +1300,7 @@ Changelog:
         <h3>Compliance Ready</h3>
         <p>Designed to support enterprise audit requirements including SOX and DCAA compliance workflows.</p>
       </div>
-      
+
       <div class="benefit-card">
         <div class="benefit-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1094,10 +1309,15 @@ Changelog:
           </svg>
         </div>
         <h3>Minimal Cost</h3>
-        <p>Kaspa's low fees (~$0.0001/tx) make continuous anchoring 
+        <p>Kaspa's low fees (~$0.0001/tx) make continuous anchoring
         economically viable for high-volume enterprises.</p>
       </div>
     </div>
+    <a href="#" class="back-to-top" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"/>
+      </svg>
+    </a>
   </section>
 
   <!-- Kaspa Section -->
@@ -1105,7 +1325,7 @@ Changelog:
     <div class="kaspa-content">
       <h2>Why Kaspa?</h2>
       <p>
-        FORAY leverages Kaspa's unique BlockDAG architecture to enable 
+        FORAY leverages Kaspa's unique BlockDAG architecture to enable
         real-time audit anchoring that was previously impractical.
       </p>
       <a href="docs.html#kaspa" class="btn btn-secondary">Learn More &rarr;</a>
@@ -1136,6 +1356,11 @@ Changelog:
         <div class="kaspa-stat-label">Launch</div>
       </div>
     </div>
+    <a href="#" class="back-to-top" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"/>
+      </svg>
+    </a>
   </section>
 
   <!-- CTA Section -->
@@ -1159,7 +1384,7 @@ Changelog:
         </div>
         <p>Transparent audits, protected secrets, powered by Kaspa.</p>
       </div>
-      
+
       <div class="footer-links">
         <h4>Product</h4>
         <a href="demo.html">Demo</a>
@@ -1167,20 +1392,20 @@ Changelog:
         <a href="examples.html">Examples</a>
         <a href="about.html">About</a>
       </div>
-      
+
       <div class="footer-links">
         <h4>Resources</h4>
         <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a>
         <a href="specification.html">Specification</a>
         <a href="docs.html#quickbooks">Integration</a>
       </div>
-      
+
       <div class="footer-links">
         <h4>Connect</h4>
         <a href="mailto:marvinp@dunin7.com">marvinp@dunin7.com</a>
       </div>
     </div>
-    
+
     <div class="footer-bottom">
       <span>(c) 2026 Marvin Percival. All rights reserved.</span>
       <div class="footer-legal">
@@ -1189,8 +1414,8 @@ Changelog:
       </div>
     </div>
   </footer>
-  
-  <script>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Mobile Menu Toggle
     function toggleMobileMenu() {
       const hamburger = document.querySelector(".nav-hamburger");
@@ -1199,18 +1424,8 @@ Changelog:
       mobileMenu.classList.toggle("active");
       document.body.style.overflow = mobileMenu.classList.contains("active") ? "hidden" : "";
     }
-    
+
     function closeMobileMenu() {
       const hamburger = document.querySelector(".nav-hamburger");
       const mobileMenu = document.getElementById("mobileMenu");
-      hamburger.classList.remove("active");
-      mobileMenu.classList.remove("active");
-      document.body.style.overflow = "";
-    }
-    
-    document.addEventListener("keydown", function(e) {
-      if (e.key === "Escape") closeMobileMenu();
-    });
-  </script>
-</body>
-</html>
+      hamburger.classList.remove("a
