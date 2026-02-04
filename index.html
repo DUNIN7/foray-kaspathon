@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.5.2
+Version:       2.5.3
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T15:20:00Z
+Modified:      2026-02-04T15:25:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,10 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.5.3 (2026-02-04)
+    - Fixed broken HTML structure (extra closing div tag)
+    - Scroll indicator now properly inside hero section
+  
   v2.5.2 (2026-02-04)
     - Fixed centering: using left:0/right:0/margin:auto instead of transform
     - Lighter color: white at 60% opacity rgba(255,255,255,0.6)
@@ -924,7 +928,7 @@ Changelog:
         FORAY Protocol creates tamper-evident blockchain audit trails for enterprise transactions 
         without exposing sensitive business data. Powered by Kaspa's sub-second block times.
       </p>
-</div>
+    </div>
     
     <!-- Scroll Indicator -->
     <a href="#problem" class="scroll-indicator" aria-label="Scroll to learn more">
@@ -933,7 +937,6 @@ Changelog:
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </a>
-</div>
   </section>
 
   <!-- Problem Section -->
