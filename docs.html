@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <!--
   File: docs.html
-  Version: 4.1.7
+  Version: 4.1.4
   Created: 2026-01-29T08:15:00Z
-  Modified: 2026-02-02T23:00:00Z
+  Modified: 2026-02-02T17:00:00Z
   Author: Marvin Percival
   Email: marvinp@dunin7.com
   GitHub: DUNIN7/foray-kaspathon
   
   FORAY Protocol Documentation Page
   Change Log:
-    v4.1.7 (2026-02-02): Fixed encoding corruption (-> replacing single quotes) in 6 CSS + 3 JS lines
-                          Added Google Analytics 4 tracking snippet
     v4.1.4 (2026-02-02): Added infographic link (sidebar + Visual Overview box)
                          Added Attestations Extension section (sidebar + full content)
                          Added Google Chrome requirement to Demo Mode box
@@ -32,15 +30,6 @@
 -->
 <html lang="en">
 <head>
-  <!-- Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CDFWGR24FR"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-CDFWGR24FR');
-  </script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Documentation - FORAY Protocol</title>
@@ -70,17 +59,17 @@
     html { scroll-behavior: smooth; }
     
     body {
-      font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+      font-family: -> IBM Plex Sans', -apple-system, sans-serif;
       background: var(--bg-dark);
       color: var(--text-light);
       line-height: 1.7;
     }
     
-    .font-mono { font-family: 'IBM Plex Mono', monospace; }
+    .font-mono { font-family: -> IBM Plex Mono', monospace; }
     
     /* Navigation */
         /* === BULLETPROOF NAV CSS v4.0 - FULLY SELF-CONTAINED === */
-    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: -> IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
     .nav * { box-sizing: border-box; }
     .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: inherit; font-size: inherit; line-height: inherit; }
     .nav-logo-text { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; display: flex; align-items: center; }
@@ -95,7 +84,7 @@
     .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
     .nav-hamburger.active span:nth-child(2) { opacity: 0; }
     .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
-    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: -> IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
     .nav-mobile-menu.active { opacity: 1; visibility: visible; }
     .nav-mobile-menu .nav-link { font-size: 1.5rem; font-weight: 500; color: #F7F9FA; line-height: 1; }
     .nav-mobile-menu .nav-link:hover { color: #14B8B8; }
@@ -229,14 +218,14 @@
     }
     
     .code-block code {
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: -> IBM Plex Mono', monospace;
       font-size: 0.85rem;
       color: var(--text-light);
       line-height: 1.6;
     }
     
     code {
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: -> IBM Plex Mono', monospace;
       background: rgba(20, 184, 184, 0.1);
       padding: 0.15rem 0.4rem;
       border-radius: 4px;
@@ -416,9 +405,9 @@
       
       <div class="sidebar-section">
         <div class="sidebar-title">Integration</div>
+        <a href="#integration" class="sidebar-link">Overview</a>
         <a href="#quickbooks" class="sidebar-link">QuickBooks</a>
         <a href="#erp" class="sidebar-link">ERP Systems</a>
-        <a href="#ai-agents" class="sidebar-link">AI Agents</a>
       </div>
     </aside>
 
@@ -897,6 +886,70 @@
         see the <a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Attestation_Trust_Model.md">Attestation Trust Model</a> document.
       </p>
 
+      <h2 id="integration">Integration Overview</h2>
+      
+      <h3>Zero Additional Data Entry</h3>
+      <p>
+        If your ERP system already processes your business transactions, you already have everything FORAY needs.
+      </p>
+      <p>
+        FORAY doesn't require new data—it works with what you already capture. When you record a sale, 
+        process payroll, or log a purchase order, your ERP system already stores the parties, amounts, 
+        dates, and terms that define that transaction.
+      </p>
+      
+      <h4>FORAY adapters simply translate what exists</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Your ERP Already Has</th>
+            <th>FORAY Organizes It As</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Customer/Vendor records</td>
+            <td>Arrangements (who agreed to what)</td>
+          </tr>
+          <tr>
+            <td>Calculated amounts, taxes, allocations</td>
+            <td>Accruals (how values were derived)</td>
+          </tr>
+          <tr>
+            <td>Scheduled payments, deliveries</td>
+            <td>Anticipations (what's expected)</td>
+          </tr>
+          <tr>
+            <td>Completed payments, shipments</td>
+            <td>Actions (what actually happened)</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <p>
+        The integration layer reads your existing transaction data and constructs the FORAY JSON 
+        automatically—no manual entry, no duplicate records, no workflow changes.
+      </p>
+      <p>
+        <strong>Your team keeps working exactly as they do today.</strong> The audit trail builds itself.
+      </p>
+      
+      <h3>FORAY Cannot Create Data</h3>
+      <p>
+        This is by design. FORAY Protocol is a <em>read-only</em> audit layer—it can only organize, 
+        structure, and anchor data that already exists in your systems.
+      </p>
+      <ul>
+        <li><strong>No fabrication:</strong> FORAY cannot invent transactions, amounts, or parties</li>
+        <li><strong>No modification:</strong> FORAY cannot alter your source records</li>
+        <li><strong>No insertion:</strong> FORAY cannot add data back into your ERP</li>
+      </ul>
+      <p>
+        This separation ensures audit integrity. The blockchain-anchored FORAY record is a <em>reflection</em> 
+        of your source system at a point in time—nothing more, nothing less. Auditors can trust that what 
+        FORAY reports is what your system contained.
+      </p>
+
       <h2 id="quickbooks">QuickBooks Integration</h2>
       <p>
         FORAY provides adapters for QuickBooks Online at three implementation levels:
@@ -950,67 +1003,6 @@
         Contact us for enterprise integration support.
       </p>
 
-      <h2 id="ai-agents">AI Agent Integration</h2>
-      <p>
-        As autonomous AI agents execute trades and financial operations on behalf of users,
-        the need for tamper-evident audit trails becomes critical. FORAY provides accountability 
-        infrastructure for agent-executed transactions.
-      </p>
-
-      <h3>OpenClaw Trading Audit Skill</h3>
-      <p>
-        <a href="https://openclaw.ai" target="_blank">OpenClaw</a> is an open-source AI agent platform 
-        that can execute autonomous tasks including crypto trading on platforms like Hyperliquid and Polymarket.
-        The FORAY Audit Skill enables automatic capture of every trade the agent executes:
-      </p>
-
-      <ul>
-        <li><strong>Trade Capture</strong> &mdash; Asset, direction, quantity, price, leverage, fees</li>
-        <li><strong>Risk Parameters</strong> &mdash; Stop loss, take profit, liquidation levels</li>
-        <li><strong>Agent Rationale</strong> &mdash; Why the agent made the decision</li>
-        <li><strong>Human Authorization</strong> &mdash; Whether human-in-the-loop approved</li>
-        <li><strong>Exchange Attestation</strong> &mdash; Confirmation from the trading venue</li>
-      </ul>
-
-      <h3>Natural Language Commands</h3>
-      <div class="code-block">
-        <code><pre>"Audit my last trade"
-"Anchor my trading history to Kaspa"
-"Show me proof of that BTC short"
-"Export audit report for taxes"</pre></code>
-      </div>
-
-      <h3>Supported Platforms</h3>
-      <table>
-        <thead>
-          <tr><th>Platform</th><th>Type</th><th>Status</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Hyperliquid</td><td>Perpetuals, Spot</td><td>Supported</td></tr>
-          <tr><td>Polymarket</td><td>Prediction Markets</td><td>Supported</td></tr>
-          <tr><td>Jupiter</td><td>Solana DEX</td><td>Supported</td></tr>
-          <tr><td>Uniswap</td><td>ETH DEX</td><td>Supported</td></tr>
-        </tbody>
-      </table>
-
-      <h3>Why This Matters</h3>
-      <p>
-        When you give an AI agent control over real money, you need cryptographic proof of:
-      </p>
-      <ul>
-        <li>What was intended vs. what happened</li>
-        <li>Who authorized each trade (human approval or auto-trade rule)</li>
-        <li>The sequence of events for dispute resolution</li>
-        <li>Complete history for tax and compliance reporting</li>
-      </ul>
-      <p>
-        FORAY anchors each trade to Kaspa's ~1-second finality blockchain, creating an immutable 
-        record that cannot be altered after the fact.
-      </p>
-      <p>
-        The skill is available at <a href="https://github.com/DUNIN7/openclaw-audit-skill" target="_blank">github.com/DUNIN7/openclaw-audit-skill</a>.
-      </p>
-
       <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(125, 211, 214, 0.1); text-align: center; color: var(--gray-400); font-size: 0.9rem;">
         <p>&copy; 2026 Marvin Percival. All rights reserved.</p>
         <p style="margin-top: 0.5rem;">
@@ -1028,7 +1020,7 @@
       const mobileMenu = document.getElementById('mobileMenu');
       hamburger.classList.toggle('active');
       mobileMenu.classList.toggle('active');
-      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? -> hidden' : -> ';
     }
     
     function closeMobileMenu() {
@@ -1036,11 +1028,11 @@
       const mobileMenu = document.getElementById('mobileMenu');
       hamburger.classList.remove('active');
       mobileMenu.classList.remove('active');
-      document.body.style.overflow = '';
+      document.body.style.overflow = -> ';
     }
     
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeMobileMenu();
+      if (e.key === -> Escape') closeMobileMenu();
     });
   </script>
 </body>
