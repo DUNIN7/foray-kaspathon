@@ -5,7 +5,7 @@
   ============================================================================
   Version:       4.1.6
   Created:       2026-01-26T23:43:00Z
-  Last Modified: 2026-02-02T18:30:00Z
+  Last Modified: 2026-02-04T16:55:00Z
   
   Author:        Marvin Percival
   Email:         marvinp@dunin7.com
@@ -20,12 +20,10 @@
                  and print/PDF export.
   
   Changelog:
-    v4.1.6 (2026-02-02)
-      - Fixed: Network dropdown (Testnet selector) now closes on click outside
-      - Fixed: Network dropdown closes on Escape key press
-      - Added useRef and useCallback to React imports
-      - Added networkDropdownRef with mousedown/keydown event listeners
-      - Listeners attach only while dropdown is open (cleanup on close)
+    v4.1.6 (2026-02-04)
+      - Removed Testnet 11 references from Version Guide modal
+      - Updated network info to show only Testnet 10 and Mainnet (2-column grid)
+      - Updated recommendation text for Mainnet warning dialog
     
     v4.1.5 (2026-02-01)
       - Added full Attestations UI section with expandable cards
@@ -208,7 +206,7 @@
   <div id="root" style="padding-top: 60px;"></div>
   
   <script type="text/babel">
-    const { useState, useMemo, useEffect, useRef, useCallback } = React;
+    const { useState, useMemo, useEffect } = React;
 
     // FORAY Brand Colors
     const forayColors = {
@@ -5302,28 +5300,6 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
       const [anchorResult, setAnchorResult] = useState(null);
       const [selectedNetwork, setSelectedNetwork] = useState('testnet-10');
       const [showNetworkDropdown, setShowNetworkDropdown] = useState(false);
-      const networkDropdownRef = useRef(null);
-      
-      // Close network dropdown on click outside or Escape key
-      useEffect(() => {
-        if (!showNetworkDropdown) return;
-        
-        const handleClickOutside = (e) => {
-          if (networkDropdownRef.current && !networkDropdownRef.current.contains(e.target)) {
-            setShowNetworkDropdown(false);
-          }
-        };
-        const handleEscape = (e) => {
-          if (e.key === 'Escape') setShowNetworkDropdown(false);
-        };
-        
-        document.addEventListener('mousedown', handleClickOutside);
-        document.addEventListener('keydown', handleEscape);
-        return () => {
-          document.removeEventListener('mousedown', handleClickOutside);
-          document.removeEventListener('keydown', handleEscape);
-        };
-      }, [showNetworkDropdown]);
       const [showMainnetWarning, setShowMainnetWarning] = useState(false);
       const [pendingNetworkSwitch, setPendingNetworkSwitch] = useState(null);
       const [walletConnected, setWalletConnected] = useState(false);
@@ -5730,7 +5706,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                 {/* Network & Wallet Controls */}
                 <div className="flex items-center gap-3">
                   {/* Network Selector */}
-                  <div className="relative" ref={networkDropdownRef}>
+                  <div className="relative">
                     <button 
                       onClick={() => setShowNetworkDropdown(!showNetworkDropdown)}
                       className="px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-2"
@@ -6939,7 +6915,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               This Transaction Review tool demonstrates blockchain anchoring using actual Kaspa testnet transactions. When you anchor a transaction:
                             </p>
                             <ul className="text-sm mt-2 space-y-1" style={{ color: forayColors.gray600 }}>
-                              <li>&bull; <strong>Real Kaspa TX:</strong> A real transaction is submitted to Kaspa Testnet 10 or 11</li>
+                              <li>&bull; <strong>Real Kaspa TX:</strong> A real transaction is submitted to Kaspa Testnet 10</li>
                               <li>&bull; <strong>Explorer Verification:</strong> Click "View on Explorer" to see the actual blockchain record</li>
                               <li>&bull; <strong>Test Funds Required:</strong> Get free test KAS from the faucet (link in network dropdown)</li>
                               <li>&bull; <strong>No FORAY Data in TX:</strong> The FORAY data itself is NOT embedded in the blockchain transaction&mdash;only the timestamp proof is on-chain</li>
@@ -6952,16 +6928,11 @@ Anchored By: ${anchorResult.anchored_by}`;
                           {/* Network Information */}
                           <div className="p-4 border rounded-lg" style={{ borderColor: forayColors.gray400 }}>
                             <h4 className="font-medium mb-3" style={{ color: forayColors.secondaryNavy }}>Kaspa Networks</h4>
-                            <div className="grid grid-cols-3 gap-3 text-xs">
+                            <div className="grid grid-cols-2 gap-3 text-xs">
                               <div className="p-3 rounded" style={{ backgroundColor: `${forayColors.actionAmber}10` }}>
                                 <p className="font-semibold" style={{ color: forayColors.actionAmber }}>Testnet 10</p>
                                 <p style={{ color: forayColors.gray600 }}>Stable, mirrors mainnet (1 BPS)</p>
                                 <p className="mt-1"><strong>Recommended for testing</strong></p>
-                              </div>
-                              <div className="p-3 rounded" style={{ backgroundColor: `${forayColors.actionAmber}10` }}>
-                                <p className="font-semibold" style={{ color: forayColors.actionAmber }}>Testnet 11</p>
-                                <p style={{ color: forayColors.gray600 }}>Experimental (10 BPS)</p>
-                                <p className="mt-1">Faster confirmations</p>
                               </div>
                               <div className="p-3 rounded opacity-50" style={{ backgroundColor: `${forayColors.gray400}10` }}>
                                 <p className="font-semibold" style={{ color: forayColors.gray400 }}>Mainnet</p>
@@ -7203,7 +7174,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     </div>
                     <div className="p-3 rounded-lg mb-6" style={{ backgroundColor: forayColors.bgLight }}>
                       <p className="text-xs" style={{ color: forayColors.gray600 }}>
-                        <strong>Recommendation:</strong> Use Testnet 10 or Testnet 11 for development and testing. Only switch to Mainnet for production transactions.
+                        <strong>Recommendation:</strong> Use Testnet 10 for development and testing. Only switch to Mainnet for production transactions.
                       </p>
                     </div>
                     <div className="flex gap-3">
