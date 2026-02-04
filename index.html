@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.6.9
+Version:       2.7.0
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T17:05:00Z
+Modified:      2026-02-04T17:10:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,10 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.7.0 (2026-02-04)
+    - Added border styling to Kaspa section (matches Attestations banner style)
+    - 1px border with 3px teal left accent, 12px border-radius
+  
   v2.6.9 (2026-02-04)
     - Reduced Kaspa section max-width to 1160px to match other sections visually
   
@@ -761,7 +765,9 @@ Changelog:
     /* Kaspa Section */
     .kaspa-section {
       background: linear-gradient(135deg, rgba(27, 54, 93, 0.3), rgba(13, 115, 119, 0.1));
-      border-radius: 24px;
+      border: 1px solid rgba(13, 115, 119, 0.2);
+      border-left: 3px solid var(--primary-teal);
+      border-radius: 12px;
       padding: 3rem;
       margin: 2rem auto;
       max-width: 1160px;
