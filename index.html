@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.7.6
+Version:       2.7.7
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T17:45:00Z
+Modified:      2026-02-04T17:50:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,10 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.7.7 (2026-02-04)
+    - Added hover glow effect to Attestations banner (matches 4A model cards)
+    - Includes lift, border highlight, and box-shadow on hover
+  
   v2.7.6 (2026-02-04)
     - Matched Attestations text size to 4A model cards (h4: 1.3rem, p: 0.9rem)
     - Updated badge background to new color
@@ -689,6 +693,13 @@ Changelog:
       border: 1px solid rgba(139, 157, 195, 0.2);
       border-left: 3px solid var(--attestation-color);
       border-radius: 8px;
+      transition: all 0.3s;
+    }
+    
+    .attestations-banner:hover {
+      transform: translateY(-4px);
+      border-color: var(--attestation-color);
+      box-shadow: 0 20px 60px rgba(139, 157, 195, 0.2);
     }
     
     .attestations-icon {
