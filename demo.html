@@ -1046,9 +1046,11 @@
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Configuration - Update this to point to your API server
-        const API_ENDPOINT = 'http://localhost:3001/api/generate-foray';
-        const DESCRIBE_ENDPOINT = 'http://localhost:3001/api/describe-transaction';
-        // For Cloudflare Tunnel: const API_ENDPOINT = 'https://your-tunnel-url.com/api/generate-foray';
+        // Auto-detect environment and set API endpoints
+        const isLiveSite = window.location.hostname === 'foray.dunin7.com';
+        const API_BASE = isLiveSite ? 'https://foray.dunin7.com' : 'http://localhost:3001';
+        const API_ENDPOINT = `${API_BASE}/api/generate-foray`;
+        const DESCRIBE_ENDPOINT = `${API_BASE}/api/describe-transaction`;
 
         let currentTransaction = null;
         let creativeTransactionType = '';
