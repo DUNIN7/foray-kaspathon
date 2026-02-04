@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.6.1
+Version:       2.6.2
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T15:50:00Z
+Modified:      2026-02-04T16:00:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,11 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.6.2 (2026-02-04)
+    - Added solution-section to positioning rule (was missing)
+    - Increased visibility: 50% opacity, larger size (40px/24px icon)
+    - Added z-index and overflow:visible to ensure arrows show
+  
   v2.6.1 (2026-02-04)
     - Fixed back-to-top arrow positioning (right:0 instead of right:1.5rem)
     - Increased opacity to 35%/70% for better visibility
@@ -377,31 +382,33 @@ Changelog:
     /* Back to Top Arrow - positioned at right edge of content area */
     .back-to-top {
       position: absolute;
-      bottom: 1.5rem;
-      right: 0;
+      bottom: 2rem;
+      right: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
-      color: rgba(255, 255, 255, 0.35);
+      width: 40px;
+      height: 40px;
+      color: rgba(255, 255, 255, 0.5);
       text-decoration: none;
       transition: color 0.3s ease;
       cursor: pointer;
+      z-index: 10;
     }
     
     .back-to-top:hover {
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.9);
     }
     
     .back-to-top svg {
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
     }
     
     /* Sections need relative positioning for the back-to-top arrow */
-    .section, .kaspa-section, .cta-section {
+    .section, .solution-section, .kaspa-section, .cta-section {
       position: relative;
+      overflow: visible;
     }
     
     @media (max-width: 768px) {
