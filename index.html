@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.5.0
+Version:       2.5.2
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-02T22:00:00Z
+Modified:      2026-02-04T15:20:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,10 +15,20 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
-  v2.5.0 (2026-02-02)
-    - Fixed page title: "Immutable" -> "Tamper-Evident" (missed in v2.3.0 content review)
-    - Added Google Analytics 4 tracking snippet (G-CDFWGR24FR placeholder)
-
+  v2.5.2 (2026-02-04)
+    - Fixed centering: using left:0/right:0/margin:auto instead of transform
+    - Lighter color: white at 60% opacity rgba(255,255,255,0.6)
+  
+  v2.5.1 (2026-02-04)
+    - Fixed scroll indicator: lighter color (gray-200), increased bottom spacing (3rem)
+    - Added subtle opacity (0.7) with full opacity on hover
+  
+  v2.5.0 (2026-02-04)
+    - Added discrete scroll indicator (down arrow) to hero section
+    - "Learn More" text with animated bouncing chevron arrow
+    - Links to #problem section for smooth scroll navigation
+    - Hidden on mobile (768px) to avoid overlap issues
+  
   v2.4.0 (2026-02-01)
     - Added Attestations component to 4A model section
     - Updated title to "The 4A Model + Attestations"
@@ -57,18 +67,9 @@ Changelog:
 -->
 <html lang="en">
 <head>
-  <!-- Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CDFWGR24FR"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-CDFWGR24FR');
-  </script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FORAY Protocol - Tamper-Evident Audit Infrastructure for Enterprise</title>
+  <title>FORAY Protocol - Immutable Audit Infrastructure for Enterprise</title>
   <meta name="description" content="Privacy-preserving blockchain audit trails for enterprise transactions. Built for Kaspathon 2026.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   
@@ -306,6 +307,54 @@ Changelog:
       to {
         opacity: 1;
         transform: translateY(0);
+      }
+    }
+    
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 3rem;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      width: fit-content;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      transition: color 0.3s ease, opacity 0.3s ease;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+      cursor: pointer;
+    }
+    
+    .scroll-indicator:hover {
+      color: var(--accent-cyan);
+    }
+    
+    .scroll-indicator-text {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    
+    .scroll-indicator-arrow {
+      width: 24px;
+      height: 24px;
+      animation: scrollBounce 2s ease-in-out infinite;
+    }
+    
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+    
+    /* Hide scroll indicator on smaller screens where content is visible */
+    @media (max-width: 768px) {
+      .scroll-indicator {
+        display: none;
       }
     }
     
@@ -876,6 +925,14 @@ Changelog:
         without exposing sensitive business data. Powered by Kaspa's sub-second block times.
       </p>
 </div>
+    
+    <!-- Scroll Indicator -->
+    <a href="#problem" class="scroll-indicator" aria-label="Scroll to learn more">
+      <span class="scroll-indicator-text">Learn More</span>
+      <svg class="scroll-indicator-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </a>
 </div>
   </section>
 
