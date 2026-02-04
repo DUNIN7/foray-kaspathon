@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.6.0
+Version:       2.6.1
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T15:45:00Z
+Modified:      2026-02-04T15:50:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,10 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.6.1 (2026-02-04)
+    - Fixed back-to-top arrow positioning (right:0 instead of right:1.5rem)
+    - Increased opacity to 35%/70% for better visibility
+  
   v2.6.0 (2026-02-04)
     - Added subtle back-to-top arrows at bottom-right of each section
     - Arrows at 25% opacity, 60% on hover
@@ -370,24 +374,24 @@ Changelog:
       }
     }
     
-    /* Back to Top Arrow */
+    /* Back to Top Arrow - positioned at right edge of content area */
     .back-to-top {
       position: absolute;
       bottom: 1.5rem;
-      right: 1.5rem;
+      right: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       width: 36px;
       height: 36px;
-      color: rgba(255, 255, 255, 0.25);
+      color: rgba(255, 255, 255, 0.35);
       text-decoration: none;
       transition: color 0.3s ease;
       cursor: pointer;
     }
     
     .back-to-top:hover {
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(255, 255, 255, 0.7);
     }
     
     .back-to-top svg {
