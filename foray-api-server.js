@@ -322,9 +322,11 @@ The generated JSON will be validated. To avoid validation errors, you MUST follo
    BAD: "arrangement_refs": ["ARR_CONTRACT"] when no arrangement has id "ARR_CONTRACT"
    GOOD: Create the arrangement first with id "ARR_CONTRACT", then reference it
 
-2. **ALLOCATION SUM RULE**: If an Action has a non-empty "allocations" array, the sum of all allocation "amount" values MUST EXACTLY EQUAL "amount_settled".
-   - If you cannot properly calculate allocations, use an empty array: "allocations": []
-   - Example: amount_settled: 10000, allocations: [{amount: 6000}, {amount: 4000}] = 10000 (VALID)
+2. **ALLOCATION SUM RULE - CRITICAL**: 
+   - PREFERRED: Always use an empty array: "allocations": []
+   - If you DO include allocations, the sum of ALL allocation "amount" values MUST EXACTLY EQUAL "amount_settled" to the penny.
+   - This is a strict mathematical validation that WILL fail if amounts don't match exactly.
+   - When in doubt, ALWAYS use "allocations": [] to avoid validation errors.
 
 3. **MINIMUM COMPONENTS**: Transaction must have at least one component (arrangement, accrual, anticipation, or action).
 
