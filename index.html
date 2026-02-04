@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.7.8
+Version:       2.7.9
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T23:20:00Z
+Modified:      2026-02-04T23:35:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,11 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.7.9 (2026-02-04)
+    - Added "Works With What You Already Have" section before Why Kaspa
+    - Explains zero data entry requirement and read-only design
+    - Includes back-to-top arrow matching other sections
+
   v2.7.8 (2026-02-04)
     - Footer: Removed GitHub from Connect section (redundant)
     - Footer: Specification links directly to specification.html
@@ -1312,6 +1317,29 @@ Changelog:
         <p>Kaspa's low fees (~$0.0001/tx) make continuous anchoring
         economically viable for high-volume enterprises.</p>
       </div>
+    </div>
+    <a href="#" class="back-to-top" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"/>
+      </svg>
+    </a>
+  </section>
+
+  <!-- Zero Data Entry Section -->
+  <section class="section" id="zero-data-entry">
+    <span class="section-label">Implementation</span>
+    <h2 class="section-title">Works With What You Already Have</h2>
+    <p class="section-subtitle">
+      FORAY doesn't require new data entry. Your ERP already captures the transaction 
+      details FORAY needs—parties, amounts, dates, and terms. Our adapters simply 
+      read and organize your existing data into auditable blockchain records.
+    </p>
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 1.5rem; gap: 2rem;">
+      <p class="section-subtitle" style="margin: 0; flex: 1;">
+        <strong>FORAY is read-only by design:</strong> it cannot create, modify, or insert 
+        data—only reflect what your systems already contain.
+      </p>
+      <a href="docs.html#integration" class="btn btn-secondary" style="flex-shrink: 0;">Learn More &rarr;</a>
     </div>
     <a href="#" class="back-to-top" aria-label="Back to top">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
