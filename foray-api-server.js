@@ -4,7 +4,7 @@
  * ============================================================================
  * Version:       2.1.0
  * Created:       2026-01-28T16:30:00Z
- * Modified:      2026-02-02T23:45:00Z
+ * Modified:      2026-02-04T14:30:00Z
  *
  * Author:        Marvin Percival
  * Email:         marvinp@dunin7.com
@@ -20,22 +20,19 @@
  *   to avoid CORS restrictions and keep API keys server-side.
  *
  * Endpoints:
- *   GET  /health                  - Health check
- *   POST /api/generate-foray      - Generate FORAY v4.1 JSON + narrative
- *   POST /api/analyze-business    - Business analyzer for FORAY fit
+ *   GET  /health                    - Health check
+ *   POST /api/generate-foray        - Generate FORAY v4.1 JSON + narrative
+ *   POST /api/analyze-business      - Business analyzer for FORAY fit
+ *   POST /api/describe-transaction  - Get description + example for tx type
  *
  * Dependencies:
  *   express, cors, dotenv, node-fetch (or built-in fetch in Node 18+)
  *
  * Changelog:
- *   v2.1.0 (2026-02-02)
- *     - Enhanced attestation instructions for custom services/retail
- *     - Added "Custom Services/Tourism" domain recognition
- *     - CRITICAL: Attestation triggers now explicit for custom orders,
- *       group orders, physical deliveries, and service completion
- *     - Narrative generation now ALWAYS includes ATTESTATIONS section
- *       (explains presence or absence of attestations)
- *     - Updated domain recognition table with 9 domains
+ *   v2.1.0 (2026-02-04)
+ *     - Added /api/describe-transaction endpoint for "Be Creative" feature
+ *     - New DESCRIBE_TRANSACTION_PROMPT for generating tx descriptions
+ *     - Updated health check to include new endpoint
  *   v2.0.0 (2026-02-02)
  *     - Complete rewrite with comprehensive FORAY v4.1 system prompt
  *     - Added Attestations extension support
@@ -54,7 +51,6 @@
  */
 
 'use strict';
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 // ---------------------------------------------------------------------------
 // Dependencies
@@ -62,7 +58,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const fetch = require('node-fetch');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -258,9 +253,6 @@ Every FORAY transaction decomposes into four core component types, with an optio
 }
 
 ### Action
-
-CRITICAL ALLOCATION RULE: If an Action references multiple Anticipations or has amount_settled > 0, you MUST include an allocations array where the sum of all allocation amounts EXACTLY equals amount_settled. Each allocation object must have: { "ref": "ANT_ID", "ref_type": "anticipation", "amount": X.XX, "currency": "USD" }. For single-reference Actions, include one allocation matching the full amount.
-
 {
   "id": "ACT_DESCRIPTIVE_ID",
   "foray_core": {
@@ -329,33 +321,7 @@ Detect transaction domain from description and apply appropriate patterns:
 | Supply Chain/Provenance | provenance, authentication, spectroscopic, UMF, DOP, origin | Fingerprint accruals, attestations, verification actions |
 | Luxury/Authentication | watch authentication, handbag, jewelry, counterfeit | Material fingerprints, attestation chains |
 | Regulatory/Compliance | FDA approval, export permit, customs, audit opinion | Attestations from regulators, auditors |
-| Retail/Simple | cash sale, POS, receipt, walk-in | Action-only transactions (immediate payment, no contract) |
-| Custom Services/Tourism | custom, personalized, tour group, customization, embroidery, printing | Full lifecycle + delivery/quality attestations |
-
-## Attestation Triggers by Transaction Type
-
-CRITICAL: For the following transaction types, ALWAYS generate at least one attestation:
-
-1. **Custom Service Orders** (personalized products, embroidery, printing):
-   - ATT: Delivery confirmation (recipient signature/acknowledgment)
-   - ATT: Quality verification (photo documentation before handoff)
-
-2. **Group/Bulk Orders** (tour groups, corporate orders):
-   - ATT: Recipient confirmation (tour guide/group leader signature)
-   - ATT: Quantity verification (count confirmation at delivery)
-
-3. **Physical Deliveries** (any goods changing hands):
-   - ATT: Proof of delivery (recipient acknowledgment)
-   - ATT: Condition verification (if applicable)
-
-4. **Service Completion** (any service rendered):
-   - ATT: Customer acceptance (sign-off on completed work)
-   - ATT: Before/after documentation (if visual verification applies)
-
-When generating attestations for these cases, use:
-- attestor_type: "inspector" for visual quality checks, "oracle" for digital timestamps, or the appropriate party role
-- attestation_type: "verification", "inspection", or "approval" depending on context
-- outcome: "approved", "certified", or "verified" for successful completions
+| Retail | cash sale, POS, receipt | Action-only transactions |
 
 ## Privacy Metadata Guidelines
 
@@ -380,25 +346,22 @@ Use SCREAMING_SNAKE_CASE with meaningful descriptors.
 
 After generating the JSON, also produce a plain-language narrative summary of the transaction. The narrative should:
 
-1. Open with a **TRANSACTION SUMMARY** paragraph covering who, what, when, how much, and applicable compliance requirements.
+1. Open with a TRANSACTION SUMMARY paragraph covering who, what, when, how much, and applicable compliance requirements.
 
-2. Walk through each component type in order with section headers:
-   - **ARRANGEMENTS**: Describe parties, terms, and effective dates
-   - **ACCRUALS**: Explain each calculation in plain language
-   - **ANTICIPATIONS**: State expected amounts, dates, and conditions
-   - **ACTIONS**: Detail what was settled, any variances, and method
-   - **ATTESTATIONS**: ALWAYS include this section:
-     - If attestations are present: Identify each attestor, their credentials, what they attested to, and the outcome. Include the trust boundary disclaimer.
-     - If attestations array is empty: Explain why no third-party attestations were required for this transaction type (e.g., "No third-party attestations were included in this transaction as it represents a simple cash sale with no custom services, delivery verification, or quality inspection requirements.")
+2. Walk through each populated component type in order:
+   - Arrangements: Describe parties, terms, and effective dates
+   - Accruals: Explain each calculation in plain language
+   - Anticipations: State expected amounts, dates, and conditions
+   - Actions: Detail what was settled, any variances, and method
+   - Attestations: Identify each attestor, their credentials, what they attested to, and the outcome. Include the trust boundary disclaimer.
 
-3. For Arrangements, Accruals, Anticipations, and Actions: Omit sections only if array is empty.
-   For Attestations: NEVER omit this section - always explain presence or absence.
+3. Omit sections for empty component arrays.
 
-4. Close with a **BLOCKCHAIN ANCHOR** paragraph confirming the tamper-evident anchoring.
+4. Close with a BLOCKCHAIN ANCHOR paragraph confirming the tamper-evident anchoring.
 
 Write in third person, past tense for completed transactions. Use specific numbers, dates, and party names from the JSON. The tone should be professional but accessible - suitable for reading aloud in an audit committee meeting.
 
-For attestations that ARE present, always include:
+For attestations, always include:
 "Note: This attestation records [attestor]'s [type of claim] - FORAY does not independently verify [relevant limitation]."
 
 ## Output Format
@@ -448,6 +411,39 @@ Structure your response with these sections:
 - <h3>Compliance Benefits</h3>
 - <h3>Privacy Architecture</h3>
 - <h3>Kaspa Advantage</h3>`;
+
+
+/**
+ * DESCRIBE_TRANSACTION_PROMPT
+ *
+ * System prompt for the "Be Creative" feature.
+ * Generates a description and example scenario for any transaction type.
+ */
+const DESCRIBE_TRANSACTION_PROMPT = `You are a financial and business transaction expert with deep knowledge of enterprise accounting, financial instruments, supply chain operations, and regulatory compliance.
+
+When given a transaction type, you will provide:
+
+1. **Description**: A clear, professional explanation of what this transaction type is, how it works, who the typical parties are, and what business purpose it serves. Write 2-3 paragraphs suitable for a senior accountant or auditor to understand.
+
+2. **Example**: A specific, realistic example scenario with concrete details including:
+   - Party names (use realistic but fictional company names)
+   - Specific amounts and currencies
+   - Dates (use dates in early 2025)
+   - Relevant terms, rates, or conditions
+   - Any collateral, guarantees, or special provisions
+
+The example should be detailed enough to generate a complete FORAY Protocol transaction with all 4 components (Arrangements, Accruals, Anticipations, Actions).
+
+## Output Format
+
+You MUST use these exact delimiters:
+
+===DESCRIPTION===
+Your description paragraphs here
+===EXAMPLE===
+Your detailed example scenario here
+
+Do not include any other text, headers, or markdown formatting outside these sections.`;
 
 
 // ---------------------------------------------------------------------------
@@ -567,6 +563,44 @@ function parseGeneratorOutput(rawText) {
 }
 
 /**
+ * parseDescribeOutput
+ *
+ * Parses the description + example output from the describe-transaction endpoint.
+ *
+ * @param {string} rawText - The raw text from the API response
+ * @returns {Object}       - { description: string, example: string }
+ */
+function parseDescribeOutput(rawText) {
+  let description = '';
+  let example = '';
+
+  if (rawText.includes('===DESCRIPTION===')) {
+    const descMatch = rawText.match(/===DESCRIPTION===\s*([\s\S]*?)===EXAMPLE===/);
+    const exampleMatch = rawText.match(/===EXAMPLE===\s*([\s\S]*?)$/);
+
+    if (descMatch && descMatch[1]) {
+      description = descMatch[1].trim();
+    }
+    if (exampleMatch && exampleMatch[1]) {
+      example = exampleMatch[1].trim();
+    }
+  } else {
+    // Fallback: try to split on "Example:" or similar
+    const parts = rawText.split(/\n\s*(?:Example|EXAMPLE)[:\s]/i);
+    if (parts.length >= 2) {
+      description = parts[0].trim();
+      example = parts.slice(1).join('\n').trim();
+    } else {
+      // Last resort: return entire text as description
+      description = rawText.trim();
+      example = 'Please provide a detailed example scenario for this transaction type.';
+    }
+  }
+
+  return { description, example };
+}
+
+/**
  * validateFORAYJSON
  *
  * Performs structural validation on the generated FORAY JSON.
@@ -680,14 +714,15 @@ app.get('/health', (req, res) => {
     status: 'healthy',
     timestamp: new Date().toISOString(),
     service: 'FORAY Transaction Generator API',
-    version: '2.0.0',
+    version: '2.1.0',
     apiKeyConfigured: !!process.env.ANTHROPIC_API_KEY,
     model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514',
     features: {
       transactionGeneration: true,
       narrativeGeneration: true,
       attestationsSupport: true,
-      businessAnalyzer: true
+      businessAnalyzer: true,
+      describeTransaction: true
     }
   });
 });
@@ -866,6 +901,85 @@ app.post('/api/analyze-business', async (req, res) => {
 });
 
 
+/**
+ * POST /api/describe-transaction
+ *
+ * Generates a description and example scenario for a given transaction type.
+ * Used by the "Be Creative" feature in demo.html.
+ *
+ * Request body:
+ *   { "transactionType": "string (required)" }
+ *
+ * Response:
+ *   {
+ *     "transactionType": "string",
+ *     "description": "string",
+ *     "example": "string",
+ *     "metadata": { model, generatedAt, elapsedMs }
+ *   }
+ */
+app.post('/api/describe-transaction', async (req, res) => {
+  const startTime = Date.now();
+
+  try {
+    const { transactionType } = req.body;
+
+    if (!transactionType || !transactionType.trim()) {
+      return res.status(400).json({
+        error: 'Transaction type is required',
+        hint: 'Provide a transaction type like "Foreign Exchange Swap with Bond Collateral"'
+      });
+    }
+
+    const txType = transactionType.trim();
+    console.log(`[describe-transaction] Describing: "${txType}"`);
+
+    const userMessage = `Give me a Description of a "${txType}" and also an Example.
+
+The description should explain what this transaction type is, how it typically works in business practice, and who the parties involved are.
+
+The example should be a specific, realistic scenario with concrete party names, amounts, dates, and terms that could be used to generate a FORAY Protocol transaction.`;
+
+    // Use lower max_tokens since we just need description + example
+    const data = await callAnthropicAPI(DESCRIBE_TRANSACTION_PROMPT, userMessage, 2000);
+    const rawText = extractTextFromResponse(data);
+
+    // Parse the output
+    const { description, example } = parseDescribeOutput(rawText);
+
+    const elapsedMs = Date.now() - startTime;
+    console.log(`[describe-transaction] Completed in ${elapsedMs}ms`);
+
+    res.json({
+      transactionType: txType,
+      description,
+      example,
+      metadata: {
+        model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514',
+        generatedAt: new Date().toISOString(),
+        elapsedMs,
+        inputTokens: data.usage?.input_tokens || null,
+        outputTokens: data.usage?.output_tokens || null
+      }
+    });
+
+  } catch (error) {
+    const elapsedMs = Date.now() - startTime;
+    console.error(`[describe-transaction] Error after ${elapsedMs}ms:`, error.message);
+
+    res.status(500).json({
+      error: 'Failed to describe transaction type',
+      message: error.message,
+      troubleshooting: [
+        'Check that ANTHROPIC_API_KEY is set in .env',
+        'Verify the API key is valid at console.anthropic.com',
+        'Try a different transaction type description'
+      ]
+    });
+  }
+});
+
+
 // ---------------------------------------------------------------------------
 // 404 Handler
 // ---------------------------------------------------------------------------
@@ -876,7 +990,8 @@ app.use((req, res) => {
     availableEndpoints: {
       'GET /health': 'Health check and feature status',
       'POST /api/generate-foray': 'Generate FORAY v4.1 JSON + narrative',
-      'POST /api/analyze-business': 'Analyze business for FORAY fit'
+      'POST /api/analyze-business': 'Analyze business for FORAY fit',
+      'POST /api/describe-transaction': 'Get description + example for transaction type'
     }
   });
 });
@@ -899,11 +1014,13 @@ app.listen(PORT, () => {
   console.log(`    - Transaction Generation (JSON + Narrative)`);
   console.log(`    - Attestations Extension`);
   console.log(`    - Business Analyzer`);
+  console.log(`    - Describe Transaction (Be Creative)`);
   console.log(border);
   console.log(`  Endpoints:`);
   console.log(`    GET  /health`);
   console.log(`    POST /api/generate-foray`);
   console.log(`    POST /api/analyze-business`);
+  console.log(`    POST /api/describe-transaction`);
   console.log(border);
   console.log('');
 });
