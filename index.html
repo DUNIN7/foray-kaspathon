@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.6.2
+Version:       2.6.3
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T16:00:00Z
+Modified:      2026-02-04T16:10:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,11 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.6.3 (2026-02-04)
+    - Repositioned back-to-top to viewport right edge using calc()
+    - Reduced size back to subtle (20px icon, 35%/70% opacity)
+    - Bottom: 1rem for consistent placement
+  
   v2.6.2 (2026-02-04)
     - Added solution-section to positioning rule (was missing)
     - Increased visibility: 50% opacity, larger size (40px/24px icon)
@@ -379,17 +384,17 @@ Changelog:
       }
     }
     
-    /* Back to Top Arrow - positioned at right edge of content area */
+    /* Back to Top Arrow - fixed to viewport right edge */
     .back-to-top {
       position: absolute;
-      bottom: 2rem;
-      right: 1rem;
+      bottom: 1rem;
+      right: calc(-50vw + 50% + 2rem);
       display: flex;
       align-items: center;
       justify-content: center;
       width: 40px;
       height: 40px;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.35);
       text-decoration: none;
       transition: color 0.3s ease;
       cursor: pointer;
@@ -397,12 +402,12 @@ Changelog:
     }
     
     .back-to-top:hover {
-      color: rgba(255, 255, 255, 0.9);
+      color: rgba(255, 255, 255, 0.7);
     }
     
     .back-to-top svg {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
     }
     
     /* Sections need relative positioning for the back-to-top arrow */
