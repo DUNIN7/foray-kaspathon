@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.6.6
+Version:       2.6.7
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T16:30:00Z
+Modified:      2026-02-04T16:55:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,10 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.6.7 (2026-02-04)
+    - Removed back-to-top from CTA section (redundant before footer)
+    - Fixed Kaspa section arrow: bottom:-1rem for spacing below content
+  
   v2.6.6 (2026-02-04)
     - Moved solution-section back-to-top inside inner .section div
     - Simplified CSS: all .section arrows at right:0, bottom:-1rem
@@ -430,10 +434,9 @@ Changelog:
       overflow: visible;
     }
     
-    /* Kaspa and CTA sections: position arrow inside their bounds */
-    .kaspa-section .back-to-top,
-    .cta-section .back-to-top {
-      bottom: 1rem;
+    /* Kaspa section: position arrow below content */
+    .kaspa-section .back-to-top {
+      bottom: -1rem;
       right: 1rem;
     }
     
@@ -1320,11 +1323,6 @@ Changelog:
         Try the interactive demo and anchor your first transaction to Kaspa Testnet.
       </p>
     </div>
-    <a href="#" class="back-to-top" aria-label="Back to top">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="18 15 12 9 6 15"/>
-      </svg>
-    </a>
   </section>
 
   <!-- Footer -->
