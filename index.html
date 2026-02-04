@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.6.7
+Version:       2.6.8
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-04T16:55:00Z
+Modified:      2026-02-04T17:00:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,9 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.6.8 (2026-02-04)
+    - Aligned Kaspa section arrow with other sections (right:0)
+  
   v2.6.7 (2026-02-04)
     - Removed back-to-top from CTA section (redundant before footer)
     - Fixed Kaspa section arrow: bottom:-1rem for spacing below content
@@ -429,15 +432,15 @@ Changelog:
     }
     
     /* All sections need relative positioning */
-    .section, .kaspa-section, .cta-section {
+    .section, .kaspa-section {
       position: relative;
       overflow: visible;
     }
     
-    /* Kaspa section: position arrow below content */
+    /* Kaspa section: position arrow same as .section arrows */
     .kaspa-section .back-to-top {
       bottom: -1rem;
-      right: 1rem;
+      right: 0;
     }
     
     @media (max-width: 768px) {
