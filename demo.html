@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CDFWGR24FR"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CDFWGR24FR');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FORAY Transaction Generator</title>
@@ -9,9 +18,9 @@
     ============================================================================
     FORAY Protocol Transaction Generator
     ============================================================================
-    Version:       3.7.0
+    Version:       3.9.0
     Created:       2025-01-28T16:30:00Z
-    Modified:      2026-02-04T02:05:00Z
+    Modified:      2026-02-04T02:40:00Z
     
     Author:        Marvin Percival
     Email:         marvinp@dunin7.com
@@ -21,11 +30,18 @@
     Copyright (c) 2026 Marvin Percival. All rights reserved.
     
     Changelog:
-      v3.7.0 (2026-02-04)
+      v3.9.0 (2026-02-04)
         - Fixed API endpoint detection for production vs local development
-        - Now dynamically determines endpoint from window.location.hostname
-        - Production uses same-origin routing via Cloudflare tunnel
-      
+        - Uses same-origin routing for production (Cloudflare tunnel)
+        - Handles localhost and 127.0.0.1 for local development
+
+      v3.8.0 (2026-02-03)
+        - Added URL parameter handling for ?sample= links from examples.html
+        - Auto-redirects to review page when sample parameter is present
+
+      v3.7.0 (2026-02-02)
+        - Added Google Analytics 4 tracking snippet
+
       v3.6.0 (2026-02-01)
         - Changed Olive Oil example to Manuka Honey (UMF certified)
         - Updated reference key mapping for manukaHoneyProvenance
@@ -859,7 +875,7 @@
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Configuration - Dynamic API endpoint detection
-        // Automatically uses localhost for local development, Cloudflare tunnel for production
+        // Automatically uses localhost for local development, same-origin for production
         const API_ENDPOINT = (function() {
             const hostname = window.location.hostname;
             if (hostname === 'localhost' || hostname === '127.0.0.1') {
@@ -912,7 +928,9 @@
             manufacturing: 'manufacturing',
             salesforce: 'salesforceOpportunity',
             manukaHoney: 'manukaHoneyProvenance',
-            luxuryWatch: 'luxuryWatchAuth'
+            luxuryWatch: 'luxuryWatchAuth',
+            fxSpot: 'fxSpot',
+            overnightRepo: 'overnightRepo'
         };
 
         // Welcome banner
@@ -936,6 +954,16 @@
             // Navigate to review page
             window.location.href = REVIEW_PAGE_URL;
         }
+
+        // Check for ?sample= URL parameter on page load
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sampleKey = urlParams.get('sample');
+            if (sampleKey && referenceKeys[sampleKey]) {
+                // Auto-redirect to review page with this sample
+                viewReference(sampleKey);
+            }
+        })();
 
         // Custom transaction generation
         function loadTemplate() {
