@@ -20,7 +20,7 @@
     ============================================================================
     Version:       2.6.0
     Created:       2026-01-29T00:00:00Z
-    Modified:      2026-02-02T23:45:00Z
+    Modified:      2026-02-05T08:45:00Z
 
     Author:        Marvin Percival
     Email:         marvinp@dunin7.com
@@ -30,14 +30,13 @@
     Copyright (c) 2026 Marvin Percival. All rights reserved.
 
     Changelog:
-      v2.6.0 (2026-02-02)
-        - Added retail/tourism/custom services industry detection
-        - New sample prompt for custom tour group merchandise with attestations
-        - detectIndustry() now recognizes: t-shirt, tourist, tour group, custom,
-          personalized, embroidery, souvenir, gift shop, apparel, merchandise
-        - Fallback prompt now instructs to include attestations for custom services
-        - Fixed corrupted em-dash character in detectIndustry comment
+      v2.6.0 (2026-02-05)
+        - Removed Examples link from navigation (consolidated into Demo page)
 
+      v2.5.2 (2026-02-02)
+        - GA4 tracking, Cloudflare Tunnel URL, improved popup messaging
+
+    Changelog:
       v2.5.2 (2026-02-02)
         - Switched API_BASE to Cloudflare Tunnel (https://foray.dunin7.com)
         - Live site now works for all visitors, not just localhost
@@ -473,7 +472,6 @@
         <div class="nav-links">
             <a href="demo.html" class="nav-link">Demo</a>
             <a href="docs.html" class="nav-link">Documentation</a>
-            <a href="examples.html" class="nav-link">Examples</a>
             <a href="about.html" class="nav-link">About</a>
             <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
         </div>
@@ -484,7 +482,6 @@
     <div class="nav-mobile-menu" id="mobileMenu">
         <a href="demo.html" class="nav-link" onclick="closeMobileMenu()">Demo</a>
         <a href="docs.html" class="nav-link" onclick="closeMobileMenu()">Documentation</a>
-        <a href="examples.html" class="nav-link" onclick="closeMobileMenu()">Examples</a>
         <a href="about.html" class="nav-link" onclick="closeMobileMenu()">About</a>
         <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank" onclick="closeMobileMenu()">GitHub</a>
     </div>
@@ -681,7 +678,6 @@
 
         var currentFORAYJSON = null;
         var lastBusinessDescription = '';
-        var lastAnalysisResult = '';
 
         // ================================================================
         // Loading Modal
@@ -707,6 +703,14 @@
             logistics: "We operate a third-party logistics network providing warehousing and distribution services across 12 facilities. We manage inventory for 200+ clients, track freight movements across multiple carriers, handle customs documentation for international shipments, and process complex billing with tiered rate structures. Our pain points are proof of custody, invoice disputes, and regulatory compliance for hazmat shipments."
         };
 
+        var sampleTxPrompts = {
+            defense: { name: "Defense Contract Labor Allocation", description: "Monthly labor cost allocation for Contract W56HZV-25-C-0042 (Apache AH-64E main rotor hub). Direct labor: 320 hours at $85/hr ($27,200). Overhead allocation at 142% of direct labor ($38,624). G&A at 12% of total ($7,898.88). Material costs: $45,000 titanium alloy, $12,500 fasteners. CAS 418 compliant allocation. Period: January 2026. Contractor: Precision Defense Manufacturing LLC." },
+            finance: { name: "FX Spot Trade USD/JPY", description: "Foreign exchange spot trade executed January 27, 2026. Sell 5,000,000 USD and buy 732,500,000 JPY at spot rate 146.50. Settlement date T+2 on January 29, 2026. Counterparty: Mizuho Securities. Trade reference: FX-2026-0127-005. Basel III RWA impact calculated. SOX 404 controls applied." },
+            energy: { name: "Solar PPA Monthly Settlement", description: "Monthly settlement for 25-year Solar PPA between SolarNorth Africa SARL and Iberdrola Espana. January 2026 delivery: 12,450 MWh at EUR 0.058/kWh (EUR 722,100). RECs generated: 12,450 at EUR 3.20 each (EUR 39,840). Curtailment credit: 380 MWh at 75% rate. Cross-border settlement Morocco to Spain via SWIFT. FERC and CNMC compliance." },
+            manufacturing: { name: "Work Order Cost Roll-Up", description: "Work order WO-2026-0289 for 50 units of Model P-4500 centrifugal pump. Direct materials: $125,000 (stainless steel casings, impellers, mechanical seals). Direct labor: 480 hours machining at $45/hr, 160 hours assembly at $38/hr. Manufacturing overhead at 175% of direct labor. Quality testing: 100% hydrostatic test, 10% X-ray inspection. ISO 9001 documented. Completion date January 28, 2026." },
+            pharma: { name: "Drug Batch Genealogy Record", description: "Production batch BATCH-2026-AMX-0142 of Amoxicillin 500mg capsules. 500,000 units manufactured January 20-24, 2026. Raw materials: API from Supplier S-001 (CoA lot AM-2025-889), excipients from Supplier S-004. In-process testing: dissolution 95.2%, content uniformity 99.1%, microbial limits pass. QC release by Quality Director. FDA 21 CFR Part 211 compliant. Royalty at 4.5% of wholesale ($0.12/unit = $60,000 batch value, $2,700 royalty)." },
+            logistics: { name: "Cross-Border Freight Settlement", description: "International shipment SHP-2026-00847 from Shanghai to Chicago via Long Beach. 2x40ft containers of industrial electronics (HTS 8537.10). Ocean freight: $4,200/container. Customs brokerage: $850. Drayage Long Beach to rail: $1,200. Rail Chicago: $2,800. Warehouse receiving: $450. Total: $13,700. Customs duties at 3.4% on declared value $285,000 ($9,690). Client: TechDistro Inc. Hazmat documentation for lithium batteries (UN3481)." }
+        };
 
         // ================================================================
         // Event Listeners
@@ -728,7 +732,7 @@
             lastBusinessDescription = description;
 
             document.getElementById('analyzeBtn').disabled = true;
-            showLoading('Analyzing Your Business', 'AI is analyzing your business model and identifying applicable FORAY transaction types...');
+            showLoading('Analyzing Your Business', 'Claude is analyzing your business model and identifying applicable FORAY transaction types...');
             document.getElementById('results').classList.remove('active');
             document.getElementById('errorMsg').classList.remove('active');
             document.getElementById('sampleSection').classList.remove('active');
@@ -745,7 +749,7 @@
                     throw new Error(errData.error || 'Request failed: ' + response.status);
                 }
                 var data = await response.json();
-                lastAnalysisResult = data.analysis || ''; displayResults(lastAnalysisResult);
+                displayResults(data.analysis || '');
             } catch (error) {
                 console.error('Analysis error:', error);
                 showError('Analysis failed: ' + error.message);
@@ -771,10 +775,11 @@
             var outputEl = document.getElementById('sampleOutput');
 
             btn.disabled = true;
-            showLoading('Generating Sample Transaction', 'AI is constructing a unique realistic FORAY v4.1 transaction with full 4A component mapping. This may take a moment based on traffic, but in production integrations, this mapping is instantaneous. The AI generation here demonstrates the FORAY Protocol structure for learning purposes.');
+            showLoading('Generating Sample Transaction', 'Claude is constructing a unique realistic FORAY v4.1 transaction with full 4A component mapping. In production integrations, this mapping is instantaneous â€” the AI generation here demonstrates the structure for learning purposes.');
             outputEl.classList.remove('active');
 
-            var prompt = { name: 'Business-Specific Transaction', description: 'Generate a FORAY v4.1 transaction based on this business analysis. Business: ' + lastBusinessDescription.substring(0, 500) + ' -- FORAY Analysis: ' + lastAnalysisResult.replace(/<[^>]*>/g, ' ').substring(0, 1500) + ' -- Create a realistic sample transaction that matches this specific business. Include appropriate attestations for delivery, quality, or verification as identified in the analysis.' };
+            var prompt = detectIndustry(lastBusinessDescription);
+
             try {
                 var response = await fetch(API_BASE + '/api/generate-foray', {
                     method: 'POST',
@@ -803,6 +808,20 @@
             }
         }
 
+        function detectIndustry(desc) {
+            var d = desc.toLowerCase();
+            if (d.includes('defense') || d.includes('military') || d.includes('dcaa') || d.includes('dfars')) return sampleTxPrompts.defense;
+            if (d.includes('bank') || d.includes('derivative') || d.includes('trading') || d.includes('securitiz') || d.includes('hedge fund') || d.includes('forex')) return sampleTxPrompts.finance;
+            if (d.includes('energy') || d.includes('solar') || d.includes('ppa') || d.includes('renewable') || d.includes('power plant') || d.includes('utility')) return sampleTxPrompts.energy;
+            if (d.includes('manufactur') || d.includes('pump') || d.includes('valve') || d.includes('bom') || d.includes('work order') || d.includes('assembly')) return sampleTxPrompts.manufacturing;
+            if (d.includes('pharma') || d.includes('drug') || d.includes('fda') || d.includes('cgmp') || d.includes('clinical') || d.includes('biotech')) return sampleTxPrompts.pharma;
+            if (d.includes('logistics') || d.includes('warehouse') || d.includes('freight') || d.includes('customs') || d.includes('shipping') || d.includes('cargo')) return sampleTxPrompts.logistics;
+            // No match â€” generate a transaction based on the user's actual description
+            return {
+                name: 'Industry-Specific Transaction',
+                description: 'Generate a realistic FORAY v4.1 transaction for this business: ' + desc.substring(0, 600)
+            };
+        }
 
         function showValidation(v) {
             var bar = document.getElementById('validationBar');
@@ -966,7 +985,7 @@
         function resetAnalyzer() {
             // Clear input
             document.getElementById('businessDescription').value = '';
-            lastBusinessDescription = ''; lastAnalysisResult = '';
+            lastBusinessDescription = '';
             currentFORAYJSON = null;
 
             // Hide results and sample sections
