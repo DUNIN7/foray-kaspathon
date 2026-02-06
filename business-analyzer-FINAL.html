@@ -18,9 +18,9 @@
     ============================================================================
     FORAY Business Use Case Analyzer
     ============================================================================
-    Version:       2.6.0
+    Version:       2.6.1
     Created:       2026-01-29T00:00:00Z
-    Modified:      2026-02-05T08:45:00Z
+    Modified:      2026-02-05T09:20:00Z
 
     Author:        Marvin Percival
     Email:         marvinp@dunin7.com
@@ -30,6 +30,9 @@
     Copyright (c) 2026 Marvin Percival. All rights reserved.
 
     Changelog:
+      v2.6.1 (2026-02-05)
+        - Fixed character encoding issues (corrupted em-dashes)
+
       v2.6.0 (2026-02-05)
         - Removed Examples link from navigation (consolidated into Demo page)
 
@@ -775,7 +778,7 @@
             var outputEl = document.getElementById('sampleOutput');
 
             btn.disabled = true;
-            showLoading('Generating Sample Transaction', 'Claude is constructing a unique realistic FORAY v4.1 transaction with full 4A component mapping. In production integrations, this mapping is instantaneous â€” the AI generation here demonstrates the structure for learning purposes.');
+            showLoading('Generating Sample Transaction', 'Claude is constructing a unique realistic FORAY v4.1 transaction with full 4A component mapping. In production integrations, this mapping is instantaneous - the AI generation here demonstrates the structure for learning purposes.');
             outputEl.classList.remove('active');
 
             var prompt = detectIndustry(lastBusinessDescription);
@@ -816,7 +819,7 @@
             if (d.includes('manufactur') || d.includes('pump') || d.includes('valve') || d.includes('bom') || d.includes('work order') || d.includes('assembly')) return sampleTxPrompts.manufacturing;
             if (d.includes('pharma') || d.includes('drug') || d.includes('fda') || d.includes('cgmp') || d.includes('clinical') || d.includes('biotech')) return sampleTxPrompts.pharma;
             if (d.includes('logistics') || d.includes('warehouse') || d.includes('freight') || d.includes('customs') || d.includes('shipping') || d.includes('cargo')) return sampleTxPrompts.logistics;
-            // No match â€” generate a transaction based on the user's actual description
+            // No match - generate a transaction based on the user's actual description
             return {
                 name: 'Industry-Specific Transaction',
                 description: 'Generate a realistic FORAY v4.1 transaction for this business: ' + desc.substring(0, 600)

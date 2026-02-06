@@ -1,12 +1,18 @@
 /**
  * FORAY API Proxy Server
- * Version: 1.1.0
- * Modified: 2026-02-02T23:55:00Z
+ * Version: 1.2.0
+ * Created: 2026-02-02T00:00:00Z
+ * Modified: 2026-02-05T09:40:00Z
+ * 
+ * Author: Marvin Percival
+ * Email: marvinp@dunin7.com
+ * GitHub: github.com/DUNIN7/foray-kaspathon
  * 
  * Proxies API requests from Cloudflare Tunnel to the local API server.
  * Handles CORS for browser requests.
  * 
  * Changelog:
+ *   v1.2.0 (2026-02-05): Added /api/describe-transaction endpoint forwarding (Be Creative feature)
  *   v1.1.0 (2026-02-02): Added /api/generate-foray endpoint forwarding
  *   v1.0.0: Initial version with /api/analyze-business only
  */
@@ -83,6 +89,10 @@ const server = http.createServer((req, res) => {
       proxyToBackend(req, res, '/api/generate-foray');
       return;
     }
+    if (req.url === '/api/describe-transaction') {
+      proxyToBackend(req, res, '/api/describe-transaction');
+      return;
+    }
   }
   
   // Health check
@@ -101,4 +111,5 @@ server.listen(3002, () => {
   console.log('Proxy running on http://localhost:3002');
   console.log('Forwarding /api/analyze-business -> localhost:3001');
   console.log('Forwarding /api/generate-foray -> localhost:3001');
+  console.log('Forwarding /api/describe-transaction -> localhost:3001');
 });
