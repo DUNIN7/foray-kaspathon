@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - About Page
 ============================================================================
-Version:       1.2.0
+Version:       1.1.0
 Created:       2026-01-30T21:30:00Z
-Modified:      2026-02-02T22:00:00Z
+Modified:      2026-01-31T20:00:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,7 +15,6 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
-  v1.2.0 (2026-02-02): Added Google Analytics 4 tracking snippet
   v1.1.0 (2026-01-31): Content review - "immutable" to "tamper-evident"
                        Content review - removed "completely" overclaim
                        Fixed character encoding (copyright, middot)
@@ -25,15 +24,6 @@ Changelog:
 -->
 <html lang="en">
 <head>
-  <!-- Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CDFWGR24FR"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-CDFWGR24FR');
-  </script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About - FORAY Protocol</title>
@@ -247,7 +237,6 @@ Changelog:
     <div class="nav-links">
       <a href="demo.html" class="nav-link">Demo</a>
       <a href="docs.html" class="nav-link">Documentation</a>
-      <a href="examples.html" class="nav-link">Examples</a>
       <a href="about.html" class="nav-link active">About</a>
       <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
     </div>
@@ -262,7 +251,6 @@ Changelog:
   <div class="nav-mobile-menu" id="mobileMenu">
     <a href="demo.html" class="nav-link" onclick="closeMobileMenu()">Demo</a>
     <a href="docs.html" class="nav-link" onclick="closeMobileMenu()">Documentation</a>
-    <a href="examples.html" class="nav-link" onclick="closeMobileMenu()">Examples</a>
     <a href="about.html" class="nav-link" onclick="closeMobileMenu()">About</a>
     <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank" onclick="closeMobileMenu()">GitHub</a>
   </div>
