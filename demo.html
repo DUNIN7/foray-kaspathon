@@ -9,9 +9,9 @@
     ============================================================================
     FORAY Protocol Transaction Generator
     ============================================================================
-    Version:       3.8.0
+    Version:       3.8.1
     Created:       2025-01-28T16:30:00Z
-    Modified:      2026-02-05T08:00:00Z
+    Modified:      2026-02-05T08:30:00Z
     
     Author:        Marvin Percival
     Email:         marvinp@dunin7.com
@@ -21,6 +21,10 @@
     Copyright (c) 2026 Marvin Percival. All rights reserved.
     
     Changelog:
+      v3.8.1 (2026-02-05)
+        - Added light background shading to input fields (#F8FAFA)
+        - Background clears to white on focus for better differentiation
+
       v3.8.0 (2026-02-05)
         - Expanded Reference Examples with full descriptions
         - Larger buttons with left-aligned text for readability
@@ -343,12 +347,12 @@
             border-radius: 0.5rem;
             font-size: 0.9375rem;
             font-family: 'IBM Plex Sans', sans-serif;
-            transition: border-color 0.2s;
-            background-color: #FFFFFF;
+            transition: border-color 0.2s, background-color 0.2s;
+            background-color: #F8FAFA;
         }
         
         .form-group select {
-            background-color: #FFFFFF;
+            background-color: #F8FAFA;
         }
         
         .form-group select option {
@@ -361,6 +365,7 @@
         .form-group select:focus {
             outline: none;
             border-color: var(--primary-teal);
+            background-color: #FFFFFF;
         }
 
         .form-group textarea {
