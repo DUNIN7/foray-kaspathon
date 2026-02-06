@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <!--
   File: docs.html
-  Version: 4.1.7
+  Version: 4.1.9
   Created: 2026-01-29T08:15:00Z
-  Modified: 2026-02-05T14:45:00Z
+  Modified: 2026-02-05T15:10:00Z
   Author: Marvin Percival
   Email: marvinp@dunin7.com
   GitHub: DUNIN7/foray-kaspathon
   
   FORAY Protocol Documentation Page
   Change Log:
+    v4.1.9 (2026-02-05): Changed sidebar height to min-height to extend with page
+    v4.1.8 (2026-02-05): Fixed sidebar height and content width on desktop
+                         Reverted to desktop-first grid with mobile override
     v4.1.7 (2026-02-05): Mobile-first responsive layout refactor
                          Sidebar hidden by default, shown at 1025px+
                          Content padding responsive (mobile -> tablet -> desktop)
@@ -104,37 +107,37 @@
     
     
     
-    /* Layout - Mobile first */
+    /* Layout */
     .docs-layout {
-      display: block;
+      display: grid;
+      grid-template-columns: 280px 1fr;
       min-height: 100vh;
       padding-top: 73px;
       max-width: 100vw;
       overflow-x: hidden;
     }
     
-    @media (min-width: 1025px) {
+    @media (max-width: 1024px) {
       .docs-layout {
-        display: grid;
-        grid-template-columns: 280px 1fr;
+        display: block;
+        grid-template-columns: 1fr;
       }
     }
     
-    /* Sidebar - hidden on mobile, shown on desktop */
+    /* Sidebar */
     .sidebar {
-      display: none;
+      position: sticky;
+      top: 73px;
+      min-height: calc(100vh - 73px);
+      overflow-y: auto;
+      padding: 2rem;
+      border-right: 1px solid rgba(125, 211, 214, 0.1);
+      background: rgba(27, 54, 93, 0.05);
     }
     
-    @media (min-width: 1025px) {
+    @media (max-width: 1024px) {
       .sidebar {
-        display: block;
-        position: sticky;
-        top: 73px;
-        height: calc(100vh - 73px);
-        overflow-y: auto;
-        padding: 2rem;
-        border-right: 1px solid rgba(125, 211, 214, 0.1);
-        background: rgba(27, 54, 93, 0.05);
+        display: none;
       }
     }
     
@@ -177,7 +180,6 @@
     /* Content */
     .docs-content {
       padding: 1.5rem 1rem;
-      max-width: 900px;
       width: 100%;
       box-sizing: border-box;
     }
