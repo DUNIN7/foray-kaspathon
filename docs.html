@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <!--
   File: docs.html
-  Version: 4.1.4
+  Version: 4.1.7
   Created: 2026-01-29T08:15:00Z
-  Modified: 2026-02-02T17:00:00Z
+  Modified: 2026-02-05T14:45:00Z
   Author: Marvin Percival
   Email: marvinp@dunin7.com
   GitHub: DUNIN7/foray-kaspathon
   
   FORAY Protocol Documentation Page
   Change Log:
+    v4.1.7 (2026-02-05): Mobile-first responsive layout refactor
+                         Sidebar hidden by default, shown at 1025px+
+                         Content padding responsive (mobile -> tablet -> desktop)
+                         Added shrink-to-fit=no to viewport meta
+    v4.1.6 (2026-02-05): Added table wrappers for mobile horizontal scroll
+                         Added word-wrap to h1 headings
+    v4.1.5 (2026-02-05): Fixed mobile viewport overflow on initial load
+                         Removed Examples link from navigation
+                         Added AI Agents/OpenClaw integration section
     v4.1.4 (2026-02-02): Added infographic link (sidebar + Visual Overview box)
                          Added Attestations Extension section (sidebar + full content)
                          Added Google Chrome requirement to Demo Mode box
@@ -31,7 +40,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <title>Documentation - FORAY Protocol</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <meta name="description" content="Technical documentation for FORAY Protocol v4.1 - specification, integration guides, and API reference.">
@@ -56,13 +65,14 @@
     }
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
     
     body {
       font-family: 'IBM Plex Sans', -apple-system, sans-serif;
       background: var(--bg-dark);
       color: var(--text-light);
       line-height: 1.7;
+      overflow-x: hidden;
     }
     
     .font-mono { font-family: 'IBM Plex Mono', monospace; }
@@ -94,23 +104,38 @@
     
     
     
-    /* Layout */
+    /* Layout - Mobile first */
     .docs-layout {
-      display: grid;
-      grid-template-columns: 280px 1fr;
+      display: block;
       min-height: 100vh;
       padding-top: 73px;
+      max-width: 100vw;
+      overflow-x: hidden;
     }
     
-    /* Sidebar */
+    @media (min-width: 1025px) {
+      .docs-layout {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+      }
+    }
+    
+    /* Sidebar - hidden on mobile, shown on desktop */
     .sidebar {
-      position: sticky;
-      top: 73px;
-      height: calc(100vh - 73px);
-      overflow-y: auto;
-      padding: 2rem;
-      border-right: 1px solid rgba(125, 211, 214, 0.1);
-      background: rgba(27, 54, 93, 0.05);
+      display: none;
+    }
+    
+    @media (min-width: 1025px) {
+      .sidebar {
+        display: block;
+        position: sticky;
+        top: 73px;
+        height: calc(100vh - 73px);
+        overflow-y: auto;
+        padding: 2rem;
+        border-right: 1px solid rgba(125, 211, 214, 0.1);
+        background: rgba(27, 54, 93, 0.05);
+      }
     }
     
     .sidebar-section {
@@ -151,8 +176,22 @@
     
     /* Content */
     .docs-content {
-      padding: 3rem 4rem;
+      padding: 1.5rem 1rem;
       max-width: 900px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    @media (min-width: 768px) {
+      .docs-content {
+        padding: 2rem;
+      }
+    }
+    
+    @media (min-width: 1025px) {
+      .docs-content {
+        padding: 3rem 4rem;
+      }
     }
     
     .docs-content h1 {
@@ -161,6 +200,8 @@
       margin-bottom: 1rem;
       letter-spacing: -0.02em;
       scroll-margin-top: 100px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
     
     .docs-content h2 {
@@ -234,10 +275,17 @@
     }
     
     /* Tables */
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
       margin-bottom: 1.5rem;
+      min-width: 400px;
     }
     
     th, td {
@@ -315,21 +363,6 @@
     .component-badge.anticipation { background: rgba(139, 92, 246, 0.2); color: #8B5CF6; }
     .component-badge.action { background: rgba(16, 185, 129, 0.2); color: #10B981; }
     
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .docs-layout {
-        grid-template-columns: 1fr;
-      }
-      
-      .sidebar {
-        display: none;
-      }
-      
-      .docs-content {
-        padding: 2rem;
-      }
-    }
-    
     /* Hamburger Menu Button */
     
     
@@ -342,6 +375,43 @@
     
     
     @media (max-width: 768px) {
+      .docs-content {
+        padding: 1rem;
+      }
+      
+      .docs-content h1 {
+        font-size: 1.75rem;
+      }
+      
+      .docs-content h2 {
+        font-size: 1.4rem;
+      }
+      
+      .table-wrapper {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      
+      table {
+        min-width: 300px;
+      }
+      
+      th, td {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+      }
+      
+      .code-block {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        border-radius: 0;
+      }
+      
+      .info-box {
+        padding: 1rem;
+      }
     }
   </style>
 </head>
@@ -474,7 +544,7 @@
         provides a structured trail from agreement to settlement.
       </p>
       
-      <table>
+      <div class="table-wrapper"><table>
         <thead>
           <tr>
             <th>Component</th>
@@ -504,7 +574,7 @@
             <td>Wire transfer, Inventory receipt</td>
           </tr>
         </tbody>
-      </table>
+      </table></div>
 
       <h2 id="arrangements">Arrangements</h2>
       <p>
@@ -658,7 +728,7 @@
         make it ideal for enterprise audit use cases:
       </p>
       
-      <table>
+      <div class="table-wrapper"><table>
         <thead>
           <tr>
             <th>Property</th>
@@ -688,7 +758,7 @@
             <td>Handles enterprise-scale volume</td>
           </tr>
         </tbody>
-      </table>
+      </table></div>
       
       <div class="info-box important">
         <div class="info-box-title">
@@ -707,7 +777,7 @@
         cryptographic verification:
       </p>
       
-      <table>
+      <div class="table-wrapper"><table>
         <thead>
           <tr>
             <th>Layer</th>
@@ -737,7 +807,7 @@
             <td>When Kaspa supports on-chain ZK</td>
           </tr>
         </tbody>
-      </table>
+      </table></div>
       
       <p>
         Privacy metadata scales proportionally to data sensitivity. High-sensitivity transactions 
@@ -763,7 +833,7 @@
       </div>
 
       <h3>What FORAY Proves</h3>
-      <table>
+      <div class="table-wrapper"><table>
         <thead>
           <tr>
             <th>Capability</th>
@@ -788,10 +858,10 @@
             <td>Events occurred in a verifiable order</td>
           </tr>
         </tbody>
-      </table>
+      </table></div>
 
       <h3>What FORAY Does NOT Prove</h3>
-      <table>
+      <div class="table-wrapper"><table>
         <thead>
           <tr>
             <th>Limitation</th>
@@ -816,10 +886,10 @@
             <td>FORAY trusts validated source system data</td>
           </tr>
         </tbody>
-      </table>
+      </table></div>
 
       <h3>Attestation Types</h3>
-      <table>
+      <div class="table-wrapper"><table>
         <thead>
           <tr>
             <th>Type</th>
@@ -859,7 +929,7 @@
             <td>IoT readings, GPS coordinates, timestamps</td>
           </tr>
         </tbody>
-      </table>
+      </table></div>
 
       <h3>Structure</h3>
       <div class="code-block">
@@ -898,7 +968,7 @@
       </p>
       
       <h4>FORAY adapters simply translate what exists</h4>
-      <table>
+      <div class="table-wrapper"><table>
         <thead>
           <tr>
             <th>Your ERP Already Has</th>
@@ -923,7 +993,7 @@
             <td>Actions (what actually happened)</td>
           </tr>
         </tbody>
-      </table>
+      </table></div>
       
       <p>
         The integration layer reads your existing transaction data and constructs the FORAY JSON 
@@ -954,7 +1024,7 @@
         FORAY provides adapters for QuickBooks Online at three implementation levels:
       </p>
       
-      <table>
+      <div class="table-wrapper"><table>
         <thead>
           <tr>
             <th>Level</th>
@@ -979,7 +1049,7 @@
             <td>Big 4 audit requirements</td>
           </tr>
         </tbody>
-      </table>
+      </table></div>
       
       <p>See the <a href="demo.html">Demo page</a> for QuickBooks integration samples.</p>
 
@@ -1033,7 +1103,7 @@
       </div>
 
       <h3>Supported Platforms</h3>
-      <table>
+      <div class="table-wrapper"><table>
         <thead>
         <tr><th>Platform</th><th>Type</th><th>Status</th></tr>
         </thead>
@@ -1043,7 +1113,7 @@
         <tr><td>Jupiter</td><td>Solana DEX</td><td>Supported</td></tr>
         <tr><td>Uniswap</td><td>ETH DEX</td><td>Supported</td></tr>
         </tbody>
-      </table>
+      </table></div>
 
       <h3>Why This Matters</h3>
       <p>
