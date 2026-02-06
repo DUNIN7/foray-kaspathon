@@ -9,22 +9,24 @@
     ============================================================================
     FORAY Protocol Transaction Generator
     ============================================================================
-    Version:       3.7.0
+    Version:       3.7.4
     Created:       2025-01-28T16:30:00Z
-    Modified:      2026-02-05T00:15:00Z
+    Modified:      2026-02-05T00:20:00Z
     
     Author:        Marvin Percival
     Email:         marvinp@dunin7.com
     GitHub:        github.com/DUNIN7/foray-kaspathon
     
     License:       Business Source License 1.1
-    
-    Changelog:
-      v3.7.0 (2026-02-05)
-        - Minor text fix: "Welcome to the FORAY Protocol Demo"
     Copyright (c) 2026 Marvin Percival. All rights reserved.
     
     Changelog:
+      v3.7.0 (2026-02-04)
+        - Added "Be Creative" feature for AI-generated transaction types
+        - New modal workflow: input tx type -> view description/example -> use it
+        - Added /api/describe-transaction API integration
+        - UI: Button positioned right of "Start with Template" label
+      
       v3.6.0 (2026-02-01)
         - Changed Olive Oil example to Manuka Honey (UMF certified)
         - Updated reference key mapping for manukaHoneyProvenance
@@ -364,6 +366,45 @@
             margin-top: 0.375rem;
         }
 
+        /* Label row with button */
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .label-row label {
+            margin-bottom: 0;
+        }
+
+        .btn-creative {
+            background: linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'IBM Plex Sans', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            text-decoration: none;
+        }
+
+        .btn-creative:hover {
+            background: linear-gradient(135deg, #9F75FF 0%, #7C7FFF 100%);
+            transform: translateY(-1px);
+        }
+
+        .btn-creative svg {
+            width: 14px;
+            height: 14px;
+        }
+
         .btn-group {
             display: flex;
             gap: 0.75rem;
@@ -381,11 +422,13 @@
         .btn-analyzer {
             background: linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%);
             color: white;
+            text-decoration: none;
         }
         
         .btn-analyzer:hover {
             background: linear-gradient(135deg, #9F75FF 0%, #7C7FFF 100%);
             transform: translateY(-1px);
+            text-decoration: none;
         }
 
         .btn {
@@ -611,6 +654,129 @@
             text-decoration: underline;
         }
 
+        /* Creative Modal Header */
+        .modal-header.creative {
+            background: linear-gradient(135deg, #7C3AED, #8B5CF6);
+        }
+
+        .modal-btn-creative {
+            background: #8B5CF6;
+            color: white;
+        }
+
+        .modal-btn-creative:hover {
+            background: #7C3AED;
+            transform: translateY(-1px);
+        }
+
+        .modal-btn-secondary {
+            background: white;
+            color: var(--gray-600);
+            border: 2px solid var(--gray-200);
+        }
+
+        .modal-btn-secondary:hover {
+            border-color: var(--gray-400);
+        }
+
+        /* Creative Modal Input/Output Styles */
+        .creative-input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .creative-input-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--secondary-navy);
+            margin-bottom: 0.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .creative-input-group input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-family: 'IBM Plex Sans', sans-serif;
+            transition: border-color 0.2s;
+        }
+
+        .creative-input-group input:focus {
+            outline: none;
+            border-color: #8B5CF6;
+        }
+
+        .creative-hint {
+            font-size: 0.8125rem;
+            color: var(--gray-400);
+            margin-top: 0.5rem;
+        }
+
+        .creative-examples {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 0.5rem;
+        }
+
+        .creative-examples p {
+            font-size: 0.8125rem;
+            color: var(--gray-600);
+            margin-bottom: 0.5rem;
+        }
+
+        .creative-examples ul {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+
+        .creative-examples li {
+            font-size: 0.8125rem;
+            color: var(--gray-400);
+            margin-bottom: 0.25rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .creative-examples li:hover {
+            color: #8B5CF6;
+        }
+
+        /* Creative Result display area */
+        .creative-result-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .creative-result-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--secondary-navy);
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .creative-result-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-family: 'IBM Plex Sans', sans-serif;
+            resize: vertical;
+            background: var(--bg-light);
+        }
+
+        .creative-result-group textarea:focus {
+            outline: none;
+            border-color: #8B5CF6;
+        }
+
+        .creative-result-group textarea.readonly {
+            background: white;
+            cursor: default;
+        }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -787,7 +953,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Start with Template (Optional)</label>
+                    <div class="label-row">
+                        <label>Start with Template (Optional) or...</label>
+                        <button class="btn-creative" onclick="openCreativeModal()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                            Be Creative
+                        </button>
+                    </div>
                     <select id="sampleSelect" onchange="loadTemplate()">
                         <option value="">-- Select a template to pre-fill fields --</option>
                         <option value="payroll">Payroll Entry</option>
@@ -847,6 +1021,22 @@
         </div>
     </div>
 
+    <!-- Creative Modal (for Be Creative feature) -->
+    <div id="creativeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header creative" id="creativeModalHeader">
+                <h2 id="creativeModalTitle">Be Creative - Describe a Transaction Type</h2>
+                <button class="close-btn" onclick="closeCreativeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="creativeModalBody">
+                <!-- Content will be dynamically inserted -->
+            </div>
+            <div class="modal-actions" id="creativeModalActions">
+                <!-- Actions will be dynamically inserted -->
+            </div>
+        </div>
+    </div>
+
     <div class="footer">
         <p>
             <strong>FORAY Protocol</strong> &mdash; Privacy-Preserving Blockchain Audit Infrastructure<br>
@@ -858,10 +1048,14 @@
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Configuration - Update this to point to your API server
-        const API_ENDPOINT = 'http://localhost:3001/api/generate-foray';
-        // For Cloudflare Tunnel: const API_ENDPOINT = 'https://your-tunnel-url.com/api/generate-foray';
+        // Auto-detect environment and set API endpoints
+        const isLiveSite = window.location.hostname === 'foray.dunin7.com';
+        const API_BASE = isLiveSite ? 'https://foray.dunin7.com' : 'http://localhost:3001';
+        const API_ENDPOINT = `${API_BASE}/api/generate-foray`;
+        const DESCRIBE_ENDPOINT = `${API_BASE}/api/describe-transaction`;
 
         let currentTransaction = null;
+        let creativeTransactionType = '';
 
         // Reference examples data URLs (will load from review page samples)
         const REVIEW_PAGE_URL = 'foray-tx-review-v41.html';
@@ -1002,7 +1196,7 @@
                     <p style="color: #1B365D; font-size: 1.125rem; font-weight: 600; margin-bottom: 0.75rem;">Generating FORAY Protocol JSON</p>
                     <div style="background: #F7F9FA; border-radius: 0.5rem; padding: 1rem 1.5rem; width: 100%; max-width: 480px;">
                         <p style="color: #636E72; font-size: 0.8125rem; margin-bottom: 0.5rem;">
-                            <strong style="color: #0D7377;">Claude AI</strong> is identifying the 4 components:
+                            <strong>AI</strong> is identifying the 4 components:
                         </p>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem 1rem; color: #636E72; font-size: 0.75rem; line-height: 1.6;">
                             <div><strong>Arrangements</strong> &mdash; Contracts</div>
@@ -1013,7 +1207,7 @@
                     </div>
                     <div style="margin-top: 1rem; padding: 0.75rem 1rem; background: linear-gradient(135deg, rgba(13, 115, 119, 0.08), rgba(27, 54, 93, 0.08)); border-radius: 0.375rem; border-left: 3px solid #E6A817; max-width: 480px;">
                         <p style="color: #636E72; font-size: 0.6875rem; line-height: 1.5; margin: 0;">
-                            <strong style="color: #1B365D;">Demo Mode:</strong> This interactive AI generation takes 5-15 seconds for educational purposes. 
+                            <strong style="color: #1B365D;">Demo Mode:</strong> This interactive AI generation takes a moment for educational purposes. 
                             In production, FORAY transactions are generated via <strong>ERP adapters</strong> (QuickBooks, Salesforce, SAP) 
                             with sub-second latency through pre-defined mappings and batch processing.
                         </p>
@@ -1100,8 +1294,244 @@
             window.location.href = REVIEW_PAGE_URL;
         }
 
-        // Close modal 
+        // =====================================================
+        // Be Creative Feature
+        // =====================================================
+
+        function openCreativeModal() {
+            const modal = document.getElementById('creativeModal');
+            const modalBody = document.getElementById('creativeModalBody');
+            const modalActions = document.getElementById('creativeModalActions');
+            const modalTitle = document.getElementById('creativeModalTitle');
+
+            modalTitle.textContent = 'Be Creative - Describe a Transaction Type';
+
+            modalBody.innerHTML = `
+                <div class="creative-input-group">
+                    <label for="creativeInput">Transaction Type</label>
+                    <input 
+                        type="text" 
+                        id="creativeInput" 
+                        placeholder="e.g., Foreign Exchange Swap with Bond Collateral"
+                        value="${creativeTransactionType}"
+                    >
+                    <div class="creative-hint">Enter any transaction type you can imagine - the AI will describe it and provide an example.</div>
+                </div>
+                <div class="creative-examples">
+                    <p><strong>Try these examples:</strong></p>
+                    <ul>
+                        <li onclick="setCreativeExample('Foreign Exchange Swap with Bond Collateral')">Foreign Exchange Swap with Bond Collateral</li>
+                        <li onclick="setCreativeExample('Residential Mortgage-Backed Security Issuance')">Residential Mortgage-Backed Security Issuance</li>
+                        <li onclick="setCreativeExample('Carbon Credit Trading with Offset Verification')">Carbon Credit Trading with Offset Verification</li>
+                        <li onclick="setCreativeExample('Multi-Currency Cross-Border Payroll')">Multi-Currency Cross-Border Payroll</li>
+                        <li onclick="setCreativeExample('Pharmaceutical Supply Chain with Cold Storage Attestation')">Pharmaceutical Supply Chain with Cold Storage Attestation</li>
+                    </ul>
+                </div>
+            `;
+
+            modalActions.innerHTML = `
+                <button class="modal-btn modal-btn-review" onclick="submitCreativeType()">
+                    Submit
+                </button>
+                <button class="modal-btn modal-btn-secondary" onclick="closeCreativeModal()">
+                    Back
+                </button>
+            `;
+
+            modal.classList.add('active');
+
+            // Focus the input after modal opens
+            setTimeout(() => {
+                document.getElementById('creativeInput').focus();
+            }, 100);
+        }
+
+        function setCreativeExample(example) {
+            document.getElementById('creativeInput').value = example;
+        }
+
+        function closeCreativeModal() {
+            document.getElementById('creativeModal').classList.remove('active');
+        }
+
+        async function submitCreativeType() {
+            const input = document.getElementById('creativeInput');
+            const txType = input.value.trim();
+
+            if (!txType) {
+                alert('Please enter a transaction type.');
+                input.focus();
+                return;
+            }
+
+            creativeTransactionType = txType;
+            showCreativeLoading();
+
+            try {
+                const response = await fetch(DESCRIBE_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        transactionType: txType
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `API request failed: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                showCreativeResult(data.transactionType, data.description, data.example);
+
+            } catch (error) {
+                console.error('Error describing transaction:', error);
+                showCreativeError(error.message);
+            }
+        }
+
+        function showCreativeLoading() {
+            const modalBody = document.getElementById('creativeModalBody');
+            const modalActions = document.getElementById('creativeModalActions');
+            const modalTitle = document.getElementById('creativeModalTitle');
+
+            modalTitle.textContent = 'Generating Description...';
+
+            modalBody.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem;">
+                    <div style="border: 4px solid #A78BFA; border-top: 4px solid #8B5CF6; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 1rem;"></div>
+                    <p style="color: #1B365D; font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem;">Describing Transaction Type</p>
+                    <p style="color: #636E72; font-size: 0.875rem; text-align: center;">
+                        <strong>AI</strong> is generating a description and example for:<br>
+                        <em>"${creativeTransactionType}"</em>
+                    </p>
+                </div>
+            `;
+
+            modalActions.innerHTML = '';
+        }
+
+        function showCreativeResult(txType, description, example) {
+            const modalBody = document.getElementById('creativeModalBody');
+            const modalActions = document.getElementById('creativeModalActions');
+            const modalTitle = document.getElementById('creativeModalTitle');
+
+            modalTitle.textContent = 'Transaction Type Description';
+
+            modalBody.innerHTML = `
+                <div class="creative-result-group">
+                    <label>Transaction Type</label>
+                    <textarea class="readonly" rows="1" readonly>${txType}</textarea>
+                </div>
+                <div class="creative-result-group">
+                    <label>Description</label>
+                    <textarea class="readonly" rows="6" readonly>${description}</textarea>
+                </div>
+                <div class="creative-result-group">
+                    <label>Example Scenario</label>
+                    <textarea class="readonly" rows="8" readonly>${example}</textarea>
+                </div>
+            `;
+
+            modalActions.innerHTML = `
+                <button class="modal-btn modal-btn-review" onclick="useCreativeResult()">
+                    Try It
+                </button>
+                <button class="modal-btn modal-btn-secondary" onclick="tryCreativeAgain()">
+                    Try Again
+                </button>
+                <button class="modal-btn modal-btn-secondary" onclick="closeCreativeModal()">
+                    Back
+                </button>
+            `;
+        }
+
+        function showCreativeError(errorMessage) {
+            const modalBody = document.getElementById('creativeModalBody');
+            const modalActions = document.getElementById('creativeModalActions');
+            const modalTitle = document.getElementById('creativeModalTitle');
+
+            modalTitle.textContent = 'Error';
+
+            modalBody.innerHTML = `
+                <div style="background: #ffebee; color: #c62828; padding: 1rem 1.25rem; border-radius: 0.5rem; margin-bottom: 1.25rem; border-left: 4px solid #c62828;">
+                    <strong>Error Generating Description</strong>
+                    <p style="margin-top: 0.5rem;">${errorMessage}</p>
+                </div>
+                <div style="background: var(--bg-light); padding: 1rem; border-radius: 0.5rem; border-left: 3px solid #8B5CF6;">
+                    <p style="color: var(--gray-600); font-size: 0.875rem; margin-bottom: 0.5rem;"><strong>Troubleshooting:</strong></p>
+                    <ul style="margin-left: 1.5rem; color: var(--gray-600); font-size: 0.875rem; line-height: 1.6;">
+                        <li>Make sure the API server is running: <code>node foray-api-server.js</code></li>
+                        <li>Check that your API key is configured in .env</li>
+                        <li>Try a different transaction type description</li>
+                    </ul>
+                </div>
+            `;
+
+            modalActions.innerHTML = `
+                <button class="modal-btn modal-btn-secondary" onclick="tryCreativeAgain()">
+                    Try Again
+                </button>
+                <button class="modal-btn modal-btn-secondary" onclick="closeCreativeModal()">
+                    Back
+                </button>
+            `;
+        }
+
+        function tryCreativeAgain() {
+            // Return to input phase, keep the transaction type
+            openCreativeModal();
+        }
+
+        function useCreativeResult() {
+            // Get the values from the result textareas
+            const textareas = document.querySelectorAll('#creativeModalBody textarea');
+            const txType = textareas[0].value;
+            const example = textareas[2].value;
+
+            // Fill in the main form
+            document.getElementById('customTxName').value = txType;
+            document.getElementById('customTxDescription').value = example;
+
+            // Clear the template dropdown since we're using custom input
+            document.getElementById('sampleSelect').selectedIndex = 0;
+
+            // Close the modal
+            closeCreativeModal();
+
+            // Reset for next use
+            creativeTransactionType = '';
+
+            // Scroll to the form (optional)
+            document.getElementById('customTxName').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Close creative modal on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const creativeModal = document.getElementById('creativeModal');
+                if (creativeModal.classList.contains('active')) {
+                    closeCreativeModal();
+                }
+            }
+        });
+
+        // Allow Enter key to submit in creative input
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const creativeInput = document.getElementById('creativeInput');
+                if (creativeInput && document.activeElement === creativeInput) {
+                    e.preventDefault();
+                    submitCreativeType();
+                }
+            }
+        });
+
+        // =====================================================
         // Mobile Menu Toggle
+        // =====================================================
         function toggleMobileMenu() {
             const hamburger = document.querySelector(".nav-hamburger");
             const mobileMenu = document.getElementById("mobileMenu");
