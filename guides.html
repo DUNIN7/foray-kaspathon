@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<!--
+  File: guides.html
+  Version: 1.3.0
+  Created: 2026-02-06T03:45:00Z
+  Modified: 2026-02-06T04:30:00Z
+  Author: Marvin Percival
+  Email: marvinp@dunin7.com
+  GitHub: DUNIN7/foray-kaspathon
+  
+  FORAY Protocol Industry Guides
+  Change Log:
+    v1.3.0 (2026-02-06): Lighter card background, updated footer style
+    v1.1.0 (2026-02-06): Updated with correct nav bar and brand colors
+    v1.0.0 (2026-02-06): Initial version
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>Industry Guides - FORAY Protocol</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta name="description" content="Industry-specific guides for FORAY Protocol - Defense, Energy, Financial Services, Manufacturing, Supply Chain, and Auditing.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-teal: #0D7377;
+      --secondary-navy: #1B365D;
+      --accent-cyan: #14B8B8;
+      --highlight-mint: #7DD3D6;
+      --action-amber: #E6A817;
+      --text-dark: #1A1D21;
+      --text-light: #F7F9FA;
+      --bg-dark: #1A1D21;
+      --gray-600: #636E72;
+      --gray-400: #94A3A8;
+      --gray-200: #E5E9EB;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* === BULLETPROOF NAV CSS v4.0 - FULLY SELF-CONTAINED === */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(26, 29, 33, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 214, 0.1); font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; box-sizing: border-box; }
+    .nav * { box-sizing: border-box; }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: inherit; font-size: inherit; line-height: inherit; }
+    .nav-logo-text { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; display: flex; align-items: center; }
+    .nav-logo-foray { color: #0D7377; }
+    .nav-logo-protocol { color: #F7F9FA; font-weight: 400; }
+    .nav-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; background: #E6A817; color: #1A1D21; border-radius: 4px; font-weight: 600; line-height: 1; display: inline-block; vertical-align: middle; font-family: inherit; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-link { color: #94A3A8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; font-family: inherit; line-height: 1; }
+    .nav-link:hover, .nav-link.active { color: #14B8B8; }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; align-items: center; width: 40px; height: 40px; background: transparent; border: none; cursor: pointer; z-index: 1001; padding: 8px; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #F7F9FA; margin: 3px 0; transition: all 0.3s ease; border-radius: 2px; }
+    .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+    .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 29, 33, 0.98); backdrop-filter: blur(20px); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .nav-mobile-menu.active { opacity: 1; visibility: visible; }
+    .nav-mobile-menu .nav-link { font-size: 1.5rem; font-weight: 500; color: #F7F9FA; line-height: 1; }
+    .nav-mobile-menu .nav-link:hover { color: #14B8B8; }
+    @media (max-width: 768px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .nav-mobile-menu { display: flex; } }
+    /* === END BULLETPROOF NAV CSS === */
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 2rem 4rem;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 4rem;
+      padding-top: 2rem;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-light);
+    }
+
+    .hero h1 span {
+      color: var(--accent-cyan);
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--gray-400);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Guide Cards */
+    .guides-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+
+    .guide-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(125, 211, 214, 0.2);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .guide-card:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(20, 184, 184, 0.1);
+    }
+
+    .guide-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-cyan) 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.75rem;
+    }
+
+    .guide-card h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-light);
+    }
+
+    .guide-card p {
+      color: var(--gray-400);
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .guide-audience {
+      font-size: 0.875rem;
+      color: var(--accent-cyan);
+      margin-bottom: 1.5rem;
+      padding: 0.5rem 0;
+      border-top: 1px solid rgba(125, 211, 214, 0.15);
+    }
+
+    .guide-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .guide-link:hover {
+      color: var(--accent-cyan);
+      gap: 0.75rem;
+    }
+
+    .guide-link svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Topics List */
+    .topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .topic-tag {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      background: rgba(20, 184, 184, 0.1);
+      border: 1px solid rgba(20, 184, 184, 0.2);
+      border-radius: 20px;
+      color: var(--accent-cyan);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid rgba(125, 211, 214, 0.1);
+      margin-top: 4rem;
+      color: var(--gray-400);
+    }
+
+    .footer a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .guides-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 5rem 1rem 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-text">
+        <span class="nav-logo-foray">FORAY</span>
+        <span class="nav-logo-protocol">&nbsp;Protocol</span>
+      </span>
+      <span class="nav-badge">v4.1</span>
+    </a>
+    <div class="nav-links">
+      <a href="demo.html" class="nav-link">Demo</a>
+      <a href="docs.html" class="nav-link">Documentation</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
+    </div>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="nav-mobile-menu" id="mobileMenu">
+    <a href="demo.html" class="nav-link" onclick="closeMobileMenu()">Demo</a>
+    <a href="docs.html" class="nav-link" onclick="closeMobileMenu()">Documentation</a>
+    <a href="about.html" class="nav-link" onclick="closeMobileMenu()">About</a>
+    <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank" onclick="closeMobileMenu()">GitHub</a>
+  </div>
+
+  <div class="container">
+    <!-- Hero -->
+    <div class="hero">
+      <h1><span>Industry</span> Guides</h1>
+      <p>Discover how FORAY Protocol addresses specific challenges across industries. Each guide provides sector-specific insights, transaction examples, and compliance considerations.</p>
+    </div>
+
+    <!-- Guides Grid -->
+    <div class="guides-grid">
+      
+      <!-- Defense Contractor Guide -->
+      <div class="guide-card">
+        <div class="guide-icon">🛡️</div>
+        <h2>Defense Contractors</h2>
+        <p>Navigate DCAA requirements with tamper-evident audit trails. Learn how FORAY supports incurred cost submissions, forward pricing audits, CAS compliance, and timekeeping integrity.</p>
+        <div class="topics">
+          <span class="topic-tag">DCAA</span>
+          <span class="topic-tag">CAS</span>
+          <span class="topic-tag">DFARS</span>
+          <span class="topic-tag">Timekeeping</span>
+        </div>
+        <div class="guide-audience">For: Compliance officers, finance leaders, contract administrators</div>
+        <a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/guides/FORAY_Defense_Contractor_Guide.md" class="guide-link" target="_blank">
+          Read Guide
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Energy Sector Guide -->
+      <div class="guide-card">
+        <div class="guide-icon">⚡</div>
+        <h2>Energy Sector</h2>
+        <p>Manage cross-border power transactions, renewable energy certificates, and sovereign guarantees. See how FORAY anchors complex PPA structures with sub-second finality.</p>
+        <div class="topics">
+          <span class="topic-tag">PPA</span>
+          <span class="topic-tag">RECs</span>
+          <span class="topic-tag">Grid Codes</span>
+          <span class="topic-tag">Settlement</span>
+        </div>
+        <div class="guide-audience">For: Energy executives, trading desks, regulatory compliance</div>
+        <a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/guides/FORAY_Energy_Sector_Guide.md" class="guide-link" target="_blank">
+          Read Guide
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Financial Services Guide -->
+      <div class="guide-card">
+        <div class="guide-icon">🏦</div>
+        <h2>Financial Services</h2>
+        <p>From securitizations to FX trades to overnight repos, learn how FORAY creates tamper-evident audit trails for complex financial instruments while protecting proprietary data.</p>
+        <div class="topics">
+          <span class="topic-tag">RMBS</span>
+          <span class="topic-tag">FX</span>
+          <span class="topic-tag">Repo</span>
+          <span class="topic-tag">SOX</span>
+        </div>
+        <div class="guide-audience">For: Banking executives, trading operations, audit committees</div>
+        <a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/guides/FORAY_Financial_Services_Guide.md" class="guide-link" target="_blank">
+          Read Guide
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Manufacturing Guide -->
+      <div class="guide-card">
+        <div class="guide-icon">🏭</div>
+        <h2>Manufacturing & Supply Chain</h2>
+        <p>Address cost accounting, variance analysis, transfer pricing, and supply chain traceability. FORAY anchors production transactions from work orders to goods receipts.</p>
+        <div class="topics">
+          <span class="topic-tag">Cost Accounting</span>
+          <span class="topic-tag">BOM</span>
+          <span class="topic-tag">Traceability</span>
+          <span class="topic-tag">ISO</span>
+        </div>
+        <div class="guide-audience">For: Operations executives, supply chain leaders, quality managers</div>
+        <a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/guides/FORAY_Manufacturing_Supply_Chain_Guide.md" class="guide-link" target="_blank">
+          Read Guide
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Supply Chain Provenance Guide -->
+      <div class="guide-card">
+        <div class="guide-icon">🔍</div>
+        <h2>Supply Chain Provenance</h2>
+        <p>Combat counterfeiting and verify product authenticity from source to consumer. See examples with Manuka honey certification and luxury watch authentication.</p>
+        <div class="topics">
+          <span class="topic-tag">Authentication</span>
+          <span class="topic-tag">Provenance</span>
+          <span class="topic-tag">Certification</span>
+          <span class="topic-tag">Anti-Counterfeit</span>
+        </div>
+        <div class="guide-audience">For: Brand protection, quality assurance, certification bodies</div>
+        <a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/guides/FORAY_Supply_Chain_Provenance_Guide.md" class="guide-link" target="_blank">
+          Read Guide
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Auditor Advisory Guide -->
+      <div class="guide-card">
+        <div class="guide-icon">📋</div>
+        <h2>Auditors & Advisory</h2>
+        <p>Transform audit workflows with blockchain-verified evidence. Explore how FORAY enables more efficient engagements and creates new service opportunities for assurance professionals.</p>
+        <div class="topics">
+          <span class="topic-tag">Big 4</span>
+          <span class="topic-tag">Assurance</span>
+          <span class="topic-tag">ISA</span>
+          <span class="topic-tag">PCAOB</span>
+        </div>
+        <div class="guide-audience">For: Audit partners, assurance professionals, advisory practice leaders</div>
+        <a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/guides/FORAY_Auditor_Advisory_Guide.md" class="guide-link" target="_blank">
+          Read Guide
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2026 Marvin Percival. All rights reserved.</p>
+    <p style="margin-top: 0.5rem;">
+      <a href="LICENSE.md">License</a> &middot; 
+      <a href="https://github.com/DUNIN7/foray-kaspathon">GitHub</a>
+    </p>
+  </footer>
+
+  <script>
+    function toggleMobileMenu() {
+      const hamburger = document.querySelector('.nav-hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    }
+
+    function closeMobileMenu() {
+      const hamburger = document.querySelector('.nav-hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeMobileMenu();
+    });
+  </script>
+</body>
+</html>
