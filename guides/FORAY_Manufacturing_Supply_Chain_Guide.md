@@ -1,4 +1,21 @@
-# FORAY Protocol: Relevance for Manufacturing & Supply Chain
+<!--
+  File: FORAY_Manufacturing_Supply_Chain_Guide.md
+  Version: 1.1.0
+  Created: 2026-01-30T00:00:00Z
+  Modified: 2026-02-01T15:00:00Z
+  Author: Marvin Percival
+  Email: marvinp@dunin7.com
+  GitHub: DUNIN7/foray-kaspathon
+
+  Changelog:
+    v1.1.0 (2026-02-01): Fixed mojibake encoding throughout
+                         Changed "immutable" to "tamper-evident" where appropriate
+                         Updated contact section to standard format
+                         Added trust model disclaimer
+    v1.0.0 (2026-01-30): Initial release
+-->
+
+# FORAY Protocol: Relevance for Manufacturing &amp; Supply Chain
 
 **Audience:** Manufacturing executives, supply chain leaders, and operations professionals evaluating blockchain for traceability and compliance
 
@@ -6,9 +23,11 @@
 
 ## Executive Summary
 
-FORAY Protocol provides a privacy-preserving audit infrastructure designed for enterprise transaction recording on blockchain. For manufacturers navigating complex supply chains, cost accounting requirements, and regulatory compliance, FORAY offers a framework for creating immutable, verifiable audit trails while protecting proprietary cost structures, supplier relationships, and production methods.
+FORAY Protocol provides a privacy-preserving audit infrastructure designed for enterprise transaction recording on blockchain. For manufacturers navigating complex supply chains, cost accounting requirements, and regulatory compliance, FORAY offers a framework for creating tamper-evident, verifiable audit trails while protecting proprietary cost structures, supplier relationships, and production methods.
 
 This document outlines how FORAY addresses specific challenges in manufacturing and supply chain operations.
+
+> **Trust Model Note:** FORAY creates tamper-evident proof that records existed at a specific time and have not been altered. It does not independently verify the accuracy of source data. For a complete understanding of what FORAY proves and does not prove, see [FORAY_Attestation_Trust_Model.md](FORAY_Attestation_Trust_Model.md).
 
 ---
 
@@ -25,7 +44,7 @@ Manufacturing and supply chain operations face distinct challenges:
 | Transfer pricing audits | Complex documentation | Tax authority challenges |
 | Contract manufacturer oversight | Periodic audits | Quality and IP leakage |
 
-Blockchain provides immutability, but most implementations expose sensitive commercial data. FORAY solves this with privacy-preserving anchoring.
+Blockchain provides tamper-evidence, but most implementations expose sensitive commercial data. FORAY solves this with privacy-preserving anchoring.
 
 ---
 
@@ -49,7 +68,7 @@ A manufacturing work order demonstrates FORAY's capabilities:
 - **2 Anticipations:** Production completion, cost settlement
 - **2 Actions:** Goods receipt to inventory, variance posting
 
-Each component is cryptographically anchored to Kaspa with sub-second finality, creating an immutable audit trail without exposing proprietary cost rates or supplier pricing.
+Each component is cryptographically anchored to Kaspa with sub-second finality, creating a tamper-evident audit trail without exposing proprietary cost rates or supplier pricing.
 
 ---
 
@@ -74,7 +93,7 @@ When a quality issue emerges:
 | Trace batch through paper records | Query blockchain anchors |
 | Days to weeks | Minutes to hours |
 | Incomplete trail risk | Cryptographic completeness |
-| Supplier finger-pointing | Immutable accountability |
+| Supplier finger-pointing | Tamper-evident accountability |
 
 ---
 
@@ -104,7 +123,7 @@ FORAY's privacy architecture protects this data:
 
 | Regulation/Standard | FORAY Support |
 |---------------------|---------------|
-| ISO 9001 | Immutable quality records |
+| ISO 9001 | Tamper-evident quality records |
 | FDA 21 CFR Part 11 | Electronic record integrity |
 | IATF 16949 (Automotive) | Traceability documentation |
 | AS9100 (Aerospace) | Configuration management records |
@@ -133,7 +152,7 @@ Variances become auditable from the moment they occur, not months later during c
 ### Transfer Pricing
 
 For multi-entity manufacturers, FORAY provides:
-- Immutable intercompany transaction records
+- Tamper-evident intercompany transaction records
 - Timestamped pricing at transaction date
 - Arm's length documentation support
 - Tax authority audit trail
@@ -152,7 +171,7 @@ DCAA-compliant cost accounting requires extensive documentation. FORAY supports:
 | Indirect rate computation | Overhead calculations auditable |
 | Incurred cost submission | Pre-verified supporting data |
 
-**Benefit:** Reduce DCAA audit preparation time and dispute risk.
+**Benefit:** Potential reduction in DCAA audit preparation time and dispute risk.
 
 ---
 
@@ -216,13 +235,13 @@ Integration patterns are documented in the protocol specification.
 1. **Review the demo:** Open the Transaction Review Tool and load the manufacturing example
 2. **Explore the structure:** See how production transactions map to FORAY's 4 components
 3. **Test with Kaspa Testnet:** Anchor sample transactions to verify the workflow
-4. **Identify pilot scope:** Which transactions would benefit most from immutable anchoring?
+4. **Identify pilot scope:** Which transactions would benefit most from tamper-evident anchoring?
 
 ---
 
 ## About FORAY Protocol
 
-FORAY (derived from "4A" — the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's immutability benefits without privacy compromise.
+FORAY (derived from "4A" &mdash; the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's tamper-evidence benefits without privacy compromise.
 
 **Key Resources:**
 - Protocol Specification: `FORAY_Protocol_v4_1_Specification.md`
@@ -233,14 +252,14 @@ FORAY (derived from "4A" — the four components) is an open protocol designed f
 
 ## Contact
 
-**Author:** Marvin Percival  
-**Email:** marvinp@dunin7.com  
-**Repository:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
+- **Author:** Marvin Percival
+- **Email:** marvinp@dunin7.com
+- **GitHub:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
 
 ---
 
-*FORAY Protocol — Transparent audits, protected secrets, powered by Kaspa.*
+*FORAY Protocol &mdash; Transparent audits, protected secrets, powered by Kaspa.*
 
 ---
 
-**Copyright © 2026 Marvin Percival. All rights reserved.**
+**Copyright &copy; 2026 Marvin Percival. All rights reserved.**

@@ -1,3 +1,20 @@
+<!--
+  File: FORAY_Energy_Sector_Guide.md
+  Version: 1.1.0
+  Created: 2026-01-30T00:00:00Z
+  Modified: 2026-02-01T15:00:00Z
+  Author: Marvin Percival
+  Email: marvinp@dunin7.com
+  GitHub: DUNIN7/foray-kaspathon
+
+  Changelog:
+    v1.1.0 (2026-02-01): Fixed mojibake encoding throughout
+                         Changed "immutable" to "tamper-evident" where appropriate
+                         Updated contact section to standard format
+                         Added trust model disclaimer
+    v1.0.0 (2026-01-30): Initial release
+-->
+
 # FORAY Protocol: Relevance for Energy Sector
 
 **Audience:** Energy industry executives, particularly those evaluating Kaspa blockchain for enterprise applications
@@ -6,9 +23,11 @@
 
 ## Executive Summary
 
-FORAY Protocol provides a privacy-preserving audit infrastructure designed for enterprise transaction recording on blockchain. For energy companies already exploring Kaspa's capabilities, FORAY offers a ready-made framework for creating immutable, verifiable audit trails while protecting commercially sensitive data.
+FORAY Protocol provides a privacy-preserving audit infrastructure designed for enterprise transaction recording on blockchain. For energy companies already exploring Kaspa's capabilities, FORAY offers a ready-made framework for creating tamper-evident, verifiable audit trails while protecting commercially sensitive data.
 
 This document outlines how FORAY addresses specific challenges in energy sector accounting and compliance.
+
+> **Trust Model Note:** FORAY creates tamper-evident proof that records existed at a specific time and have not been altered. It does not independently verify the accuracy of source data. For a complete understanding of what FORAY proves and does not prove, see [FORAY_Attestation_Trust_Model.md](FORAY_Attestation_Trust_Model.md).
 
 ---
 
@@ -24,7 +43,7 @@ The energy sector faces unique audit challenges:
 | Project finance compliance | Periodic auditor site visits | High cost, delayed detection |
 | Multi-party settlement | Bilateral confirmations | Reconciliation failures |
 
-Blockchain provides immutability, but most implementations expose sensitive commercial data. FORAY solves this with privacy-preserving anchoring.
+Blockchain provides tamper-evidence, but most implementations expose sensitive commercial data. FORAY solves this with privacy-preserving anchoring.
 
 ---
 
@@ -41,14 +60,14 @@ FORAY's 4-component model maps naturally to energy sector transactions:
 
 ### Example: Cross-Border Power Purchase Agreement
 
-A EUR 197M annual PPA between a Moroccan solar farm and Spanish utility demonstrates FORAY's capabilities:
+A &euro;197M annual PPA between a Moroccan solar farm and Spanish utility demonstrates FORAY's capabilities:
 
 - **2 Arrangements:** PPA terms + HVDC transmission agreement
-- **5 Accruals:** Energy revenue, transmission tariff, RECs, FX hedge, O&M costs
+- **5 Accruals:** Energy revenue, transmission tariff, RECs, FX hedge, O&amp;M costs
 - **6 Anticipations:** Monthly delivery schedules, payment milestones
 - **4 Actions:** Actual power delivery confirmations, settlements
 
-Each component is cryptographically anchored to Kaspa with sub-second finality, creating an immutable audit trail without exposing pricing formulas or cost structures.
+Each component is cryptographically anchored to Kaspa with sub-second finality, creating a tamper-evident audit trail without exposing pricing formulas or cost structures.
 
 ---
 
@@ -56,7 +75,7 @@ Each component is cryptographically anchored to Kaspa with sub-second finality, 
 
 Energy companies cannot expose:
 - Negotiated PPA pricing (competitive intelligence)
-- O&M cost structures (margin visibility)
+- O&amp;M cost structures (margin visibility)
 - Proprietary efficiency calculations (operational IP)
 - Counterparty terms (relationship sensitivity)
 
@@ -78,7 +97,7 @@ FORAY's privacy architecture protects this data:
 | Regulation | FORAY Support |
 |------------|---------------|
 | EU Energy Directives | Timestamped generation/delivery records |
-| Cross-border grid codes | Immutable meter reading anchors |
+| Cross-border grid codes | Tamper-evident meter reading anchors |
 | REC certification | One-to-one MWh-to-certificate linkage |
 | Project finance covenants | Real-time DSCR verification |
 | Sovereign guarantee tracking | Verifiable commitment records |
@@ -96,7 +115,7 @@ FORAY is designed for Kaspa's unique properties:
 | Low transaction cost | Economical for high-volume metering |
 | GHOSTDAG consensus | Throughput for grid-scale transactions |
 
-Future Kaspa features (ZK-proofs) will enable even stronger privacy guaranteesEUR "auditors verify correctness without any data exposure.
+Future Kaspa features (ZK-proofs) will enable even stronger privacy guarantees&mdash;auditors verify correctness without any data exposure.
 
 ---
 
@@ -108,7 +127,7 @@ The FORAY repository includes an energy sector example:
 
 This demonstrates a cross-border Power Purchase Agreement with:
 - Multi-party structure (seller, buyer, sovereign guarantor, transmission operator)
-- Complex accrual calculations (energy, transmission, RECs, FX, O&M)
+- Complex accrual calculations (energy, transmission, RECs, FX, O&amp;M)
 - Monthly delivery and settlement schedules
 - Full compliance flag tracking
 
@@ -127,7 +146,7 @@ The example is based on real MENA-to-Europe renewable energy trading patterns.
 
 ## About FORAY Protocol
 
-FORAY (derived from "4A" EUR " the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's immutability benefits without privacy compromise.
+FORAY (derived from "4A" &mdash; the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's tamper-evidence benefits without privacy compromise.
 
 **Key Resources:**
 - Protocol Specification: `FORAY_Protocol_v4_1_Specification.md`
@@ -138,14 +157,14 @@ FORAY (derived from "4A" EUR " the four components) is an open protocol designed
 
 ## Contact
 
-**Author:** Marvin Percival  
-**Email:** marvinp@dunin7.com  
-**Repository:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
+- **Author:** Marvin Percival
+- **Email:** marvinp@dunin7.com
+- **GitHub:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
 
 ---
 
-*FORAY Protocol EUR " Transparent audits, protected secrets, powered by Kaspa.*
+*FORAY Protocol &mdash; Transparent audits, protected secrets, powered by Kaspa.*
 
 ---
 
-**Copyright (c) 2026 Marvin Percival. All rights reserved.**
+**Copyright &copy; 2026 Marvin Percival. All rights reserved.**

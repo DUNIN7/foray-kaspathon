@@ -218,7 +218,7 @@
       "description": "Expected 10% increase in summer solar production (June-August)",
       "condition": "Summer peak solar irradiation months",
       "probability_factor": 0.90,
-      "expected_impact": "Monthly revenue increase to â‚¬19.8M (vs â‚¬18M baseline)",
+      "expected_impact": "Monthly revenue increase to EUR 19.8M (vs EUR 18M baseline)",
       "assumptions": {
         "summer_months": "June, July, August",
         "production_increase": 0.10,
@@ -233,7 +233,7 @@
       "description": "Expected 25% decrease in winter solar production (December-February)",
       "condition": "Winter reduced solar irradiation months",
       "probability_factor": 0.85,
-      "expected_impact": "Monthly revenue decrease to â‚¬13.5M (vs â‚¬18M baseline)",
+      "expected_impact": "Monthly revenue decrease to EUR 13.5M (vs EUR 18M baseline)",
       "assumptions": {
         "winter_months": "December, January, February",
         "production_decrease": 0.25,
@@ -248,7 +248,7 @@
       "description": "Annual planned maintenance reducing capacity by 100 MW for 10 days",
       "condition": "Scheduled maintenance window in April",
       "probability_factor": 1.00,
-      "expected_impact": "Revenue reduction of â‚¬450K during maintenance period",
+      "expected_impact": "Revenue reduction of EUR 450K during maintenance period",
       "assumptions": {
         "maintenance_days": 10,
         "capacity_reduction_mw": 100,
@@ -263,10 +263,10 @@
       "description": "EUR/MAD exchange rate volatility impacting cost base",
       "condition": "Currency fluctuation between EUR and MAD",
       "probability_factor": 0.75,
-      "expected_impact": "Â±5% variance in EUR-denominated O&M costs",
+      "expected_impact": "+/-5% variance in EUR-denominated O&M costs",
       "assumptions": {
         "base_rate": 10.85,
-        "volatility_range": "Â±5%",
+        "volatility_range": "+/-5%",
         "monthly_exposure_eur": 600000,
         "potential_variance_eur": 30000
       },
@@ -275,10 +275,10 @@
     {
       "id": "ANT_REC_PRICE_FLUCTUATION",
       "type": "commodity_price_risk",
-      "description": "European REC market price volatility (â‚¬0.50-â‚¬2.00 range)",
+      "description": "European REC market price volatility (EUR 0.50-EUR 2.00 range)",
       "condition": "Market-driven REC pricing",
       "probability_factor": 0.80,
-      "expected_impact": "Monthly REC revenue between â‚¬200K-â‚¬800K",
+      "expected_impact": "Monthly REC revenue between EUR 200K-EUR 800K",
       "assumptions": {
         "baseline_rec_price_eur": 2.00,
         "low_scenario_price_eur": 0.50,
@@ -401,7 +401,7 @@
     "obfuscated_formulas": [
       {
         "formula_id": "e1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6",
-        "purpose": "Energy revenue calculation (MWh Ã— Price)",
+        "purpose": "Energy revenue calculation (MWh  x  Price)",
         "obfuscation_method": "instance_pool"
       },
       {

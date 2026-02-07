@@ -1,3 +1,21 @@
+<!--
+  File: FORAY_Financial_Services_Guide.md
+  Version: 1.1.0
+  Created: 2026-01-30T00:00:00Z
+  Modified: 2026-02-01T15:00:00Z
+  Author: Marvin Percival
+  Email: marvinp@dunin7.com
+  GitHub: DUNIN7/foray-kaspathon
+
+  Changelog:
+    v1.1.0 (2026-02-01): Fixed mojibake encoding throughout
+                         Changed "immutable" to "tamper-evident" where appropriate
+                         Qualified savings estimates as "potential/targeted"
+                         Updated contact section to standard format
+                         Added trust model disclaimer
+    v1.0.0 (2026-01-30): Initial release
+-->
+
 # FORAY Protocol: Relevance for Financial Services
 
 **Audience:** Finance and banking executives evaluating blockchain for enterprise audit and compliance applications
@@ -6,9 +24,11 @@
 
 ## Executive Summary
 
-FORAY Protocol provides a privacy-preserving audit infrastructure designed for enterprise transaction recording on blockchain. For financial institutions navigating increasing regulatory scrutiny and audit costs, FORAY offers a framework for creating immutable, verifiable audit trails while protecting proprietary trading strategies, client relationships, and competitive pricing.
+FORAY Protocol provides a privacy-preserving audit infrastructure designed for enterprise transaction recording on blockchain. For financial institutions navigating increasing regulatory scrutiny and audit costs, FORAY offers a framework for creating tamper-evident, verifiable audit trails while protecting proprietary trading strategies, client relationships, and competitive pricing.
 
 This document outlines how FORAY addresses specific challenges in financial services accounting and compliance.
+
+> **Trust Model Note:** FORAY creates tamper-evident proof that records existed at a specific time and have not been altered. It does not independently verify the accuracy of source data or the truth of claims. For a complete understanding of what FORAY proves and does not prove, see [FORAY_Attestation_Trust_Model.md](FORAY_Attestation_Trust_Model.md).
 
 ---
 
@@ -24,7 +44,7 @@ Financial services face intensifying audit and compliance pressures:
 | Securitization transparency | Trustee reporting | Investor confidence gaps |
 | Audit preparation | 3-6 month document assembly | $2-5M annual audit costs |
 
-Blockchain provides immutability, but most implementations expose sensitive commercial data. FORAY solves this with privacy-preserving anchoring.
+Blockchain provides tamper-evidence, but most implementations expose sensitive commercial data. FORAY solves this with privacy-preserving anchoring.
 
 ---
 
@@ -48,7 +68,7 @@ A $300M residential mortgage-backed security demonstrates FORAY's capabilities:
 - **5 Anticipations:** Tranche payments (Senior A, Mezzanine B, Subordinate C), servicer advance, residual
 - **4 Actions:** Principal distributions, interest payments, loss allocations
 
-Each component is cryptographically anchored to Kaspa with sub-second finality, creating an immutable audit trail without exposing loan-level data or waterfall formulas.
+Each component is cryptographically anchored to Kaspa with sub-second finality, creating a tamper-evident audit trail without exposing loan-level data or waterfall formulas.
 
 ### Example: FX Spot Trade
 
@@ -98,28 +118,28 @@ FORAY's privacy architecture protects this data:
 
 | Regulation | FORAY Support |
 |------------|---------------|
-| SOX 404 | Immutable control evidence |
+| SOX 404 | Tamper-evident control evidence |
 | Basel III/IV | Real-time RWA calculation verification |
 | Dodd-Frank | Swap data repository augmentation |
 | MiFID II | Transaction reporting timestamps |
-| SEC Rule 17a-4 | Immutable record retention |
+| SEC Rule 17a-4 | Tamper-evident record retention |
 | BCBS 239 | Risk data aggregation verification |
 
 ---
 
-## Audit Cost Reduction
+## Potential Audit Efficiency Gains
 
 Traditional audit cycles for complex financial instruments:
 
-| Activity | Traditional | With FORAY |
-|----------|-------------|------------|
+| Activity | Traditional | With FORAY (Target) |
+|----------|-------------|---------------------|
 | Trade reconstruction | 2-4 weeks | Real-time |
 | Waterfall verification | 5-10 days per deal | Minutes |
 | Counterparty reconciliation | T+2 to T+5 | T+0 |
 | Year-end audit prep | 3-6 months | Continuous |
-| Forensic investigation | $500K-$2M | 90% reduction |
+| Forensic investigation | $500K-$2M | Significant reduction |
 
-**Estimated savings:** 40-60% reduction in audit preparation costs for institutions with complex structured products.
+**Targeted efficiency gains:** 40-60% reduction in audit preparation costs for institutions with complex structured products. *Actual results depend on implementation scope and existing infrastructure.*
 
 ---
 
@@ -134,7 +154,7 @@ FORAY is designed for Kaspa's unique properties:
 | Low transaction cost | Economical for high-volume trading |
 | GHOSTDAG consensus | Throughput for institutional volumes |
 
-Future Kaspa features (ZK-proofs) will enable regulators to verify compliance without any data exposureEUR "proving solvency without revealing positions.
+Future Kaspa features (ZK-proofs) will enable regulators to verify compliance without any data exposure&mdash;proving solvency without revealing positions.
 
 ---
 
@@ -142,23 +162,23 @@ Future Kaspa features (ZK-proofs) will enable regulators to verify compliance wi
 
 The FORAY repository includes financial services examples:
 
-**`rmbs-transaction-v3.json`** EUR " $300M RMBS securitization with:
+**`rmbs-transaction-v3.json`** &mdash; $300M RMBS securitization with:
 - Multi-tranche waterfall structure
 - Servicer, trustee, and credit enhancement parties
 - Monthly payment anticipations
 - Loss allocation mechanics
 
-**`fx-spot-usdjpy-v41.json`** EUR " $10M FX spot trade with:
+**`fx-spot-usdjpy-v41.json`** &mdash; $10M FX spot trade with:
 - T+2 settlement structure
 - Nostro/vostro account references
 - Real-time rate capture
 
-**`overnight-repo-v41.json`** EUR " $100M overnight repo with:
+**`overnight-repo-v41.json`** &mdash; $100M overnight repo with:
 - Treasury collateral with haircut
 - Opening and closing leg structure
 - Tri-party custody reference
 
-**`auto-loan-john-doe-v3.json`** EUR " $25K consumer auto loan with:
+**`auto-loan-john-doe-v3.json`** &mdash; $25K consumer auto loan with:
 - Full amortization schedule
 - Payment tracking
 - Servicing fee allocation
@@ -178,7 +198,7 @@ These examples are based on real financial market transaction patterns.
 
 ## About FORAY Protocol
 
-FORAY (derived from "4A" EUR " the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's immutability benefits without privacy compromise.
+FORAY (derived from "4A" &mdash; the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's tamper-evidence benefits without privacy compromise.
 
 **Key Resources:**
 - Protocol Specification: `FORAY_Protocol_v4_1_Specification.md`
@@ -189,14 +209,14 @@ FORAY (derived from "4A" EUR " the four components) is an open protocol designed
 
 ## Contact
 
-**Author:** Marvin Percival  
-**Email:** marvinp@dunin7.com  
-**Repository:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
+- **Author:** Marvin Percival
+- **Email:** marvinp@dunin7.com
+- **GitHub:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
 
 ---
 
-*FORAY Protocol EUR " Transparent audits, protected secrets, powered by Kaspa.*
+*FORAY Protocol &mdash; Transparent audits, protected secrets, powered by Kaspa.*
 
 ---
 
-**Copyright (c) 2026 Marvin Percival. All rights reserved.**
+**Copyright &copy; 2026 Marvin Percival. All rights reserved.**

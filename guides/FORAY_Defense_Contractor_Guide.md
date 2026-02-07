@@ -1,3 +1,21 @@
+<!--
+  File: FORAY_Defense_Contractor_Guide.md
+  Version: 1.1.0
+  Created: 2026-01-30T00:00:00Z
+  Modified: 2026-02-01T15:00:00Z
+  Author: Marvin Percival
+  Email: marvinp@dunin7.com
+  GitHub: DUNIN7/foray-kaspathon
+
+  Changelog:
+    v1.1.0 (2026-02-01): Fixed mojibake encoding throughout
+                         Changed "satisfy DCAA requirements" to "support DCAA compliance"
+                         Changed "immutable" to "tamper-evident" where appropriate
+                         Updated contact section to standard format
+                         Added trust model disclaimer
+    v1.0.0 (2026-01-30): Initial release
+-->
+
 # FORAY Protocol: Relevance for Defense Contractors
 
 **Audience:** Defense contractor executives, compliance officers, and finance leaders navigating DCAA requirements
@@ -6,9 +24,11 @@
 
 ## Executive Summary
 
-FORAY Protocol provides a privacy-preserving audit infrastructure designed for enterprise transaction recording on blockchain. For defense contractors operating under rigorous government oversight, FORAY offers a framework for creating tamper-evident, verifiable audit trails that satisfy DCAA requirements while protecting proprietary cost structures, technical approaches, and competitive positioning.
+FORAY Protocol provides a privacy-preserving audit infrastructure designed for enterprise transaction recording on blockchain. For defense contractors operating under rigorous government oversight, FORAY offers a framework for creating tamper-evident, verifiable audit trails designed to support DCAA compliance workflows while protecting proprietary cost structures, technical approaches, and competitive positioning.
 
 This document outlines how FORAY addresses the unique compliance challenges facing defense contractors.
+
+> **Trust Model Note:** FORAY creates tamper-evident proof that records existed at a specific time and have not been altered. It does not independently verify the accuracy of source data. For a complete understanding of what FORAY proves and does not prove, see [FORAY_Attestation_Trust_Model.md](FORAY_Attestation_Trust_Model.md).
 
 ---
 
@@ -25,7 +45,7 @@ Defense contractors face audit scrutiny unlike any other industry:
 | Unallowable cost identification | Mischarging risk, False Claims Act exposure |
 | Indirect rate computations | Complex allocations, audit disputes |
 
-DCAA auditors canEUR "and doEUR "question any transaction. The burden of proof falls on the contractor.
+DCAA auditors can&mdash;and do&mdash;question any transaction. The burden of proof falls on the contractor.
 
 ---
 
@@ -33,16 +53,16 @@ DCAA auditors canEUR "and doEUR "question any transaction. The burden of proof f
 
 ### The Core Value Proposition
 
-DCAA audits often become disputes about what happened and when. FORAY eliminates this:
+DCAA audits often become disputes about what happened and when. FORAY addresses this:
 
-| Traditional Defense | FORAY-Enabled |
-|--------------------|---------------|
-| "Our records show..." | "The blockchain anchor proves..." |
+| Traditional Approach | FORAY-Enabled |
+|---------------------|---------------|
+| "Our records show..." | "The blockchain anchor proves the record existed at this time..." |
 | Reconstruct from multiple systems | Single tamper-evident source of truth |
-| Auditor questions record integrity | Integrity is mathematically verified |
+| Auditor questions record integrity | Integrity is mathematically verifiable |
 | Months to respond to audit requests | Real-time anchor verification |
 
-When a transaction is anchored at the time it occurs, it cannot be altered later to improve audit optics.
+When a transaction is anchored at the time it occurs, any subsequent alteration becomes detectable.
 
 ---
 
@@ -74,7 +94,7 @@ The most audited transaction in defense contracting:
 - What contract
 - Approval chain
 
-If questioned two years later, the anchor proves the charge was recorded at the time claimedEUR "not reconstructed for audit.
+If questioned two years later, the anchor proves the charge was recorded at the time claimed&mdash;not reconstructed for audit.
 
 ---
 
@@ -92,7 +112,7 @@ FORAY can anchor evidence of CAS compliance:
 | CAS 410 - G&A allocation | Anchor G&A base and distribution |
 | CAS 418 - Direct/indirect allocation | Anchor classification decisions |
 
-**Key benefit:** When DCAA questions whether you've been consistent, the blockchain anchors prove it.
+**Key benefit:** When DCAA questions whether you've been consistent, the blockchain anchors provide verifiable evidence.
 
 ---
 
@@ -149,7 +169,7 @@ FAR 31.205 defines unallowable costs. Contractors must identify them "at the tim
 | Risk: "You tagged it later" | Proof: "Anchor timestamp is at incurrence" |
 | Manual review for ICS | Pre-identified, pre-verified |
 
-The blockchain anchor proves when an unallowable cost was identifiedEUR "not when you said you identified it.
+The blockchain anchor proves when an unallowable cost was identified&mdash;not when you said you identified it.
 
 ---
 
@@ -174,7 +194,7 @@ Defense contractors have unique sensitivity requirements:
 Prime contractors can require FORAY anchoring in subcontracts:
 
 ```
-Prime anchors subcontract  ->  Sub anchors invoices  ->  Prime verifies before payment
+Prime anchors subcontract → Sub anchors invoices → Prime verifies before payment
 ```
 
 Benefits:
@@ -196,7 +216,7 @@ The False Claims Act creates significant liability for billing errors. FORAY pro
 | Correction documentation | Adjustments anchored separately |
 | Segregation of costs | Allocation decisions anchored at incurrence |
 
-When every transaction is anchored at the time it occurs, "knowing" mischarging becomes much harder to allegeEUR "and easier to disprove.
+When every transaction is anchored at the time it occurs, "knowing" mischarging becomes much harder to allege&mdash;and easier to disprove.
 
 ---
 
@@ -217,12 +237,12 @@ FORAY supports DFARS requirements:
 
 The FORAY repository includes examples relevant to defense contractors:
 
-**`manufacturing-work-order-v41.json`** EUR " Production work order with:
+**`manufacturing-work-order-v41.json`** &mdash; Production work order with:
 - Direct material and labor allocation
 - Overhead absorption
 - Cost variance settlement
 
-**`batch-payment-v41.json`** EUR " Payment processing with:
+**`batch-payment-v41.json`** &mdash; Payment processing with:
 - Multiple invoice clearing
 - Allocation tracking
 - Approval documentation
@@ -246,7 +266,7 @@ FORAY can anchor transactions from:
 3. **Full:** Subcontractor flow-down, complete audit trail
 
 ### Audit Engagement
-Consider briefing your DCAA auditor on FORAY implementationEUR "they may welcome the improved audit evidence.
+Consider briefing your DCAA auditor on FORAY implementation&mdash;they may welcome the improved audit evidence.
 
 ---
 
@@ -261,7 +281,7 @@ Consider briefing your DCAA auditor on FORAY implementationEUR "they may welcome
 
 ## About FORAY Protocol
 
-FORAY (derived from "4A" EUR " the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's immutability benefits without privacy compromise.
+FORAY (derived from "4A" &mdash; the four components) is an open protocol designed for enterprise audit requirements. It separates the cryptographic proof (on-chain) from sensitive business data (off-chain), enabling blockchain's tamper-evidence benefits without privacy compromise.
 
 **Key Resources:**
 - Protocol Specification: `FORAY_Protocol_v4_1_Specification.md`
@@ -272,14 +292,14 @@ FORAY (derived from "4A" EUR " the four components) is an open protocol designed
 
 ## Contact
 
-**Author:** Marvin Percival  
-**Email:** marvinp@dunin7.com  
-**Repository:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
+- **Author:** Marvin Percival
+- **Email:** marvinp@dunin7.com
+- **GitHub:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
 
 ---
 
-*FORAY Protocol EUR " Transparent audits, protected secrets, powered by Kaspa.*
+*FORAY Protocol &mdash; Transparent audits, protected secrets, powered by Kaspa.*
 
 ---
 
-**Copyright (c) 2026 Marvin Percival. All rights reserved.**
+**Copyright &copy; 2026 Marvin Percival. All rights reserved.**
