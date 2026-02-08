@@ -3,9 +3,9 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.7.16
+Version:       2.7.19
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-06T05:00:00Z
+Modified:      2026-02-08T10:55:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
@@ -15,6 +15,16 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v2.7.19 (2026-02-08)
+    - Restructured Why Kaspa as kaspa-box inside section (matches Attestations pattern)
+    - Width now inherits from parent .section like all other content
+    
+  v2.7.18 (2026-02-08)
+    - Adjusted Why Kaspa section width (max-width: 1136px) to visually align with content sections
+    
+  v2.7.17 (2026-02-06)
+    - Matched Why Kaspa section width to other sections (max-width: 1200px, padding: 3rem 2rem)
+    
   v2.7.16 (2026-02-06)
     - Removed Learn More button from Why Kaspa section
     
@@ -483,15 +493,9 @@ Changelog:
     }
 
     /* All sections need relative positioning */
-    .section, .kaspa-section {
+    .section {
       position: relative;
       overflow: visible;
-    }
-
-    /* Kaspa section: position arrow outside border, aligned with other sections */
-    .kaspa-section .back-to-top {
-      bottom: -3rem;
-      right: -20px;
     }
 
     @media (max-width: 768px) {
@@ -816,14 +820,12 @@ Changelog:
     }
 
     /* Kaspa Section */
-    .kaspa-section {
+    .kaspa-box {
       background: linear-gradient(135deg, rgba(27, 54, 93, 0.3), rgba(13, 115, 119, 0.1));
       border: 1px solid rgba(13, 115, 119, 0.2);
       border-left: 3px solid var(--primary-teal);
       border-radius: 12px;
-      padding: 3rem;
-      margin: 2rem auto;
-      max-width: 1160px;
+      padding: 3rem 2rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 3rem;
@@ -984,9 +986,9 @@ Changelog:
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .kaspa-section {
+      .kaspa-box {
         grid-template-columns: 1fr;
-        padding: 3rem 2rem;
+        padding: 2rem 1.5rem;
       }
 
       .footer-grid {
@@ -1357,38 +1359,40 @@ Changelog:
   </section>
 
   <!-- Kaspa Section -->
-  <section class="kaspa-section" id="kaspa">
-    <div class="kaspa-content">
-      <h2>Why Kaspa?</h2>
-      <p>
-        FORAY leverages Kaspa's unique BlockDAG architecture to enable
-        real-time audit anchoring that was previously impractical.
-      </p>
-    </div>
-    <div class="kaspa-stats">
-      <div class="kaspa-stat">
-        <div class="kaspa-stat-value">~1s</div>
-        <div class="kaspa-stat-label">Block Time</div>
+  <section class="section" id="kaspa">
+    <div class="kaspa-box">
+      <div class="kaspa-content">
+        <h2>Why Kaspa?</h2>
+        <p>
+          FORAY leverages Kaspa's unique BlockDAG architecture to enable
+          real-time audit anchoring that was previously impractical.
+        </p>
       </div>
-      <div class="kaspa-stat">
-        <div class="kaspa-stat-value">~$0.0001</div>
-        <div class="kaspa-stat-label">Per Transaction</div>
-      </div>
-      <div class="kaspa-stat">
-        <div class="kaspa-stat-value">10+</div>
-        <div class="kaspa-stat-label">Blocks/Second</div>
-      </div>
-      <div class="kaspa-stat">
-        <div class="kaspa-stat-value">10K+</div>
-        <div class="kaspa-stat-label">TPS Capacity</div>
-      </div>
-      <div class="kaspa-stat">
-        <div class="kaspa-stat-value">PoW</div>
-        <div class="kaspa-stat-label">Consensus</div>
-      </div>
-      <div class="kaspa-stat">
-        <div class="kaspa-stat-value">Fair</div>
-        <div class="kaspa-stat-label">Launch</div>
+      <div class="kaspa-stats">
+        <div class="kaspa-stat">
+          <div class="kaspa-stat-value">~1s</div>
+          <div class="kaspa-stat-label">Block Time</div>
+        </div>
+        <div class="kaspa-stat">
+          <div class="kaspa-stat-value">~$0.0001</div>
+          <div class="kaspa-stat-label">Per Transaction</div>
+        </div>
+        <div class="kaspa-stat">
+          <div class="kaspa-stat-value">10+</div>
+          <div class="kaspa-stat-label">Blocks/Second</div>
+        </div>
+        <div class="kaspa-stat">
+          <div class="kaspa-stat-value">10K+</div>
+          <div class="kaspa-stat-label">TPS Capacity</div>
+        </div>
+        <div class="kaspa-stat">
+          <div class="kaspa-stat-value">PoW</div>
+          <div class="kaspa-stat-label">Consensus</div>
+        </div>
+        <div class="kaspa-stat">
+          <div class="kaspa-stat-value">Fair</div>
+          <div class="kaspa-stat-label">Launch</div>
+        </div>
       </div>
     </div>
     <a href="#" class="back-to-top" aria-label="Back to top">
