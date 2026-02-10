@@ -3,9 +3,9 @@
   ============================================================================
   FORAY Protocol Transaction Review Tool
   ============================================================================
-  Version:       4.1.7
+  Version:       4.1.8
   Created:       2026-01-26T23:43:00Z
-  Last Modified: 2026-02-05T08:15:00Z
+  Last Modified: 2026-02-10T16:30:00Z
   
   Author:        Marvin Percival
   Email:         marvinp@dunin7.com
@@ -20,6 +20,10 @@
                  and print/PDF export.
   
   Changelog:
+    v4.1.8 (2026-02-10)
+      - Removed Testnet 11 references from Version Guide popup (no longer accessible)
+      - Changed network grid from 3-column to 2-column (Testnet 10 + Mainnet)
+
     v4.1.7 (2026-02-05)
       - Removed Examples link from navigation (consolidated into Demo page)
 
@@ -6959,7 +6963,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               This Transaction Review tool demonstrates blockchain anchoring using actual Kaspa testnet transactions. When you anchor a transaction:
                             </p>
                             <ul className="text-sm mt-2 space-y-1" style={{ color: forayColors.gray600 }}>
-                              <li>&bull; <strong>Real Kaspa TX:</strong> A real transaction is submitted to Kaspa Testnet 10 or 11</li>
+                              <li>&bull; <strong>Real Kaspa TX:</strong> A real transaction is submitted to Kaspa Testnet 10</li>
                               <li>&bull; <strong>Explorer Verification:</strong> Click "View on Explorer" to see the actual blockchain record</li>
                               <li>&bull; <strong>Test Funds Required:</strong> Get free test KAS from the faucet (link in network dropdown)</li>
                               <li>&bull; <strong>No FORAY Data in TX:</strong> The FORAY data itself is NOT embedded in the blockchain transaction&mdash;only the timestamp proof is on-chain</li>
@@ -6972,16 +6976,11 @@ Anchored By: ${anchorResult.anchored_by}`;
                           {/* Network Information */}
                           <div className="p-4 border rounded-lg" style={{ borderColor: forayColors.gray400 }}>
                             <h4 className="font-medium mb-3" style={{ color: forayColors.secondaryNavy }}>Kaspa Networks</h4>
-                            <div className="grid grid-cols-3 gap-3 text-xs">
+                            <div className="grid grid-cols-2 gap-3 text-xs">
                               <div className="p-3 rounded" style={{ backgroundColor: `${forayColors.actionAmber}10` }}>
                                 <p className="font-semibold" style={{ color: forayColors.actionAmber }}>Testnet 10</p>
                                 <p style={{ color: forayColors.gray600 }}>Stable, mirrors mainnet (1 BPS)</p>
                                 <p className="mt-1"><strong>Recommended for testing</strong></p>
-                              </div>
-                              <div className="p-3 rounded" style={{ backgroundColor: `${forayColors.actionAmber}10` }}>
-                                <p className="font-semibold" style={{ color: forayColors.actionAmber }}>Testnet 11</p>
-                                <p style={{ color: forayColors.gray600 }}>Experimental (10 BPS)</p>
-                                <p className="mt-1">Faster confirmations</p>
                               </div>
                               <div className="p-3 rounded opacity-50" style={{ backgroundColor: `${forayColors.gray400}10` }}>
                                 <p className="font-semibold" style={{ color: forayColors.gray400 }}>Mainnet</p>
@@ -7223,7 +7222,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     </div>
                     <div className="p-3 rounded-lg mb-6" style={{ backgroundColor: forayColors.bgLight }}>
                       <p className="text-xs" style={{ color: forayColors.gray600 }}>
-                        <strong>Recommendation:</strong> Use Testnet 10 or Testnet 11 for development and testing. Only switch to Mainnet for production transactions.
+                        <strong>Recommendation:</strong> Use Testnet 10 for development and testing. Only switch to Mainnet for production transactions.
                       </p>
                     </div>
                     <div className="flex gap-3">
