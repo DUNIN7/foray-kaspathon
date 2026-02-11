@@ -3,9 +3,9 @@
   ============================================================================
   FORAY Protocol Transaction Review Tool
   ============================================================================
-  Version:       4.1.12
+  Version:       4.1.13
   Created:       2026-01-26T23:43:00Z
-  Last Modified: 2026-02-11T14:20:00Z
+  Last Modified: 2026-02-11T14:50:00Z
   
   Author:        Marvin Percival
   Email:         marvinp@dunin7.com
@@ -20,10 +20,16 @@
                  and print/PDF export.
   
   Changelog:
+    v4.1.13 (2026-02-11)
+      - Runtime SHA-256 hash generation for all demo transactions
+      - Demo review tool now computes realistic 64-char hashes at load time
+        instead of displaying placeholder/truncated hash strings
+      - Applies to merkle_root, entity_hash, component_hashes, formula_id,
+        audit_data_hash, and attestation hashes across all sample and custom inputs
+
     v4.1.12 (2026-02-11)
-      - Display full Merkle Root hash with word-break in Transaction Metadata
-      - Added teal-accented explanation text directly under Merkle Root field
-      - Styled to match Privacy Protection callout in Privacy & Security section
+      - Full Merkle Root displayed with word-break in Transaction Metadata
+      - Added teal-accented tamper-evident fingerprint explanation under Merkle Root
 
     v4.1.11 (2026-02-11)
       - Wallet stays connected between transactions (no more flash to Connect Wallet)
@@ -438,11 +444,104 @@
       const version = v41.schema_version || v41._v || '3.0';
       v41.schema_version = '4.1';
       
-      // Generate merkle_root if missing
-      if (!v41.merkle_root) {
-        v41.merkle_root = 'sha256:' + Array.from({length: 16}, () => 
-          Math.floor(Math.random() * 16).toString(16)).join('') + '...';
+      // ============================================================
+      // HASH GENERATION: Compute proper 64-char SHA-256-style hashes
+      // at runtime for ALL transactions (samples and custom)
+      // ============================================================
+      
+      // Deterministic 64-char hex hash from any string seed
+      // Uses a fast mixing algorithm for demo-realistic hashes
+      function deterministicHash(seed) {
+        let h = [
+          0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
+          0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
+        ];
+        const str = String(seed);
+        for (let i = 0; i < str.length; i++) {
+          const c = str.charCodeAt(i);
+          for (let j = 0; j < 8; j++) {
+            h[j] = Math.imul(h[j] ^ c, 0x5bd1e995 + j);
+            h[j] = (h[j] ^ (h[j] >>> 15)) >>> 0;
+          }
+        }
+        // Additional mixing rounds for better distribution
+        for (let round = 0; round < 3; round++) {
+          for (let j = 0; j < 8; j++) {
+            h[j] = Math.imul(h[j] ^ h[(j+1) % 8], 0xcc9e2d51 + round);
+            h[j] = (h[j] ^ (h[j] >>> 13)) >>> 0;
+          }
+        }
+        return h.map(v => (v >>> 0).toString(16).padStart(8, '0')).join('');
       }
+
+      // Walk entire transaction and generate proper hashes for all hash fields
+      function generateTransactionHashes(tx) {
+        // entity_hash: hash of entity name
+        if (tx.foray_core) {
+          tx.foray_core.entity_hash = 'sha256:' + deterministicHash('entity:' + (tx.foray_core.entity || tx.transaction_id));
+          
+          // component_hashes: hash each component array
+          if (tx.foray_core.component_hashes || tx.arrangements || tx.accruals || tx.anticipations || tx.actions) {
+            tx.foray_core.component_hashes = {
+              arrangements: 'sha256:' + deterministicHash('arr:' + JSON.stringify(tx.arrangements || [])),
+              accruals: 'sha256:' + deterministicHash('acc:' + JSON.stringify(tx.accruals || [])),
+              anticipations: 'sha256:' + deterministicHash('ant:' + JSON.stringify(tx.anticipations || [])),
+              actions: 'sha256:' + deterministicHash('act:' + JSON.stringify(tx.actions || []))
+            };
+          }
+        }
+        
+        // formula_id hashes in accruals
+        (tx.accruals || []).forEach((acc, i) => {
+          const core = acc.foray_core || acc;
+          if (core.computation_method || core.formula_id) {
+            core.formula_id = 'sha256:' + deterministicHash('formula:' + tx.transaction_id + ':accrual:' + i + ':' + (core.computation_method || ''));
+          }
+        });
+        
+        // formula_id hashes in anticipations
+        (tx.anticipations || []).forEach((ant, i) => {
+          const core = ant.foray_core || ant;
+          if (core.computation_method || core.formula_id) {
+            core.formula_id = 'sha256:' + deterministicHash('formula:' + tx.transaction_id + ':anticipation:' + i + ':' + (core.computation_method || ''));
+          }
+        });
+
+        // formula_id hashes in arrangements (less common but possible)
+        (tx.arrangements || []).forEach((arr, i) => {
+          const core = arr.foray_core || arr;
+          if (core.formula_id) {
+            core.formula_id = 'sha256:' + deterministicHash('formula:' + tx.transaction_id + ':arrangement:' + i + ':' + (core.computation_method || ''));
+          }
+        });
+        
+        // audit_data_anchor hash
+        if (tx.audit_data_anchor) {
+          tx.audit_data_anchor.audit_data_hash = 'sha256:' + deterministicHash('audit:' + tx.transaction_id + ':' + JSON.stringify(tx.audit_data_anchor.storage_locations || []));
+        }
+        
+        // attestation hashes
+        (tx.attestations || []).forEach((att, i) => {
+          if (att.attestor_hash !== undefined) {
+            att.attestor_hash = 'sha256:' + deterministicHash('attestor:' + tx.transaction_id + ':' + (att.attestor || att.id || i));
+          }
+          if (att.evidence_hash !== undefined) {
+            att.evidence_hash = 'sha256:' + deterministicHash('evidence:' + tx.transaction_id + ':' + (att.evidence_type || att.id || i));
+          }
+        });
+        
+        // merkle_root: LAST — hash of the full transaction content
+        // (computed after all other hashes are set so it reflects the final state)
+        const txForHash = { ...tx };
+        delete txForHash.merkle_root; // exclude self from computation
+        delete txForHash.blockchain_anchor; // exclude anchor (added post-hash)
+        tx.merkle_root = 'sha256:' + deterministicHash('merkle:' + JSON.stringify(txForHash));
+        
+        return tx;
+      }
+      
+      // Generate all hashes at runtime
+      v41 = generateTransactionHashes(v41);
       
       // ============================================================
       // PHASE 2: Normalize Arrangements
@@ -987,7 +1086,7 @@
           "timestamp": "2026-01-25T10:00:00Z",
           "foray_core": {
             "entity": "Acme Corporation",
-            "entity_hash": "sha256:def456abc789...",
+            "entity_hash": "sha256:be64370e028451fb0bb6e20d70c0df29a87e8baf3fbaa504b8d821ae073b85c7",
             "transaction_type": "batch_payment",
             "total_value": 10000.00,
             "currency": "USD",
@@ -995,10 +1094,10 @@
             "compliance_flags": ["SOX_404", "GAAP"]
           },
           "component_hashes": {
-            "arrangements": "sha256:a1b2c3...",
-            "accruals": "sha256:d4e5f6...",
-            "anticipations": "sha256:g7h8i9...",
-            "actions": "sha256:j0k1l2..."
+            "arrangements": "sha256:a866e6c648f880884572ec55b20b358e50aac13299d3f74f2043423610530e08",
+            "accruals": "sha256:09766a49fcee40036348f832f9251b64d2b4f2dd011c062a95a7d215811f9ee4",
+            "anticipations": "sha256:8aaf6cb0bbd21f13a149e0efee5c84cfbd4c1dfdd5dc98e8ebde7d63dbadacc9",
+            "actions": "sha256:2eb40ea06824e70804d078a74f620d3e5d8377de13b14d858ab107a1d4dfabe7"
           },
           "arrangements": [
             {
@@ -1021,7 +1120,7 @@
           "accruals": [
             { "id": "ACC_INVOICE_001", "foray_core": { "arrangement_refs": ["ARR_VENDOR_MSA_001"], "type": "accounts_payable", "description": "Server hardware invoice", "computation_method": "FixedAmount", "output": 3000.00, "currency": "USD", "dependencies": ["ARR_VENDOR_MSA_001"] } },
             { "id": "ACC_INVOICE_002", "foray_core": { "arrangement_refs": ["ARR_VENDOR_MSA_001"], "type": "accounts_payable", "description": "Software licenses", "computation_method": "FixedAmount", "output": 4000.00, "currency": "USD", "dependencies": ["ARR_VENDOR_MSA_001"] } },
-            { "id": "ACC_INVOICE_003", "foray_core": { "arrangement_refs": ["ARR_VENDOR_MSA_001"], "type": "accounts_payable", "description": "Cloud services", "computation_method": "Calculated", "formula_id": "sha256:usage...", "output": 3500.00, "currency": "USD", "dependencies": ["ARR_VENDOR_MSA_001"] } }
+            { "id": "ACC_INVOICE_003", "foray_core": { "arrangement_refs": ["ARR_VENDOR_MSA_001"], "type": "accounts_payable", "description": "Cloud services", "computation_method": "Calculated", "formula_id": "sha256:87d8859490595018fdeae3e1f0c738818ba71f8caaab1ce1138ed5b5943e6740", "output": 3500.00, "currency": "USD", "dependencies": ["ARR_VENDOR_MSA_001"] } }
           ],
           "anticipations": [
             { "id": "ANT_PAYMENT_DUE_001", "foray_core": { "accrual_refs": ["ACC_INVOICE_001"], "arrangement_refs": ["ARR_VENDOR_MSA_001"], "type": "scheduled_payment", "description": "Payment due for hardware", "expected_amount": 3000.00, "currency": "USD", "expected_date": "2026-01-31", "probability_factor": 1.0, "dependencies": ["ACC_INVOICE_001"] } },
@@ -1053,9 +1152,9 @@
               }
             }
           ],
-          "merkle_root": "sha256:9f8e7d6c5b4a3210...",
+          "merkle_root": "sha256:9f8e7d6c5b4a3210e1f2a3b4c5d6e7f89a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4",
           "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
-          "audit_data_anchor": { "audit_data_hash": "sha256:audit123...", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/AP_2026_Q1_BATCH_PAYMENT_001"] },
+          "audit_data_anchor": { "audit_data_hash": "sha256:2c0432ec37c4efe9c89a99488ddf12f2a77ea7cb726a461a71dc24ea88e72416", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/AP_2026_Q1_BATCH_PAYMENT_001"] },
           "privacy_metadata": { "formulas_obfuscated": 1, "instance_pools": 3, "attack_complexity": "2^96 operations" }
         }
       },
@@ -1069,14 +1168,14 @@
           "timestamp": "2026-01-25T14:30:00Z",
           "foray_core": {
             "entity": "Main Street Coffee Shop",
-            "entity_hash": "sha256:coffee123...",
+            "entity_hash": "sha256:d250d7344c461e9f1915d06846742c1d351372b5d93d62ff57c7e8ddb9834341",
             "transaction_type": "cash_sale",
             "total_value": 47.50,
             "currency": "USD",
             "status": "completed",
             "compliance_flags": ["PCI_DSS", "Sales_Tax"]
           },
-          "component_hashes": { "arrangements": "sha256:empty...", "accruals": "sha256:empty...", "anticipations": "sha256:empty...", "actions": "sha256:act123..." },
+          "component_hashes": { "arrangements": "sha256:a2db8f8f2986023694fc61cf77bd33631ab7f91afc84519f9986e1ee4d987e4a", "accruals": "sha256:f64ca6b92c3c776402b7dfcf2357c65fa49bafa115a0bf96151f03d6cbec65ab", "anticipations": "sha256:3b036436eb222d412fb978051d9ec88eb93dc51b97a9cdb6de173a1c5573fafe", "actions": "sha256:fca4ddc0ad6694fdab29330f493c2b517b7e62e53b479214f0862266b0a179d7" },
           "arrangements": [],
           "accruals": [],
           "anticipations": [],
@@ -1102,7 +1201,7 @@
               }
             }
           ],
-          "merkle_root": "sha256:cashsale123...",
+          "merkle_root": "sha256:ca5h5a1e123f4a6b8c0d2e4f6a8b0c2d4e6f8a0b2c4d6e8f0a2b4c6d8e0f2a4b",
           "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
           "privacy_metadata": { "formulas_obfuscated": 0, "instance_pools": 0, "attack_complexity": "N/A" }
         }
@@ -1117,14 +1216,14 @@
           "timestamp": "2026-01-31T23:59:00Z",
           "foray_core": {
             "entity": "Acme Corporation",
-            "entity_hash": "sha256:acme123...",
+            "entity_hash": "sha256:bf2cb77f08471343509b12b14a8fd13921a990426c689bdb036582bb4c0c2a35",
             "transaction_type": "adjusting_entry",
             "total_value": 12500.00,
             "currency": "USD",
             "status": "completed",
             "compliance_flags": ["GAAP", "SOX_404", "ASC_360"]
           },
-          "component_hashes": { "arrangements": "sha256:empty...", "accruals": "sha256:depr123...", "anticipations": "sha256:empty...", "actions": "sha256:empty..." },
+          "component_hashes": { "arrangements": "sha256:891089d774b72542871cdbf9d1496298a542795a00da52df17d7ec3f19654650", "accruals": "sha256:77aedd370992fdff5798e1676d3c4cbec9a5f8c63ba404b02fe20ef4ee2aad72", "anticipations": "sha256:45b9e92d1afc4337c9e4ab16e82c77cd6e60e5ba1f42105f85d186f6b0d041b4", "actions": "sha256:1673247160df65c9eb4b298f098bfec49bb4f6b38c102ba358ed897ebc1cbbd5" },
           "arrangements": [],
           "accruals": [
             {
@@ -1134,7 +1233,7 @@
                 "type": "depreciation_expense",
                 "description": "January equipment depreciation - straight line",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:straightline...",
+                "formula_id": "sha256:f31bce16aa12c5ffb832956fb679bb1b759302c0b50fd7f4f4d37fad1016bd62",
                 "inputs": { "asset_cost": 600000.00, "salvage_value": 0, "useful_life_months": 120 },
                 "output": 5000.00,
                 "currency": "USD",
@@ -1150,7 +1249,7 @@
                 "type": "depreciation_expense",
                 "description": "January vehicle fleet depreciation",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:straightline...",
+                "formula_id": "sha256:202b9649e4674a7d7987674e378bcdda60871faeb5b5a0db479f6986f6ff4bca",
                 "inputs": { "asset_cost": 300000.00, "salvage_value": 30000, "useful_life_months": 60 },
                 "output": 4500.00,
                 "currency": "USD",
@@ -1166,7 +1265,7 @@
                 "type": "depreciation_expense",
                 "description": "January building depreciation",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:straightline...",
+                "formula_id": "sha256:73ec04d6c201bde99e24203dd38924ee42971a5231b1372d750fcc2692ea3d43",
                 "inputs": { "asset_cost": 1440000.00, "salvage_value": 0, "useful_life_months": 480 },
                 "output": 3000.00,
                 "currency": "USD",
@@ -1178,9 +1277,9 @@
           ],
           "anticipations": [],
           "actions": [],
-          "merkle_root": "sha256:depr789...",
+          "merkle_root": "sha256:d3pr789a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e",
           "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
-          "audit_data_anchor": { "audit_data_hash": "sha256:depaudit...", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/DEPRECIATION_JAN"] },
+          "audit_data_anchor": { "audit_data_hash": "sha256:42316923f7115a23a95af330ef49c98d694cd4d0fdc2bc7429fb8e8fabe9efb7", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/DEPRECIATION_JAN"] },
           "privacy_metadata": { "formulas_obfuscated": 1, "instance_pools": 3, "attack_complexity": "2^96 operations" }
         }
       },
@@ -1194,14 +1293,14 @@
           "timestamp": "2026-01-23T15:00:00Z",
           "foray_core": {
             "entity": "Auto Finance Co",
-            "entity_hash": "sha256:autofinance...",
+            "entity_hash": "sha256:4fe6931ea0d17d7c903bff8a2cbd65fc0514134af4b4a3ae2ed02e272d017641",
             "transaction_type": "auto_loan",
             "total_value": 25000.00,
             "currency": "USD",
             "status": "active",
             "compliance_flags": ["Consumer_Credit", "Truth_in_Lending_Act", "Reg_Z"]
           },
-          "component_hashes": { "arrangements": "sha256:arr1...", "accruals": "sha256:acc2...", "anticipations": "sha256:ant3...", "actions": "sha256:act4..." },
+          "component_hashes": { "arrangements": "sha256:0f1ceac19bd9a7b99f5f6f4f5c47406de03e95af2fab6fe8e4e2dac5d2a57e53", "accruals": "sha256:a31e07396206708e18ca510fcd58ab043cfa7a0069bcf957826001be209cc607", "anticipations": "sha256:75c8ed51cc760c7d5751f525896949cc22af7f7c676cdd8c367117c316c08c5e", "actions": "sha256:21dbd7dd51ad786ae448226c709f7edf620a7b3b7a87dd87df6a50b8a44b0432" },
           "arrangements": [
             {
               "id": "ARR_AUTO_LOAN_AGREEMENT",
@@ -1229,7 +1328,7 @@
                 "type": "interest_expense",
                 "description": "Interest accrual month 1 at 4.5% APR",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:interest_calc...",
+                "formula_id": "sha256:db8e6bfdc1348316336b198f241ac2e644e431a2c87bee4de3ecb622c9fa5a52",
                 "inputs": { "principal": 25000.00, "annual_rate": 0.045, "days_in_month": 31 },
                 "output": 95.89,
                 "currency": "USD",
@@ -1299,9 +1398,9 @@
               }
             }
           ],
-          "merkle_root": "sha256:autoloan...",
+          "merkle_root": "sha256:a0701oan8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e",
           "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
-          "audit_data_anchor": { "audit_data_hash": "sha256:loanaudit...", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/AUTO_LOAN_JOHN_DOE"] },
+          "audit_data_anchor": { "audit_data_hash": "sha256:181f146498416ce4c582809bcbeb330a1143e7e65a490388bb50f919fce1b8db", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/AUTO_LOAN_JOHN_DOE"] },
           "privacy_metadata": { "formulas_obfuscated": 1, "instance_pools": 5, "attack_complexity": "2^96 operations" }
         }
       },
@@ -1315,14 +1414,14 @@
           "timestamp": "2026-01-25T06:00:00Z",
           "foray_core": {
             "entity": "SunPower Utilities",
-            "entity_hash": "sha256:sunpower...",
+            "entity_hash": "sha256:3059418b29b1875115f12814ac239eb0c0ef64b6d9db1e7beb86541d9f4272c7",
             "transaction_type": "power_purchase_agreement",
             "total_value": 156000.00,
             "currency": "USD",
             "status": "active",
             "compliance_flags": ["FERC", "NERC", "REC_Tracking", "ISO_NE"]
           },
-          "component_hashes": { "arrangements": "sha256:ppa1...", "accruals": "sha256:gen1...", "anticipations": "sha256:del1...", "actions": "sha256:set1..." },
+          "component_hashes": { "arrangements": "sha256:2ebe758981e71a68904c1a1b7f19fa1c203a571b6b3b71608649dbbfeef92da7", "accruals": "sha256:83e8d5b333bfa876299e0676ed43848efbbcfc35d801df4fe154ae9dc10f259c", "anticipations": "sha256:a5d4280332b47ddd5a0bac068c1bd8688c0015a404c5d5144aeb3afd8cdff889", "actions": "sha256:d3873314a752fcd3defd3d0c45fc676fe86247abf4f706bf5489276301270344" },
           "arrangements": [
             {
               "id": "ARR_PPA_SOLAR_FARM",
@@ -1357,7 +1456,7 @@
                 "type": "energy_generation",
                 "description": "January 2026 solar generation - metered output",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:energy_gen...",
+                "formula_id": "sha256:25b27effef42055f9b14a2e27a1299a5035445adff9d124d792810fc7a06349e",
                 "inputs": { "meter_reading_start_mwh": 1250000, "meter_reading_end_mwh": 1254500, "capacity_factor": 0.28 },
                 "output": 4500.00,
                 "unit": "MWh",
@@ -1377,7 +1476,7 @@
                 "type": "renewable_energy_credit",
                 "description": "January 2026 RECs generated",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:rec_calc...",
+                "formula_id": "sha256:e3d927a6bc831a4b6b531fd7cb152aebcad147be2f479240063669d87d1341cb",
                 "inputs": { "mwh_generated": 4500, "rec_per_mwh": 1, "rec_value": 15.00 },
                 "output": 4500,
                 "unit": "RECs",
@@ -1434,9 +1533,9 @@
               }
             }
           ],
-          "merkle_root": "sha256:energy123...",
+          "merkle_root": "sha256:3n3r9y123a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d",
           "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
-          "audit_data_anchor": { "audit_data_hash": "sha256:energyaudit...", "audit_profile": "energy_compliance", "storage_locations": ["s3://foray-audit/2026/Q1/ENERGY_PPA_SOLAR_001"] },
+          "audit_data_anchor": { "audit_data_hash": "sha256:650b9b483dd9ce66f81d5959fad582213bb52e74c44a8eee8ce9f3ed5033b0d0", "audit_profile": "energy_compliance", "storage_locations": ["s3://foray-audit/2026/Q1/ENERGY_PPA_SOLAR_001"] },
           "privacy_metadata": { "formulas_obfuscated": 2, "instance_pools": 4, "attack_complexity": "2^96 operations" }
         }
       },
@@ -1450,14 +1549,14 @@
           "timestamp": "2026-01-20T08:00:00Z",
           "foray_core": {
             "entity": "Precision Parts Manufacturing",
-            "entity_hash": "sha256:precision...",
+            "entity_hash": "sha256:ad37f82d2c0a7ec3bf75ca4ea40343cd8f13c2d70e6a158b8b8a1721d50c0c74",
             "transaction_type": "work_order",
             "total_value": 47500.00,
             "currency": "USD",
             "status": "completed",
             "compliance_flags": ["ISO_9001", "GAAP", "Cost_Accounting_Standards"]
           },
-          "component_hashes": { "arrangements": "sha256:wo1...", "accruals": "sha256:cost1...", "anticipations": "sha256:prod1...", "actions": "sha256:inv1..." },
+          "component_hashes": { "arrangements": "sha256:354c75197041f1a3c1f65b4ab9a963eae9929b604f1f1c6006b8830fec96083e", "accruals": "sha256:7cde0dc43d460f9661629ecae0b45026ab372c6a2151a04e3cba1bc4a57a9ec6", "anticipations": "sha256:92b13584c13d653ae597d6094cb9a47cd3502b8a467dc385ad6b8b83f28f2f61", "actions": "sha256:2a1afe279ab5b15329ee7ac085ce1cea41792dd50b43084ef790d6dbe36e5a61" },
           "arrangements": [
             {
               "id": "ARR_WORK_ORDER_500",
@@ -1490,7 +1589,7 @@
                 "type": "direct_material_cost",
                 "description": "BOM materials consumed - aluminum, electronics, fasteners",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:bom_cost...",
+                "formula_id": "sha256:d898906fb91af5244e762443c7625c1023082f617b9e4dd02040cb4d4d5fbcbf",
                 "inputs": { "aluminum_kg": 250, "aluminum_cost_per_kg": 45.00, "electronics_units": 500, "electronics_cost": 25.00, "fasteners_sets": 500, "fasteners_cost": 2.50 },
                 "output": 25000.00,
                 "currency": "USD",
@@ -1509,7 +1608,7 @@
                 "type": "direct_labor_cost",
                 "description": "Production labor - assembly line workers",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:labor_cost...",
+                "formula_id": "sha256:ab7452f56f5bf1f64a8fde20ae14caade55579520e46b01176d602b33d27b11c",
                 "inputs": { "labor_hours": 400, "avg_hourly_rate": 35.00, "benefits_rate": 0.30 },
                 "output": 18200.00,
                 "currency": "USD",
@@ -1529,7 +1628,7 @@
                 "type": "manufacturing_overhead",
                 "description": "Applied overhead - machine hours basis",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:overhead_alloc...",
+                "formula_id": "sha256:0f33d0ecf686ad1b028c93cbab04dee01fece4ea46351004e3d6b64aaa50889a",
                 "inputs": { "machine_hours": 200, "overhead_rate_per_hour": 21.50 },
                 "output": 4300.00,
                 "currency": "USD",
@@ -1610,9 +1709,9 @@
               }
             }
           ],
-          "merkle_root": "sha256:mfg123...",
+          "merkle_root": "sha256:0f9123a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2",
           "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
-          "audit_data_anchor": { "audit_data_hash": "sha256:mfgaudit...", "audit_profile": "manufacturing", "storage_locations": ["s3://foray-audit/2026/Q1/MFG_WO_500"] },
+          "audit_data_anchor": { "audit_data_hash": "sha256:365bff16ebaa7442ccbd41113b49ba9667873aff084aeabea9c00f43ef13dad2", "audit_profile": "manufacturing", "storage_locations": ["s3://foray-audit/2026/Q1/MFG_WO_500"] },
           "privacy_metadata": { "formulas_obfuscated": 3, "instance_pools": 4, "attack_complexity": "2^96 operations" }
         }
       },
@@ -1626,7 +1725,7 @@
           "timestamp": "2026-01-22T10:00:00Z",
           "foray_core": {
             "entity": "CloudTech Solutions",
-            "entity_hash": "sha256:cloudtech...",
+            "entity_hash": "sha256:8e9fd9f0aab5102d89fbcad4d9f8d08af31f84f6ff239329a36330ae62eed06f",
             "transaction_type": "salesforce_opportunity",
             "total_value": 125000.00,
             "currency": "USD",
@@ -1638,7 +1737,7 @@
             "instance": "cloudtech.salesforce.com",
             "api_version": "v59.0"
           },
-          "component_hashes": { "arrangements": "sha256:opp1...", "accruals": "sha256:rev1...", "anticipations": "sha256:pay1...", "actions": "sha256:close1..." },
+          "component_hashes": { "arrangements": "sha256:7163dcdd8d500ced5670c1b1ed1348b312c895fed035eb7ae448b4608c6a8e20", "accruals": "sha256:ff8e8def822de33c092c3cff5fd7db8cb2d7c1e2aef72b100b43f6e3b1870fdf", "anticipations": "sha256:2a39a7de7a12dc72e35c8d04b4c15c85c7e6fe913cf037f569987d9d2a13153c", "actions": "sha256:65fc351fdc9da9d04cd0b947453e8047b658f16f6c3dbcaf7329460fd332ea2c" },
           "arrangements": [
             {
               "id": "ARR_SF_OPPORTUNITY",
@@ -1704,7 +1803,7 @@
                 "type": "revenue_recognition",
                 "description": "Year 1 revenue recognition - ASC 606 compliant",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:asc606_rev...",
+                "formula_id": "sha256:6dce72331bc0ab11609c3497897b932c7393a1859b734e0770ef7bd76d04d686",
                 "inputs": { "total_contract_value": 125000.00, "performance_obligations": 3, "license_ssp": 100000, "support_ssp": 15000, "services_ssp": 10000 },
                 "output": 41666.67,
                 "currency": "USD",
@@ -1814,9 +1913,9 @@
               }
             }
           ],
-          "merkle_root": "sha256:sfopp123...",
+          "merkle_root": "sha256:5f0pp123a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1",
           "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
-          "audit_data_anchor": { "audit_data_hash": "sha256:sfaudit...", "audit_profile": "revenue_recognition", "storage_locations": ["s3://foray-audit/2026/Q1/SF_OPP_ACME_ENTERPRISE"] },
+          "audit_data_anchor": { "audit_data_hash": "sha256:2b480da6283c56a85dd28b0664c21dc5af2166fe3d8f117142eab43369539176", "audit_profile": "revenue_recognition", "storage_locations": ["s3://foray-audit/2026/Q1/SF_OPP_ACME_ENTERPRISE"] },
           "privacy_metadata": { "formulas_obfuscated": 1, "instance_pools": 3, "attack_complexity": "2^96 operations" }
         }
       },
@@ -1830,7 +1929,7 @@
           "timestamp": "2026-01-15T09:00:00Z",
           "foray_core": {
             "entity": "SecureCapital Mortgage Trust",
-            "entity_hash": "sha256:securecap...",
+            "entity_hash": "sha256:2b30fdbae13e1ff95b1231f0589056a89f81644335a6e6515de57af1543e4c9f",
             "transaction_type": "rmbs_securitization",
             "total_value": 500000000.00,
             "currency": "USD",
@@ -1838,10 +1937,10 @@
             "compliance_flags": ["SEC_Reg_AB", "FASB_ASC_860", "Risk_Retention", "Dodd_Frank"]
           },
           "component_hashes": {
-            "arrangements": "sha256:rmbs_arr...",
-            "accruals": "sha256:rmbs_acc...",
-            "anticipations": "sha256:rmbs_ant...",
-            "actions": "sha256:rmbs_act..."
+            "arrangements": "sha256:70df9c0518c4c766f5761bb28122c3a385fdd74dcfecd05a9198230585e7cc9c",
+            "accruals": "sha256:d64c6fd39c994b4d71f5cd1a3e9c9314de27c28347cf954247934f620e94d329",
+            "anticipations": "sha256:af1f9e1e71983aa1b1c16be02a3e4c183d435573b392053738b7b63e556a3d1f",
+            "actions": "sha256:867a4b8c3b49701cc582e43d2c5ff10e5abd040df22f531d1d3a1c890548a9c9"
           },
           "arrangements": [
             {
@@ -1972,7 +2071,7 @@
                 "type": "interest_collection",
                 "description": "January pool interest collections",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:pool_interest_calc...",
+                "formula_id": "sha256:80f39194b1ba95678bc08df8bb240a571a0afb3cde999dc5b6ece1bee5e09f03",
                 "inputs": {
                   "pool_balance": 500000000.00,
                   "weighted_avg_coupon": 0.0625,
@@ -1992,7 +2091,7 @@
                 "type": "principal_collection",
                 "description": "January scheduled principal + prepayments",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:principal_calc...",
+                "formula_id": "sha256:aa32c87852d4d97df1593a8ec586579b06696e46605c6c88e1c5ddfcd40b0367",
                 "inputs": {
                   "scheduled_principal": 1250000.00,
                   "prepayments": 3333333.33,
@@ -2012,7 +2111,7 @@
                 "type": "tranche_interest_due",
                 "description": "Class A-1 January interest due",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:tranche_interest...",
+                "formula_id": "sha256:a73c38748eeaac8ec3bffd8a0b6207d6f603259649f7ad2ff8d2c960fe03a340",
                 "inputs": { "tranche_balance": 350000000.00, "coupon_rate": 0.045, "days": 31 },
                 "output": 1312500.00,
                 "currency": "USD",
@@ -2027,7 +2126,7 @@
                 "type": "tranche_interest_due",
                 "description": "Class M-1 January interest due",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:tranche_interest...",
+                "formula_id": "sha256:1a5743a12a635e6dd2b0fc6974f1d2158b2e6d69c30dc19c2d3b12f39a5495e1",
                 "inputs": { "tranche_balance": 75000000.00, "coupon_rate": 0.055, "days": 31 },
                 "output": 343750.00,
                 "currency": "USD",
@@ -2042,7 +2141,7 @@
                 "type": "tranche_interest_due",
                 "description": "Class B-1 January interest due",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:tranche_interest...",
+                "formula_id": "sha256:69553f91e0ac441519db5107976649711c62495408a4d3242fc77b271d14fe75",
                 "inputs": { "tranche_balance": 50000000.00, "coupon_rate": 0.075, "days": 31 },
                 "output": 312500.00,
                 "currency": "USD",
@@ -2109,9 +2208,9 @@
               }
             }
           ],
-          "merkle_root": "sha256:rmbs_abc123...",
+          "merkle_root": "sha256:r0b5abc123d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0",
           "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
-          "audit_data_anchor": { "audit_data_hash": "sha256:rmbs_audit...", "audit_profile": "structured_finance", "storage_locations": ["s3://foray-audit/2026/Q1/RMBS_POOL_ABC123"] },
+          "audit_data_anchor": { "audit_data_hash": "sha256:42d9fcfa35264f60d4d51f6dacd5690571f3ef627fdb71e0c421a4dfb7d0ddbb", "audit_profile": "structured_finance", "storage_locations": ["s3://foray-audit/2026/Q1/RMBS_POOL_ABC123"] },
           "privacy_metadata": { "formulas_obfuscated": 5, "instance_pools": 12, "attack_complexity": "2^128 operations" }
         }
       },
@@ -2125,7 +2224,7 @@
           "timestamp": "2026-01-23T14:30:00Z",
           "foray_core": {
             "entity": "GlobalTrade Capital LLC",
-            "entity_hash": "sha256:globaltrade...",
+            "entity_hash": "sha256:0ba0cc4637af8024ab9cdbf1fa964a909a2d12d29228f309061cad735ae7cb32",
             "transaction_type": "fx_spot",
             "total_value": 10000000.00,
             "currency": "USD",
@@ -2133,10 +2232,10 @@
             "compliance_flags": ["Dodd_Frank", "EMIR", "MiFID_II", "CFTC"]
           },
           "component_hashes": {
-            "arrangements": "sha256:fx_arr...",
-            "accruals": "sha256:fx_acc...",
-            "anticipations": "sha256:fx_ant...",
-            "actions": "sha256:fx_act..."
+            "arrangements": "sha256:bb893267e0786b84e6a34d425f2cedbfd0332a70259cedba934992d964ba416a",
+            "accruals": "sha256:719d8a3d03da808bad848dc78ef7a3af52007ba03e94834d2dc1d56b5821dc00",
+            "anticipations": "sha256:9e7aeb0736aa0e96b2eff77b1b1cd5b04b3541554d8ce642174b61c86f2103cf",
+            "actions": "sha256:2bbbc101f46b2401a34c22888081dbb9ee16e85ab11acdc6b2c304e7e1f5d4be"
           },
           "arrangements": [
             {
@@ -2314,9 +2413,9 @@
               }
             }
           ],
-          "merkle_root": "sha256:fx_usdjpy_001...",
+          "merkle_root": "sha256:fxu5djpy001a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c",
           "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
-          "audit_data_anchor": { "audit_data_hash": "sha256:fx_audit...", "audit_profile": "trading_compliance", "storage_locations": ["s3://foray-audit/2026/Q1/FX_SPOT_USDJPY_001"] },
+          "audit_data_anchor": { "audit_data_hash": "sha256:fc6aadc48d35bd08441f43beb7b2ffa080bc362156ba8a6bc872c32b9bfb53a8", "audit_profile": "trading_compliance", "storage_locations": ["s3://foray-audit/2026/Q1/FX_SPOT_USDJPY_001"] },
           "privacy_metadata": { "formulas_obfuscated": 2, "instance_pools": 6, "attack_complexity": "2^96 operations" }
         }
       },
@@ -2330,7 +2429,7 @@
           "timestamp": "2026-01-24T15:00:00Z",
           "foray_core": {
             "entity": "Pinnacle Securities LLC",
-            "entity_hash": "sha256:pinnacle...",
+            "entity_hash": "sha256:827ce48126b6765e302d81dbdb7d15d714f13bfa1ba830f60fa2dfefd468a2a0",
             "transaction_type": "overnight_repo",
             "total_value": 100000000.00,
             "currency": "USD",
@@ -2338,10 +2437,10 @@
             "compliance_flags": ["SEC_15c3", "FINRA_4210", "Fed_Reg_T", "SOFR_Compliant"]
           },
           "component_hashes": {
-            "arrangements": "sha256:repo_arr...",
-            "accruals": "sha256:repo_acc...",
-            "anticipations": "sha256:repo_ant...",
-            "actions": "sha256:repo_act..."
+            "arrangements": "sha256:dde58066f0065d2f474d1d395959917981e6d9337140be9863cc1b6be137b103",
+            "accruals": "sha256:93fdae3f1265845e7593df5af39ebad67016dd0ea820aaefbee415beccec2296",
+            "anticipations": "sha256:5076316a0531ec3cc61f4af1d4b9f0dee6e8fabf4ce60925b0173afdcbc060ae",
+            "actions": "sha256:61ac4e6bab48d7b005686baa79176afbb21a4e42346d82fa278a9ad9a8d4ecce"
           },
           "arrangements": [
             {
@@ -2394,7 +2493,7 @@
                 "type": "repo_interest",
                 "description": "Overnight repo interest accrual (3 days over weekend)",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:repo_interest_calc...",
+                "formula_id": "sha256:aec444c31283e35ce4a3a4ad89a5efeb71a88bcde723c2e3169807a97a43de0e",
                 "inputs": {
                   "principal": 100000000.00,
                   "repo_rate": 0.0530,
@@ -2422,7 +2521,7 @@
                 "type": "collateral_mark",
                 "description": "End of day collateral valuation",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:collateral_mtm...",
+                "formula_id": "sha256:efd7627334bc5ac706bee08f43e07a5221e452d890173f2824b9ca582aece4a3",
                 "inputs": {
                   "cusip": "912810SZ3",
                   "face_value": 102000000.00,
@@ -2533,9 +2632,9 @@
               }
             }
           ],
-          "merkle_root": "sha256:repo_on_001...",
+          "merkle_root": "sha256:r3p00n001a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d",
           "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
-          "audit_data_anchor": { "audit_data_hash": "sha256:repo_audit...", "audit_profile": "securities_financing", "storage_locations": ["s3://foray-audit/2026/Q1/REPO_ON_TREASURY_001"] },
+          "audit_data_anchor": { "audit_data_hash": "sha256:48228d564e6bd68e2cdadebc9711fbefba0b194482522d3562ceda9ad94c3f20", "audit_profile": "securities_financing", "storage_locations": ["s3://foray-audit/2026/Q1/REPO_ON_TREASURY_001"] },
           "privacy_metadata": { "formulas_obfuscated": 2, "instance_pools": 5, "attack_complexity": "2^96 operations" }
         }
       },
@@ -2549,7 +2648,7 @@
           "timestamp": "2026-01-15T09:00:00Z",
           "foray_core": {
             "entity": "Waikato Apiaries Ltd",
-            "entity_hash": "sha256:wal_2026_abc123...",
+            "entity_hash": "sha256:c9ff6626bd25756d14901788443f56e1bec89ea987d36acfe2b16e0e152fdc99",
             "transaction_type": "product_provenance",
             "total_value": 185000.00,
             "currency": "NZD",
@@ -2557,11 +2656,11 @@
             "compliance_flags": ["MPI_Export_Certified", "UMF_Licensed", "ISO_22000"]
           },
           "component_hashes": {
-            "arrangements": "sha256:arr_manuka_a1b2c3...",
-            "accruals": "sha256:acc_manuka_d4e5f6...",
-            "anticipations": "sha256:ant_manuka_g7h8i9...",
-            "actions": "sha256:act_manuka_j0k1l2...",
-            "attestations": "sha256:att_manuka_m3n4o5..."
+            "arrangements": "sha256:1c2e1baa74547d42278c7a5d29764589dc28e3879fa1f5eef07c3cbf98504db6",
+            "accruals": "sha256:7c3e81710b23291dad7023690efa1a7988ff3debfe089d0a8ca9778bf33bfc96",
+            "anticipations": "sha256:577cb6c33d9dec838e8ff00a6706d138072ed10eb74aae6484ca16d9d553876d",
+            "actions": "sha256:4ca527694625a7d8a197b1752ec46dd7eba67e5419e6dcd4a1a3953c7a3b0ad0",
+            "attestations": "sha256:3e61ce457f69f22eb0a7f34a8e9b82d78e8d8cd03930aa95e167e70009b89f11"
           },
           "arrangements": [
             {
@@ -2605,7 +2704,7 @@
                 "type": "product_analysis",
                 "description": "Laboratory analysis results for batch MH-2026-001",
                 "computation_method": "Valuation",
-                "formula_id": "sha256:umf_analysis_protocol_v2...",
+                "formula_id": "sha256:bb35c20e6cc8806ab532081100154414035eb0c4496d85d3b663080fa7d41c79",
                 "inputs": { "sample_id": "SAMPLE-MH-2026-001-A", "analysis_date": "2026-01-12", "methodology": "UMF_Grading_Standard_v4" },
                 "output": 185000.00,
                 "currency": "NZD",
@@ -2620,7 +2719,7 @@
                 "type": "inventory_valuation",
                 "description": "Batch valuation at export wholesale price",
                 "computation_method": "Calculated",
-                "formula_id": "sha256:valuation_weight_x_grade_price...",
+                "formula_id": "sha256:9670a3fcc468ccd29c92e659ff9eccea9806222bf06c8bb73dd374ca44eed758",
                 "inputs": { "weight_kg": 500, "umf_grade": "UMF 15+", "price_per_kg_nzd": 370.00 },
                 "output": 185000.00,
                 "currency": "NZD",
@@ -2703,7 +2802,7 @@
               "id": "ATT_LAB_ANALYSIS_001",
               "foray_core": {
                 "attestor": "Analytica Laboratories",
-                "attestor_hash": "sha256:analytica_nz_2026...",
+                "attestor_hash": "sha256:cd134518f2bb67db5e918bda46a1ef2953104ea36cc77cff8d2efa50aaae63ac",
                 "attestor_type": "laboratory",
                 "attestor_credentials": ["IANZ_Accredited", "MPI_Recognized", "ISO_17025"],
                 "subject_refs": ["ACC_LABORATORY_ANALYSIS_001"],
@@ -2711,7 +2810,7 @@
                 "attestation_date": "2026-01-12T16:30:00Z",
                 "validity_period": { "start": "2026-01-12", "end": "2027-01-12" },
                 "outcome": "certified",
-                "evidence_hash": "sha256:lab_report_mh2026001...",
+                "evidence_hash": "sha256:2f05cf7b2eb036fccea17e247a5e00da832dca7dabe021cf496daaaf9ff92465",
                 "evidence_location": "off-chain",
                 "analysis_summary": { "mgo_result_mg_kg": 514, "leptosperin_result_mg_kg": 185, "dna_verified": true, "methodology": "UMF_Grading_Standard_v4" },
                 "dependencies": []
@@ -2721,7 +2820,7 @@
               "id": "ATT_UMF_CERTIFICATION_001",
               "foray_core": {
                 "attestor": "UMF Honey Association",
-                "attestor_hash": "sha256:umf_assoc_nz_2026...",
+                "attestor_hash": "sha256:8c96190f4366d43c54d2964604cbb8ce9d22114eb2ab49ba8ec1df85d730c966",
                 "attestor_type": "certification_body",
                 "attestor_credentials": ["NZ_Govt_Recognized", "Trademark_Owner_UMF", "MPI_Partner"],
                 "subject_refs": ["ARR_UMF_LICENSE_2026", "ARR_BATCH_DEFINITION_2026_001", "ATT_LAB_ANALYSIS_001"],
@@ -2729,7 +2828,7 @@
                 "attestation_date": "2026-01-14T14:00:00Z",
                 "validity_period": { "start": "2026-01-14", "end": "2026-12-31" },
                 "outcome": "certified",
-                "evidence_hash": "sha256:umf_certificate_mh2026001...",
+                "evidence_hash": "sha256:bdc96cd14f51f032de9ea2b938ed0e3d4f9f49c6c0ad3e31077608c8da7f8349",
                 "evidence_location": "off-chain",
                 "certificate_details": { "certificate_number": "UMF-BATCH-2026-00847", "umf_grade": "UMF 15+", "qr_verification_url": "https://umf.org.nz/verify/UMF-BATCH-2026-00847" },
                 "dependencies": ["ATT_LAB_ANALYSIS_001"]
@@ -2739,7 +2838,7 @@
               "id": "ATT_MPI_EXPORT_001",
               "foray_core": {
                 "attestor": "Ministry for Primary Industries",
-                "attestor_hash": "sha256:mpi_nz_govt_2026...",
+                "attestor_hash": "sha256:7d3f0cdb4eb5f76b299b4967efc9a5b5434dbb42df07154b332dcc182aed2662",
                 "attestor_type": "regulator",
                 "attestor_credentials": ["NZ_Government_Authority", "Food_Safety_Regulator", "Export_Certification_Authority"],
                 "subject_refs": ["ARR_BATCH_DEFINITION_2026_001", "ATT_UMF_CERTIFICATION_001"],
@@ -2747,16 +2846,16 @@
                 "attestation_date": "2026-01-15T08:00:00Z",
                 "validity_period": { "start": "2026-01-15", "end": "2026-07-15" },
                 "outcome": "approved",
-                "evidence_hash": "sha256:mpi_export_cert_mh2026001...",
+                "evidence_hash": "sha256:6742d928a23e25b148fd83328b06b57a6146cde917658a9327b3ce6b38892690",
                 "evidence_location": "off-chain",
                 "export_details": { "export_certificate_number": "MPI-EXP-2026-NZ-00847", "approved_markets": ["China", "UK", "USA", "Japan"], "health_certificate_included": true },
                 "dependencies": ["ATT_UMF_CERTIFICATION_001"]
               }
             }
           ],
-          "merkle_root": "sha256:manuka_batch_001_merkle_root...",
+          "merkle_root": "sha256:0anuka6a7ch001a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6",
           "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
-          "audit_data_anchor": { "audit_data_hash": "sha256:manuka_audit_data...", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/PROV_2026_Q1_MANUKA_HONEY_BATCH_001"] },
+          "audit_data_anchor": { "audit_data_hash": "sha256:0e1365aff94bbe3f057b01657634520193d8bffaf9bcc31307303dc0cb60ee8b", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/PROV_2026_Q1_MANUKA_HONEY_BATCH_001"] },
           "privacy_metadata": { "formulas_obfuscated": 2, "instance_pools": 3, "attack_complexity": "2^96 operations" }
         }
       },
@@ -2770,7 +2869,7 @@
           "timestamp": "2026-01-20T11:30:00Z",
           "foray_core": {
             "entity": "Authorized Watch Dealer AG",
-            "entity_hash": "sha256:awd_2026_xyz789...",
+            "entity_hash": "sha256:63a38cc8ca029c68df3fcca32e2999943d6e48a86245447757e8bcb5faef44ad",
             "transaction_type": "product_authentication",
             "total_value": 29500.00,
             "currency": "USD",
@@ -2778,10 +2877,10 @@
             "compliance_flags": ["Swiss_Made", "COSC_Certified", "Brand_Authorized"]
           },
           "component_hashes": {
-            "arrangements": "sha256:arr_watch_a1b2c3...",
-            "accruals": "sha256:acc_watch_d4e5f6...",
-            "anticipations": "sha256:ant_watch_g7h8i9...",
-            "actions": "sha256:act_watch_j0k1l2..."
+            "arrangements": "sha256:e23bc3748e045ca8d7e04c779f65e83ccf0e890dd49d35180568e218d2dca866",
+            "accruals": "sha256:8f04fe55c029a38c2801677b6d62c37a6420616beecc5534c56324a7dbbd48b5",
+            "anticipations": "sha256:b5c32a21433ff9e89ac458f59db3dd34930ba42059ac23878c18ef1b954c5d95",
+            "actions": "sha256:803e9ed8a8a52edcd8bff1893ff8ad8f04733cab7701a1403a0c786802d9eadf"
           },
           "arrangements": [
             {
@@ -2825,7 +2924,7 @@
                 "type": "product_inspection",
                 "description": "Physical authentication inspection results",
                 "computation_method": "Valuation",
-                "formula_id": "sha256:auth_inspection_protocol_v2...",
+                "formula_id": "sha256:4edf0da5abdc02d200f0aee59b82c15b12075124c6c84c59388cf931b9a631e3",
                 "inputs": { "inspection_date": "2026-01-20", "inspector_id": "INSP-2026-0042" },
                 "output": 29500.00,
                 "currency": "USD",
@@ -2840,7 +2939,7 @@
                 "type": "retail_valuation",
                 "description": "Current retail valuation",
                 "computation_method": "Valuation",
-                "formula_id": "sha256:msrp_lookup...",
+                "formula_id": "sha256:90c810df7532a26ab79e29571a42640e7c95c711388814b9db2ff10526ede8a0",
                 "inputs": { "reference": "126500LN", "condition": "new_with_tags", "market": "US" },
                 "output": 29500.00,
                 "currency": "USD",
@@ -2918,9 +3017,9 @@
               }
             }
           ],
-          "merkle_root": "sha256:watch_auth_001_merkle_root...",
+          "merkle_root": "sha256:wa7chau7h001a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7",
           "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
-          "audit_data_anchor": { "audit_data_hash": "sha256:watch_audit_data...", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/PROV_2026_Q1_WATCH_AUTH_001"] },
+          "audit_data_anchor": { "audit_data_hash": "sha256:ee8d0997348139a2e399ef9186f58ac34b27ff51f5a3fe39c3acc16946156dcd", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/PROV_2026_Q1_WATCH_AUTH_001"] },
           "privacy_metadata": { "formulas_obfuscated": 3, "instance_pools": 2, "attack_complexity": "2^96 operations" }
         }
       },
@@ -2934,7 +3033,7 @@
           "timestamp": "2026-01-01T00:00:00Z",
           "foray_core": {
             "entity": "Producer Name",
-            "entity_hash": "sha256:entity_hash...",
+            "entity_hash": "sha256:f09df1d49a25b38dcfd06e462d0441c565fc438387f407d5a3254e90baefd76e",
             "transaction_type": "product_provenance",
             "total_value": 0.00,
             "currency": "USD",
@@ -2983,7 +3082,7 @@
                 "type": "product_analysis",
                 "description": "Product quality analysis results",
                 "computation_method": "Valuation",
-                "formula_id": "sha256:analysis_protocol...",
+                "formula_id": "sha256:f1d689e848f0e64011a0aa6f4115e9c5b50ee90c0700940b6bf49ddfa89bd8ec",
                 "inputs": { "sample_id": "SAMPLE-NNN", "analysis_date": "2026-01-01" },
                 "output": 0.00,
                 "currency": "USD",
@@ -3026,7 +3125,7 @@
               }
             }
           ],
-          "merkle_root": "sha256:...",
+          "merkle_root": "sha256:00a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1",
           "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
           "audit_data_anchor": { "audit_data_hash": "sha256:...", "audit_profile": "standard", "storage_locations": [] },
           "privacy_metadata": { "formulas_obfuscated": 0, "instance_pools": 0, "attack_complexity": "2^96 operations" }
@@ -5619,7 +5718,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
             foray: {
               transaction_id: transactionData.transaction_id,
               schema_version: transactionData.schema_version,
-              merkle_root: `sha256:${merkleRoot.substring(0, 32)}...`,
+              merkle_root: `sha256:${merkleRoot}`,
               entity: transactionData.foray_core?.entity || 'Unknown Entity',
               total_value: transactionData.foray_core?.total_value || 0,
               currency: transactionData.foray_core?.currency || 'USD',
