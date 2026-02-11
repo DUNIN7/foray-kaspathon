@@ -3,9 +3,9 @@
   ============================================================================
   FORAY Protocol Transaction Review Tool
   ============================================================================
-  Version:       4.1.11
+  Version:       4.1.12
   Created:       2026-01-26T23:43:00Z
-  Last Modified: 2026-02-11T12:30:00Z
+  Last Modified: 2026-02-11T14:15:00Z
   
   Author:        Marvin Percival
   Email:         marvinp@dunin7.com
@@ -20,6 +20,12 @@
                  and print/PDF export.
   
   Changelog:
+    v4.1.12 (2026-02-11)
+      - Display full Merkle Root hash in Transaction Metadata (was truncated to 24 chars)
+      - Added teal-accented explanation text below Merkle Root:
+        "FORAY computes a SHA-256 fingerprint of the entire transaction..."
+      - Styled to match Privacy Protection callout in Privacy & Security section
+
     v4.1.11 (2026-02-11)
       - Wallet stays connected between transactions (no more flash to Connect Wallet)
       - Wallet address and connection state persist in sessionStorage synchronously
@@ -6108,8 +6114,13 @@ Anchored By: ${anchorResult.anchored_by}`;
                           <KeyValue label="Schema Version" value={transactionData.schema_version} />
                         </div>
                         <div>
-                          <KeyValue label="Merkle Root" value={transactionData.merkle_root?.substring(0, 24) + '...'} mono />
+                          <KeyValue label="Merkle Root" value={transactionData.merkle_root} mono />
                         </div>
+                      </div>
+                      <div className="mt-3 p-3 rounded" style={{ backgroundColor: `${forayColors.primaryTeal}08`, borderLeft: `4px solid ${forayColors.primaryTeal}` }}>
+                        <p className="text-xs" style={{ color: forayColors.primaryTeal }}>
+                          <strong>Tamper-Evident Fingerprint:</strong> FORAY computes a SHA-256 fingerprint of the entire transaction. Only this hash goes on-chain — the actual data stays private within the enterprise.
+                        </p>
                       </div>
                     </Card>
                   )}
