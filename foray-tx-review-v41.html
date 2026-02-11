@@ -3,9 +3,9 @@
   ============================================================================
   FORAY Protocol Transaction Review Tool
   ============================================================================
-  Version:       4.1.14
+  Version:       4.1.15
   Created:       2026-01-26T23:43:00Z
-  Last Modified: 2026-02-11T15:10:00Z
+  Last Modified: 2026-02-11T15:15:00Z
   
   Author:        Marvin Percival
   Email:         marvinp@dunin7.com
@@ -20,6 +20,10 @@
                  and print/PDF export.
   
   Changelog:
+    v4.1.15 (2026-02-11)
+      - Entity Hash and Kaspa TX ID displayed as stacked label/value
+        (label on top, full hash on next line with word-break, matching Merkle Root style)
+
     v4.1.14 (2026-02-11)
       - Show full Entity Hash and Kaspa TX ID (removed substring truncation)
       - KeyValue component updated with word-break and flex-shrink for long values
@@ -6216,7 +6220,10 @@ Anchored By: ${anchorResult.anchored_by}`;
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div>
                             <KeyValue label="Entity" value={transactionData.foray_core.entity} />
-                            <KeyValue label="Entity Hash" value={transactionData.foray_core.entity_hash} mono />
+                            <div className="py-2 border-b" style={{ borderColor: `${forayColors.gray400}30` }}>
+                              <p className="text-sm" style={{ color: forayColors.gray600 }}>Entity Hash</p>
+                              <p className="font-mono text-sm font-medium mt-1" style={{ color: forayColors.textDark, wordBreak: 'break-all' }}>{transactionData.foray_core.entity_hash ?? 'N/A'}</p>
+                            </div>
                             <KeyValue label="Transaction Type" value={transactionData.foray_core.transaction_type} />
                           </div>
                           <div>
@@ -6251,7 +6258,10 @@ Anchored By: ${anchorResult.anchored_by}`;
                       <Card className="mt-2">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div>
-                            <KeyValue label="Kaspa TX ID" value={transactionData.blockchain_anchor.kaspa_tx_id || 'Not anchored'} mono />
+                            <div className="py-2 border-b" style={{ borderColor: `${forayColors.gray400}30` }}>
+                              <p className="text-sm" style={{ color: forayColors.gray600 }}>Kaspa TX ID</p>
+                              <p className="font-mono text-sm font-medium mt-1" style={{ color: forayColors.textDark, wordBreak: 'break-all' }}>{transactionData.blockchain_anchor.kaspa_tx_id || 'Not anchored'}</p>
+                            </div>
                             <KeyValue label="Block Height" value={transactionData.blockchain_anchor.block_height ? transactionData.blockchain_anchor.block_height.toLocaleString() : 'N/A'} />
                           </div>
                           <div>
