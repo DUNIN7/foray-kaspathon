@@ -3,9 +3,9 @@
   ============================================================================
   FORAY Protocol Transaction Review Tool
   ============================================================================
-  Version:       4.1.10
+  Version:       4.1.11
   Created:       2026-01-26T23:43:00Z
-  Last Modified: 2026-02-11T12:00:00Z
+  Last Modified: 2026-02-11T12:30:00Z
   
   Author:        Marvin Percival
   Email:         marvinp@dunin7.com
@@ -20,6 +20,11 @@
                  and print/PDF export.
   
   Changelog:
+    v4.1.11 (2026-02-11)
+      - Wallet stays connected between transactions (no more flash to Connect Wallet)
+      - Wallet address and connection state persist in sessionStorage synchronously
+      - Eliminates race condition between initial render and async auto-reconnect
+
     v4.1.10 (2026-02-11)
       - Compact anchor success popup: shows only Kaspa blockchain data
       - Reduced popup width (420px) and semi-transparent backdrop
@@ -5319,8 +5324,8 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
       const [showNetworkDropdown, setShowNetworkDropdown] = useState(false);
       const [showMainnetWarning, setShowMainnetWarning] = useState(false);
       const [pendingNetworkSwitch, setPendingNetworkSwitch] = useState(null);
-      const [walletConnected, setWalletConnected] = useState(false);
-      const [walletAddress, setWalletAddress] = useState(null);
+      const [walletConnected, setWalletConnected] = useState(() => sessionStorage.getItem('foray_wallet_connected') === 'true');
+      const [walletAddress, setWalletAddress] = useState(() => sessionStorage.getItem('foray_wallet_address') || null);
       const [expandedSections, setExpandedSections] = useState({
         metadata: true,
         forayCore: true,
@@ -5461,6 +5466,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
             setWalletConnected(true);
             // Persist connection state for auto-reconnect
             sessionStorage.setItem('foray_wallet_connected', 'true');
+            sessionStorage.setItem('foray_wallet_address', accounts[0]);
             
             // Check and sync network
             const walletNetwork = await window.kasware.getNetwork();
@@ -5495,6 +5501,7 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         setWalletAddress(null);
         // Clear persisted connection state
         sessionStorage.removeItem('foray_wallet_connected');
+        sessionStorage.removeItem('foray_wallet_address');
       };
 
       // Auto-reconnect wallet on page load if previously connected
@@ -5507,11 +5514,15 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
               if (accounts && accounts.length > 0) {
                 setWalletAddress(accounts[0]);
                 setWalletConnected(true);
+                sessionStorage.setItem('foray_wallet_address', accounts[0]);
                 console.log('Auto-reconnected wallet:', accounts[0].substring(0, 20) + '...');
               }
             } catch (err) {
               console.log('Auto-reconnect failed (user may need to reconnect):', err.message);
+              setWalletConnected(false);
+              setWalletAddress(null);
               sessionStorage.removeItem('foray_wallet_connected');
+              sessionStorage.removeItem('foray_wallet_address');
             }
           }
         };
