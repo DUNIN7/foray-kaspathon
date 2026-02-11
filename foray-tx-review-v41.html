@@ -3,9 +3,9 @@
   ============================================================================
   FORAY Protocol Transaction Review Tool
   ============================================================================
-  Version:       4.1.9
+  Version:       4.1.10
   Created:       2026-01-26T23:43:00Z
-  Last Modified: 2026-02-10T17:15:00Z
+  Last Modified: 2026-02-11T12:00:00Z
   
   Author:        Marvin Percival
   Email:         marvinp@dunin7.com
@@ -20,6 +20,12 @@
                  and print/PDF export.
   
   Changelog:
+    v4.1.10 (2026-02-11)
+      - Compact anchor success popup: shows only Kaspa blockchain data
+      - Reduced popup width (420px) and semi-transparent backdrop
+      - Positioned at top of viewport so review page is visible behind
+      - Replaced Print/Save PDF button with Close button
+
     v4.1.9 (2026-02-10)
       - Nulled pre-filled blockchain_anchor data in all 13 sample transactions
         (anchor fields now show "Not anchored" until actual Kaspa anchoring occurs)
@@ -7336,157 +7342,72 @@ Anchored By: ${anchorResult.anchored_by}`;
             
             {/* Anchor Result Modal */}
             {anchorResult && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 anchor-result-modal">
-                <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
-                  <div className="flex items-center justify-between p-6 border-b" style={{ borderColor: forayColors.gray400 }}>
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-full" style={{ backgroundColor: `${forayColors.successGreen}20` }}>
-                        <CheckCircle className="w-6 h-6" style={{ color: forayColors.successGreen }} />
+              <div className="fixed inset-0 bg-black bg-opacity-30 flex items-start justify-center z-50 p-4 anchor-result-modal" style={{ paddingTop: '12vh' }}>
+                <div className="bg-white rounded-xl shadow-2xl w-full overflow-hidden" style={{ maxWidth: '420px' }}>
+                  <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: forayColors.gray400 }}>
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-full" style={{ backgroundColor: `${forayColors.successGreen}20` }}>
+                        <CheckCircle className="w-5 h-5" style={{ color: forayColors.successGreen }} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold" style={{ color: forayColors.secondaryNavy }}>Transaction Anchored Successfully</h2>
+                        <h2 className="text-base font-bold" style={{ color: forayColors.secondaryNavy }}>Anchored to Kaspa</h2>
                         <p className="text-xs" style={{ color: forayColors.gray600 }}>{anchorResult.timestamp}</p>
                       </div>
                     </div>
-                    <button onClick={() => setAnchorResult(null)} className="p-2 rounded-lg hover:bg-gray-100 no-print">
-                      <X className="w-5 h-5" style={{ color: forayColors.gray600 }} />
+                    <button onClick={() => setAnchorResult(null)} className="p-1.5 rounded-lg hover:bg-gray-100 no-print">
+                      <X className="w-4 h-4" style={{ color: forayColors.gray600 }} />
                     </button>
                   </div>
                   
-                  <div className="p-6 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 180px)' }}>
-                    {/* Kaspa Blockchain Section */}
-                    <div className="mb-6">
-                      <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: forayColors.secondaryNavy }}>
-                        <GitBranch className="w-4 h-4" /> Kaspa Blockchain Verification
-                      </h3>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
-                          <span style={{ color: forayColors.gray600 }}>Transaction ID:</span>
-                          <span className="font-mono text-xs" style={{ color: forayColors.primaryTeal }}>{anchorResult.kaspa.transaction_id}</span>
-                        </div>
-                        <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
-                          <span style={{ color: forayColors.gray600 }}>Block Height:</span>
-                          <span className="font-mono font-bold" style={{ color: forayColors.textDark }}>{anchorResult.kaspa.block_height.toLocaleString()}</span>
-                        </div>
-                        <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
-                          <span style={{ color: forayColors.gray600 }}>Block Hash:</span>
-                          <span className="font-mono text-xs truncate ml-4" style={{ color: forayColors.textDark, maxWidth: '300px' }}>{anchorResult.kaspa.block_hash}</span>
-                        </div>
-                        <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
-                          <span style={{ color: forayColors.gray600 }}>Confirmations:</span>
-                          <span className="font-bold" style={{ color: forayColors.successGreen }}>{anchorResult.kaspa.confirmations}</span>
-                        </div>
-                        <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
-                          <span style={{ color: forayColors.gray600 }}>Confirmation Time:</span>
-                          <span className="font-mono" style={{ color: forayColors.textDark }}>{anchorResult.kaspa.confirmation_time_ms}ms</span>
-                        </div>
+                  <div className="px-4 py-3 overflow-y-auto" style={{ maxHeight: '40vh' }}>
+                    <div className="space-y-1.5 text-sm">
+                      <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
+                        <span style={{ color: forayColors.gray600 }}>TX ID:</span>
+                        <span className="font-mono text-xs truncate ml-2" style={{ color: forayColors.primaryTeal, maxWidth: '240px' }}>{anchorResult.kaspa.transaction_id}</span>
                       </div>
-                      <a 
-                        href={anchorResult.kaspa.explorer_url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="mt-3 inline-flex items-center gap-2 text-sm px-4 py-2 rounded-lg no-print"
-                        style={{ backgroundColor: `${forayColors.primaryTeal}10`, color: forayColors.primaryTeal }}
-                      >
-                        <Link2 className="w-4 h-4" /> View on Kaspa Explorer &rarr;
-                      </a>
-                    </div>
-                    
-                    {/* FORAY Transaction Section */}
-                    <div className="mb-6">
-                      <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: forayColors.secondaryNavy }}>
-                        <FileText className="w-4 h-4" /> FORAY Transaction Details
-                      </h3>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
-                          <span style={{ color: forayColors.gray600 }}>Transaction ID:</span>
-                          <span className="font-mono text-xs" style={{ color: forayColors.textDark }}>{anchorResult.foray.transaction_id}</span>
-                        </div>
-                        <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
-                          <span style={{ color: forayColors.gray600 }}>Schema Version:</span>
-                          <span className="px-2 py-0.5 text-xs font-bold rounded" style={{ backgroundColor: forayColors.primaryTeal, color: 'white' }}>v{anchorResult.foray.schema_version}</span>
-                        </div>
-                        <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
-                          <span style={{ color: forayColors.gray600 }}>Merkle Root:</span>
-                          <span className="font-mono text-xs" style={{ color: forayColors.textDark }}>{anchorResult.foray.merkle_root}</span>
-                        </div>
-                        <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
-                          <span style={{ color: forayColors.gray600 }}>Entity:</span>
-                          <span className="font-semibold" style={{ color: forayColors.textDark }}>{anchorResult.foray.entity}</span>
-                        </div>
-                        <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
-                          <span style={{ color: forayColors.gray600 }}>Total Value:</span>
-                          <span className="font-bold" style={{ color: forayColors.primaryTeal }}>{formatCurrency(anchorResult.foray.total_value, anchorResult.foray.currency)}</span>
-                        </div>
+                      <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
+                        <span style={{ color: forayColors.gray600 }}>Block Height:</span>
+                        <span className="font-mono font-bold" style={{ color: forayColors.textDark }}>{anchorResult.kaspa.block_height.toLocaleString()}</span>
                       </div>
-                    </div>
-                    
-                    {/* Component Summary */}
-                    <div className="mb-6">
-                      <h3 className="text-sm font-bold mb-3" style={{ color: forayColors.secondaryNavy }}>Components Anchored</h3>
-                      <div className={`grid gap-2 ${anchorResult.foray.component_summary.attestations > 0 ? 'grid-cols-5' : 'grid-cols-4'}`}>
-                        <div className="p-3 rounded-lg text-center" style={{ backgroundColor: `${forayColors.primaryTeal}10` }}>
-                          <p className="text-2xl font-bold" style={{ color: forayColors.primaryTeal }}>{anchorResult.foray.component_summary.arrangements}</p>
-                          <p className="text-xs" style={{ color: forayColors.gray600 }}>Arrangements</p>
-                        </div>
-                        <div className="p-3 rounded-lg text-center" style={{ backgroundColor: `${forayColors.accentCyan}10` }}>
-                          <p className="text-2xl font-bold" style={{ color: forayColors.accentCyan }}>{anchorResult.foray.component_summary.accruals}</p>
-                          <p className="text-xs" style={{ color: forayColors.gray600 }}>Accruals</p>
-                        </div>
-                        <div className="p-3 rounded-lg text-center" style={{ backgroundColor: `${forayColors.actionAmber}10` }}>
-                          <p className="text-2xl font-bold" style={{ color: forayColors.actionAmber }}>{anchorResult.foray.component_summary.anticipations}</p>
-                          <p className="text-xs" style={{ color: forayColors.gray600 }}>Anticipations</p>
-                        </div>
-                        <div className="p-3 rounded-lg text-center" style={{ backgroundColor: `${forayColors.successGreen}10` }}>
-                          <p className="text-2xl font-bold" style={{ color: forayColors.successGreen }}>{anchorResult.foray.component_summary.actions}</p>
-                          <p className="text-xs" style={{ color: forayColors.gray600 }}>Actions</p>
-                        </div>
-                        {anchorResult.foray.component_summary.attestations > 0 && (
-                          <div className="p-3 rounded-lg text-center" style={{ backgroundColor: '#8B5CF610' }}>
-                            <p className="text-2xl font-bold" style={{ color: '#8B5CF6' }}>{anchorResult.foray.component_summary.attestations}</p>
-                            <p className="text-xs" style={{ color: forayColors.gray600 }}>Attestations</p>
-                          </div>
-                        )}
+                      <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
+                        <span style={{ color: forayColors.gray600 }}>Confirmations:</span>
+                        <span className="font-bold" style={{ color: forayColors.successGreen }}>{anchorResult.kaspa.confirmations}</span>
                       </div>
-                    </div>
-                    
-                    {/* Metadata */}
-                    <div className="p-3 rounded-lg text-xs" style={{ backgroundColor: forayColors.bgLight }}>
-                      <div className="flex justify-between">
+                      <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
+                        <span style={{ color: forayColors.gray600 }}>Confirmation Time:</span>
+                        <span className="font-mono" style={{ color: forayColors.textDark }}>{anchorResult.kaspa.confirmation_time_ms}ms</span>
+                      </div>
+                      <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
                         <span style={{ color: forayColors.gray600 }}>Network:</span>
-                        <span className="font-medium">{anchorResult.network}</span>
-                      </div>
-                      <div className="flex justify-between mt-1">
-                        <span style={{ color: forayColors.gray600 }}>Anchored By:</span>
-                        <span className="font-medium">{anchorResult.anchored_by}</span>
+                        <span className="font-medium" style={{ color: forayColors.textDark }}>{anchorResult.network}</span>
                       </div>
                     </div>
                   </div>
                   
                   {/* Footer Actions */}
-                  <div className="p-4 border-t flex gap-3 no-print" style={{ borderColor: forayColors.gray400 }}>
+                  <div className="px-4 py-3 border-t flex gap-2 no-print" style={{ borderColor: forayColors.gray400 }}>
                     <a 
                       href={anchorResult.kaspa.explorer_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 px-4 py-2.5 rounded-lg font-medium flex items-center justify-center gap-2"
+                      className="flex-1 px-3 py-2 rounded-lg font-medium text-sm flex items-center justify-center gap-2"
                       style={{ backgroundColor: forayColors.primaryTeal, color: 'white' }}
                     >
-                      <Link2 className="w-4 h-4" /> View on Explorer
+                      <Link2 className="w-4 h-4" /> Explorer
                     </a>
                     <button 
                       onClick={copyAnchorDetails}
-                      className="flex-1 px-4 py-2.5 rounded-lg font-medium flex items-center justify-center gap-2"
+                      className="flex-1 px-3 py-2 rounded-lg font-medium text-sm flex items-center justify-center gap-2"
                       style={{ backgroundColor: forayColors.bgLight, color: forayColors.gray600, border: `1px solid ${forayColors.gray400}` }}
                     >
                       Copy Details
                     </button>
                     <button 
-                      onClick={handlePrintAnchorResult}
-                      className="flex-1 px-4 py-2.5 rounded-lg font-medium text-white flex items-center justify-center gap-2"
-                      style={{ backgroundColor: forayColors.secondaryNavy }}
+                      onClick={() => setAnchorResult(null)}
+                      className="flex-1 px-3 py-2 rounded-lg font-medium text-sm flex items-center justify-center gap-2"
+                      style={{ backgroundColor: forayColors.secondaryNavy, color: 'white' }}
                     >
-                      <Printer className="w-4 h-4" /> Print / Save PDF
+                      Close
                     </button>
                   </div>
                 </div>
