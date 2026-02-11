@@ -3,9 +3,9 @@
   ============================================================================
   FORAY Protocol Transaction Review Tool
   ============================================================================
-  Version:       4.1.8
+  Version:       4.1.9
   Created:       2026-01-26T23:43:00Z
-  Last Modified: 2026-02-10T16:30:00Z
+  Last Modified: 2026-02-10T17:15:00Z
   
   Author:        Marvin Percival
   Email:         marvinp@dunin7.com
@@ -20,6 +20,10 @@
                  and print/PDF export.
   
   Changelog:
+    v4.1.9 (2026-02-10)
+      - Nulled pre-filled blockchain_anchor data in all 13 sample transactions
+        (anchor fields now show "Not anchored" until actual Kaspa anchoring occurs)
+
     v4.1.8 (2026-02-10)
       - Removed Testnet 11 references from Version Guide popup (no longer accessible)
       - Changed network grid from 3-column to 2-column (Testnet 10 + Mainnet)
@@ -1034,7 +1038,7 @@
             }
           ],
           "merkle_root": "sha256:9f8e7d6c5b4a3210...",
-          "blockchain_anchor": { "kaspa_tx_id": "kaspa:qr7f3a2b9d8e...", "block_height": 2850123, "confirmation_time_ms": 1150, "anchored_at": "2026-01-25T10:00:02Z" },
+          "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
           "audit_data_anchor": { "audit_data_hash": "sha256:audit123...", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/AP_2026_Q1_BATCH_PAYMENT_001"] },
           "privacy_metadata": { "formulas_obfuscated": 1, "instance_pools": 3, "attack_complexity": "2^96 operations" }
         }
@@ -1083,7 +1087,7 @@
             }
           ],
           "merkle_root": "sha256:cashsale123...",
-          "blockchain_anchor": { "kaspa_tx_id": "kaspa:qrcash123...", "block_height": 2850000, "confirmation_time_ms": 1100, "anchored_at": "2026-01-25T14:30:02Z" },
+          "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
           "privacy_metadata": { "formulas_obfuscated": 0, "instance_pools": 0, "attack_complexity": "N/A" }
         }
       },
@@ -1159,7 +1163,7 @@
           "anticipations": [],
           "actions": [],
           "merkle_root": "sha256:depr789...",
-          "blockchain_anchor": { "kaspa_tx_id": "kaspa:qrdepr123...", "block_height": 2852000, "confirmation_time_ms": 980, "anchored_at": "2026-01-31T23:59:02Z" },
+          "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
           "audit_data_anchor": { "audit_data_hash": "sha256:depaudit...", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/DEPRECIATION_JAN"] },
           "privacy_metadata": { "formulas_obfuscated": 1, "instance_pools": 3, "attack_complexity": "2^96 operations" }
         }
@@ -1280,7 +1284,7 @@
             }
           ],
           "merkle_root": "sha256:autoloan...",
-          "blockchain_anchor": { "kaspa_tx_id": "kaspa:qrauto123...", "block_height": 2849000, "confirmation_time_ms": 1050, "anchored_at": "2026-01-23T15:00:02Z" },
+          "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
           "audit_data_anchor": { "audit_data_hash": "sha256:loanaudit...", "audit_profile": "standard", "storage_locations": ["s3://foray-audit/2026/Q1/AUTO_LOAN_JOHN_DOE"] },
           "privacy_metadata": { "formulas_obfuscated": 1, "instance_pools": 5, "attack_complexity": "2^96 operations" }
         }
@@ -1415,7 +1419,7 @@
             }
           ],
           "merkle_root": "sha256:energy123...",
-          "blockchain_anchor": { "kaspa_tx_id": "kaspa:qrenergy...", "block_height": 2851500, "confirmation_time_ms": 1100, "anchored_at": "2026-02-15T14:00:02Z" },
+          "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
           "audit_data_anchor": { "audit_data_hash": "sha256:energyaudit...", "audit_profile": "energy_compliance", "storage_locations": ["s3://foray-audit/2026/Q1/ENERGY_PPA_SOLAR_001"] },
           "privacy_metadata": { "formulas_obfuscated": 2, "instance_pools": 4, "attack_complexity": "2^96 operations" }
         }
@@ -1591,7 +1595,7 @@
             }
           ],
           "merkle_root": "sha256:mfg123...",
-          "blockchain_anchor": { "kaspa_tx_id": "kaspa:qrmfg...", "block_height": 2850800, "confirmation_time_ms": 980, "anchored_at": "2026-01-25T09:00:02Z" },
+          "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
           "audit_data_anchor": { "audit_data_hash": "sha256:mfgaudit...", "audit_profile": "manufacturing", "storage_locations": ["s3://foray-audit/2026/Q1/MFG_WO_500"] },
           "privacy_metadata": { "formulas_obfuscated": 3, "instance_pools": 4, "attack_complexity": "2^96 operations" }
         }
@@ -1795,7 +1799,7 @@
             }
           ],
           "merkle_root": "sha256:sfopp123...",
-          "blockchain_anchor": { "kaspa_tx_id": "kaspa:qrsf...", "block_height": 2850600, "confirmation_time_ms": 1020, "anchored_at": "2026-01-22T10:00:02Z" },
+          "blockchain_anchor": { "kaspa_tx_id": null, "block_height": null, "confirmation_time_ms": null, "anchored_at": null },
           "audit_data_anchor": { "audit_data_hash": "sha256:sfaudit...", "audit_profile": "revenue_recognition", "storage_locations": ["s3://foray-audit/2026/Q1/SF_OPP_ACME_ENTERPRISE"] },
           "privacy_metadata": { "formulas_obfuscated": 1, "instance_pools": 3, "attack_complexity": "2^96 operations" }
         }
