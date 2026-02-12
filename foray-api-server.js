@@ -2,9 +2,9 @@
  * ============================================================================
  * FORAY Protocol API Server
  * ============================================================================
- * Version:       2.1.0
+ * Version:       2.2.0
  * Created:       2026-01-28T16:30:00Z
- * Modified:      2026-02-04T14:30:00Z
+ * Modified:      2026-02-12T10:00:00Z
  *
  * Author:        Marvin Percival
  * Email:         marvinp@dunin7.com
@@ -29,6 +29,13 @@
  *   express, cors, dotenv, node-fetch (or built-in fetch in Node 18+)
  *
  * Changelog:
+ *   v2.2.0 (2026-02-12)
+ *     - /api/generate-foray now accepts optional analysisContext + businessDescription
+ *       for analysis-driven generation (Business Analyzer flow)
+ *     - When analysis context is present, the AI generates a transaction directly
+ *       informed by the analysis rather than using hardcoded industry scenarios
+ *     - Backward compatible: transactionName + transactionDescription still works
+ *       for the Demo page and direct API calls
  *   v2.1.0 (2026-02-04)
  *     - Added /api/describe-transaction endpoint for "Be Creative" feature
  *     - New DESCRIBE_TRANSACTION_PROMPT for generating tx descriptions
@@ -790,55 +797,84 @@ app.post('/api/generate-foray', async (req, res) => {
     const {
       transactionName,
       transactionDescription,
+      analysisContext,
+      businessDescription,
       domain,
       complianceFlags,
       privacyLevel
     } = req.body;
 
-    // -- Input validation --
-    if (!transactionName || !transactionName.trim()) {
-      return res.status(400).json({
-        error: 'Transaction name is required',
-        hint: 'Provide a short descriptive name (e.g., "Vendor Batch Payment")'
-      });
+    let userMessage = '';
+
+    // ----------------------------------------------------------------
+    // Flow A: Analysis-driven generation (Business Analyzer)
+    // The analysis has already identified transaction types, 4A mappings,
+    // and compliance requirements. Use ALL of that context so the
+    // generated transaction is directly connected to the analysis.
+    // ----------------------------------------------------------------
+    if (analysisContext && businessDescription) {
+      console.log(`[generate-foray] Analysis-driven generation for: "${businessDescription.substring(0, 80)}..."`);
+
+      userMessage = `The user described their business as follows:
+
+${businessDescription.trim()}
+
+An expert analysis of their business identified the following FORAY Protocol applications:
+
+${analysisContext.trim()}
+
+Based on this specific business and the analysis above, generate ONE realistic FORAY Protocol v4.1 transaction that demonstrates exactly how this business would use FORAY. Requirements:
+
+1. The transaction MUST be specific to THIS business — use realistic details that match their industry, scale, and operations as described. Do NOT use generic or templated examples.
+2. Choose the most compelling transaction type identified in the analysis — one that best showcases FORAY's 4A decomposition for their specific use case.
+3. Use realistic but fictional entity names, amounts, dates (January-February 2026), contract references, and counterparties that fit this exact business context.
+4. Apply the compliance frameworks identified in the analysis (the specific SOX, Basel III, DCAA, FERC, FDA, ISO, etc. requirements that are relevant).
+5. Include attestations if the analysis identified third-party verification needs.
+6. Every transaction must be unique — vary the transaction type, amounts, parties, and structure each time this is called, even for the same business description.
+
+Generate a complete FORAY Protocol v4.1 transaction JSON with a narrative summary. Use the delimiter format specified in your instructions.`;
+
+    // ----------------------------------------------------------------
+    // Flow B: Direct generation (Demo page, API calls)
+    // Traditional name + description flow, unchanged.
+    // ----------------------------------------------------------------
+    } else {
+      if (!transactionName || !transactionName.trim()) {
+        return res.status(400).json({
+          error: 'Transaction name is required (or provide analysisContext + businessDescription for analysis-driven generation)',
+          hint: 'Provide a short descriptive name (e.g., "Vendor Batch Payment")'
+        });
+      }
+
+      if (!transactionDescription || !transactionDescription.trim()) {
+        return res.status(400).json({
+          error: 'Transaction description is required',
+          hint: 'Describe the transaction in plain language with parties, amounts, dates, and terms'
+        });
+      }
+
+      userMessage = `Transaction Name: ${transactionName.trim()}\n\nTransaction Description:\n${transactionDescription.trim()}`;
+
+      if (domain) {
+        userMessage += `\n\nDomain: ${domain}`;
+      }
+      if (complianceFlags) {
+        userMessage += `\nCompliance Requirements: ${complianceFlags}`;
+      }
+      if (privacyLevel) {
+        userMessage += `\nPrivacy Level: ${privacyLevel}`;
+      }
+
+      userMessage += '\n\nGenerate a complete FORAY Protocol v4.1 transaction JSON with a narrative summary. Use the delimiter format specified in your instructions.';
+
+      console.log(`[generate-foray] Direct generation: "${transactionName.trim()}"`);
     }
-
-    if (!transactionDescription || !transactionDescription.trim()) {
-      return res.status(400).json({
-        error: 'Transaction description is required',
-        hint: 'Describe the transaction in plain language with parties, amounts, dates, and terms'
-      });
-    }
-
-    // -- Build user message --
-    let userMessage = `Transaction Name: ${transactionName.trim()}\n\nTransaction Description:\n${transactionDescription.trim()}`;
-
-    // Append optional hints if provided
-    if (domain) {
-      userMessage += `\n\nDomain: ${domain}`;
-    }
-    if (complianceFlags) {
-      userMessage += `\nCompliance Requirements: ${complianceFlags}`;
-    }
-    if (privacyLevel) {
-      userMessage += `\nPrivacy Level: ${privacyLevel}`;
-    }
-
-    userMessage += '\n\nGenerate a complete FORAY Protocol v4.1 transaction JSON with a narrative summary. Use the delimiter format specified in your instructions.';
-
-    console.log(`[generate-foray] Generating: "${transactionName.trim()}"`);
-
     // -- Call Anthropic API --
     const data = await callAnthropicAPI(FORAY_SYSTEM_PROMPT, userMessage);
     const rawText = extractTextFromResponse(data);
 
     // -- Parse dual output --
     const { forayJSON, narrative } = parseGeneratorOutput(rawText);
-
-    // -- Override timestamp with current time --
-    if (forayJSON) {
-      forayJSON.timestamp = new Date().toISOString();
-    }
 
     // -- Validate generated JSON --
     const validation = validateFORAYJSON(forayJSON);
