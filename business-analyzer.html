@@ -18,9 +18,9 @@
     ============================================================================
     FORAY Business Use Case Analyzer
     ============================================================================
-    Version:       2.7.0
+    Version:       2.6.1
     Created:       2026-01-29T00:00:00Z
-    Modified:      2026-02-12T10:00:00Z
+    Modified:      2026-02-05T09:20:00Z
 
     Author:        Marvin Percival
     Email:         marvinp@dunin7.com
@@ -30,16 +30,6 @@
     Copyright (c) 2026 Marvin Percival. All rights reserved.
 
     Changelog:
-      v2.7.0 (2026-02-12)
-        - Analysis-driven transaction generation: the AI analysis now feeds
-          directly into transaction generation, producing transactions specific
-          to the user's actual business
-        - Removed hardcoded sampleTxPrompts (defense, finance, energy, etc.)
-        - Removed detectIndustry() keyword matcher
-        - Every generated transaction is now completely unique to the business
-          described, with no canned scenarios or templated outputs
-        - Requires API server v2.2.0+
-
       v2.6.1 (2026-02-05)
         - Fixed character encoding issues (corrupted em-dashes)
 
@@ -691,7 +681,6 @@
 
         var currentFORAYJSON = null;
         var lastBusinessDescription = '';
-        var lastAnalysisResult = '';
 
         // ================================================================
         // Loading Modal
@@ -717,9 +706,14 @@
             logistics: "We operate a third-party logistics network providing warehousing and distribution services across 12 facilities. We manage inventory for 200+ clients, track freight movements across multiple carriers, handle customs documentation for international shipments, and process complex billing with tiered rate structures. Our pain points are proof of custody, invoice disputes, and regulatory compliance for hazmat shipments."
         };
 
-        // Transaction generation is now fully analysis-driven.
-        // No hardcoded industry scenarios — every transaction is unique
-        // to the business described by the user.
+        var sampleTxPrompts = {
+            defense: { name: "Defense Contract Labor Allocation", description: "Monthly labor cost allocation for Contract W56HZV-25-C-0042 (Apache AH-64E main rotor hub). Direct labor: 320 hours at $85/hr ($27,200). Overhead allocation at 142% of direct labor ($38,624). G&A at 12% of total ($7,898.88). Material costs: $45,000 titanium alloy, $12,500 fasteners. CAS 418 compliant allocation. Period: January 2026. Contractor: Precision Defense Manufacturing LLC." },
+            finance: { name: "FX Spot Trade USD/JPY", description: "Foreign exchange spot trade executed January 27, 2026. Sell 5,000,000 USD and buy 732,500,000 JPY at spot rate 146.50. Settlement date T+2 on January 29, 2026. Counterparty: Mizuho Securities. Trade reference: FX-2026-0127-005. Basel III RWA impact calculated. SOX 404 controls applied." },
+            energy: { name: "Solar PPA Monthly Settlement", description: "Monthly settlement for 25-year Solar PPA between SolarNorth Africa SARL and Iberdrola Espana. January 2026 delivery: 12,450 MWh at EUR 0.058/kWh (EUR 722,100). RECs generated: 12,450 at EUR 3.20 each (EUR 39,840). Curtailment credit: 380 MWh at 75% rate. Cross-border settlement Morocco to Spain via SWIFT. FERC and CNMC compliance." },
+            manufacturing: { name: "Work Order Cost Roll-Up", description: "Work order WO-2026-0289 for 50 units of Model P-4500 centrifugal pump. Direct materials: $125,000 (stainless steel casings, impellers, mechanical seals). Direct labor: 480 hours machining at $45/hr, 160 hours assembly at $38/hr. Manufacturing overhead at 175% of direct labor. Quality testing: 100% hydrostatic test, 10% X-ray inspection. ISO 9001 documented. Completion date January 28, 2026." },
+            pharma: { name: "Drug Batch Genealogy Record", description: "Production batch BATCH-2026-AMX-0142 of Amoxicillin 500mg capsules. 500,000 units manufactured January 20-24, 2026. Raw materials: API from Supplier S-001 (CoA lot AM-2025-889), excipients from Supplier S-004. In-process testing: dissolution 95.2%, content uniformity 99.1%, microbial limits pass. QC release by Quality Director. FDA 21 CFR Part 211 compliant. Royalty at 4.5% of wholesale ($0.12/unit = $60,000 batch value, $2,700 royalty)." },
+            logistics: { name: "Cross-Border Freight Settlement", description: "International shipment SHP-2026-00847 from Shanghai to Chicago via Long Beach. 2x40ft containers of industrial electronics (HTS 8537.10). Ocean freight: $4,200/container. Customs brokerage: $850. Drayage Long Beach to rail: $1,200. Rail Chicago: $2,800. Warehouse receiving: $450. Total: $13,700. Customs duties at 3.4% on declared value $285,000 ($9,690). Client: TechDistro Inc. Hazmat documentation for lithium batteries (UN3481)." }
+        };
 
         // ================================================================
         // Event Listeners
@@ -758,8 +752,7 @@
                     throw new Error(errData.error || 'Request failed: ' + response.status);
                 }
                 var data = await response.json();
-                lastAnalysisResult = data.analysis || '';
-                displayResults(lastAnalysisResult);
+                displayResults(data.analysis || '');
             } catch (error) {
                 console.error('Analysis error:', error);
                 showError('Analysis failed: ' + error.message);
@@ -785,20 +778,16 @@
             var outputEl = document.getElementById('sampleOutput');
 
             btn.disabled = true;
-            showLoading('Generating Sample Transaction', 'Claude is constructing a unique realistic FORAY v4.1 transaction based on your business analysis. In production integrations, this mapping is instantaneous - the AI generation here demonstrates the structure for learning purposes.');
+            showLoading('Generating Sample Transaction', 'Claude is constructing a unique realistic FORAY v4.1 transaction with full 4A component mapping. In production integrations, this mapping is instantaneous - the AI generation here demonstrates the structure for learning purposes.');
             outputEl.classList.remove('active');
 
-            // Strip HTML tags from analysis to get clean text for the API
-            var analysisText = lastAnalysisResult.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+            var prompt = detectIndustry(lastBusinessDescription);
 
             try {
                 var response = await fetch(API_BASE + '/api/generate-foray', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        businessDescription: lastBusinessDescription,
-                        analysisContext: analysisText
-                    })
+                    body: JSON.stringify({ transactionName: prompt.name, transactionDescription: prompt.description })
                 });
                 if (!response.ok) {
                     var errData = await response.json().catch(function() { return {}; });
@@ -820,6 +809,21 @@
                 btn.disabled = false;
                 hideLoading();
             }
+        }
+
+        function detectIndustry(desc) {
+            var d = desc.toLowerCase();
+            if (d.includes('defense') || d.includes('military') || d.includes('dcaa') || d.includes('dfars')) return sampleTxPrompts.defense;
+            if (d.includes('bank') || d.includes('derivative') || d.includes('trading') || d.includes('securitiz') || d.includes('hedge fund') || d.includes('forex')) return sampleTxPrompts.finance;
+            if (d.includes('energy') || d.includes('solar') || d.includes('ppa') || d.includes('renewable') || d.includes('power plant') || d.includes('utility')) return sampleTxPrompts.energy;
+            if (d.includes('manufactur') || d.includes('pump') || d.includes('valve') || d.includes('bom') || d.includes('work order') || d.includes('assembly')) return sampleTxPrompts.manufacturing;
+            if (d.includes('pharma') || d.includes('drug') || d.includes('fda') || d.includes('cgmp') || d.includes('clinical') || d.includes('biotech')) return sampleTxPrompts.pharma;
+            if (d.includes('logistics') || d.includes('warehouse') || d.includes('freight') || d.includes('customs') || d.includes('shipping') || d.includes('cargo')) return sampleTxPrompts.logistics;
+            // No match - generate a transaction based on the user's actual description
+            return {
+                name: 'Industry-Specific Transaction',
+                description: 'Generate a realistic FORAY v4.1 transaction for this business: ' + desc.substring(0, 600)
+            };
         }
 
         function showValidation(v) {
@@ -985,7 +989,6 @@
             // Clear input
             document.getElementById('businessDescription').value = '';
             lastBusinessDescription = '';
-            lastAnalysisResult = '';
             currentFORAYJSON = null;
 
             // Hide results and sample sections
