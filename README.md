@@ -1,12 +1,18 @@
 # FORAY Protocol
 
 <!--
-Version:       2.1.0
+Version:       2.2.0
 Created:       2026-01-25T00:00:00Z
-Modified:      2026-02-01T04:15:00Z
+Modified:      2026-02-13T19:00:00Z
 Author:        Marvin Percival
 
 Changelog:
+  v2.2.0 (2026-02-13)
+    - Updated Project Structure to match actual repo layout
+    - Removed phantom docs/, demo/, adapters/ directories
+    - Fixed Protocol badge link (spec is in root, not docs/)
+    - Updated examples list to match current 12 examples
+    - Updated demo link to point to live site
   v2.1.0 (2026-02-01)
     - Fixed terminology: "immutable, tamper-proof" to "tamper-evident"
     - Added Manuka Honey Provenance and Luxury Watch Authentication examples
@@ -19,7 +25,7 @@ Changelog:
 
 [![License: BSL 1.1](https://img.shields.io/badge/License-BSL%201.1-blue.svg)](LICENSE.md)
 [![Kaspa](https://img.shields.io/badge/Blockchain-Kaspa-49EACB.svg)](https://kaspa.org)
-[![Protocol Version](https://img.shields.io/badge/Protocol-v4.1-green.svg)](docs/FORAY_Protocol_v4_1_Specification.md)
+[![Protocol Version](https://img.shields.io/badge/Protocol-v4.1-green.svg)](FORAY_Protocol_v4_1_Specification.md)
 
 > **Built for Kaspathon 2026 -- Real-Time Data Track**
 
@@ -72,9 +78,9 @@ This maps to how businesses actually operate--from contract to cash.
 
 ### Try the Transaction Review Tool
 
-1. Open the [FORAY Transaction Review Tool](demo/foray-tx-review-v41.html)
+1. Visit [foray.dunin7.com](https://foray.dunin7.com) and navigate to the Demo page
 2. Paste any FORAY JSON (examples in `/examples`)
-3. Click "Connect Wallet" (requires [KasWare](https://kasware.xyz))
+3. Click "Connect Wallet" (requires [KasWare](https://kasware.xyz) Chrome extension)
 4. Review the transaction structure
 5. Click "Anchor to Kaspa" to create a tamper-evident proof
 
@@ -96,42 +102,54 @@ This maps to how businesses actually operate--from contract to cash.
 
 ```
 foray-kaspathon/
-+-- README.md
-+-- LICENSE.md
-|
-+-- docs/
-|   +-- FORAY_Protocol_v4_1_Specification.md
-|   +-- FORAY_Protocol_v4_1_Change_Summary.md
-|   +-- FORAY_QuickBooks_Integration.md
-|   +-- FORAY_Salesforce_Integration.md
-|
-+-- demo/
-|   +-- foray-tx-review-v41.html       # Transaction Review Tool
-|   +-- foray-infographic-v41.html     # Interactive Explainer
-|
-+-- examples/
-|   +-- batch-payment-v41.json         # AP batch clearing 3 invoices
-|   +-- cash-sale-v41.json             # Retail POS (Action-only)
-|   +-- depreciation-v41.json          # Month-end adjusting entry (Accrual-only)
-|   +-- manufacturing-work-order-v41.json  # Production with BOM/labor/overhead
-|   +-- salesforce-opportunity-v41.json    # CRM opportunity to payment
-|   +-- fx-spot-usdjpy-v41.json        # $10M FX spot with T+2 settlement
-|   +-- overnight-repo-v41.json        # $100M repo with Treasury collateral
-|   +-- rmbs-transaction-v3.json       # $300M RMBS securitization
-|   +-- auto-loan-john-doe-v3.json     # $25K consumer auto loan
-|   +-- mary-smith-loan-v3.json        # $60K commercial loan
-|   +-- energy-solar-ppa-morocco-spain-v3.json  # EUR 197M cross-border PPA
-|   +-- manuka-honey-provenance-v41.json   # NZ$185K UMF-certified honey with attestations
-|   +-- luxury-watch-authentication-v41.json  # $29.5K Rolex with material fingerprinting
-|
-+-- adapters/
-    +-- quickbooks-adapter.js
-    +-- salesforce-adapter.js
+├── README.md
+├── LICENSE.md
+├── AI_DISCLOSURE.md
+├── FORAY_Protocol_v4_1_Specification.md
+├── FORAY_Standard_Disclaimer.md
+│
+├── index.html                         # Homepage
+├── about.html                         # About FORAY
+├── demo.html                          # Demo page
+├── docs.html                          # Documentation hub
+├── guides.html                        # Industry guides hub
+├── specification.html                 # Protocol specification viewer
+├── integration-guide.html             # ERP integration guide
+├── business-analyzer.html             # AI-powered transaction analyzer
+├── foray-infographic-v41.html         # Interactive explainer
+│
+├── foray-api-server.js                # API server (Anthropic-powered analysis)
+├── proxy-server.js                    # Reverse proxy for API routing
+├── quickbooks-adapter.js              # QuickBooks integration adapter
+├── salesforce-adapter.js              # Salesforce integration adapter
+│
+├── guides/
+│   ├── FORAY_Attestation_Trust_Model.md
+│   ├── FORAY_Auditor_Advisory_Guide.md
+│   ├── FORAY_Defense_Contractor_Guide.md
+│   ├── FORAY_Energy_Sector_Guide.md
+│   ├── FORAY_Financial_Services_Guide.md
+│   ├── FORAY_Manufacturing_Supply_Chain_Guide.md
+│   └── FORAY_Supply_Chain_Provenance_Guide.md
+│
+└── examples/
+    ├── auto-loan-john-doe-v3.json     # $25K consumer auto loan
+    ├── batch-payment-v41.json         # AP batch clearing 3 invoices
+    ├── cash-sale-v41.json             # Retail POS (Action-only)
+    ├── depreciation-v41.json          # Month-end adjusting entry (Accrual-only)
+    ├── energy-solar-ppa-morocco-spain-v3.json  # EUR 197M cross-border PPA
+    ├── fx-spot-usdjpy-v41.json        # $10M FX spot with T+2 settlement
+    ├── luxury-watch-authentication-v41.json    # $29.5K Rolex with material fingerprinting
+    ├── manufacturing-work-order-v41.json       # Production with BOM/labor/overhead
+    ├── manuka-honey-provenance-v41.json        # NZ$185K UMF-certified honey
+    ├── overnight-repo-v41.json        # $100M repo with Treasury collateral
+    ├── rmbs-transaction-v3.json       # $300M RMBS securitization
+    └── salesforce-opportunity-v41.json # CRM opportunity to payment
 ```
 
 ### Built-in Sample Transactions (in Transaction Review Tool dropdown)
 
-The demo tool includes 13 embedded sample transactions:
+The demo tool includes 12 embedded sample transactions:
 
 | Sample | Type | Description |
 |--------|------|-------------|
@@ -147,7 +165,6 @@ The demo tool includes 13 embedded sample transactions:
 | Overnight Repo | Full lifecycle | Secured overnight financing with Treasury collateral |
 | Manuka Honey Provenance | Full + Attestations | UMF-certified honey with lab/certifier/regulator attestation chain |
 | Luxury Watch Authentication | Full lifecycle | Rolex with spectroscopic material fingerprinting |
-| Supply Chain Template | Configurable | Generic provenance tracking template |
 
 ---
 
@@ -174,6 +191,7 @@ FORAY protects sensitive business data while enabling verification:
 | Defense | Cost tracking, supply chain | DCAA, DFARS |
 | Manufacturing | BOM, WIP, inventory | SOX, IFRS |
 | Energy | PPA settlements, grid transactions | FERC, regulatory |
+| Supply Chain | Product provenance, authenticity | FDA, EU Food Safety |
 
 ---
 
