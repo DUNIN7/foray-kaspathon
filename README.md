@@ -3,16 +3,17 @@
 <!--
 Version:       2.2.0
 Created:       2026-01-25T00:00:00Z
-Modified:      2026-02-13T19:00:00Z
+Modified:      2026-03-23T00:00:00Z
 Author:        Marvin Percival
 
 Changelog:
-  v2.2.0 (2026-02-13)
-    - Updated Project Structure to match actual repo layout
-    - Removed phantom docs/, demo/, adapters/ directories
-    - Fixed Protocol badge link (spec is in root, not docs/)
-    - Updated examples list to match current 12 examples
-    - Updated demo link to point to live site
+  v2.2.0 (2026-03-23)
+    - Added Kaspathon 2026 Top 10 Finalist badge
+    - Added AI Governance / MCP use case to Use Cases table
+    - Added Enterprise AI Agent Accountability section
+    - Added MCP Enterprise Readiness roadmap reference
+    - Updated citation to reflect finalist status
+    - Added Supply Chain Provenance to Use Cases table
   v2.1.0 (2026-02-01)
     - Fixed terminology: "immutable, tamper-proof" to "tamper-evident"
     - Added Manuka Honey Provenance and Luxury Watch Authentication examples
@@ -25,19 +26,23 @@ Changelog:
 
 [![License: BSL 1.1](https://img.shields.io/badge/License-BSL%201.1-blue.svg)](LICENSE.md)
 [![Kaspa](https://img.shields.io/badge/Blockchain-Kaspa-49EACB.svg)](https://kaspa.org)
-[![Protocol Version](https://img.shields.io/badge/Protocol-v4.1-green.svg)](FORAY_Protocol_v4_1_Specification.md)
+[![Protocol Version](https://img.shields.io/badge/Protocol-v4.1-green.svg)](docs/FORAY_Protocol_v4_1_Specification.md)
+[![Kaspathon 2026](https://img.shields.io/badge/Kaspathon%202026-Top%2010%20Finalist-gold.svg)](https://kaspathon.com)
+[![Patent](https://img.shields.io/badge/Patent-Pending%2063%2F980%2C193-blue.svg)](https://patents.google.com)
 
-> **Built for Kaspathon 2026 -- Real-Time Data Track**
+> **🏆 Kaspathon 2026 Top 10 Finalist — Real-Time Data Track**
 
 ---
 
 ## What is FORAY?
 
-FORAY creates **tamper-evident audit trails** of enterprise transactions that regulators, auditors, and forensic investigators can trust--without exposing your competitive secrets.
+FORAY creates **tamper-evident audit trails** of enterprise transactions and AI agent actions that regulators, auditors, and forensic investigators can trust — without exposing your competitive secrets.
 
-**The Problem:** Internal audit trails can be altered. When fraud happens (Enron, Wirecard, FTX), companies rewrite history. External auditors have no way to prove records weren't tampered with.
+**The Problem:** Internal audit trails can be altered. When fraud happens (Enron, Wirecard, FTX), companies rewrite history. External auditors have no way to prove records weren't tampered with. And as AI agents execute consequential decisions autonomously, organizations have no tamper-evident proof of *what those agents decided, why, and what they did*.
 
-**The Solution:** FORAY anchors cryptographic fingerprints of your transactions to Kaspa's blockchain in real-time. The data stays in your systems; only the hash goes on-chain. If anyone alters a record, the mismatch is instantly detectable.
+**The Solution:** FORAY anchors cryptographic fingerprints of your transactions and agent actions to Kaspa's blockchain in real-time. The data stays in your systems; only the proof goes on-chain. If anyone alters a record, the mismatch is instantly detectable.
+
+> FORAY directly addresses the **MCP 2026 Enterprise Readiness roadmap priority**: *"Audit trails and observability — end-to-end visibility into what a client requested and what a server did, in a form enterprises can feed into their existing logging and compliance pipelines."*
 
 ---
 
@@ -48,29 +53,52 @@ FORAY creates **tamper-evident audit trails** of enterprise transactions that re
 | Block Time | **1 second** | 10 minutes | 12 seconds |
 | Finality | ~10 seconds | 60 minutes | 12 minutes |
 | TX Cost | ~$0.0001 | $1-50 | $0.50-50 |
-| Throughput | 1 BPS -> 100 BPS | 7 TPS | 15 TPS |
+| Throughput | 1 BPS → 100 BPS | 7 TPS | 15 TPS |
 
-Kaspa's **1-second blocks** enable real-time anchoring as transactions happen--not batch processing hours later. GHOSTDAG consensus provides high throughput without sacrificing decentralization.
+Kaspa's **1-second blocks** enable real-time anchoring as transactions happen — not batch processing hours later. GHOSTDAG consensus provides high throughput without sacrificing decentralization.
 
 ---
 
 ## The 4-Component Model
 
-FORAY decomposes every business transaction into four components:
+FORAY decomposes every business transaction — and every AI agent decision cycle — into four components:
 
-| Component | What It Captures | Example |
-|-----------|------------------|---------|
-| **Arrangements** | Contractual setup | Loan agreement signed |
-| **Accruals** | Calculation logic | Interest calculated |
-| **Anticipations** | Expected future flows | Payment scheduled |
-| **Actions** | Actual asset transfers | Wire sent |
+| Component | What It Captures | Business Example | AI Agent Example |
+|-----------|-----------------|-----------------|-----------------|
+| **Arrangements** | Contractual setup / mandate | Loan agreement signed | Agent authorized to approve POs under $50K |
+| **Accruals** | Calculation logic / reasoning | Interest calculated | Agent analyzes vendor quote, determines best price |
+| **Anticipations** | Expected future flows / intent | Payment scheduled | Agent plans to approve invoice, expected outcome |
+| **Actions** | Actual asset transfers / execution | Wire sent | Agent approves invoice, actual result recorded |
 
-This maps to how businesses actually operate--from contract to cash.
+This maps to how businesses actually operate — and to how AI agents actually reason and act.
 
 ### v4.1 Key Features
 
-- **Flexible Entry Points** -- Not every transaction starts with a contract. Cash sales can begin directly with an Action.
-- **Many-to-Many References** -- One payment can clear multiple invoices. One invoice can cover multiple contracts.
+- **Flexible Entry Points** — Not every transaction starts with a contract. Cash sales can begin directly with an Action.
+- **Many-to-Many References** — One payment can clear multiple invoices. One invoice can cover multiple contracts.
+- **Attestations Extension** — Third-party certifications, lab analyses, and oracle readings are first-class components with full credential tracking.
+- **Intrinsic Authentication** — Spectroscopic molecular fingerprinting enables products themselves to serve as tamper-evident identifiers.
+
+---
+
+## Enterprise AI Agent Accountability
+
+As organizations deploy AI agents through MCP-connected platforms to execute consequential tasks — procurement approvals, financial analysis, code generation, legal research — a critical gap has emerged:
+
+**No existing observability platform provides a tamper-evident external record of what an AI agent decided and did.**
+
+Internal agent logs live inside the platforms that run them. Platform administrators can alter those logs. When a regulator, auditor, or counterparty examines AI agent behavior, an internal log is the weakest possible evidence.
+
+FORAY provides the external, independently verifiable answer. Every agent decision cycle maps directly onto the 4A model:
+
+- The **Arrangement** captures the mandate — what the agent was authorized to do, by whom, under what constraints, referencing the model version and system prompt hash.
+- The **Accrual** captures the reasoning — what information was analyzed, what the agent determined, with formula_id referencing the model weights hash.
+- The **Anticipation** captures the intent — what action the agent planned, with what expected outcome and confidence.
+- The **Action** captures the execution — what the agent actually did, the result, and the variance from intent.
+
+Each component is anchored to the Kaspa BlockDAG. The decision record cannot be altered after the fact — not by the platform operator, not by the organization that deployed the agent.
+
+**This directly addresses EU AI Act Article 12 logging requirements for high-risk AI systems.**
 
 ---
 
@@ -78,7 +106,7 @@ This maps to how businesses actually operate--from contract to cash.
 
 ### Try the Transaction Review Tool
 
-1. Visit [foray.dunin7.com](https://foray.dunin7.com) and navigate to the Demo page
+1. Open the [FORAY Transaction Review Tool](demo/foray-tx-review-v41.html) in **Chrome browser**
 2. Paste any FORAY JSON (examples in `/examples`)
 3. Click "Connect Wallet" (requires [KasWare](https://kasware.xyz) Chrome extension)
 4. Review the transaction structure
@@ -90,7 +118,7 @@ This maps to how businesses actually operate--from contract to cash.
 1. Create invoice for $5,000
 2. Anchor to Kaspa (hash: abc123...)
 3. Later: Someone edits invoice to $50,000
-4. Re-verify -> MISMATCH DETECTED
+4. Re-verify → MISMATCH DETECTED
    - Original hash: abc123...
    - Current hash: def456...
    - Blockchain proves tampering occurred
@@ -104,52 +132,41 @@ This maps to how businesses actually operate--from contract to cash.
 foray-kaspathon/
 ├── README.md
 ├── LICENSE.md
-├── AI_DISCLOSURE.md
-├── FORAY_Protocol_v4_1_Specification.md
-├── FORAY_Standard_Disclaimer.md
 │
-├── index.html                         # Homepage
-├── about.html                         # About FORAY
-├── demo.html                          # Demo page
-├── docs.html                          # Documentation hub
-├── guides.html                        # Industry guides hub
-├── specification.html                 # Protocol specification viewer
-├── integration-guide.html             # ERP integration guide
-├── business-analyzer.html             # AI-powered transaction analyzer
-├── foray-infographic-v41.html         # Interactive explainer
+├── docs/
+│   ├── FORAY_Protocol_v4_1_Specification.md
+│   ├── FORAY_Protocol_v4_1_Change_Summary.md
+│   ├── FORAY_QuickBooks_Integration.md
+│   └── FORAY_Salesforce_Integration.md
 │
-├── foray-api-server.js                # API server (Anthropic-powered analysis)
-├── proxy-server.js                    # Reverse proxy for API routing
-├── quickbooks-adapter.js              # QuickBooks integration adapter
-├── salesforce-adapter.js              # Salesforce integration adapter
+├── demo/
+│   ├── foray-tx-review-v41.html       # Transaction Review Tool
+│   └── foray-infographic-v41.html     # Interactive Explainer
 │
-├── guides/
-│   ├── FORAY_Attestation_Trust_Model.md
-│   ├── FORAY_Auditor_Advisory_Guide.md
-│   ├── FORAY_Defense_Contractor_Guide.md
-│   ├── FORAY_Energy_Sector_Guide.md
-│   ├── FORAY_Financial_Services_Guide.md
-│   ├── FORAY_Manufacturing_Supply_Chain_Guide.md
-│   └── FORAY_Supply_Chain_Provenance_Guide.md
+├── examples/
+│   ├── batch-payment-v41.json         # AP batch clearing 3 invoices
+│   ├── cash-sale-v41.json             # Retail POS (Action-only)
+│   ├── depreciation-v41.json          # Month-end adjusting entry (Accrual-only)
+│   ├── manufacturing-work-order-v41.json  # Production with BOM/labor/overhead
+│   ├── salesforce-opportunity-v41.json    # CRM opportunity to payment
+│   ├── fx-spot-usdjpy-v41.json        # $10M FX spot with T+2 settlement
+│   ├── overnight-repo-v41.json        # $100M repo with Treasury collateral
+│   ├── rmbs-transaction-v3.json       # $300M RMBS securitization
+│   ├── auto-loan-john-doe-v3.json     # $25K consumer auto loan
+│   ├── mary-smith-loan-v3.json        # $60K commercial loan
+│   ├── energy-solar-ppa-morocco-spain-v3.json  # EUR 197M cross-border PPA
+│   ├── manuka-honey-provenance-v41.json   # NZ$185K UMF-certified honey with attestations
+│   ├── luxury-watch-authentication-v41.json  # $29.5K Rolex with material fingerprinting
+│   └── supply-chain-provenance-template-v41.json  # Generic provenance template
 │
-└── examples/
-    ├── auto-loan-john-doe-v3.json     # $25K consumer auto loan
-    ├── batch-payment-v41.json         # AP batch clearing 3 invoices
-    ├── cash-sale-v41.json             # Retail POS (Action-only)
-    ├── depreciation-v41.json          # Month-end adjusting entry (Accrual-only)
-    ├── energy-solar-ppa-morocco-spain-v3.json  # EUR 197M cross-border PPA
-    ├── fx-spot-usdjpy-v41.json        # $10M FX spot with T+2 settlement
-    ├── luxury-watch-authentication-v41.json    # $29.5K Rolex with material fingerprinting
-    ├── manufacturing-work-order-v41.json       # Production with BOM/labor/overhead
-    ├── manuka-honey-provenance-v41.json        # NZ$185K UMF-certified honey
-    ├── overnight-repo-v41.json        # $100M repo with Treasury collateral
-    ├── rmbs-transaction-v3.json       # $300M RMBS securitization
-    └── salesforce-opportunity-v41.json # CRM opportunity to payment
+└── adapters/
+    ├── quickbooks-adapter.js
+    └── salesforce-adapter.js
 ```
 
 ### Built-in Sample Transactions (in Transaction Review Tool dropdown)
 
-The demo tool includes 12 embedded sample transactions:
+The demo tool includes 13 embedded sample transactions:
 
 | Sample | Type | Description |
 |--------|------|-------------|
@@ -165,6 +182,7 @@ The demo tool includes 12 embedded sample transactions:
 | Overnight Repo | Full lifecycle | Secured overnight financing with Treasury collateral |
 | Manuka Honey Provenance | Full + Attestations | UMF-certified honey with lab/certifier/regulator attestation chain |
 | Luxury Watch Authentication | Full lifecycle | Rolex with spectroscopic material fingerprinting |
+| Supply Chain Template | Configurable | Generic provenance tracking template |
 
 ---
 
@@ -179,7 +197,7 @@ FORAY protects sensitive business data while enabling verification:
 | **Instance Pools** | Timing correlation resistance across transactions |
 | **Obfuscated References** | Party names and relationships protected |
 
-**Result:** Auditors can verify that calculations are correct without seeing the actual formulas or values. Your competitive secrets stay private.
+**Result:** Auditors can verify that records are intact and calculations are consistent without seeing the actual formulas, values, or party identities. Your competitive secrets stay private.
 
 ---
 
@@ -187,11 +205,12 @@ FORAY protects sensitive business data while enabling verification:
 
 | Industry | Application | Compliance |
 |----------|-------------|------------|
-| Financial Services | Derivatives, securitizations, trading | SOX, Basel III, Dodd-Frank |
-| Defense | Cost tracking, supply chain | DCAA, DFARS |
-| Manufacturing | BOM, WIP, inventory | SOX, IFRS |
+| **AI Governance** | Agent decision audit trails, MCP observability, EU AI Act logging | EU AI Act Art. 12, NIST AI RMF |
+| Financial Services | Derivatives, securitizations, repo, FX trading | SOX, Basel III, Dodd-Frank, EMIR |
+| Defense | Cost tracking, supply chain, DCAA audit | DCAA, DFARS, FAR |
+| Manufacturing | BOM, WIP, inventory, quality management | SOX, IFRS, ISO 9001 |
 | Energy | PPA settlements, grid transactions | FERC, regulatory |
-| Supply Chain | Product provenance, authenticity | FDA, EU Food Safety |
+| Supply Chain | Product provenance, authenticity, cold chain | FDA, EU Food Safety, EUDR |
 
 ---
 
@@ -201,7 +220,12 @@ FORAY protects sensitive business data while enabling verification:
 - [x] Transaction Review Tool with Kaspa Testnet
 - [x] QuickBooks adapter (prototype)
 - [x] Salesforce adapter (prototype)
-- [ ] SAP integration
+- [x] Attestations extension (certifications, inspections, oracle readings)
+- [x] Intrinsic authentication (spectroscopic product fingerprinting)
+- [ ] MCP server implementation (enterprise AI agent audit)
+- [ ] SAP S/4HANA connector
+- [ ] Oracle Fusion connector
+- [ ] GRC platform integration (ServiceNow, IBM OpenPages)
 - [ ] Mainnet deployment
 - [ ] ZK-proof integration (when Kaspa supports)
 - [ ] Multi-language SDKs (Rust, Python, JavaScript)
@@ -210,7 +234,7 @@ FORAY protects sensitive business data while enabling verification:
 
 ## License
 
-**Business Source License 1.1** -- Source-available with commercial restrictions.
+**Business Source License 1.1** — Source-available with commercial restrictions.
 
 | Permission | Allowed |
 |------------|---------|
@@ -219,7 +243,7 @@ FORAY protects sensitive business data while enabling verification:
 | Academic research | Yes |
 | Production use | Requires license |
 
-**Change Date:** January 25, 2030 -> Converts to Apache License 2.0
+**Change Date:** January 25, 2030 → Converts to Apache License 2.0
 
 See [LICENSE.md](LICENSE.md) for full terms.
 
@@ -231,10 +255,10 @@ If you use FORAY in research, please cite:
 
 ```bibtex
 @article{foray2026,
-  title={FORAY: A Privacy-Preserving Blockchain Audit Protocol},
+  title={FORAY: A Privacy-Preserving Blockchain Audit Protocol for Enterprise Transactions and AI Agent Accountability},
   author={Percival, Marvin},
   year={2026},
-  note={Kaspathon 2026 Submission}
+  note={Kaspathon 2026 Top 10 Finalist, Patent Pending US 63/980,193}
 }
 ```
 
@@ -245,12 +269,13 @@ If you use FORAY in research, please cite:
 - **Author:** Marvin Percival
 - **Email:** marvinp@dunin7.com
 - **GitHub:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
+- **Live Demo:** [foray.dunin7.com](https://foray.dunin7.com)
 
 ---
 
 ## Acknowledgments
 
-Built for **Kaspathon 2026** -- Real-Time Data Track
+**🏆 Kaspathon 2026 Top 10 Finalist** — Real-Time Data Track
 
 FORAY leverages Kaspa's unique properties:
 - BlockDAG architecture for parallel block production
@@ -259,7 +284,7 @@ FORAY leverages Kaspa's unique properties:
 
 ---
 
-*FORAY Protocol -- Transparent audits, protected secrets, powered by Kaspa.*
+*FORAY Protocol — Transparent audits, protected secrets, powered by Kaspa.*
 
 ---
 

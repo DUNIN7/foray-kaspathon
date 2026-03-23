@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <!--
   File: docs.html
-  Version: 4.1.10
+  Version: 4.1.11
   Created: 2026-01-29T08:15:00Z
-  Modified: 2026-02-06T04:35:00Z
+  Modified: 2026-03-23T00:00:00Z
   Author: Marvin Percival
   Email: marvinp@dunin7.com
   GitHub: DUNIN7/foray-kaspathon
   
   FORAY Protocol Documentation Page
   Change Log:
+    v4.1.11 (2026-03-23): Expanded AI Agent section with enterprise accountability, MCP roadmap reference, fixed broken OpenClaw link
     v4.1.10 (2026-02-06): Added Industry Guides link (sidebar + callout box)
     v4.1.9 (2026-02-05): Changed sidebar height to min-height to extend with page
     v4.1.8 (2026-02-05): Fixed sidebar height and content width on desktop
@@ -1090,26 +1091,90 @@
         Contact us for enterprise integration support.
       </p>
 
-      <h2 id="ai-agents">AI Agent Integration</h2>
+<h2 id="ai-agents">AI Agent Integration</h2>
       <p>
-        As autonomous AI agents execute trades and financial operations on behalf of users,
-        the need for tamper-evident audit trails becomes critical. FORAY provides accountability
-        infrastructure for agent-executed transactions.
+        As AI agents execute consequential decisions autonomously across enterprise systems &mdash;
+        procurement approvals, financial analysis, code generation, legal research &mdash; a critical
+        accountability gap has emerged that no existing observability platform addresses:
       </p>
+      <p>
+        <strong>Internal agent logs live inside the platforms that run them. The same administrators
+        who deployed the agent can alter those logs. When a regulator or auditor examines AI agent
+        behavior, an internal log is the weakest possible evidence.</strong>
+      </p>
+      <p>
+        FORAY provides the external, tamper-evident answer. This directly addresses the
+        <strong>MCP 2026 Enterprise Readiness roadmap priority</strong>: <em>&ldquo;Audit trails and
+        observability &mdash; end-to-end visibility into what a client requested and what a server
+        did, in a form enterprises can feed into their existing logging and compliance
+        pipelines.&rdquo;</em>
+      </p>
+
+      <h3>Enterprise AI Agent Accountability</h3>
+      <p>
+        Every AI agent decision cycle maps directly onto the FORAY 4A model:
+      </p>
+
+      <div class="table-wrapper"><table>
+        <thead>
+          <tr>
+            <th>FORAY Component</th>
+            <th>What It Captures for AI Agents</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Arrangement</strong></td>
+            <td>The agent&rsquo;s mandate &mdash; what it was authorized to do, by whom, under what constraints</td>
+            <td>Agent authorized to approve purchase orders under $50K, referencing model version hash and system prompt hash</td>
+          </tr>
+          <tr>
+            <td><strong>Accrual</strong></td>
+            <td>The agent&rsquo;s reasoning &mdash; what information was analyzed, what it determined</td>
+            <td>Agent evaluates three vendor quotes, determines Vendor B is $2,400 below market rate</td>
+          </tr>
+          <tr>
+            <td><strong>Anticipation</strong></td>
+            <td>The agent&rsquo;s intent &mdash; what action it planned, with what expected outcome</td>
+            <td>Agent plans to approve $47,200 PO to Vendor B; expected outcome: delivery within SLA</td>
+          </tr>
+          <tr>
+            <td><strong>Action</strong></td>
+            <td>The agent&rsquo;s execution &mdash; what it actually did, the result, variance from intent</td>
+            <td>PO approved and submitted at 14:32:07 UTC; confirmation reference PO-2026-04471</td>
+          </tr>
+        </tbody>
+      </table></div>
+
+      <p>
+        Each component is hashed, anchored to the Kaspa BlockDAG, and independently verifiable.
+        The agent&rsquo;s decision record cannot be altered after the fact &mdash; not by the platform
+        operator, not by the organization that deployed the agent.
+      </p>
+
+      <h3>Regulatory Alignment</h3>
+      <ul>
+        <li><strong>EU AI Act Article 12</strong> &mdash; Tamper-evident logging for high-risk AI systems</li>
+        <li><strong>NIST AI RMF</strong> &mdash; Transparency, accountability, and auditability properties</li>
+        <li><strong>SOX 404</strong> &mdash; Internal control evidence for AI-assisted financial processes</li>
+        <li><strong>SEC AI Governance</strong> &mdash; Audit trail for AI agents in regulated financial contexts</li>
+      </ul>
 
       <h3>OpenClaw Trading Audit Skill</h3>
       <p>
-        <a href="https://openclaw.ai" target="_blank">OpenClaw</a> is an open-source AI agent platform
+        As a working reference implementation, FORAY provides an Audit Skill for
+        <a href="https://openclaw.ai" target="_blank">OpenClaw</a>, an open-source AI agent platform
         that can execute autonomous tasks including crypto trading on platforms like Hyperliquid and Polymarket.
         The FORAY Audit Skill enables automatic capture of every trade the agent executes:
       </p>
 
       <ul>
-        <li><strong>Trade Capture</strong> - Asset, direction, quantity, price, leverage, fees</li>
-        <li><strong>Risk Parameters</strong> - Stop loss, take profit, liquidation levels</li>
-        <li><strong>Agent Rationale</strong> - Why the agent made the decision</li>
-        <li><strong>Human Authorization</strong> - Whether human-in-the-loop approved</li>
-        <li><strong>Exchange Attestation</strong> - Confirmation from the trading venue</li>
+        <li><strong>Trade Capture</strong> &mdash; Asset, direction, quantity, price, leverage, fees</li>
+        <li><strong>Risk Parameters</strong> &mdash; Stop loss, take profit, liquidation levels</li>
+        <li><strong>Agent Rationale</strong> &mdash; Why the agent made the decision</li>
+        <li><strong>Human Authorization</strong> &mdash; Whether human-in-the-loop approved</li>
+        <li><strong>Exchange Attestation</strong> &mdash; Confirmation from the trading venue</li>
       </ul>
 
       <h3>Natural Language Commands</h3>
@@ -1135,20 +1200,22 @@
 
       <h3>Why This Matters</h3>
       <p>
-        When you give an AI agent control over real money, you need cryptographic proof of:
+        When you give an AI agent control over real money or real business decisions, you need
+        cryptographic proof of:
       </p>
       <ul>
         <li>What was intended vs. what happened</li>
-        <li>Who authorized each trade (human approval or auto-trade rule)</li>
+        <li>Who authorized each action (human approval or autonomous rule)</li>
         <li>The sequence of events for dispute resolution</li>
-        <li>Complete history for tax and compliance reporting</li>
+        <li>Complete tamper-evident history for compliance and regulatory review</li>
       </ul>
       <p>
-        FORAY anchors each trade to Kaspa's ~1-second finality blockchain, creating a tamper-evident
-        record that cannot be altered after the fact.
+        FORAY anchors each decision and action to Kaspa&rsquo;s ~1-second finality blockchain,
+        creating a tamper-evident record that cannot be altered after the fact.
       </p>
       <p>
-        The skill is available at <a href="https://github.com/DUNIN7/openclaw-audit-skill" target="_blank">github.com/DUNIN7/openclaw-audit-skill</a>.
+        Source code and implementation guide:
+        <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">github.com/DUNIN7/foray-kaspathon</a>.
       </p>
 
       <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(125, 211, 214, 0.1); text-align: center; color: var(--gray-400); font-size: 0.9rem;">
