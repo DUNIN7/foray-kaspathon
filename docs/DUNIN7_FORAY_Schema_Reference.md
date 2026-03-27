@@ -8,20 +8,33 @@
 
 ---
 
+## Design Philosophy
+
+> **FORAY is a protocol, not a service. Our job is to make it lean and mean — built to survive turmoil and technology.**
+
+FORAY does not live anywhere. It is implemented everywhere. Like TCP/IP, it defines the standard. Implementations evolve. Persistence layers change. Connectors multiply. Agents improve. The protocol survives all of it.
+
+DUNIN7 publishes the protocol, maintains the specification, and certifies connectors. DUNIN7 does not operate FORAY. No central operator means no central point of failure, no central point of trust, and no central point of compromise. The persistence layer is the shared truth. The protocol is the standard. The record outlasts any single organisation — including DUNIN7.
+
+Every architectural decision is tested against one question: **does this survive turmoil and technology?** If yes, proceed. If no, reject.
+
+---
+
 ## Purpose
 
-This document captures the schema architecture, asset behaviour taxonomy, transaction pattern map, and configuration selection criteria derived from mapping 60 diverse transaction types against the FORAY mandatory core. It serves as the foundation for agentic interface design and future transaction type validation.
+This document captures the schema architecture, asset behaviour taxonomy, transaction pattern map, and configuration selection criteria derived from extensive mapping of maximally diverse transaction types against the FORAY mandatory core. It serves as the foundation for agentic interface design and ongoing transaction type validation. The transaction set documented here represents an initial investigative reference — a deliberately stress-tested sample spanning industries, instruments, asset types, and edge cases specifically chosen to break the schema if it could be broken. It is not an exhaustive catalogue. Every business transaction in history is a candidate for addition.
 
 ---
 
 ## 1. Foundational Principles
 
-The FORAY mandatory core was stress-tested against 60 maximally diverse transactions spanning merchant banking, autonomous manufacturing, insurance, real estate, healthcare, technology, government, supply chain, and highly unusual transaction categories including barter, catastrophe bonds, carbon credits, and water rights.
+The FORAY mandatory core was stress-tested against a maximally diverse investigative set of transactions spanning merchant banking, autonomous manufacturing, insurance, real estate, healthcare, technology, government, supply chain, and highly unusual transaction categories including barter, catastrophe bonds, carbon credits, and water rights. Transactions were selected specifically to challenge the schema — instruments that break conventional ledgers, edge cases that resist clean decomposition, and structurally obscure arrangements that have historically required special accounting treatment. The mandatory core required zero modifications across the entire investigative set.
 
-Three principles emerged as inviolable:
+Five principles emerged as inviolable:
 
 | Principle | Statement |
 |-----------|-----------|
+| The protocol is the invariant | FORAY is a protocol, not a service. Implementations, persistence layers, and connectors evolve. The protocol survives. |
 | The core never grows | The mandatory dataset is the minimum required to describe any business transaction. Adding fields to accommodate edge cases breaks the universality that makes FORAY valuable. |
 | Complexity lives in the schema | Optional schema fields carry domain vocabulary, formula detail, and asset properties. They enrich without modifying the core. |
 | Intelligence lives in the interface | Asset classification, party role resolution, and configuration selection are performed by the submission agent before data reaches FORAY. FORAY receives only what it needs. |
@@ -160,9 +173,123 @@ The exceptional variety of optional data across transaction types is itself the 
 
 ---
 
-## 4. Asset Behaviour Taxonomy
+## 4. Submission Schema
 
-Across 60 maximally diverse transactions, nine distinct asset behaviours emerged. The taxonomy is believed to be finite — 60 transactions produced nine types, not more. This makes asset classification a tractable, bounded problem for agentic interfaces.
+The submission schema is the external interface contract. It is what every connector must produce and what FORAY validates on receipt. It is sovereign — it does not know about SAP, Oracle, or any other source system. Everything upstream conforms to it. FORAY never conforms to anything upstream.
+
+### 4.1 Submission Envelope
+
+```json
+{
+  "foray_submission": {
+    "schema_version": "1.0",
+    "transaction_id": "<SHA-256 hash>",
+    "parent_reference": {
+      "type": null,
+      "id": null
+    },
+    "submission_type": "",
+    "submission_timestamp": "",
+    "persistence": [],
+    "boundaries": {
+      "evaluation_reference": null,
+      "decision_timestamp": null,
+      "override_flag": null
+    },
+    "arrangement": {},
+    "accruals": [],
+    "anticipations": [],
+    "actions": []
+  }
+}
+```
+
+| Field | Type | Values | Description |
+|-------|------|--------|-------------|
+| schema_version | string | "1.0" | Determines hash algorithm and validation rules. Version 1.0 implies SHA-256. |
+| transaction_id | string | SHA-256 hash | Hash of agent-generated composite pre-image. Opaque to all external observers including FORAY. Globally unique by construction. Never transmitted in plaintext. |
+| parent_reference.type | enum / null | null, "transaction", "accrual" | Null if originating. Identifies what parent_reference.id points to. |
+| parent_reference.id | string / null | SHA-256 hash | Hashed ID of parent Transaction or Accrual. Null if originating. |
+| submission_type | enum | "new", "amendment", "component" | New — first submission for this transaction_id. Amendment — append-only correction, original record always preserved. Component — adds to an existing transaction. |
+| submission_timestamp | string | ISO 8601 UTC | When the submission agent created this submission. |
+| persistence | array | — | See Section 4.2. Zero or more persistence layer declarations. The initiator declares, pays, and bears responsibility. FORAY executes and records. |
+| boundaries | object | — | Reserved. All fields null until BOUNDARIES protocol is implemented. |
+
+### 4.2 Persistence Layer Declaration
+
+FORAY is persistence-layer agnostic. The submitting party declares which persistence layer or layers to use. FORAY executes the anchoring according to the declaration. The cost is borne by the initiator. The choice and its consequences belong entirely to the author of the declaration.
+
+An empty persistence array is a valid submission — FORAY records the transaction without anchoring it. The absence of anchoring is itself recorded and visible to the weighting model and to auditors.
+
+```json
+"persistence": [
+  {
+    "layer": "",
+    "layer_version": null,
+    "layer_parameters": {}
+  }
+]
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| layer | string | Identifier of the persistence layer. e.g. "kaspa-mainnet", "kaspa-testnet", "ethereum-mainnet", "hyperledger-fabric", "iso-timestamp-log" |
+| layer_version | string / null | Version or network identifier at time of submission. |
+| layer_parameters | object | Open key-value structure. Carries whatever the chosen persistence layer requires. |
+
+**Required persistence layer properties for FORAY compatibility:**
+
+| Property | Requirement |
+|----------|-------------|
+| Tamper-evident | Any alteration to an anchored record must be detectable |
+| Independently verifiable | Verification must not depend on FORAY or the submitting party |
+| Append-only | Records can be added but not deleted or modified |
+| Timestamped | Each anchor carries an independently verifiable timestamp |
+| Durable | The persistence layer must outlive any single operator |
+| Accessible | Verification must be possible without privileged access |
+
+> The persistence layer is an offered capability, not a decided architecture. Multiple layers may be declared simultaneously. A party that anchors to a credible, independently verifiable layer carries more weight in the execution fidelity model than one that anchors to an unverified private log.
+
+### 4.3 Transaction ID Generation
+
+The transaction_id is generated by the submission agent before submission. It is a SHA-256 hash of a composite pre-image:
+
+```
+transaction_id = SHA-256( namespace + timestamp + entropy )
+```
+
+| Component | Description |
+|-----------|-------------|
+| namespace | A registered identifier for the submitting organisation. Never transmitted. Known only to the submitting agent and the KMI. |
+| timestamp | ISO 8601 to microsecond precision. Eliminates collisions across time within the same namespace. |
+| entropy | Cryptographically random component. Eliminates collisions within the same namespace at the same microsecond. |
+
+The pre-image is retained by the Key Management Interface. The submission agent never stores it directly. The hash is the only form transmitted to FORAY or anchored to the persistence layer.
+
+The submitting party can prove ownership of any transaction by demonstrating they can reproduce the hash from the pre-image. That proof is available on demand — for audit, dispute resolution, or regulatory disclosure — but is never visible by default.
+
+### 4.4 Amendment Protocol
+
+Amendments are append-only. The original record is immutable. Every amendment is a new anchored record that references the original transaction_id. The full history — original plus all amendments — is always visible. Deletion is structurally impossible.
+
+```json
+{
+  "submission_type": "amendment",
+  "transaction_id": "<hash of this amendment>",
+  "parent_reference": {
+    "type": "transaction",
+    "id": "<hash of original transaction>"
+  }
+}
+```
+
+An amendment may add or clarify. It may never delete. Any attempt to submit an amendment that removes a previously anchored field is rejected.
+
+---
+
+## 5. Asset Behaviour Taxonomy
+
+Across the investigative transaction set, nine distinct asset behaviours emerged. The taxonomy is believed to be finite — extensive investigation across maximally diverse transaction types produced nine behavioural types, not more. Additional investigation continues to validate existing types rather than producing new ones. This makes asset classification a tractable, bounded problem for agentic interfaces.
 
 The submission agent does not ask what an asset is — it asks how the asset behaves.
 
@@ -178,7 +305,7 @@ The submission agent does not ask what an asset is — it asks how the asset beh
 | 8 | Right | A claim on future access, delivery, or participation. Has value before exercise. Exercise may be discretionary, conditional, or time-bound. The right and its exercise are separate transactions linked by lineage. |
 | 9 | Perceived Value | No intrinsic measurable value independent of what parties believe it to be worth. Its valuation is the oracle. The transaction is real. The value is agreed, not derived. |
 
-### 4.1 Asset Behaviour to Pattern Mapping
+### 5.1 Asset Behaviour to Pattern Mapping
 
 **Type 1 — Complete Transfer**
 - Accrual: Payment obligation, fixed or valuation-based, against the transferred asset's agreed value.
@@ -227,7 +354,7 @@ The submission agent does not ask what an asset is — it asks how the asset beh
 
 ---
 
-## 5. Minimum Valid Transaction Configurations
+## 6. Minimum Valid Transaction Configurations
 
 | Configuration | Definition and Examples |
 |---------------|------------------------|
@@ -236,7 +363,7 @@ The submission agent does not ask what an asset is — it asks how the asset beh
 | Action + Anticipation | An asset transfer that was projected before it occurred but carried no building obligation. **Examples:** scheduled delivery, milestone payment, licence renewal. |
 | Full 4A | All four components present. Reserved for complex, high-value, or long-duration transactions where the full audit chain has governance value. **Examples:** loans, derivatives, acquisitions, long-term supply agreements. |
 
-### 5.1 Configuration Selection Criteria
+### 6.1 Configuration Selection Criteria
 
 The submission agent evaluates four questions in order:
 
@@ -251,7 +378,7 @@ The submission agent evaluates four questions in order:
 
 ---
 
-## 6. Multi-Behaviour Combination Rules
+## 7. Multi-Behaviour Combination Rules
 
 Three rules govern all combinations:
 - The primary behaviour always determines the base pattern.
@@ -269,7 +396,7 @@ Three rules govern all combinations:
 
 ---
 
-## 7. Execution Fidelity Weighting Model
+## 8. Execution Fidelity Weighting Model
 
 | Element | Description |
 |---------|-------------|
@@ -285,7 +412,7 @@ Three rules govern all combinations:
 
 ---
 
-## 8. Strategic Architecture Notes
+## 9. Strategic Architecture Notes
 
 | Note | Description |
 |------|-------------|
@@ -298,9 +425,9 @@ Three rules govern all combinations:
 
 ---
 
-## 9. First Transaction Validation Set (30 Transactions)
+## 10. Initial Transaction Validation Reference — Set One
 
-### 9.1 Merchant Banking (10 transactions)
+### 10.1 Merchant Banking
 
 | Transaction | Primary Behaviour | Notable Feature |
 |-------------|------------------|----------------|
@@ -315,7 +442,7 @@ Three rules govern all combinations:
 | Commodity Futures | Right + Governing Reference | Margin Actions continuously reset Accrual basis. Dual resolution paths |
 | Distressed Debt Acquisition | Perceived Value + Right | Two simultaneous valuations of same asset. Open-ended recovery Actions |
 
-### 9.2 Autonomous Manufacturing (10 transactions)
+### 10.2 Autonomous Manufacturing
 
 | Transaction | Primary Behaviour | Notable Feature |
 |-------------|------------------|----------------|
@@ -330,7 +457,7 @@ Three rules govern all combinations:
 | Energy as Production Input | Consumption | Accrues against individual production runs, not as standalone transaction |
 | Packaging & Serialization | Transformation + Creation | Serialization assigns individual identity — informational transformation |
 
-### 9.3 Edge Cases & Unusual Transactions (10 transactions)
+### 10.3 Edge Cases & Unusual Transactions
 
 | Transaction | Primary Behaviour | Notable Feature |
 |-------------|------------------|----------------|
@@ -347,11 +474,11 @@ Three rules govern all combinations:
 
 ---
 
-## 10. Schema Additions from Second Validation Pass
+## 11. Schema Additions from Second Validation Pass
 
 Three issues surfaced during the second validation pass. All three were resolved within the optional schema layer. The mandatory core required no modification.
 
-### 10.1 Non-Financial Service Obligations
+### 11.1 Non-Financial Service Obligations
 
 **Issue:** The infrastructure concession agreement introduced a service obligation — a non-financial Accrual building against operational performance rather than monetary value.
 
@@ -359,13 +486,13 @@ Three issues surfaced during the second validation pass. All three were resolved
 
 > Rule: If it cannot be measured as a financial obligation, it is not an Accrual.
 
-### 10.2 Indeterminate Open Recipient
+### 11.2 Indeterminate Open Recipient
 
 **Issue:** The open source bounty introduced a transaction where the receiving party is genuinely unknown at Arrangement creation.
 
 **Resolution:** A placeholder party type — Open Recipient — added to the optional schema layer. The Arrangement carries the placeholder. The resolving Action carries the actual party identifier.
 
-### 10.3 Directing Authority Party Role
+### 11.3 Directing Authority Party Role
 
 **Issue:** The divorce asset settlement introduced a court authority — a governing party that determines transaction terms without participating in any asset flow.
 
@@ -373,9 +500,9 @@ Three issues surfaced during the second validation pass. All three were resolved
 
 ---
 
-## 11. Second Transaction Validation Set (30 Transactions)
+## 12. Initial Transaction Validation Reference — Set Two
 
-### 11.1 Insurance and Risk (4 transactions)
+### 12.1 Insurance and Risk
 
 | Transaction | Primary Behaviour | Notable Feature |
 |-------------|------------------|----------------|
@@ -384,7 +511,7 @@ Three issues surfaced during the second validation pass. All three were resolved
 | Parametric Insurance Trigger | Creation + Contingent | Index is oracle. Benefit automatic on threshold crossing — no loss assessment required. |
 | Captive Insurance Arrangement | Complete Transfer | Captive is a structural party. Excess reserve dividend returns capital to parent. |
 
-### 11.2 Real Estate and Infrastructure (4 transactions)
+### 12.2 Real Estate and Infrastructure
 
 | Transaction | Primary Behaviour | Notable Feature |
 |-------------|------------------|----------------|
@@ -393,7 +520,7 @@ Three issues surfaced during the second validation pass. All three were resolved
 | REIT Distribution | Governing Reference | Property portfolio governs all Accruals. Unit holders are collective party. |
 | Infrastructure Concession | Right + State Change | Non-financial service obligation resolved — Accruals confined to measurable financial consequences. |
 
-### 11.3 Healthcare and Life Sciences (4 transactions)
+### 12.3 Healthcare and Life Sciences
 
 | Transaction | Primary Behaviour | Notable Feature |
 |-------------|------------------|----------------|
@@ -402,7 +529,7 @@ Three issues surfaced during the second validation pass. All three were resolved
 | Medical Device Lease / Usage Billing | Right + Consumption | Dual concurrent Accruals with sequence dependency — usage charges layer on base lease. |
 | Organ Procurement Chain | Transformation + External Destruction | Time-critical viability window in Anticipation. Failure is Type 7 destruction — time-triggered. |
 
-### 11.4 Technology and Intangibles (4 transactions)
+### 12.4 Technology and Intangibles
 
 | Transaction | Primary Behaviour | Notable Feature |
 |-------------|------------------|----------------|
@@ -411,7 +538,7 @@ Three issues surfaced during the second validation pass. All three were resolved
 | Domain Name Acquisition | Right | Lapse is Type 7 destruction triggered by non-payment. Cause observable in record. |
 | Open Source Bounty | Contingent + Right | Open Recipient placeholder party type introduced. |
 
-### 11.5 Government and Public Sector (4 transactions)
+### 12.5 Government and Public Sector
 
 | Transaction | Primary Behaviour | Notable Feature |
 |-------------|------------------|----------------|
@@ -420,7 +547,7 @@ Three issues surfaced during the second validation pass. All three were resolved
 | Emissions Trading Scheme | Right + Governing Reference | Trading child transactions are carbon credit transactions already mapped. |
 | Sovereign Debt Issuance | Complete Transfer | Structurally identical to syndicated loan. Sovereign taxing power is implicit governing reference. |
 
-### 11.6 Supply Chain and Trade (4 transactions)
+### 12.6 Supply Chain and Trade
 
 | Transaction | Primary Behaviour | Notable Feature |
 |-------------|------------------|----------------|
@@ -429,7 +556,7 @@ Three issues surfaced during the second validation pass. All three were resolved
 | Vendor Managed Inventory | Conditional Transfer | Ownership transfers at consumption, not delivery. |
 | Trade Finance Receivables Purchase | Right + Perceived Value | Discount is Type 9 perceived value gap — difference between face and market price is itself data. |
 
-### 11.7 Alternative and Emerging (6 transactions)
+### 12.7 Alternative and Emerging
 
 | Transaction | Primary Behaviour | Notable Feature |
 |-------------|------------------|----------------|
@@ -442,7 +569,7 @@ Three issues surfaced during the second validation pass. All three were resolved
 
 ---
 
-## 12. Cumulative Schema Additions
+## 13. Cumulative Schema Additions
 
 All additions are to the optional schema layer. None affect the mandatory core.
 
@@ -456,7 +583,7 @@ All additions are to the optional schema layer. None affect the mandatory core.
 
 ---
 
-> 60 transactions mapped across 12 industries. The mandatory core required no modification in any case. All issues were resolved within the optional schema layer. The grammar is universal.
+> An extensive investigative set of maximally diverse transactions mapped across merchant banking, manufacturing, insurance, real estate, healthcare, technology, government, supply chain, and emerging digital categories. The mandatory core required no modification in any case. All issues were resolved within the optional schema layer. The grammar is universal. Every business transaction since the beginning of business history maps to it.
 
 ---
 
