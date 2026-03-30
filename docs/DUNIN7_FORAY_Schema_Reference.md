@@ -18,17 +18,23 @@ DUNIN7 publishes the protocol, maintains the specification, and certifies connec
 
 Every architectural decision is tested against one question: **does this survive turmoil and technology?** If yes, proceed. If no, reject.
 
+**Deployment model and licensing:**
+
+The FORAY protocol is deployment-model neutral. Compliant implementations may be self-hosted, embedded in connectors, or offered as commercial services. The protocol does not mandate or prohibit any deployment model. What anyone builds on top of the specification — including commercial services — is outside the protocol's scope.
+
+The license is not neutral. Commercial implementations of the FORAY protocol — including hosted services offered to third parties — require a commercial license from DUNIN7. Non-commercial and internal non-production use is permitted under the terms of the Business Source License 1.1. The protocol is deployment-model neutral. The license is not.
+
 ---
 
 ## Purpose
 
-This document captures the schema architecture, asset behaviour taxonomy, transaction pattern map, and configuration selection criteria derived from extensive mapping of maximally diverse transaction types against the FORAY mandatory core. It serves as the foundation for agentic interface design and ongoing transaction type validation. The transaction set documented here represents an initial investigative reference — a deliberately stress-tested sample spanning industries, instruments, asset types, and edge cases specifically chosen to break the schema if it could be broken. It is not an exhaustive catalogue. Every business transaction in history is a candidate for addition.
+This document captures the schema architecture, asset behaviour taxonomy, transaction pattern map, and configuration selection criteria derived from extensive mapping of maximally diverse transaction types against the FORAY core schema. It serves as the foundation for agentic interface design and ongoing transaction type validation. The transaction set documented here represents an initial investigative reference — a deliberately stress-tested sample spanning industries, instruments, asset types, and edge cases specifically chosen to break the schema if it could be broken. It is not an exhaustive catalogue. Every business transaction in history is a candidate for addition.
 
 ---
 
 ## 1. Foundational Principles
 
-The FORAY mandatory core was stress-tested against a maximally diverse investigative set of transactions spanning merchant banking, autonomous manufacturing, insurance, real estate, healthcare, technology, government, supply chain, and highly unusual transaction categories including barter, catastrophe bonds, carbon credits, and water rights. Transactions were selected specifically to challenge the schema — instruments that break conventional ledgers, edge cases that resist clean decomposition, and structurally obscure arrangements that have historically required special accounting treatment. The mandatory core required zero modifications across the entire investigative set.
+The FORAY core schema was stress-tested against a maximally diverse investigative set of transactions spanning merchant banking, autonomous manufacturing, insurance, real estate, healthcare, technology, government, supply chain, and highly unusual transaction categories including barter, catastrophe bonds, carbon credits, and water rights. Transactions were selected specifically to challenge the schema — instruments that break conventional ledgers, edge cases that resist clean decomposition, and structurally obscure arrangements that have historically required special accounting treatment. The core schema required zero modifications across the entire investigative set.
 
 Five principles emerged as inviolable:
 
@@ -44,18 +50,18 @@ Five principles emerged as inviolable:
 
 ---
 
-## 2. Mandatory Core Schema
+## 2. Core Schema
 
-The mandatory core consists of four components — Arrangements, Accruals, Anticipations, and Actions (4A). Attestations are available as a FORAY capability but are not part of the mandatory core. A transaction is complete without them.
+The core schema consists of four components — Arrangements, Accruals, Anticipations, and Actions (4A). Attestations are available as a FORAY capability but are not part of the core schema. A transaction is complete without them.
 
-Not all four components are required for every transaction. The Action is the only universally mandatory component. See Section 5 for configuration selection criteria.
+No component is mandatory. The Transaction ID is the invariant — the anchor that all component submissions reference. The 4A components populate the record as the transaction unfolds. A submission may contain any combination of the four components, or none beyond the Transaction ID itself. See Section 6 for configuration patterns.
 
 ### 2.1 Arrangements
 
 | Field | Description |
 |-------|-------------|
 | Transaction ID | Unique identifier. Tamper-evident anchor for the transaction. |
-| Parent Reference Type | Null if originating. Otherwise: Transaction (standard child) or Accrual (this Arrangement was spawned by an Accrual obligation from a prior transaction). |
+| Parent Reference Type | Null if originating. Otherwise: Transaction (standard child), Accrual (this Arrangement was spawned by an Accrual obligation from a prior transaction), or Action (this Arrangement was spawned by an Action in a prior transaction). |
 | Parent Reference ID | Null if originating. The Transaction ID or Accrual ID that originated this Arrangement. Combined with Parent Reference Type, makes the transaction graph fully traversable. |
 | Transaction Type | Controlled vocabulary. Defines the nature of the transaction. AI-assisted classification at submission. |
 | Party Identifiers | Cryptographically obfuscated. Minimum two parties. Collective entities (syndicates, SPVs) are valid party types. |
@@ -71,7 +77,7 @@ Not all four components are required for every transaction. The Action is the on
 | Anticipations | From Party / To Party | The specific party pair for the expected transfer. Must include at least one Arrangement party. |
 | Actions | From Party / To Party | The specific party pair for the actual transfer. Must include at least one Arrangement party. |
 
-> The true economic impact of a transaction is often far wider than the parties who signed it. Accruals capture that footprint completely. An Accrual may introduce parties entirely unrelated to the core transaction — and may itself spawn a new Arrangement, extending the transaction graph to arbitrary depth.
+> The true economic impact of a transaction is often far wider than the parties who signed it. Accruals capture that footprint completely. An Accrual may introduce parties entirely unrelated to the core transaction — and may itself spawn a new Arrangement, extending the transaction graph to arbitrary depth. An Action may equally spawn a new Arrangement — a delivery Action initiating a warranty Arrangement, a payment Action opening a renewal, a state-change Action triggering the next production cycle. Both Accruals and Actions can extend the graph from any point in a transaction's lifecycle.
 
 ### 2.2 Accruals
 
@@ -126,18 +132,33 @@ Not all four components are required for every transaction. The Action is the on
 
 ## 3. Optional Schema Layer
 
-The optional layer carries domain vocabulary, formula detail, asset properties, and party classification. It enriches the mandatory core without modifying it. Everything sensitive receives the same cryptographic treatment as the mandatory core.
+The optional layer carries domain vocabulary, formula detail, asset properties, and party classification. It enriches the core schema without modifying it. Everything sensitive receives the same cryptographic treatment as the core schema fields.
 
-The exceptional variety of optional data across transaction types is itself the proof that none of it belongs in the mandatory core.
+The exceptional variety of optional data across transaction types is itself the proof that none of it belongs in the core schema.
 
 ### 3.1 Attestations (Optional)
 
+Attestations are the event layer of the FORAY protocol. They are not business transactions. They are claims — made by an identified, credentialed party, at a defined point in time, anchored tamper-evidently alongside the transaction they reference.
+
+**FORAY records what was claimed. It does not verify whether the claim was true.**
+
+An Attestation establishes: who claimed what, under what credentials, at what time. The tamper-evident anchor makes the claim permanently attributable. Whether the claim was honest, accurate, or complete is outside the boundary of the protocol. A false Attestation is permanently attributable to its author. FORAY does not prevent false claims. It makes them impossible to deny.
+
+This is the layer where AI agent observability connects to business transaction accountability. An AI agent's decision cycle — authorisation check, reasoning, projection, execution — is a sequence of events, not a business transaction. Each event is a claim made by the agent about what it did and why. Each claim is an Attestation referencing the Transaction ID it ultimately produced or failed to produce. The full chain — from agent authorisation to transaction execution — is auditable as a sequence of attributed claims anchored to a common transaction record.
+
+Current AI agent audit trail tools (Galileo, Elydora, Kiteworks and others) record agent events with cryptographic signing. They solve the logging problem. Without a transaction anchor, those logs have no context — they record what the agent did but cannot answer whether what it did was consistent with what it was authorised to do, what it projected, or what the business transaction required. FORAY provides that anchor. The Attestation gives the agent's event trail its meaning.
+
 | Field | Description |
 |-------|-------------|
-| Attestation ID | References Transaction ID. |
-| Attesting Party | Cryptographically obfuscated. The identified, credentialed external party making the claim. |
-| Claim | What is being attested — provenance, valuation, delivery confirmation, identity assertion. |
-| Date/Time | When the attestation was made. |
+| Attestation ID | Unique identifier. References parent Transaction ID. |
+| Attesting Party | Cryptographically obfuscated. The identified, credentialed party making the claim. The credentialed identity is what makes the claim attributable. |
+| Claim Type | Controlled vocabulary. Provenance, valuation, delivery confirmation, identity assertion, agent authorisation, agent reasoning record, agent execution record, compliance confirmation, review outcome. |
+| Claim | What is being claimed — stated precisely as the claimant's assertion, not as verified fact. |
+| Credential Reference | The credential under which the claim is made. What authorises this party to make this claim. |
+| Date/Time | When the claim was made. The timestamp is the anchor point. |
+| Referenced Component | Optional. References a specific Accrual ID, Anticipation ID, or Action ID within the transaction if the Attestation applies to a specific component rather than the transaction as a whole. |
+
+> An Attestation is a tamper-evidently anchored claim. FORAY records who claimed what and when. It does not establish truth. A false Attestation is permanently attributable to its author — that is the protocol's entire contribution to the problem of honesty.
 
 ### 3.2 Asset Detail (Optional)
 
@@ -153,7 +174,7 @@ The exceptional variety of optional data across transaction types is itself the 
 |-------|-------------|
 | Formula ID | References Accrual ID. |
 | Formula Expression | Source system supplied. The actual calculation logic. |
-| Formula Variables | Mapped to Accrual Properties in the mandatory core. |
+| Formula Variables | Mapped to Accrual Properties in the core schema. |
 
 ### 3.4 Party Detail (Optional)
 
@@ -208,7 +229,7 @@ The submission schema is the external interface contract. It is what every conne
 |-------|------|--------|-------------|
 | schema_version | string | "1.0" | Determines hash algorithm and validation rules. Version 1.0 implies SHA-256. |
 | transaction_id | string | SHA-256 hash | Hash of agent-generated composite pre-image. Opaque to all external observers including FORAY. Globally unique by construction. Never transmitted in plaintext. |
-| parent_reference.type | enum / null | null, "transaction", "accrual" | Null if originating. Identifies what parent_reference.id points to. |
+| parent_reference.type | enum / null | null, "transaction", "accrual", "action" | Null if originating. Identifies what parent_reference.id points to. |
 | parent_reference.id | string / null | SHA-256 hash | Hashed ID of parent Transaction or Accrual. Null if originating. |
 | submission_type | enum | "new", "amendment", "component" | New — first submission for this transaction_id. Amendment — append-only correction, original record always preserved. Component — adds to an existing transaction. |
 | submission_timestamp | string | ISO 8601 UTC | When the submission agent created this submission. |
@@ -260,11 +281,11 @@ transaction_id = SHA-256( namespace + timestamp + entropy )
 
 | Component | Description |
 |-----------|-------------|
-| namespace | A registered identifier for the submitting organisation. Never transmitted. Known only to the submitting agent and the KMI. |
+| namespace | A registered identifier for the submitting organisation. Never transmitted. Known only to the submitting agent. |
 | timestamp | ISO 8601 to microsecond precision. Eliminates collisions across time within the same namespace. |
 | entropy | Cryptographically random component. Eliminates collisions within the same namespace at the same microsecond. |
 
-The pre-image is retained by the Key Management Interface. The submission agent never stores it directly. The hash is the only form transmitted to FORAY or anchored to the persistence layer.
+The pre-image is retained by the submitting agent's key management implementation. The submission agent never stores it in plaintext. The hash is the only form transmitted to FORAY or anchored to the persistence layer.
 
 The submitting party can prove ownership of any transaction by demonstrating they can reproduce the hash from the pre-image. That proof is available on demand — for audit, dispute resolution, or regulatory disclosure — but is never visible by default.
 
@@ -289,7 +310,7 @@ An amendment may add or clarify. It may never delete. Any attempt to submit an a
 
 ## 5. Asset Behaviour Taxonomy
 
-Across the investigative transaction set, nine distinct asset behaviours emerged. The taxonomy is believed to be finite — extensive investigation across maximally diverse transaction types produced nine behavioural types, not more. Additional investigation continues to validate existing types rather than producing new ones. This makes asset classification a tractable, bounded problem for agentic interfaces.
+Across the investigative transaction set, nine distinct asset behaviours emerged. Extensive investigation across maximally diverse transaction types produced nine behavioural types without producing a tenth. Additional types, if they exist, remain to be identified by the community.
 
 The submission agent does not ask what an asset is — it asks how the asset behaves.
 
@@ -354,14 +375,22 @@ The submission agent does not ask what an asset is — it asks how the asset beh
 
 ---
 
-## 6. Minimum Valid Transaction Configurations
+## 6. Transaction Record Configurations
 
-| Configuration | Definition and Examples |
-|---------------|------------------------|
-| Action Only | A completed asset transfer between known parties at a known value and time. No obligation built before it. No projection preceded it. **Examples:** point of sale, cash withdrawal, toll payment, barter exchange. |
-| Action + Accrual | An asset transfer that carried a cost or obligation before it occurred. No Anticipation needed because timing and amount were immediate or predetermined. **Examples:** payroll payment, utility bill settlement, retail sale with tax and discount chain. |
-| Action + Anticipation | An asset transfer that was projected before it occurred but carried no building obligation. **Examples:** scheduled delivery, milestone payment, licence renewal. |
-| Full 4A | All four components present. Reserved for complex, high-value, or long-duration transactions where the full audit chain has governance value. **Examples:** loans, derivatives, acquisitions, long-term supply agreements. |
+No component is mandatory. The Transaction ID is the invariant. The 4A components populate the record as the transaction unfolds. A submission may contain any combination of the four components, or none beyond the Transaction ID itself.
+
+The absence of a component is itself information. A record with no Actions is a transaction in progress. A record with no Anticipations is a transaction with no forward projection. A record with no Arrangement is a component submission against a transaction whose parties were established in a prior submission.
+
+Common patterns observed across the investigative set:
+
+| Pattern | When it occurs |
+|---------|---------------|
+| Transaction ID only | A transaction is declared but no components have yet been submitted |
+| Arrangement only | Parties agree to transact — obligations, projections, and executions follow in subsequent submissions |
+| Action only | A simple completed transfer with no preceding obligation or projection — point of sale, cash withdrawal, barter |
+| Action + Accrual | A transfer that carried a building obligation — payroll, tax settlement, retail sale with discount chain |
+| Action + Anticipation | A transfer that was projected but carried no building obligation — scheduled delivery, milestone payment |
+| Full 4A | All components present across one or more submissions — loan, derivative, acquisition, long-term supply agreement |
 
 ### 6.1 Configuration Selection Criteria
 
@@ -369,12 +398,12 @@ The submission agent evaluates four questions in order:
 
 | Question | Decision |
 |----------|----------|
-| Are there standing parties with a continuing relationship? | Yes → Arrangement required. No → No Arrangement. |
-| Did an obligation build before the asset moved? | Yes → Accrual required. Evaluate sequence dependencies. No → No Accrual. |
-| Was the asset movement projected before it occurred? | Yes → Anticipation required. No → No Anticipation. |
-| Did an asset move, a state change, or an obligation resolve? | Yes → Action required. Always. No → Not a transaction. Do not submit. |
+| Are there standing parties with a continuing relationship? | Yes → Arrangement warranted. No → No Arrangement. |
+| Did an obligation build before the asset moved? | Yes → Accrual warranted. Evaluate sequence dependencies. No → No Accrual. |
+| Was the asset movement projected before it occurred? | Yes → Anticipation warranted. No → No Anticipation. |
+| Did an asset move, a state change, or an obligation resolve? | Yes → Action warranted. No → Submission records the current state of the transaction without an execution event. |
 
-> The Action is the only mandatory component. The agent works backward from the Action and adds only what the evidence supports. An Action with no traceable Anticipation in a transaction type that always has one is structurally anomalous.
+> The configuration is determined entirely by the transaction's actual structure and the submitter's discipline — not by the protocol. An Action with no traceable Anticipation in a transaction type that structurally always has one is a structural anomaly visible in the population record.
 
 ---
 
@@ -476,7 +505,7 @@ Three rules govern all combinations:
 
 ## 11. Schema Additions from Second Validation Pass
 
-Three issues surfaced during the second validation pass. All three were resolved within the optional schema layer. The mandatory core required no modification.
+Three issues surfaced during the second validation pass. All three were resolved within the optional schema layer. The core schema required no modification.
 
 ### 11.1 Non-Financial Service Obligations
 
@@ -571,7 +600,7 @@ Three issues surfaced during the second validation pass. All three were resolved
 
 ## 13. Cumulative Schema Additions
 
-All additions are to the optional schema layer. None affect the mandatory core.
+All additions are to the optional schema layer. None affect the core schema.
 
 | Addition | Source Transaction |
 |----------|-------------------|
@@ -583,7 +612,7 @@ All additions are to the optional schema layer. None affect the mandatory core.
 
 ---
 
-> An extensive investigative set of maximally diverse transactions mapped across merchant banking, manufacturing, insurance, real estate, healthcare, technology, government, supply chain, and emerging digital categories. The mandatory core required no modification in any case. All issues were resolved within the optional schema layer. The grammar is universal. Every business transaction since the beginning of business history maps to it.
+> An extensive investigative set of maximally diverse transactions mapped across merchant banking, manufacturing, insurance, real estate, healthcare, technology, government, supply chain, and emerging digital categories. The core schema required no modification in any case. All issues were resolved within the optional schema layer. The grammar is universal. Every business transaction since the beginning of business history maps to it.
 
 ---
 
