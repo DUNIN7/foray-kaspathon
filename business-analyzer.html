@@ -18,9 +18,9 @@
     ============================================================================
     FORAY Business Use Case Analyzer
     ============================================================================
-    Version:       2.7.0
+    Version:       2.8.0
     Created:       2026-01-29T00:00:00Z
-    Modified:      2026-02-12T10:00:00Z
+    Modified:      2026-07-04T18:11:45Z
 
     Author:        Marvin Percival
     Email:         marvinp@dunin7.com
@@ -30,6 +30,23 @@
     Copyright (c) 2026 Marvin Percival. All rights reserved.
 
     Changelog:
+      v2.8.0 (2026-07-04T18:11:45Z)
+        - FIX: generateSampleTransaction() called /api/generate-foray with a
+          plain fetch + await response.json(). Longer business analyses
+          (more transaction categories, more detail) pushed generation past
+          Cloudflare's ~100s edge timeout, returning a 524 - confirmed in
+          production at 126s elapsed for a detailed Trade.AI-style
+          description.
+        - CHANGED: reads response.body as an SSE stream instead. Requires
+          foray-worker-v0_5.js or later on the backend - the previous
+          Worker (v0.4 and earlier) returns a plain JSON body, which this
+          version does not know how to parse. Deploy the Worker fix first.
+        - Loading indicator now shows live character-count progress instead
+          of a static message while waiting.
+        - Everything downstream of receiving the transaction (JSON display,
+          validation bar, narrative rendering) is UNCHANGED - it now fires
+          from the stream's "complete" event instead of the resolved fetch
+          promise, but the code paths themselves are identical to v2.7.0.
       v2.7.0 (2026-02-12)
         - Analysis-driven transaction generation: the AI analysis now feeds
           directly into transaction generation, producing transactions specific
@@ -800,19 +817,66 @@
                         analysisContext: analysisText
                     })
                 });
+
                 if (!response.ok) {
+                    // Non-2xx before the stream even opens (e.g. malformed request).
                     var errData = await response.json().catch(function() { return {}; });
                     throw new Error(errData.error || 'Generation failed: ' + response.status);
                 }
-                var data = await response.json();
-                currentFORAYJSON = data.forayJSON;
+                if (!response.body) {
+                    throw new Error('Streaming is not supported in this browser.');
+                }
 
-                document.getElementById('jsonContent').textContent = JSON.stringify(data.forayJSON, null, 2);
-                showValidation(data.validation);
-                showNarrative(data.narrative);
+                // ------------------------------------------------------------
+                // Read the SSE stream. Long generations (90-130s+) stay alive
+                // because the server sends a "progress" ping for every text
+                // chunk it receives from the model - that keeps bytes flowing
+                // so Cloudflare's edge never treats the connection as idle.
+                // We just wait for the single "complete" event and then handle
+                // it exactly as the old plain-JSON response was handled.
+                // ------------------------------------------------------------
+                var reader = response.body.getReader();
+                var decoder = new TextDecoder();
+                var buffer = '';
+                var settled = false;
 
-                outputEl.classList.add('active');
-                outputEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                while (!settled) {
+                    var chunk = await reader.read();
+                    if (chunk.done) break;
+                    buffer += decoder.decode(chunk.value, { stream: true });
+
+                    var sep;
+                    while ((sep = buffer.indexOf('\n\n')) !== -1) {
+                        var frame = buffer.slice(0, sep);
+                        buffer = buffer.slice(sep + 2);
+
+                        var dataLine = frame.split('\n').filter(function(l) { return l.indexOf('data:') === 0; })[0];
+                        if (!dataLine) continue;
+                        var payload = dataLine.slice(5).trim();
+                        if (!payload) continue;
+
+                        var evt;
+                        try { evt = JSON.parse(payload); } catch (e) { continue; }
+
+                        if (evt.type === 'progress') {
+                            showLoading('Generating Sample Transaction', 'Receiving response from Claude... (' + evt.charsReceived + ' characters so far)');
+                        } else if (evt.type === 'complete') {
+                            currentFORAYJSON = evt.forayJSON;
+                            document.getElementById('jsonContent').textContent = JSON.stringify(evt.forayJSON, null, 2);
+                            showValidation(evt.validation);
+                            showNarrative(evt.narrative);
+                            outputEl.classList.add('active');
+                            outputEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            settled = true;
+                        } else if (evt.type === 'error') {
+                            throw new Error(evt.message || evt.error || 'Transaction generation failed');
+                        }
+                    }
+                }
+
+                if (!settled) {
+                    throw new Error('Stream ended before a complete transaction was received.');
+                }
             } catch (error) {
                 console.error('Generation error:', error);
                 showError('Transaction generation failed: ' + error.message);
