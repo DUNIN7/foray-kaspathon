@@ -424,8 +424,30 @@
       </svg>
     );
 
+    // D1: real SHA-256 transaction hash (divergence fix). Strips merkle_root
+    // and blockchain_anchor first -- self-referential fields that can't be
+    // part of their own hash -- then hashes the rest with crypto.subtle.
+    // Replaces deterministicHash (a non-cryptographic function, despite its
+    // "sha256:" label) as the source of transactionData.merkle_root.
+    // Computed exactly once, inside migrateToV41 below, at load time; every
+    // other consumer (the Transaction Metadata display, Copy Details, the
+    // on-chain anchor payload) reads that same stored value and never
+    // recomputes it, so they cannot diverge again. See
+    // docs/design/demo-anchor-payload-investigation-v0_2.md.
+    async function computeRealTransactionHash(txData) {
+      const stripped = Object.assign({}, txData);
+      delete stripped.merkle_root;
+      delete stripped.blockchain_anchor;
+      const dataString = JSON.stringify(stripped);
+      const encoder = new TextEncoder();
+      const data = encoder.encode(dataString);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
     // V4.1 Migration Utility
-    function migrateToV41(transaction) {
+    async function migrateToV41(transaction) {
       // Deep clone to avoid mutating original
       const v41 = JSON.parse(JSON.stringify(transaction));
       
@@ -769,11 +791,10 @@
         if (att.attestor_hash !== undefined) att.attestor_hash = 'sha256:' + deterministicHash('attestor:' + v41.transaction_id + ':' + i);
         if (att.evidence_hash !== undefined) att.evidence_hash = 'sha256:' + deterministicHash('evidence:' + v41.transaction_id + ':' + i);
       });
-      // merkle_root LAST: hash of final transaction state
-      const txForMerkle = Object.assign({}, v41);
-      delete txForMerkle.merkle_root;
-      delete txForMerkle.blockchain_anchor;
-      v41.merkle_root = 'sha256:' + deterministicHash('merkle:' + JSON.stringify(txForMerkle));
+      // merkle_root LAST: real SHA-256 of final transaction state (D1 fix --
+      // was deterministicHash; see computeRealTransactionHash above).
+      // Stripping is now internal to that function.
+      v41.merkle_root = 'sha256:' + await computeRealTransactionHash(v41);
 
       return v41;
     }
@@ -5434,43 +5455,47 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
 
       // Check sessionStorage on mount for passed transactions from generator
       useEffect(() => {
-        // Check for transaction passed from generator page
-        const passedTransaction = sessionStorage.getItem('foray_transaction');
-        if (passedTransaction) {
-          try {
-            const parsed = JSON.parse(passedTransaction);
-            const origVersion = parsed.schema_version || parsed.foray_version || parsed._v || '3.0';
+        // migrateToV41 is async (D1: real SHA-256 hashing) -- useEffect's
+        // callback itself can't be async, so the body runs inside this IIFE.
+        (async () => {
+          // Check for transaction passed from generator page
+          const passedTransaction = sessionStorage.getItem('foray_transaction');
+          if (passedTransaction) {
+            try {
+              const parsed = JSON.parse(passedTransaction);
+              const origVersion = parsed.schema_version || parsed.foray_version || parsed._v || '3.0';
+              setOriginalVersion(origVersion);
+              const migrated = await migrateToV41(parsed);
+              const validation = validateV41Transaction(migrated);
+              setValidationResult(validation);
+              setTransactionData(migrated);
+              setJsonInput(JSON.stringify(migrated, null, 2));
+              // Clear sessionStorage after loading
+              sessionStorage.removeItem('foray_transaction');
+              console.log('Loaded transaction from generator page');
+            } catch (error) {
+              console.error('Failed to parse passed transaction:', error);
+              setParseError(`Failed to load passed transaction: ${error.message}`);
+            }
+          }
+
+          // Check for sample to load (from reference examples on demo page)
+          const sampleToLoad = sessionStorage.getItem('foray_load_sample');
+          if (sampleToLoad && sampleTransactions[sampleToLoad]) {
+            const sample = sampleTransactions[sampleToLoad];
+            setJsonInput(JSON.stringify(sample.data, null, 2));
+            setCurrentSampleKey(sampleToLoad);
+            // Auto-parse
+            const origVersion = sample.data.schema_version || '4.1';
             setOriginalVersion(origVersion);
-            const migrated = migrateToV41(parsed);
+            const migrated = await migrateToV41(sample.data);
             const validation = validateV41Transaction(migrated);
             setValidationResult(validation);
             setTransactionData(migrated);
-            setJsonInput(JSON.stringify(migrated, null, 2));
-            // Clear sessionStorage after loading
-            sessionStorage.removeItem('foray_transaction');
-            console.log('Loaded transaction from generator page');
-          } catch (error) {
-            console.error('Failed to parse passed transaction:', error);
-            setParseError(`Failed to load passed transaction: ${error.message}`);
+            sessionStorage.removeItem('foray_load_sample');
+            console.log('Loaded sample from demo page:', sampleToLoad);
           }
-        }
-        
-        // Check for sample to load (from reference examples on demo page)
-        const sampleToLoad = sessionStorage.getItem('foray_load_sample');
-        if (sampleToLoad && sampleTransactions[sampleToLoad]) {
-          const sample = sampleTransactions[sampleToLoad];
-          setJsonInput(JSON.stringify(sample.data, null, 2));
-          setCurrentSampleKey(sampleToLoad);
-          // Auto-parse
-          const origVersion = sample.data.schema_version || '4.1';
-          setOriginalVersion(origVersion);
-          const migrated = migrateToV41(sample.data);
-          const validation = validateV41Transaction(migrated);
-          setValidationResult(validation);
-          setTransactionData(migrated);
-          sessionStorage.removeItem('foray_load_sample');
-          console.log('Loaded sample from demo page:', sampleToLoad);
-        }
+        })();
       }, []);
 
       // Function to scroll to a component by ID
@@ -5614,16 +5639,12 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
         autoReconnectWallet();
       }, []);
 
-      // Compute a simple hash of the transaction data for anchoring
-      const computeTransactionHash = async (txData) => {
-        const dataString = JSON.stringify(txData);
-        const encoder = new TextEncoder();
-        const data = encoder.encode(dataString);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        return hashHex;
-      };
+      // D1: computeTransactionHash removed (was recomputed here at anchor
+      // time, real SHA-256 but over different input than the on-page display
+      // -- the divergence bug). The transaction hash now lives entirely in
+      // migrateToV41 -> computeRealTransactionHash, computed once at load
+      // time and read from transactionData.merkle_root everywhere it's
+      // needed, including here.
 
       // Handle blockchain anchoring - REAL KasWare integration
       const handleAnchorToBlockchain = async () => {
@@ -5640,17 +5661,48 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
             throw new Error('KasWare wallet not available.');
           }
 
-          // Compute the merkle root / hash of the transaction
-          const merkleRoot = await computeTransactionHash(transactionData);
+          // D1: the transaction hash is computed once, at load/migration time
+          // (migrateToV41 -> computeRealTransactionHash) and stored on
+          // transactionData.merkle_root -- read it here rather than
+          // recomputing it. Recomputing here (the original code) was the
+          // root cause of the display/Copy-Details divergence: this anchor
+          // flow fed off a real SHA-256 computed fresh at click time, while
+          // the on-page display was fed by a completely different,
+          // non-cryptographic function computed once at load time. One
+          // computation now, three consumers (display, Copy Details, this
+          // payload) -- they cannot diverge again.
+          const merkleRoot = transactionData.merkle_root.replace(/^sha256:/, '');
           const startTime = Date.now();
+
+          // D1 payload encoding, settled: two live TN10 tests (plain 64-char
+          // hex, and "0x"-prefixed hex) both showed KasWare's options.payload
+          // UTF-8-encodes the given string verbatim -- no hex-decode path
+          // exists for sendKaspa specifically. Raw 32-byte payloads are not
+          // reachable through this API (most bytes of an arbitrary SHA-256
+          // hash fall outside the single-byte UTF-8 range and can't survive
+          // being represented as a JS string). Accepted format: the bare hex
+          // string, landing on-chain as 64 ASCII-hex bytes, UTF-8-decodable
+          // back to the same hash shown on this page. See
+          // docs/design/demo-anchor-payload-investigation-v0_2.md.
+          //
+          // Guard against a silent no-payload fallback: an older KasWare
+          // whose sendKaspa only declares 2 parameters would silently ignore
+          // a 3rd argument (JS doesn't throw on extra args) rather than
+          // erroring -- which would recreate F5 (a transaction that looks
+          // anchored but carries nothing). Fail loudly instead of sending a
+          // hash-less transaction.
+          if (window.kasware.sendKaspa.length < 3) {
+            throw new Error(`This KasWare wallet does not support transaction payloads (sendKaspa accepts only ${window.kasware.sendKaspa.length} argument(s)). Update the KasWare extension to anchor with the FORAY hash.`);
+          }
 
           // Send a transaction to ourselves that satisfies KIP-9 storage mass requirements
           // KIP-9 penalizes small UTXOs to prevent state bloat - we need ~0.2 KAS minimum
           // The transaction itself serves as the anchor - the tx ID is the proof
           // Note: In production, FORAY uses chunked multi-transaction anchoring for full data
           const txResponse = await window.kasware.sendKaspa(
-            walletAddress,  // Send to self
-            20000000        // 0.2 KAS in sompi (satisfies KIP-9 storage mass)
+            walletAddress,          // Send to self
+            20000000,               // 0.2 KAS in sompi (satisfies KIP-9 storage mass)
+            { payload: merkleRoot } // FORAY transaction hash, ASCII-hex text -- see comment above
           );
 
           const confirmationTime = Date.now() - startTime;
@@ -5758,7 +5810,7 @@ Explorer: ${anchorResult.kaspa.explorer_url}
 FORAY TRANSACTION
 Transaction ID: ${anchorResult.foray.transaction_id}
 Schema Version: ${anchorResult.foray.schema_version}
-Merkle Root: ${anchorResult.foray.merkle_root}
+Transaction Hash (SHA-256): ${anchorResult.foray.merkle_root}
 Entity: ${anchorResult.foray.entity}
 Total Value: ${anchorResult.foray.total_value} ${anchorResult.foray.currency}
 Components: ${anchorResult.foray.component_summary.arrangements} Arrangements, ${anchorResult.foray.component_summary.accruals} Accruals, ${anchorResult.foray.component_summary.anticipations} Anticipations, ${anchorResult.foray.component_summary.actions} Actions${anchorResult.foray.component_summary.attestations > 0 ? `, ${anchorResult.foray.component_summary.attestations} Attestations` : ''}
@@ -5774,13 +5826,13 @@ Anchored By: ${anchorResult.anchored_by}`;
         return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount || 0);
       };
 
-      const parseJSON = () => {
+      const parseJSON = async () => {
         try {
           setParseError(null);
           const parsed = JSON.parse(jsonInput);
           const origVersion = parsed.schema_version || parsed._v || '3.0';
           setOriginalVersion(origVersion);
-          const migrated = migrateToV41(parsed);
+          const migrated = await migrateToV41(parsed);
           const validation = validateV41Transaction(migrated);
           setValidationResult(validation);
           setTransactionData(migrated);
@@ -6194,12 +6246,12 @@ Anchored By: ${anchorResult.anchored_by}`;
                         </div>
                         <div>
                           <div className="mb-2">
-                            <p className="text-xs mb-1" style={{ color: forayColors.gray600 }}>Merkle Root</p>
+                            <p className="text-xs mb-1" style={{ color: forayColors.gray600 }}>Transaction Hash (SHA-256)</p>
                             <p className="font-mono text-sm" style={{ color: forayColors.textDark, wordBreak: 'break-all' }}>{transactionData.merkle_root}</p>
                           </div>
                           <div className="p-2.5 rounded" style={{ backgroundColor: `${forayColors.primaryTeal}08`, borderLeft: `4px solid ${forayColors.primaryTeal}` }}>
                             <p className="text-xs" style={{ color: forayColors.primaryTeal }}>
-                              <strong>Tamper-Evident Fingerprint (protocol design):</strong> FORAY computes a SHA-256 fingerprint of the entire transaction. In the real anchoring path, only this hash goes on-chain -- the actual data stays private within the enterprise. (This Testnet 10 demo transaction does not carry this hash -- see the Blockchain Anchor section below.)
+                              <strong>Tamper-Evident Fingerprint:</strong> FORAY computes a SHA-256 fingerprint of the entire transaction. Only this hash goes on-chain -- as ASCII-hex text, in this demo's Testnet 10 anchor -- the actual data stays private within the enterprise. See the Blockchain Anchor section below.
                             </p>
                           </div>
                         </div>
@@ -7019,7 +7071,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                           {/* Overview */}
                           <div className="p-4 rounded-lg" style={{ backgroundColor: `${forayColors.primaryTeal}10` }}>
                             <p className="text-sm" style={{ color: forayColors.secondaryNavy }}>
-                              <strong>How It Works (real anchoring path):</strong> FORAY transactions are anchored to the Kaspa blockchain to create a tamper-evident, timestamped proof of existence. The Kaspa transaction ID serves as cryptographic evidence that your FORAY transaction existed at a specific point in time. (This demo's Testnet 10 transaction does not carry the hash -- see Proof Linkage and Demo Mode below.)
+                              <strong>How It Works:</strong> FORAY transactions are anchored to the Kaspa blockchain to create a tamper-evident, timestamped proof of existence. The Kaspa transaction's payload carries the FORAY transaction's SHA-256 hash (as ASCII-hex text, in this Testnet 10 demo), so the transaction ID and payload together serve as cryptographic evidence that your FORAY transaction existed, unmodified, at a specific point in time.
                             </p>
                           </div>
                           
@@ -7042,7 +7094,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               <div className="flex gap-3">
                                 <span className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: forayColors.primaryTeal, color: 'white' }}>3</span>
                                 <div>
-                                  <strong>Proof Linkage (real anchoring path):</strong> The Kaspa transaction carries the FORAY hash in its payload, creating the chain <code className="px-1 rounded" style={{ backgroundColor: forayColors.bgLight }}>Kaspa TX &rarr; FORAY Hash &rarr; Original Transaction</code>. This demo transaction does not carry the hash, so this linkage does not apply to it.
+                                  <strong>Proof Linkage:</strong> The Kaspa transaction carries the FORAY hash in its payload -- as ASCII-hex text, in this Testnet 10 demo -- creating the chain <code className="px-1 rounded" style={{ backgroundColor: forayColors.bgLight }}>Kaspa TX &rarr; FORAY Hash &rarr; Original Transaction</code>. (The production anchoring path embeds the hash as raw bytes rather than text; same commitment, different wire encoding.)
                                 </div>
                               </div>
                             </div>
@@ -7086,10 +7138,10 @@ Anchored By: ${anchorResult.anchored_by}`;
                               <li>&bull; <strong>Real Kaspa TX:</strong> A real transaction is submitted to Kaspa Testnet 10</li>
                               <li>&bull; <strong>Explorer Verification:</strong> Click "View on Explorer" to see the actual blockchain record</li>
                               <li>&bull; <strong>Test Funds Required:</strong> Get free test KAS from the faucet (link in network dropdown)</li>
-                              <li>&bull; <strong>No FORAY Data in TX:</strong> This demo transaction carries no FORAY data at all&mdash;not even a hash&mdash;and is not presented as proof of anything about the FORAY transaction. It demonstrates the wallet signing and confirmation experience only</li>
+                              <li>&bull; <strong>Transaction Hash Embedded:</strong> This demo transaction carries the FORAY transaction's SHA-256 hash, embedded as ASCII-hex text in the Kaspa transaction's payload -- a real, independently verifiable anchor. It does not carry the full FORAY transaction data (parties, amounts, terms); only the hash is on-chain, matching FORAY's privacy design</li>
                             </ul>
                             <p className="text-xs mt-3" style={{ color: '#b45309' }}>
-                              <strong>Note (real anchoring path):</strong> In production, you would store the Kaspa TX ID alongside your FORAY transaction in your audit system, with the hash cryptographically linking them. This demo's transaction has no hash to link -- see above.
+                              <strong>Note:</strong> Store the Kaspa TX ID alongside your FORAY transaction in your audit system -- the hash (shown above, and verifiable on-chain) links them. The production anchoring path embeds the hash as raw bytes rather than text; this demo's ASCII-hex-text form is a real, independently verifiable anchor with the same commitment, different wire encoding.
                             </p>
                           </div>
                           
@@ -7392,7 +7444,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     </div>
                     
                     <p className="text-sm mb-4" style={{ color: forayColors.gray600 }}>
-                      You are about to send a demo transaction to <strong>{currentNetwork.name}</strong> using your connected wallet. This demonstrates the wallet signing and confirmation flow only -- it does <strong>not</strong> embed the FORAY hash on-chain. Real, payload-carrying anchors are shown in the mainnet proof section.
+                      You are about to anchor this FORAY transaction to <strong>{currentNetwork.name}</strong> using your connected wallet. The transaction's Transaction Hash (SHA-256) will be embedded in the Kaspa transaction's payload, as text -- a real, on-chain, independently verifiable anchor.
                     </p>
                     
                     {!currentNetwork.isTestnet && (
@@ -7444,7 +7496,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                 <div className="bg-white rounded-xl shadow-2xl p-8 text-center">
                   <div className="animate-spin w-12 h-12 border-4 rounded-full mx-auto mb-4" style={{ borderColor: `${forayColors.primaryTeal}30`, borderTopColor: forayColors.primaryTeal }}></div>
                   <h2 className="text-xl font-bold mb-2" style={{ color: forayColors.secondaryNavy }}>Anchoring to {currentNetwork.name}...</h2>
-                  <p className="text-sm" style={{ color: forayColors.gray600 }}>Sending demo transaction to {currentNetwork.name}...</p>
+                  <p className="text-sm" style={{ color: forayColors.gray600 }}>Embedding the transaction hash on-chain...</p>
                   <p className="text-xs mt-2" style={{ color: forayColors.gray600 }}>Expected confirmation: ~{Math.round(1000 / currentNetwork.bps)}ms</p>
                 </div>
               </div>
@@ -7460,7 +7512,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                         <CheckCircle className="w-5 h-5" style={{ color: forayColors.successGreen }} />
                       </div>
                       <div>
-                        <h2 className="text-base font-bold" style={{ color: forayColors.secondaryNavy }}>Demo Transaction Confirmed on {anchorResult.network}</h2>
+                        <h2 className="text-base font-bold" style={{ color: forayColors.secondaryNavy }}>Anchored to {anchorResult.network}</h2>
                         <p className="text-xs" style={{ color: forayColors.gray600 }}>{anchorResult.timestamp}</p>
                       </div>
                     </div>
@@ -7471,7 +7523,7 @@ Anchored By: ${anchorResult.anchored_by}`;
 
                   <div className="px-4 py-3 overflow-y-auto" style={{ maxHeight: '40vh' }}>
                     <p className="text-xs mb-2" style={{ color: forayColors.gray600 }}>
-                      This transaction does not carry the FORAY commitment -- it demonstrates the wallet signing and confirmation experience.
+                      This transaction's Transaction Hash (SHA-256) is on-chain, in the Kaspa transaction's payload as text. Verify it yourself: fetch <code className="px-1 rounded" style={{ backgroundColor: forayColors.bgLight }}>api-tn10.kaspa.org/transactions/{anchorResult.kaspa.transaction_id}</code>, hex-decode the <code className="px-1 rounded" style={{ backgroundColor: forayColors.bgLight }}>payload</code> field to text, and compare it to the Transaction Hash shown above.
                     </p>
                     <div className="space-y-1.5 text-sm">
                       <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>

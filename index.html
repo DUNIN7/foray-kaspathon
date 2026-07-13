@@ -3,7 +3,7 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       3.0.2
+Version:       3.1.0
 Created:       2026-01-27T20:00:00Z
 Modified:      2026-07-13T00:00:00Z
 
@@ -14,6 +14,29 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v3.1.0 (2026-07-13)
+    - foray-tx-review-v41.html: D1 -- the demo anchor is real. The
+      KasWare-signed Testnet 10 transaction now embeds the FORAY
+      transaction's SHA-256 hash in the Kaspa transaction's payload, as
+      ASCII-hex text (settled by two live tests; KasWare's sendKaspa
+      UTF-8-encodes the payload string verbatim, no hex-decode path --
+      see docs/design/demo-anchor-payload-investigation-v0_2.md).
+      Fixed a related bug found while verifying it: the on-page hash
+      display and the Copy Details export were computed by two
+      different, unrelated functions (one real SHA-256, one a
+      non-cryptographic function mislabeled "sha256:") and could never
+      match what was actually anchored. Now computed once, at load
+      time, and read by all three consumers (display, Copy Details,
+      anchor payload) -- they cannot diverge again. Relabeled "Merkle
+      Root" to "Transaction Hash (SHA-256)" throughout -- it is a flat
+      hash, not a Merkle tree; the old label overclaimed a structure
+      that was never built. F5's confirm modal, success modal,
+      tamper-evident-fingerprint note, and Notes-modal technical
+      description upgraded from "this demo does not anchor" to true,
+      independently-verifiable anchoring claims, naming Testnet 10
+      explicitly and never implying raw-byte payload or Merkle
+      structure.
+
   v3.0.2 (2026-07-13)
     - foray-tx-review-v41.html: truth pass on the demo anchor flow (F5)
       -- the KasWare-signed demo transaction was proven to carry no
