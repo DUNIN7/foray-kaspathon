@@ -1177,15 +1177,63 @@
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || `API request failed: ${response.statusText}`);
+                    // Non-2xx before the stream even opens (validation failure,
+                    // rate limit, etc.) - the Worker always returns plain JSON here.
+                    const contentType = response.headers.get('Content-Type') || '';
+                    if (contentType.includes('application/json')) {
+                        const errorData = await response.json().catch(() => ({}));
+                        const detail = [errorData.error, errorData.hint].filter(Boolean).join(' — ');
+                        throw new Error(detail || `API request failed: ${response.statusText}`);
+                    }
+                    throw new Error(`API request failed: ${response.statusText}`);
+                }
+                if (!response.body) {
+                    throw new Error('Streaming is not supported in this browser.');
                 }
 
-                const data = await response.json();
-                currentTransaction = data.forayJSON;
-                
-                showModal(transactionName);
-                
+                // Success is an SSE stream (text/event-stream): a "progress"
+                // event per text chunk keeps the connection alive during long
+                // generations, ending in one "complete" event carrying the
+                // full transaction.
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+                let settled = false;
+
+                while (!settled) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    buffer += decoder.decode(value, { stream: true });
+
+                    let sep;
+                    while ((sep = buffer.indexOf('\n\n')) !== -1) {
+                        const frame = buffer.slice(0, sep);
+                        buffer = buffer.slice(sep + 2);
+
+                        const dataLine = frame.split('\n').find(l => l.startsWith('data:'));
+                        if (!dataLine) continue;
+                        const payload = dataLine.slice(5).trim();
+                        if (!payload) continue;
+
+                        let evt;
+                        try { evt = JSON.parse(payload); } catch (e) { continue; }
+
+                        if (evt.type === 'progress') {
+                            updateGenerationProgress(evt.charsReceived);
+                        } else if (evt.type === 'complete') {
+                            currentTransaction = evt.forayJSON;
+                            showModal(transactionName);
+                            settled = true;
+                        } else if (evt.type === 'error') {
+                            throw new Error(evt.message || evt.error || 'Transaction generation failed');
+                        }
+                    }
+                }
+
+                if (!settled) {
+                    throw new Error('Stream ended before a complete transaction was received.');
+                }
+
             } catch (error) {
                 console.error('Error generating FORAY JSON:', error);
                 showErrorModal(error.message);
@@ -1200,7 +1248,8 @@
             modalBody.innerHTML = `
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; overflow: hidden;">
                     <div style="border: 4px solid #7DD3D6; border-top: 4px solid #0D7377; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 1rem;"></div>
-                    <p style="color: #1B365D; font-size: 1.125rem; font-weight: 600; margin-bottom: 0.75rem;">Generating FORAY Protocol JSON</p>
+                    <p style="color: #1B365D; font-size: 1.125rem; font-weight: 600; margin-bottom: 0.25rem;">Generating FORAY Protocol JSON</p>
+                    <p id="genProgress" style="color: #636E72; font-size: 0.8125rem; margin-bottom: 0.75rem;">Connecting to generation service&hellip;</p>
                     <div style="background: #F7F9FA; border-radius: 0.5rem; padding: 1rem 1.5rem; width: 100%; max-width: 480px;">
                         <p style="color: #636E72; font-size: 0.8125rem; margin-bottom: 0.5rem;">
                             <strong>AI</strong> is identifying the 4 components:
@@ -1224,6 +1273,11 @@
 
             modalActions.style.display = 'none';
             modal.classList.add('active');
+        }
+
+        function updateGenerationProgress(charsReceived) {
+            const el = document.getElementById('genProgress');
+            if (el) el.textContent = `Receiving response from Claude… (${charsReceived} characters so far)`;
         }
 
         function showModal(name) {
@@ -1259,10 +1313,9 @@
                 <div style="background: var(--bg-light); padding: 1rem; border-radius: 0.5rem; border-left: 3px solid var(--action-amber);">
                     <p style="color: var(--gray-600); font-size: 0.875rem; margin-bottom: 0.5rem;"><strong>Troubleshooting:</strong></p>
                     <ul style="margin-left: 1.5rem; color: var(--gray-600); font-size: 0.875rem; line-height: 1.6;">
-                        <li>Make sure the API server is running: <code>node foray-api-server.js</code></li>
-                        <li>Check that API_ENDPOINT points to the correct URL</li>
-                        <li>Verify your Anthropic API key is set in .env</li>
-                        <li>Check the browser console (F12) for more details</li>
+                        <li>The service may be busy or rate-limited — wait a moment and try again</li>
+                        <li>Try a shorter or more focused transaction description</li>
+                        <li>If this keeps happening, contact <a href="mailto:marvinp@dunin7.com">marvinp@dunin7.com</a></li>
                     </ul>
                 </div>
             `;
@@ -1470,9 +1523,9 @@
                 <div style="background: var(--bg-light); padding: 1rem; border-radius: 0.5rem; border-left: 3px solid #8B5CF6;">
                     <p style="color: var(--gray-600); font-size: 0.875rem; margin-bottom: 0.5rem;"><strong>Troubleshooting:</strong></p>
                     <ul style="margin-left: 1.5rem; color: var(--gray-600); font-size: 0.875rem; line-height: 1.6;">
-                        <li>Make sure the API server is running: <code>node foray-api-server.js</code></li>
-                        <li>Check that your API key is configured in .env</li>
+                        <li>The service may be busy or rate-limited — wait a moment and try again</li>
                         <li>Try a different transaction type description</li>
+                        <li>If this keeps happening, contact <a href="mailto:marvinp@dunin7.com">marvinp@dunin7.com</a></li>
                     </ul>
                 </div>
             `;
