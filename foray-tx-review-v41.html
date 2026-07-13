@@ -7019,7 +7019,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                           {/* Overview */}
                           <div className="p-4 rounded-lg" style={{ backgroundColor: `${forayColors.primaryTeal}10` }}>
                             <p className="text-sm" style={{ color: forayColors.secondaryNavy }}>
-                              <strong>How It Works:</strong> FORAY transactions are anchored to the Kaspa blockchain to create a tamper-evident, timestamped proof of existence. The Kaspa transaction ID serves as cryptographic evidence that your FORAY transaction existed at a specific point in time.
+                              <strong>How It Works (real anchoring path):</strong> FORAY transactions are anchored to the Kaspa blockchain to create a tamper-evident, timestamped proof of existence. The Kaspa transaction ID serves as cryptographic evidence that your FORAY transaction existed at a specific point in time. (This demo's Testnet 10 transaction does not carry the hash -- see Proof Linkage and Demo Mode below.)
                             </p>
                           </div>
                           
@@ -7042,7 +7042,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               <div className="flex gap-3">
                                 <span className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: forayColors.primaryTeal, color: 'white' }}>3</span>
                                 <div>
-                                  <strong>Proof Linkage:</strong> The Kaspa Transaction ID is linked to your FORAY transaction hash. This creates an unbreakable chain: <code className="px-1 rounded" style={{ backgroundColor: forayColors.bgLight }}>Kaspa TX ID &rarr; FORAY Hash &rarr; Original Transaction</code>
+                                  <strong>Proof Linkage (real anchoring path):</strong> The Kaspa transaction carries the FORAY hash in its payload, creating the chain <code className="px-1 rounded" style={{ backgroundColor: forayColors.bgLight }}>Kaspa TX &rarr; FORAY Hash &rarr; Original Transaction</code>. This demo transaction does not carry the hash, so this linkage does not apply to it.
                                 </div>
                               </div>
                             </div>
@@ -7089,7 +7089,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               <li>&bull; <strong>No FORAY Data in TX:</strong> This demo transaction carries no FORAY data at all&mdash;not even a hash&mdash;and is not presented as proof of anything about the FORAY transaction. It demonstrates the wallet signing and confirmation experience only</li>
                             </ul>
                             <p className="text-xs mt-3" style={{ color: '#b45309' }}>
-                              <strong>Note:</strong> In production, you would store the Kaspa TX ID alongside your FORAY transaction in your audit system. The hash links them cryptographically.
+                              <strong>Note (real anchoring path):</strong> In production, you would store the Kaspa TX ID alongside your FORAY transaction in your audit system, with the hash cryptographically linking them. This demo's transaction has no hash to link -- see above.
                             </p>
                           </div>
                           
