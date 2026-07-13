@@ -3,18 +3,22 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       2.7.19
+Version:       3.0.0
 Created:       2026-01-27T20:00:00Z
-Modified:      2026-02-08T10:55:00Z
+Modified:      2026-07-13T00:00:00Z
 
 Author:        Marvin Percival
 Email:         marvinp@dunin7.com
-GitHub:        github.com/DUNIN7/foray-kaspathon
 
 License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v3.0.0 (2026-07-13)
+    - Truth pass: mainnet anchors published, Kaspathon moved to history,
+      multi-substrate framing, GitHub links removed, BSL wording corrected,
+      spec refreshed to v4.1.2.
+
   v2.7.19 (2026-02-08)
     - Restructured Why Kaspa as kaspa-box inside section (matches Attestations pattern)
     - Width now inherits from parent .section like all other content
@@ -1036,13 +1040,12 @@ Changelog:
       <span class="nav-logo-text">
         <span class="nav-logo-foray">FORAY</span> <span class="nav-logo-protocol">Protocol</span>
       </span>
-      <span class="nav-badge">v4.1</span>
+      <span class="nav-badge">v4.1.2</span>
     </a>
     <div class="nav-links">
       <a href="demo.html" class="nav-link">Demo</a>
       <a href="docs.html" class="nav-link">Documentation</a>
       <a href="about.html" class="nav-link">About</a>
-      <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
     </div>
     <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
       <span></span>
@@ -1056,24 +1059,22 @@ Changelog:
     <a href="demo.html" class="nav-link" onclick="closeMobileMenu()">Demo</a>
     <a href="docs.html" class="nav-link" onclick="closeMobileMenu()">Documentation</a>
     <a href="about.html" class="nav-link" onclick="closeMobileMenu()">About</a>
-    <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank" onclick="closeMobileMenu()">GitHub</a>
   </div>
 
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-grid"></div>
     <div class="hero-content">
-      <div class="hero-kaspathon">
-        <span class="hero-kaspathon-dot"></span>
-        Built for Kaspathon 2026 - Real-Time Data Track
-      </div>
       <h1 class="hero-title">
         <span class="hero-title-gradient">Transparent Audits.</span><br>
         Protected Secrets.
       </h1>
       <p class="hero-subtitle">
-        FORAY Protocol creates tamper-evident blockchain audit trails for enterprise transactions
-        without exposing sensitive business data. Powered by Kaspa's sub-second block times.
+        FORAY Protocol creates tamper-evident audit trails for enterprise
+        transactions without exposing sensitive business data. The reference
+        implementation anchors to Kaspa mainnet — verified on-chain. The
+        architecture supports multiple persistence substrates: blockchains
+        and write-once data stores.
       </p>
     </div>
 
@@ -1335,6 +1336,41 @@ Changelog:
     </a>
   </section>
 
+  <!-- Mainnet Proof Section -->
+  <section class="section" id="mainnet-proof">
+    <span class="section-label">Live on Kaspa Mainnet</span>
+    <h2 class="section-title">Anchored. Verified. On Mainnet.</h2>
+    <p class="section-subtitle">
+      FORAY is not only a design. Two anchoring transactions are live on the
+      Kaspa mainnet, independently verifiable by anyone:
+    </p>
+    <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1.5rem;">
+      <p style="margin: 0;">
+        <strong>M2:</strong>
+        <code style="font-size: 0.85em; word-break: break-all;">dc4d9e29cc7d9494391c78a609ca311a333358da51f4f9000de6dc504f57ab85</code>,
+        blue score 482630910 &mdash; the first verified FORAY mainnet anchor.
+        <a href="https://kaspa.stream/transactions/dc4d9e29cc7d9494391c78a609ca311a333358da51f4f9000de6dc504f57ab85" target="_blank">View on explorer &rarr;</a>
+      </p>
+      <p style="margin: 0;">
+        <strong>M3:</strong>
+        <code style="font-size: 0.85em; word-break: break-all;">b7c1000321a2bef82cd0401e6e8c1990ea494b285f746c5127b0d993cdf5d245</code>
+        &mdash; spends M2's change, placing the custody chain itself on-chain.
+        <a href="https://kaspa.stream/transactions/b7c1000321a2bef82cd0401e6e8c1990ea494b285f746c5127b0d993cdf5d245" target="_blank">View on explorer &rarr;</a>
+      </p>
+    </div>
+    <p class="section-subtitle" style="margin-top: 1.5rem;">
+      Each anchor was verified from two independent sources: REST payload
+      match via api.kaspa.org and wRPC corroboration from a from-source
+      Kaspa client. No trust in this site is required &mdash; follow the
+      links and check.
+    </p>
+    <a href="#" class="back-to-top" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"/>
+      </svg>
+    </a>
+  </section>
+
   <!-- Zero Data Entry Section -->
   <section class="section" id="zero-data-entry">
     <span class="section-label">Implementation</span>
@@ -1362,16 +1398,17 @@ Changelog:
   <section class="section" id="kaspa">
     <div class="kaspa-box">
       <div class="kaspa-content">
-        <h2>Why Kaspa?</h2>
+        <h2>Why Kaspa First?</h2>
         <p>
-          FORAY leverages Kaspa's unique BlockDAG architecture to enable
-          real-time audit anchoring that was previously impractical.
+          FORAY's reference implementation anchors to Kaspa: its blockDAG
+          architecture makes real-time audit anchoring practical. Kaspa is
+          the first substrate, not the only one the architecture admits.
         </p>
       </div>
       <div class="kaspa-stats">
         <div class="kaspa-stat">
-          <div class="kaspa-stat-value">~1s</div>
-          <div class="kaspa-stat-label">Block Time</div>
+          <div class="kaspa-stat-value">~0.1s</div>
+          <div class="kaspa-stat-label">Avg Block Interval</div>
         </div>
         <div class="kaspa-stat">
           <div class="kaspa-stat-value">~$0.0001</div>
@@ -1382,8 +1419,8 @@ Changelog:
           <div class="kaspa-stat-label">Blocks/Second</div>
         </div>
         <div class="kaspa-stat">
-          <div class="kaspa-stat-value">10K+</div>
-          <div class="kaspa-stat-label">TPS Capacity</div>
+          <div class="kaspa-stat-value">High-Throughput</div>
+          <div class="kaspa-stat-label">BlockDAG</div>
         </div>
         <div class="kaspa-stat">
           <div class="kaspa-stat-value">PoW</div>
@@ -1407,7 +1444,7 @@ Changelog:
     <div class="cta-content">
       <h2 class="cta-title">Ready to See It in Action?</h2>
       <p class="cta-subtitle">
-        Try the interactive demo and anchor your first transaction to Kaspa Testnet.
+        Try the interactive demo and anchor your own test transaction to Kaspa Testnet.
       </p>
       <div style="text-align: center; margin-top: 2rem;">
         <a href="demo.html" class="btn btn-secondary">Try the Demo &rarr;</a>
@@ -1436,7 +1473,7 @@ Changelog:
 
       <div class="footer-links">
         <h4>Resources</h4>
-        <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a>
+        <p style="margin: 0; font-size: 0.9rem;">Source available for review under commercial license &mdash; contact <a href="mailto:marvinp@dunin7.com">marvinp@dunin7.com</a></p>
         <a href="specification.html">Specification</a>
         <a href="integration-guide.html">Integration</a>
       </div>

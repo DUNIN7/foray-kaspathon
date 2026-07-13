@@ -309,14 +309,13 @@
       <span class="nav-logo-text">
         <span class="nav-logo-foray">FORAY</span> <span class="nav-logo-protocol">Protocol</span>
       </span>
-      <span class="nav-badge">v4.1</span>
+      <span class="nav-badge">v4.1.2</span>
     </a>
     <div class="nav-links">
       <a href="demo.html" class="nav-link">Demo</a>
       <a href="docs.html" class="nav-link">Documentation</a>
       <a href="examples.html" class="nav-link">Examples</a>
       <a href="about.html" class="nav-link">About</a>
-      <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank">GitHub</a>
     </div>
     <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
       <span></span>
@@ -330,7 +329,6 @@
     <a href="docs.html" class="nav-link" onclick="closeMobileMenu()">Documentation</a>
     <a href="examples.html" class="nav-link" onclick="closeMobileMenu()">Examples</a>
     <a href="about.html" class="nav-link" onclick="closeMobileMenu()">About</a>
-    <a href="https://github.com/DUNIN7/foray-kaspathon" class="nav-link" target="_blank" onclick="closeMobileMenu()">GitHub</a>
   </div>
 
   <div class="docs-layout">
@@ -374,7 +372,7 @@
     </aside>
 
     <main class="docs-content">
-      <span class="version-label">v4.1 &mdash; DRAFT Under Review</span>
+      <span class="version-label">v4.1.2 &mdash; Current</span>
       <h1 id="top">FORAY Protocol Specification</h1>
       <p>
         This document defines the FORAY Protocol v4.1 transaction schema, component structures, 
@@ -389,7 +387,7 @@
           </svg>
           Source Document
         </div>
-        <p>This page is derived from <a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Protocol_v4_1_Specification.md" target="_blank">FORAY_Protocol_v4_1_Specification.md</a> in the GitHub repository.</p>
+        <p>This page is derived from the FORAY_Protocol_v4_1_2 spec document (<code>FORAY_Protocol_v4_1_Specification.md</code>).</p>
       </div>
 
       <h2 id="document-control">Document Control</h2>
@@ -398,9 +396,9 @@
           <tr><th>Property</th><th>Value</th></tr>
         </thead>
         <tbody>
-          <tr><td>Version</td><td><strong>4.1</strong></td></tr>
-          <tr><td>Status</td><td>DRAFT &mdash; Under Review</td></tr>
-          <tr><td>Previous Version</td><td>4.0</td></tr>
+          <tr><td>Version</td><td><strong>4.1.2</strong></td></tr>
+          <tr><td>Status</td><td>Current</td></tr>
+          <tr><td>Previous Version</td><td>4.1.1</td></tr>
           <tr><td>Created</td><td>January 25, 2026</td></tr>
           <tr><td>Author</td><td>Marvin Percival</td></tr>
           <tr><td>Classification</td><td>Technical Specification</td></tr>
@@ -417,7 +415,9 @@
           <tr><td>2.0</td><td>Jan 2026</td><td>Added privacy layers, ERP adapters</td><td>No</td></tr>
           <tr><td>3.0</td><td>Jan 2026</td><td>Compressed keys, tier-based storage, encrypted envelope</td><td>Yes</td></tr>
           <tr><td>4.0</td><td>Jan 2026</td><td>foray_core/audit_data separation, 3-layer architecture</td><td>Yes</td></tr>
-          <tr><td><strong>4.1</strong></td><td>Jan 2026</td><td><strong>Flexible entry points, many-to-many references</strong></td><td><strong>Yes</strong></td></tr>
+          <tr><td>4.1</td><td>Jan 2026</td><td>Flexible entry points, many-to-many references</td><td>Yes</td></tr>
+          <tr><td>4.1.1</td><td>Jan 31, 2026</td><td>Terminology update (tamper-evident), added version header</td><td>No</td></tr>
+          <tr><td><strong>4.1.2</strong></td><td>Jan 31, 2026</td><td><strong>Added Attestations Extension (optional Section 9), terminology updates</strong></td><td><strong>No</strong></td></tr>
         </tbody>
       </table>
 
@@ -815,15 +815,14 @@ Actions:        Zero or more Anticipations, Accruals, and/or Arrangements
       </table>
 
       <p>
-        For the complete attestation trust model, see the 
-        <a href="https://github.com/DUNIN7/foray-kaspathon/blob/main/FORAY_Attestation_Trust_Model.md" target="_blank">Attestation Trust Model</a> document.
+        For the complete attestation trust model, see the
+        <a href="guides/FORAY_Attestation_Trust_Model.md" target="_blank">Attestation Trust Model</a> document.
       </p>
 
       <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(125, 211, 214, 0.1); text-align: center; color: var(--gray-400); font-size: 0.9rem;">
         <p>&copy; 2026 Marvin Percival. All rights reserved.</p>
         <p style="margin-top: 0.5rem;">
-          <a href="about.html#license">License</a> &middot; 
-          <a href="https://github.com/DUNIN7/foray-kaspathon" target="_blank">GitHub</a>
+          <a href="about.html#license">License</a>
         </p>
       </div>
     </main>

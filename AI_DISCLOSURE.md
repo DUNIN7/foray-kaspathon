@@ -89,7 +89,7 @@ All AI-generated content was reviewed, edited, and approved by the author before
 ## Contact
 
 **Author:** Marvin Percival  
-**GitHub:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
+**Contact:** marvinp@dunin7.com
 
 ---
 

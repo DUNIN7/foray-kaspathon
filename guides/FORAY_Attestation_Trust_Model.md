@@ -4,8 +4,7 @@
 **Created:** 2026-01-31T21:00:00Z  
 **Modified:** 2026-02-01T00:15:00Z  
 **Author:** Marvin Percival  
-**Email:** marvinp@dunin7.com  
-**GitHub:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
+**Email:** marvinp@dunin7.com
 
 ---
 
@@ -301,4 +300,3 @@ This transparency strengthens rather than weakens FORAY's value proposition: hon
 
 - **Author:** Marvin Percival
 - **Email:** marvinp@dunin7.com
-- **GitHub:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)

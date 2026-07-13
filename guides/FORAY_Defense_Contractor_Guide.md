@@ -294,7 +294,6 @@ FORAY (derived from "4A" &mdash; the four components) is an open protocol design
 
 - **Author:** Marvin Percival
 - **Email:** marvinp@dunin7.com
-- **GitHub:** [github.com/DUNIN7/foray-kaspathon](https://github.com/DUNIN7/foray-kaspathon)
 
 ---
 

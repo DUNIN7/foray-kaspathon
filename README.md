@@ -329,7 +329,6 @@ See [LICENSE.md](LICENSE.md) for full terms.
 
 **Author:** Marvin Percival
 **Email:** marvinp@dunin7.com
-**GitHub:** github.com/DUNIN7/foray-kaspathon
 **Live Demo:** foray.dunin7.com
 
 ---

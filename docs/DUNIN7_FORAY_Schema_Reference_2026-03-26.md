@@ -3,7 +3,7 @@
 
 **Author:** Marvin Percival | DUNIN7 | marvinp@dunin7.com  
 **Created:** 2026-03-26  
-**Repository:** github.com/DUNIN7/foray-kaspathon | **Demo:** foray.dunin7.com  
+**Demo:** foray.dunin7.com  
 **Status:** Confidential — Prior Conception Record. Not for public distribution.
 
 ---

@@ -6,8 +6,7 @@
  * 
  * Author: Marvin Percival
  * Email: marvinp@dunin7.com
- * GitHub: github.com/DUNIN7/foray-kaspathon
- * 
+ *
  * Proxies API requests from Cloudflare Tunnel to the local API server.
  * Handles CORS for browser requests.
  * 

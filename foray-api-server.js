@@ -8,7 +8,6 @@
  *
  * Author:        Marvin Percival
  * Email:         marvinp@dunin7.com
- * GitHub:        github.com/DUNIN7/foray-kaspathon
  *
  * License:       Business Source License 1.1
  * Copyright (c) 2026 Marvin Percival. All rights reserved.
