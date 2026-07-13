@@ -5752,7 +5752,7 @@ Transaction ID: ${anchorResult.kaspa.transaction_id}
 Block Height: ${anchorResult.kaspa.block_height}
 Block Hash: ${anchorResult.kaspa.block_hash}
 Confirmations: ${anchorResult.kaspa.confirmations}
-Confirmation Time: ${anchorResult.kaspa.confirmation_time_ms}ms
+Acceptance Time: ${anchorResult.kaspa.confirmation_time_ms}ms
 Explorer: ${anchorResult.kaspa.explorer_url}
 
 FORAY TRANSACTION
@@ -6262,7 +6262,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                             <KeyValue label="Block Height" value={transactionData.blockchain_anchor.block_height ? transactionData.blockchain_anchor.block_height.toLocaleString() : 'N/A'} />
                           </div>
                           <div>
-                            <KeyValue label="Confirmation Time" value={transactionData.blockchain_anchor.confirmation_time_ms ? `${transactionData.blockchain_anchor.confirmation_time_ms} ms` : 'N/A'} />
+                            <KeyValue label="Acceptance Time" value={transactionData.blockchain_anchor.confirmation_time_ms ? `${transactionData.blockchain_anchor.confirmation_time_ms} ms` : 'N/A'} />
                             <KeyValue label="Anchored At" value={transactionData.blockchain_anchor.anchored_at || 'N/A'} />
                           </div>
                         </div>
@@ -7086,7 +7086,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                               <li>&bull; <strong>Real Kaspa TX:</strong> A real transaction is submitted to Kaspa Testnet 10</li>
                               <li>&bull; <strong>Explorer Verification:</strong> Click "View on Explorer" to see the actual blockchain record</li>
                               <li>&bull; <strong>Test Funds Required:</strong> Get free test KAS from the faucet (link in network dropdown)</li>
-                              <li>&bull; <strong>No FORAY Data in TX:</strong> The FORAY data itself is NOT embedded in the blockchain transaction&mdash;only the timestamp proof is on-chain</li>
+                              <li>&bull; <strong>No FORAY Data in TX:</strong> This demo transaction carries no FORAY data at all&mdash;not even a hash&mdash;and is not presented as proof of anything about the FORAY transaction. It demonstrates the wallet signing and confirmation experience only</li>
                             </ul>
                             <p className="text-xs mt-3" style={{ color: '#b45309' }}>
                               <strong>Note:</strong> In production, you would store the Kaspa TX ID alongside your FORAY transaction in your audit system. The hash links them cryptographically.
@@ -7444,7 +7444,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                 <div className="bg-white rounded-xl shadow-2xl p-8 text-center">
                   <div className="animate-spin w-12 h-12 border-4 rounded-full mx-auto mb-4" style={{ borderColor: `${forayColors.primaryTeal}30`, borderTopColor: forayColors.primaryTeal }}></div>
                   <h2 className="text-xl font-bold mb-2" style={{ color: forayColors.secondaryNavy }}>Anchoring to {currentNetwork.name}...</h2>
-                  <p className="text-sm" style={{ color: forayColors.gray600 }}>Creating tamper-evident blockchain record</p>
+                  <p className="text-sm" style={{ color: forayColors.gray600 }}>Sending demo transaction to {currentNetwork.name}...</p>
                   <p className="text-xs mt-2" style={{ color: forayColors.gray600 }}>Expected confirmation: ~{Math.round(1000 / currentNetwork.bps)}ms</p>
                 </div>
               </div>
