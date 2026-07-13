@@ -3,7 +3,7 @@
 ============================================================================
 FORAY Protocol - Landing Page
 ============================================================================
-Version:       3.0.1
+Version:       3.0.2
 Created:       2026-01-27T20:00:00Z
 Modified:      2026-07-13T00:00:00Z
 
@@ -14,6 +14,20 @@ License:       Business Source License 1.1
 Copyright (c) 2026 Marvin Percival. All rights reserved.
 
 Changelog:
+  v3.0.2 (2026-07-13)
+    - foray-tx-review-v41.html: truth pass on the demo anchor flow (F5)
+      -- the KasWare-signed demo transaction was proven to carry no
+      FORAY commitment (self-payment, null payload). Confirm modal,
+      success modal, and the tamper-evident-fingerprint note now say so
+      plainly instead of implying this demo action anchors real data.
+      Testnet 10 BPS corrected 1 -> 10 (F2, hard-forked March 2025,
+      also fixes the confirmation-time-estimate math which read the
+      same stale value). "Confirmation Time" -> "Acceptance Time" in
+      the success modal (F3) -- it measures broadcast-to-acceptance,
+      confirmations read 0 at display time.
+    - demo.html: Demo Mode ERP-adapter text reworded from a present-
+      tense production claim to design-intent phrasing (F4).
+
   v3.0.1 (2026-07-13)
     - demo.html: fixed /api/generate-foray response handling to consume
       the SSE stream instead of JSON.parse-ing the whole body; replaced

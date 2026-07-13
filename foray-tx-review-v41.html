@@ -5365,12 +5365,12 @@ Load \`salesforce-opportunity-v41.json\` in the Transaction Review tool to see:
       'testnet-10': {
         id: 'testnet-10',
         name: 'Testnet 10',
-        description: 'Stable testnet mirroring mainnet (1 BPS)',
+        description: 'Stable testnet mirroring mainnet (10 BPS)',
         rpcUrl: 'https://api-tn10.kaspa.org',
         explorerUrl: 'https://explorer-tn10.kaspa.org',
         faucetUrl: 'https://faucet-tn10.kaspa.org',
         isTestnet: true,
-        bps: 1
+        bps: 10
       },
       'mainnet': {
         id: 'mainnet',
@@ -6199,7 +6199,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                           </div>
                           <div className="p-2.5 rounded" style={{ backgroundColor: `${forayColors.primaryTeal}08`, borderLeft: `4px solid ${forayColors.primaryTeal}` }}>
                             <p className="text-xs" style={{ color: forayColors.primaryTeal }}>
-                              <strong>Tamper-Evident Fingerprint:</strong> FORAY computes a SHA-256 fingerprint of the entire transaction. Only this hash goes on-chain -- the actual data stays private within the enterprise.
+                              <strong>Tamper-Evident Fingerprint (protocol design):</strong> FORAY computes a SHA-256 fingerprint of the entire transaction. In the real anchoring path, only this hash goes on-chain -- the actual data stays private within the enterprise. (This Testnet 10 demo transaction does not carry this hash -- see the Blockchain Anchor section below.)
                             </p>
                           </div>
                         </div>
@@ -7099,7 +7099,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                             <div className="grid grid-cols-2 gap-3 text-xs">
                               <div className="p-3 rounded" style={{ backgroundColor: `${forayColors.actionAmber}10` }}>
                                 <p className="font-semibold" style={{ color: forayColors.actionAmber }}>Testnet 10</p>
-                                <p style={{ color: forayColors.gray600 }}>Stable, mirrors mainnet (1 BPS)</p>
+                                <p style={{ color: forayColors.gray600 }}>Stable, mirrors mainnet (10 BPS)</p>
                                 <p className="mt-1"><strong>Recommended for testing</strong></p>
                               </div>
                               <div className="p-3 rounded opacity-50" style={{ backgroundColor: `${forayColors.gray400}10` }}>
@@ -7392,7 +7392,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                     </div>
                     
                     <p className="text-sm mb-4" style={{ color: forayColors.gray600 }}>
-                      You are about to anchor this FORAY transaction to <strong>{currentNetwork.name}</strong>. This action creates a tamper-evident record anchored to blockchain that is designed to resist modification.
+                      You are about to send a demo transaction to <strong>{currentNetwork.name}</strong> using your connected wallet. This demonstrates the wallet signing and confirmation flow only -- it does <strong>not</strong> embed the FORAY hash on-chain. Real, payload-carrying anchors are shown in the mainnet proof section.
                     </p>
                     
                     {!currentNetwork.isTestnet && (
@@ -7460,7 +7460,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                         <CheckCircle className="w-5 h-5" style={{ color: forayColors.successGreen }} />
                       </div>
                       <div>
-                        <h2 className="text-base font-bold" style={{ color: forayColors.secondaryNavy }}>Anchored to Kaspa</h2>
+                        <h2 className="text-base font-bold" style={{ color: forayColors.secondaryNavy }}>Demo Transaction Confirmed on {anchorResult.network}</h2>
                         <p className="text-xs" style={{ color: forayColors.gray600 }}>{anchorResult.timestamp}</p>
                       </div>
                     </div>
@@ -7468,8 +7468,11 @@ Anchored By: ${anchorResult.anchored_by}`;
                       <X className="w-4 h-4" style={{ color: forayColors.gray600 }} />
                     </button>
                   </div>
-                  
+
                   <div className="px-4 py-3 overflow-y-auto" style={{ maxHeight: '40vh' }}>
+                    <p className="text-xs mb-2" style={{ color: forayColors.gray600 }}>
+                      This transaction does not carry the FORAY commitment -- it demonstrates the wallet signing and confirmation experience.
+                    </p>
                     <div className="space-y-1.5 text-sm">
                       <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
                         <span style={{ color: forayColors.gray600 }}>TX ID:</span>
@@ -7484,7 +7487,7 @@ Anchored By: ${anchorResult.anchored_by}`;
                         <span className="font-bold" style={{ color: forayColors.successGreen }}>{anchorResult.kaspa.confirmations}</span>
                       </div>
                       <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
-                        <span style={{ color: forayColors.gray600 }}>Confirmation Time:</span>
+                        <span style={{ color: forayColors.gray600 }}>Acceptance Time:</span>
                         <span className="font-mono" style={{ color: forayColors.textDark }}>{anchorResult.kaspa.confirmation_time_ms}ms</span>
                       </div>
                       <div className="flex justify-between p-2 rounded" style={{ backgroundColor: forayColors.bgLight }}>
