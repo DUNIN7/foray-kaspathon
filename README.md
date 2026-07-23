@@ -1,3 +1,7 @@
+> **SUPERSEDED — historical artifact.**
+> This repository holds the original Kaspathon 2026-era FORAY site. It is preserved read-only and is no longer current.
+> Current FORAY protocol site: https://foray.dunin7.com
+
 # FORAY Protocol
 ### Privacy-Preserving Blockchain Audit Infrastructure for Enterprise Transactions and Agentic AI
 
